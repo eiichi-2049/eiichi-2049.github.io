@@ -1,10 +1,796 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="zh-CN">
 <head>
-<title>OST</title>
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wwise_101_非官方汉化文档 — EiiChi_2049</title>
+    <meta name="description"
+          content="一本写给游戏音频初学者的 Wwise 学习笔记 — EiiChi_2049" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+          rel="stylesheet" />
+    <style>
+        /* ── 核心变量 ──────────────────────────────────────── */
+        :root {
+            --paper: #f5f0e8;
+            --paper2: #ede8df;
+            --ink: #1a1714;
+            --ink2: #3d3830;
+            --ink3: #7a7469;
+            --ink4: #b8b0a4;
+            --rule: rgba(26, 23, 20, 0.1);
+            --rule-h: rgba(26, 23, 20, 0.22);
+            --red: #c0392b;
+            --serif: "Fraunces", serif;
+            --mono: "DM Mono", monospace;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
+        /* ── 重置 ────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--mono);
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+            /* 纸质纹理 */
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: repeating-linear-gradient( 0deg, transparent, transparent 27px, rgba(26, 23, 20, 0.025) 27px, rgba(26, 23, 20, 0.025) 28px );
+                pointer-events: none;
+                z-index: 0;
+            }
+
+        /* ── 顶部导航条 ──────────────────────────────────────── */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px;
+            border-bottom: 1px solid var(--rule);
+            background: rgba(245, 240, 232, 0.92);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 3rem;
+        }
+
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--ink3);
+            text-decoration: none;
+            transition: color 0.25s var(--ease);
+            position: relative;
+            padding: 4px 0;
+        }
+
+            .back-btn::before {
+                content: "←";
+                font-size: 14px;
+                transition: transform 0.25s var(--ease);
+                display: inline-block;
+            }
+
+            .back-btn::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--red);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.3s var(--ease);
+            }
+
+            .back-btn:hover {
+                color: var(--ink);
+            }
+
+                .back-btn:hover::before {
+                    transform: translateX(-3px);
+                }
+
+                .back-btn:hover::after {
+                    transform: scaleX(1);
+                }
+
+        .nav-meta {
+            font-size: 10px;
+            color: var(--ink4);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ── 页面主体 ────────────────────────────────────────── */
+        .page-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 88px 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── 项目标题区 ──────────────────────────────────────── */
+        .project-header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 1.5rem;
+        }
+
+        .project-tag {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .project-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+            .project-title em {
+                font-style: italic;
+                color: var(--ink3);
+                font-size: 0.7em;
+                font-weight: 300;
+            }
+
+        .project-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 2.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .project-meta-item {
+            font-size: 12px;
+            color: var(--ink3);
+            font-style: italic;
+        }
+
+            .project-meta-item strong {
+                color: var(--ink2);
+                font-style: normal;
+                font-weight: 400;
+            }
+
+        /* ── 多媒体容器 ──────────────────────────────────────── */
+        .media-block {
+            margin: 2rem 0;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--rule);
+            background: var(--paper2);
+        }
+
+            .media-block img,
+            .media-block video {
+                width: 100%;
+                display: block;
+                height: auto;
+            }
+
+            .media-block iframe {
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                border: none;
+                display: block;
+            }
+
+        .audio-wrapper {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            background: var(--paper2);
+        }
+
+            .audio-wrapper audio {
+                flex: 1;
+                min-width: 180px;
+                height: 40px;
+                border-radius: 2px;
+                outline: none;
+            }
+
+                .audio-wrapper audio::-webkit-media-controls-panel {
+                    background: var(--paper2);
+                }
+
+        .audio-label {
+            font-size: 11px;
+            color: var(--ink3);
+            font-style: italic;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .media-caption {
+            padding: 0.6rem 1.25rem;
+            font-size: 12px;
+            color: var(--ink3);
+            border-top: 1px solid var(--rule);
+            font-style: italic;
+            background: var(--paper);
+        }
+
+        /* ── 图文混合布局（两栏） ────────────────────────────── */
+        .media-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--rule);
+            margin: 2rem 0;
+        }
+
+            .media-grid-2 .media-block {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+            }
+
+        /* ── 项目描述 ────────────────────────────────────────── */
+        .project-description {
+            margin: 2.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+            .project-description p {
+                font-size: 14px;
+                color: var(--ink2);
+                line-height: 1.9;
+                font-family: var(--serif);
+                font-weight: 300;
+            }
+
+                .project-description p strong {
+                    color: var(--red);
+                    font-weight: 400;
+                    font-style: italic;
+                }
+
+        /* 引用块 */
+        .quote-block {
+            padding: 1.25rem 1.75rem;
+            border-left: 3px solid var(--red);
+            background: var(--paper2);
+            border-radius: 2px;
+            margin: 0.5rem 0;
+            font-family: var(--serif);
+            font-size: 14px;
+            font-style: italic;
+            color: var(--ink2);
+            line-height: 1.8;
+        }
+
+            .quote-block cite {
+                display: block;
+                margin-top: 0.5rem;
+                font-size: 12px;
+                color: var(--ink3);
+                font-style: normal;
+                font-family: var(--mono);
+                letter-spacing: 0.04em;
+            }
+
+            .quote-block.warning {
+                border-left-color: #a07020;
+                background: rgba(160, 112, 32, 0.06);
+            }
+
+        /* 章节地图网格 */
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--rule);
+            margin: 0.5rem 0;
+        }
+
+        .chapter-item {
+            padding: 0.9rem 1rem;
+            background: var(--paper);
+            transition: background 0.15s;
+        }
+
+            .chapter-item:hover {
+                background: var(--paper2);
+            }
+
+            .chapter-item .num {
+                font-size: 10px;
+                letter-spacing: 0.06em;
+                color: var(--red);
+                font-weight: 500;
+                display: block;
+                margin-bottom: 0.15rem;
+            }
+
+            .chapter-item .title {
+                font-family: var(--serif);
+                font-size: 14px;
+                font-weight: 400;
+                color: var(--ink);
+                line-height: 1.3;
+            }
+
+            .chapter-item .sub {
+                font-size: 11px;
+                color: var(--ink3);
+                font-style: italic;
+                display: block;
+                margin-top: 0.1rem;
+            }
+
+        /* 进度条风格 */
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 13px;
+            font-family: var(--serif);
+            color: var(--ink2);
+            padding: 0.3rem 0;
+        }
+
+            .progress-item .status {
+                font-size: 10px;
+                color: var(--ink4);
+                font-family: var(--mono);
+                letter-spacing: 0.04em;
+                flex-shrink: 0;
+                width: 60px;
+            }
+
+                .progress-item .status.done {
+                    color: var(--red);
+                }
+
+                .progress-item .status.wip {
+                    color: #a07020;
+                }
+
+            .progress-item .bar {
+                flex: 1;
+                height: 2px;
+                background: var(--rule-h);
+                border-radius: 2px;
+                overflow: hidden;
+            }
+
+                .progress-item .bar .fill {
+                    height: 100%;
+                    background: var(--red);
+                    border-radius: 2px;
+                }
+
+        /* 技术栈标签 */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .tech-tag {
+            font-size: 10px;
+            letter-spacing: 0.04em;
+            padding: 2px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--rule-h);
+            color: var(--ink3);
+            background: transparent;
+            font-family: var(--mono);
+            text-transform: uppercase;
+        }
+
+            .tech-tag.highlight {
+                color: var(--red);
+                border-color: rgba(192, 57, 43, 0.25);
+                background: rgba(192, 57, 43, 0.06);
+            }
+
+            .tech-tag.eva {
+                color: #4a6a8a;
+                border-color: rgba(74, 106, 138, 0.2);
+                background: rgba(74, 106, 138, 0.06);
+            }
+
+        /* ── 分隔线 ────────────────────────────────────────── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--rule);
+            margin: 2.5rem 0;
+        }
+
+        /* ── 页脚 ────────────────────────────────────────────── */
+        .footer-sub {
+            border-top: 1px solid var(--rule);
+            padding: 1.25rem 0 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--ink4);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+            .footer-sub a {
+                color: var(--ink3);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+                .footer-sub a:hover {
+                    color: var(--ink);
+                }
+
+        /* ── 响应式 ────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .nav-bar {
+                padding: 0 1.5rem;
+            }
+
+            .page-wrap {
+                padding: 76px 1.5rem 3rem;
+            }
+
+            .media-grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .chapter-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .project-meta-row {
+                gap: 0.75rem 1.5rem;
+            }
+
+            .audio-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            .audio-label {
+                white-space: normal;
+            }
+
+            .nav-meta {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chapter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .back-btn {
+                font-size: 10px;
+                gap: 5px;
+            }
+
+                .back-btn::before {
+                    font-size: 12px;
+                }
+        }
+    </style>
+</head>
 <body>
-<h1>Original Soundtrack</h1>
+    <!-- ── 顶部导航条 ──────────────────────────────────────── -->
+    <nav class="nav-bar">
+        <div class="nav-inner">
+            <a href="../index.html#work" class="back-btn">返回作品</a>
+            <span class="nav-meta">EiiChi_2049</span>
+        </div>
+    </nav>
+
+    <!-- ── 页面主体 ────────────────────────────────────────── -->
+    <main class="page-wrap">
+        <!-- 项目标题 -->
+        <header class="project-header">
+            <div class="project-tag">Documentation · Wwise</div>
+            <h1 class="project-title">
+                Wwise_101_非官方汉化文档
+                <em>— 写给游戏音频初学者的学习笔记</em>
+            </h1>
+            <div class="project-meta-row">
+                <span class="project-meta-item"><strong>年份</strong> 2026–Present</span>
+                <span class="project-meta-item"><strong>角色</strong> 独立作者 · 声音设计师</span>
+                <span class="project-meta-item"><strong>状态</strong> 逐章填充中</span>
+            </div>
+        </header>
+
+        <!--
+          ── 多媒体内容区 ──────────────────────────────────────
+          请替换以下占位内容：
+          - 封面/笔记截图：../images/wwise-cover.jpg
+          - 演示视频：https://www.youtube.com/embed/你的视频ID
+        ────────────────────────────────────────────────────── -->
+        <!-- 笔记封面截图 -->
+        <div class="media-block">
+            <img src="../images/wwise-cover.jpg"
+                 alt="Wwise_101 非官方汉化文档 封面"
+                 loading="lazy" />
+            <div class="media-caption">📖 非官方汉化文档 · 持续更新中</div>
+        </div>
+
+        <!-- 视频嵌入（可选，比如 Wwise 操作演示） -->
+        <div class="media-block">
+            <iframe src="https://www.youtube.com/embed/你的视频ID"
+                    title="Wwise 101 演示"
+                    allowfullscreen></iframe>
+            <div class="media-caption">🎬 Wwise 基础操作演示 —— 配套视频教程</div>
+        </div>
+
+        <!-- ── 项目描述 ──────────────────────────────────────── -->
+        <!-- Tip / 导语 -->
+        <div class="project-description">
+            <div class="quote-block" style="border-left-color: var(--ink4);">
+                💡 一本写给游戏音频初学者、Sound Designer、技术音频爱好者的 Wwise 学习笔记。
+            </div>
+
+            <!-- Warning -->
+            <div class="quote-block warning">
+                ⚠️ 本项目为个人学习笔记与非官方整理，不代表官方观点。<br />
+                部分内容会包含主观理解与项目经验。<br />
+                章节可能长期更新、重构、推翻重写。
+                <cite>lab magiconch com 福音戰士標題生成器 -1782619418511</cite>
+            </div>
+
+            <p>
+                <strong>核心理念</strong><br />
+                把工具打磨好，是为了给创意留出更多的空间。
+            </p>
+
+            <p>
+                <strong>关于风格</strong>
+            </p>
+
+            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
+                <li>不是 手册抄写</li>
+                <li>不是 官方文档复读</li>
+                <li>是 一个业余声音设计师 / evangelion 厨的 <strong>实战心法 + 脑内弹幕</strong></li>
+            </ul>
+
+            <p>
+                每一章会围绕一个或者几个核心操作或概念展开，配上：
+            </p>
+
+            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
+                <li>迷之引用（来自动画、meme）</li>
+                <li>"要是有人能早告诉我就好了"的 tips</li>
+            </ul>
+
+            <p>
+                <strong>关于这份笔记</strong><br />
+                这份笔记可能接近：
+            </p>
+
+            <div class="quote-block" style="border-left-color: var(--ink3);">
+                "一个想要进入游戏音频行业的人，对 Wwise 的拆解与理解。"
+            </div>
+
+            <p>它会包含：</p>
+
+            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
+                <li>Wwise 基础与核心逻辑</li>
+                <li>行业内的实际项目组织方式</li>
+                <li>Event / RTPC / Switch / State 等系统设计</li>
+                <li>音频资源管理</li>
+                <li>性能与优化</li>
+                <li>部分音频行业理解</li>
+            </ul>
+
+            <!-- ── 章节地图 ──────────────────────────────────── -->
+            <p><strong>章节地图</strong></p>
+
+            <div class="chapter-grid">
+                <div class="chapter-item">
+                    <span class="num">01</span>
+                    <span class="title">Wwise、袭来</span>
+                    <span class="sub">逃げちゃダメだ…</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">02</span>
+                    <span class="title">陌生的、天花板</span>
+                    <span class="sub">我要当Wwise高手，zdjd？</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">03</span>
+                    <span class="title">在界面之彼方</span>
+                    <span class="sub">A.T.力场全开</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">04</span>
+                    <span class="title">只要微笑就好了</span>
+                    <span class="sub">——那么你是为了什么驾驶Wwise</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">05</span>
+                    <span class="title">在静止的黑暗中</span>
+                    <span class="sub">黑雨袭来之时，NERV停转之日！</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">06</span>
+                    <span class="title">I WANT TO PLAY A CUBE</span>
+                    <span class="sub">Make your choice.</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">07</span>
+                    <span class="title">打钩打钩叫叫叫</span>
+                    <span class="sub">听通机听通机,出示出示建库码~</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">08</span>
+                    <span class="title">瞬间、声声相印</span>
+                    <span class="sub">两只豪猪到底要距离多远才能不被冻死呢</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">09</span>
+                    <span class="title">Let master master mastering.</span>
+                    <span class="sub">Buffalo buffalo buffalo</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">10</span>
+                    <span class="title">REI Ⅰ</span>
+                    <span class="sub">/</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">11</span>
+                    <span class="title">ACOUSTICS_DIVER</span>
+                    <span class="sub">/</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">12</span>
+                    <span class="title">REI Ⅱ</span>
+                    <span class="sub">You Can (Not) Advance</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">13</span>
+                    <span class="title">REI Ⅲ</span>
+                    <span class="sub">不是你的人偶</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">14</span>
+                    <span class="title">结束的"4"界</span>
+                    <span class="sub">THRICE UPON A TIME.</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">15</span>
+                    <span class="title">又幻想了……</span>
+                    <span class="sub">被选中制作DEMO的Sound Designer</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">16</span>
+                    <span class="title">在视窗中心呼唤"优化"的野兽</span>
+                    <span class="sub">哦咩得多~（鼓掌）（鼓掌）</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">终章</span>
+                    <span class="title">我要、退出这个行业</span>
+                    <span class="sub">Jam a man of fortune,and J must seek my fortune.——xQc</span>
+                </div>
+                <div class="chapter-item">
+                    <span class="num">18</span>
+                    <span class="title">考验，最后一战</span>
+                    <span class="sub">刻意，这也言詹？</span>
+                </div>
+            </div>
+
+            <!-- ── 目前进度 ──────────────────────────────────── -->
+            <p><strong>目前进度</strong></p>
+
+            <div class="progress-item">
+                <span class="status done">✅ 已完成</span>
+                <span>全书骨架</span>
+                <div class="bar"><div class="fill" style="width:100%;"></div></div>
+            </div>
+            <div class="progress-item">
+                <span class="status wip">⏳ 进行中</span>
+                <span>逐章填充</span>
+                <div class="bar"><div class="fill" style="width:40%;"></div></div>
+            </div>
+            <div class="progress-item">
+                <span class="status wip">⏳ 进行中</span>
+                <span>配图与工程示例</span>
+                <div class="bar"><div class="fill" style="width:15%;"></div></div>
+            </div>
+            <div class="progress-item">
+                <span class="status wip">⏳ 进行中</span>
+                <span>终章后的终章以及赞助特典（？</span>
+                <div class="bar"><div class="fill" style="width:5%;"></div></div>
+            </div>
+            <div class="progress-item">
+                <span class="status">📝 计划中</span>
+                <span>English Version（TBD）</span>
+                <div class="bar"><div class="fill" style="width:0%;"></div></div>
+            </div>
+
+            <p style="font-size: 13px; color: var(--ink3); font-style: italic; margin-top: -0.5rem;">
+                Written with StackEdit 中文版.
+            </p>
+
+            <!-- 技术标签 -->
+            <div class="tech-tags">
+                <span class="tech-tag highlight">Wwise</span>
+                <span class="tech-tag highlight">游戏音频</span>
+                <span class="tech-tag eva">⚡ Evangelion</span>
+                <span class="tech-tag">Documentation</span>
+                <span class="tech-tag">Sound Design</span>
+                <span class="tech-tag">Technical Audio</span>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 底部 -->
+        <div class="project-description" style="margin-top: 0;">
+            <p style="font-size: 13px; color: var(--ink4); font-style: italic;">
+                💡 对这份笔记感兴趣？欢迎
+                <a href="../index.html#contact"
+                   style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(192,57,43,0.25);">联系我</a> 交流讨论。
+            </p>
+        </div>
+
+        <!-- ── 页脚 ──────────────────────────────────────────── -->
+        <footer class="footer-sub">
+            <span>© EiiChi_2049</span>
+            <span>
+                <a href="../index.html#work">← 返回作品列表</a>
+            </span>
+        </footer>
+    </main>
 </body>
 </html>
