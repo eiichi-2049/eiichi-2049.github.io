@@ -1,10 +1,86 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="zh-CN">
 <head>
-<title>OST</title>
+    <!-- 这里复制你 index.html 中 <head> 标签里的所有内容，保证样式一致 -->
+    <title>Works — 01 OST</title>
 </head>
-
 <body>
-<h1>Original Soundtrack</h1>
+    <!-- 复制你 index.html 中的导航栏 <nav> 代码 -->
+    <nav class="nav"> ... </nav>
+    /* ── NAV ─────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 56px;
+  border-bottom: 1px solid var(--rule);
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  padding: 0 3rem;
+}
+.nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 11px;
+  color: var(--ink3);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
+.nav-links a:hover {
+  color: var(--ink);
+}
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+    <!-- Works 页面独有的内容 -->
+    <section id="works">
+        <div class="container">
+            <h1>全部作品</h1>
+            <!-- 这里放你的视频和图片 -->
+        </div>
+    </section>
+
+    <!-- 复制你 index.html 中的页脚 <footer> 代码 -->
+    <footer> ... </footer>
 </body>
 </html>
