@@ -1,86 +1,521 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-    <!-- 这里复制你 index.html 中 <head> 标签里的所有内容，保证样式一致 -->
-    <title>Works — 01 OST</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>项目名称 — EiiChi_2049</title>
+    <meta name="description" content="项目描述" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+          rel="stylesheet" />
+    <style>
+        /* ── 核心变量（与首页保持一致） ──────────────────────── */
+        :root {
+            --paper: #f5f0e8;
+            --paper2: #ede8df;
+            --ink: #1a1714;
+            --ink2: #3d3830;
+            --ink3: #7a7469;
+            --ink4: #b8b0a4;
+            --rule: rgba(26, 23, 20, 0.1);
+            --rule-h: rgba(26, 23, 20, 0.22);
+            --red: #c0392b;
+            --serif: "Fraunces", serif;
+            --mono: "DM Mono", monospace;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ── 重置 ────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--mono);
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+            /* 纸质纹理（与首页一致） */
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: repeating-linear-gradient( 0deg, transparent, transparent 27px, rgba(26, 23, 20, 0.025) 27px, rgba(26, 23, 20, 0.025) 28px );
+                pointer-events: none;
+                z-index: 0;
+            }
+
+        /* ── 顶部导航条（极简 + 返回按钮） ──────────────────── */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px;
+            border-bottom: 1px solid var(--rule);
+            background: rgba(245, 240, 232, 0.92);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 3rem;
+        }
+
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* ── 返回按钮（设计感） ────────────────────────────── */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--ink3);
+            text-decoration: none;
+            transition: color 0.25s var(--ease);
+            position: relative;
+            padding: 4px 0;
+        }
+
+            .back-btn::before {
+                content: "←";
+                font-size: 14px;
+                transition: transform 0.25s var(--ease);
+                display: inline-block;
+            }
+
+            .back-btn::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--red);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.3s var(--ease);
+            }
+
+            .back-btn:hover {
+                color: var(--ink);
+            }
+
+                .back-btn:hover::before {
+                    transform: translateX(-3px);
+                }
+
+                .back-btn:hover::after {
+                    transform: scaleX(1);
+                }
+
+        /* 右侧可选信息 */
+        .nav-meta {
+            font-size: 10px;
+            color: var(--ink4);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ── 页面主体 ────────────────────────────────────────── */
+        .page-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 88px 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── 项目标题区 ──────────────────────────────────────── */
+        .project-header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 1.5rem;
+        }
+
+        .project-tag {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .project-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+            .project-title em {
+                font-style: italic;
+                color: var(--ink3);
+                font-size: 0.7em;
+                font-weight: 300;
+            }
+
+        .project-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 2.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .project-meta-item {
+            font-size: 12px;
+            color: var(--ink3);
+            font-style: italic;
+        }
+
+            .project-meta-item strong {
+                color: var(--ink2);
+                font-style: normal;
+                font-weight: 400;
+            }
+
+        /* ── 多媒体容器 ──────────────────────────────────────── */
+        .media-block {
+            margin: 2rem 0;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--rule);
+            background: var(--paper2);
+        }
+
+            .media-block img,
+            .media-block video {
+                width: 100%;
+                display: block;
+                height: auto;
+            }
+
+            .media-block iframe {
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                border: none;
+                display: block;
+            }
+
+        /* 音频播放器（自定义样式） */
+        .audio-wrapper {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            background: var(--paper2);
+        }
+
+            .audio-wrapper audio {
+                flex: 1;
+                min-width: 180px;
+                height: 40px;
+                border-radius: 2px;
+                outline: none;
+            }
+
+                .audio-wrapper audio::-webkit-media-controls-panel {
+                    background: var(--paper2);
+                }
+
+        .audio-label {
+            font-size: 11px;
+            color: var(--ink3);
+            font-style: italic;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        /* 媒体说明文字 */
+        .media-caption {
+            padding: 0.6rem 1.25rem;
+            font-size: 12px;
+            color: var(--ink3);
+            border-top: 1px solid var(--rule);
+            font-style: italic;
+            background: var(--paper);
+        }
+
+        /* ── 图文混合布局（两栏） ────────────────────────────── */
+        .media-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--rule);
+            margin: 2rem 0;
+        }
+
+            .media-grid-2 .media-block {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+            }
+
+        /* ── 项目描述 ────────────────────────────────────────── */
+        .project-description {
+            margin: 2.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+            .project-description p {
+                font-size: 14px;
+                color: var(--ink2);
+                line-height: 1.9;
+                font-family: var(--serif);
+                font-weight: 300;
+            }
+
+                .project-description p strong {
+                    color: var(--red);
+                    font-weight: 400;
+                    font-style: italic;
+                }
+
+        /* 技术栈标签 */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .tech-tag {
+            font-size: 10px;
+            letter-spacing: 0.04em;
+            padding: 2px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--rule-h);
+            color: var(--ink3);
+            background: transparent;
+            font-family: var(--mono);
+            text-transform: uppercase;
+        }
+
+            .tech-tag.highlight {
+                color: var(--red);
+                border-color: rgba(192, 57, 43, 0.25);
+                background: rgba(192, 57, 43, 0.06);
+            }
+
+        /* ── 分隔线 ────────────────────────────────────────── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--rule);
+            margin: 2.5rem 0;
+        }
+
+        /* ── 页脚 ────────────────────────────────────────────── */
+        .footer-sub {
+            border-top: 1px solid var(--rule);
+            padding: 1.25rem 0 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--ink4);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+            .footer-sub a {
+                color: var(--ink3);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+                .footer-sub a:hover {
+                    color: var(--ink);
+                }
+
+        /* ── 响应式 ────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .nav-bar {
+                padding: 0 1.5rem;
+            }
+
+            .page-wrap {
+                padding: 76px 1.5rem 3rem;
+            }
+
+            .media-grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .project-meta-row {
+                gap: 0.75rem 1.5rem;
+            }
+
+            .audio-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            .audio-label {
+                white-space: normal;
+            }
+
+            .nav-meta {
+                display: none;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .back-btn {
+                font-size: 10px;
+                gap: 5px;
+            }
+
+                .back-btn::before {
+                    font-size: 12px;
+                }
+        }
+    </style>
 </head>
 <body>
-    <!-- 复制你 index.html 中的导航栏 <nav> 代码 -->
-    <nav class="nav"> ... </nav>
-    /* ── NAV ─────────────────────────────────────────────── */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  height: 56px;
-  border-bottom: 1px solid var(--rule);
-  background: rgba(245, 240, 232, 0.92);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  padding: 0 3rem;
-}
-.nav-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-.nav-logo {
-  font-family: var(--serif);
-  font-size: 17px;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--ink);
-  text-decoration: none;
-  letter-spacing: -0.01em;
-}
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-.nav-links a {
-  font-size: 11px;
-  color: var(--ink3);
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: color 0.2s;
-  position: relative;
-}
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--red);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s var(--ease);
-}
-.nav-links a:hover {
-  color: var(--ink);
-}
-.nav-links a:hover::after {
-  transform: scaleX(1);
-}
-
-    <!-- Works 页面独有的内容 -->
-    <section id="works">
-        <div class="container">
-            <h1>全部作品</h1>
-            <!-- 这里放你的视频和图片 -->
+    <!-- ── 顶部导航条 ──────────────────────────────────────── -->
+    <nav class="nav-bar">
+        <div class="nav-inner">
+            <!-- 返回按钮：指向首页的作品区域 -->
+            <a href="../index.html#work" class="back-btn">返回作品</a>
+            <span class="nav-meta">EiiChi_2049</span>
         </div>
-    </section>
+    </nav>
 
-    <!-- 复制你 index.html 中的页脚 <footer> 代码 -->
-    <footer> ... </footer>
+    <!-- ── 页面主体 ────────────────────────────────────────── -->
+    <main class="page-wrap">
+        <!-- 项目标题 -->
+        <header class="project-header">
+            <div class="project-tag">项目类型 · 状态</div>
+            <h1 class="project-title">
+                项目名称 <em>— 简短副标题</em>
+            </h1>
+            <div class="project-meta-row">
+                <span class="project-meta-item"><strong>年份</strong> 2025–Present</span>
+                <span class="project-meta-item"><strong>角色</strong> 作曲 / 声音设计</span>
+                <span class="project-meta-item"><strong>合作方</strong> 独立游戏工作室</span>
+            </div>
+        </header>
+
+        <!--
+          ── 多媒体内容区 ──────────────────────────────────────
+          根据你的需要，选用以下模板：
+          1. 单张大图/视频
+          2. 两栏图文
+          3. 音频播放器
+          4. 组合使用
+        ────────────────────────────────────────────────────── -->
+        <!-- 示例 1：视频嵌入（YouTube / Bilibili） -->
+        <div class="media-block">
+            <iframe src="https://www.youtube.com/embed/你的视频ID"
+                    title="项目演示视频"
+                    allowfullscreen></iframe>
+            <div class="media-caption">🎬 项目演示 —— 点击播放</div>
+        </div>
+
+        <!-- 示例 2：图片 -->
+        <div class="media-block">
+            <img src="../images/project-screenshot.jpg"
+                 alt="项目截图"
+                 loading="lazy" />
+            <div class="media-caption">📷 工作截图 / 录音棚现场</div>
+        </div>
+
+        <!-- 示例 3：音频播放器 -->
+        <div class="media-block">
+            <div class="audio-wrapper">
+                <span class="audio-label">🎵 试听片段</span>
+                <audio controls preload="none">
+                    <source src="../audio/demo.mp3" type="audio/mpeg" />
+                    你的浏览器不支持音频播放。
+                </audio>
+            </div>
+            <div class="media-caption">曲目片段 —— 《作品标题》</div>
+        </div>
+
+        <!-- 示例 4：两栏图文（可用来放多张图片并排） -->
+        <div class="media-grid-2">
+            <div class="media-block">
+                <img src="../images/project-1.jpg" alt="图片描述 1" loading="lazy" />
+                <div class="media-caption">图 1 · 前期构思</div>
+            </div>
+            <div class="media-block">
+                <img src="../images/project-2.jpg" alt="图片描述 2" loading="lazy" />
+                <div class="media-caption">图 2 · 最终呈现</div>
+            </div>
+        </div>
+
+        <!-- ── 项目描述 ──────────────────────────────────────── -->
+        <div class="project-description">
+            <p>
+                这个项目的核心目标是 <strong>「…… 」</strong>。
+                在创作过程中，我尝试将 <strong>管弦乐</strong> 与
+                <strong>电子音乐</strong> 的元素融合，
+                以匹配游戏世界中 <strong>「…… 」</strong> 的叙事氛围。
+            </p>
+            <p>
+                从前期概念设计到最终混音，历时约 <strong>X 个月</strong>。
+                最大的挑战在于 <strong>「…… 」</strong>，
+                最终通过 <strong>「…… 」</strong> 的方式解决。
+            </p>
+            <p>
+                这让我更加确信：<strong>好的声音设计，不是堆砌技巧，而是找到那个「对」的声音。</strong>
+            </p>
+
+            <!-- 技术标签 -->
+            <div class="tech-tags">
+                <span class="tech-tag highlight">Cubase</span>
+                <span class="tech-tag highlight">Spitfire Audio</span>
+                <span class="tech-tag">UAD</span>
+                <span class="tech-tag">Kontakt</span>
+                <span class="tech-tag">Wwise</span>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 底部：额外链接或致谢 -->
+        <div class="project-description" style="margin-top: 0;">
+            <p style="font-size: 13px; color: var(--ink4); font-style: italic;">
+                💡 想了解更多？欢迎
+                <a href="../index.html#contact"
+                   style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(192,57,43,0.25);">联系我</a>。
+            </p>
+        </div>
+
+        <!-- ── 页脚 ──────────────────────────────────────────── -->
+        <footer class="footer-sub">
+            <span>© EiiChi_2049</span>
+            <span>
+                <a href="../index.html#work">← 返回作品列表</a>
+            </span>
+        </footer>
+    </main>
 </body>
 </html>
