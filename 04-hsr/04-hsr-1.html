@@ -1,10 +1,878 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="zh-CN">
 <head>
-<title>HSR-01</title>
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Honkai:SR Music Analysis — EiiChi_2049</title>
+    <meta name="description"
+          content="崩坏：星穹铁道 PV 音乐复刻与分析 — EiiChi_2049" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+          rel="stylesheet" />
+    <style>
+        /* ── 核心变量 ──────────────────────────────────────── */
+        :root {
+            --paper: #f5f0e8;
+            --paper2: #ede8df;
+            --ink: #1a1714;
+            --ink2: #3d3830;
+            --ink3: #7a7469;
+            --ink4: #b8b0a4;
+            --rule: rgba(26, 23, 20, 0.1);
+            --rule-h: rgba(26, 23, 20, 0.22);
+            --red: #c0392b;
+            --blue: #4a6a8a;
+            --blue-dim: rgba(74, 106, 138, 0.06);
+            --serif: "Fraunces", serif;
+            --mono: "DM Mono", monospace;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
+        /* ── 重置 ────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--mono);
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+            /* 纸质纹理 */
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: repeating-linear-gradient( 0deg, transparent, transparent 27px, rgba(26, 23, 20, 0.025) 27px, rgba(26, 23, 20, 0.025) 28px );
+                pointer-events: none;
+                z-index: 0;
+            }
+
+        /* ── 顶部导航条 ──────────────────────────────────────── */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px;
+            border-bottom: 1px solid var(--rule);
+            background: rgba(245, 240, 232, 0.92);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 3rem;
+        }
+
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--ink3);
+            text-decoration: none;
+            transition: color 0.25s var(--ease);
+            position: relative;
+            padding: 4px 0;
+        }
+
+            .back-btn::before {
+                content: "←";
+                font-size: 14px;
+                transition: transform 0.25s var(--ease);
+                display: inline-block;
+            }
+
+            .back-btn::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--red);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.3s var(--ease);
+            }
+
+            .back-btn:hover {
+                color: var(--ink);
+            }
+
+                .back-btn:hover::before {
+                    transform: translateX(-3px);
+                }
+
+                .back-btn:hover::after {
+                    transform: scaleX(1);
+                }
+
+        .nav-meta {
+            font-size: 10px;
+            color: var(--ink4);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ── 页面主体 ────────────────────────────────────────── */
+        .page-wrap {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 88px 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── 项目标题区 ──────────────────────────────────────── */
+        .project-header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 1.5rem;
+        }
+
+        .project-tag {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .project-tag .divider-dot {
+                color: var(--ink4);
+                font-weight: 300;
+            }
+
+        .project-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+            .project-title em {
+                font-style: italic;
+                color: var(--ink3);
+                font-size: 0.7em;
+                font-weight: 300;
+            }
+
+        .project-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 2.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .project-meta-item {
+            font-size: 12px;
+            color: var(--ink3);
+            font-style: italic;
+        }
+
+            .project-meta-item strong {
+                color: var(--ink2);
+                font-style: normal;
+                font-weight: 400;
+            }
+
+        /* ── ✦ 特殊：面试故事引用块 ────────────────────────── */
+        .story-block {
+            padding: 1.5rem 2rem;
+            background: var(--paper2);
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            margin: 1.5rem 0 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .story-block::before {
+                content: "✦";
+                position: absolute;
+                top: 0.75rem;
+                right: 1.5rem;
+                font-size: 28px;
+                color: rgba(192, 57, 43, 0.08);
+                font-family: var(--serif);
+            }
+
+            .story-block p {
+                font-family: var(--serif);
+                font-size: 14px;
+                font-style: italic;
+                color: var(--ink2);
+                line-height: 1.8;
+                margin: 0;
+            }
+
+                .story-block p strong {
+                    color: var(--red);
+                    font-style: normal;
+                    font-weight: 400;
+                }
+
+            .story-block .emoji-deco {
+                display: inline-block;
+                margin-right: 4px;
+            }
+
+        /* ── ✦ 视频 + 分析区块（垂直排列） ────────────────── */
+        .analysis-entry {
+            margin: 2.5rem 0;
+            border-radius: 4px;
+            border: 1px solid var(--rule);
+            overflow: hidden;
+            background: var(--paper2);
+            transition: border-color 0.2s;
+        }
+
+            .analysis-entry:hover {
+                border-color: var(--rule-h);
+            }
+
+            /* 视频容器 */
+            .analysis-entry .video-wrap {
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                background: var(--ink);
+                overflow: hidden;
+            }
+
+                .analysis-entry .video-wrap iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    display: block;
+                }
+
+            /* 视频底部的元信息行 */
+            .analysis-entry .video-meta {
+                padding: 0.6rem 1.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                background: var(--paper);
+                border-top: 1px solid var(--rule);
+            }
+
+                .analysis-entry .video-meta .entry-title {
+                    font-family: var(--serif);
+                    font-size: 1.1rem;
+                    font-weight: 400;
+                    color: var(--ink);
+                    letter-spacing: -0.01em;
+                }
+
+                    .analysis-entry .video-meta .entry-title em {
+                        font-style: italic;
+                        color: var(--ink3);
+                        font-size: 0.85em;
+                        font-weight: 300;
+                    }
+
+                .analysis-entry .video-meta .entry-date {
+                    font-size: 10px;
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
+                    color: var(--red);
+                    padding: 2px 10px;
+                    border: 1px solid rgba(192, 57, 43, 0.15);
+                    border-radius: 2px;
+                    background: var(--red-dim);
+                    font-family: var(--mono);
+                    font-weight: 500;
+                }
+
+            /* 分析文字区域 */
+            .analysis-entry .analysis-text {
+                padding: 1.25rem 1.5rem;
+                background: var(--paper);
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+                .analysis-entry .analysis-text .style-tag {
+                    font-size: 10px;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: var(--blue);
+                    font-weight: 500;
+                    font-family: var(--mono);
+                }
+
+                .analysis-entry .analysis-text p {
+                    font-size: 14px;
+                    color: var(--ink2);
+                    line-height: 1.9;
+                    font-family: var(--serif);
+                    font-weight: 300;
+                    margin: 0;
+                }
+
+                    .analysis-entry .analysis-text p strong {
+                        color: var(--red);
+                        font-weight: 400;
+                        font-style: italic;
+                    }
+
+                .analysis-entry .analysis-text .tech-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 4px;
+                    margin-top: 0.25rem;
+                }
+
+                    .analysis-entry .analysis-text .tech-list span {
+                        font-size: 9px;
+                        letter-spacing: 0.04em;
+                        padding: 1px 10px;
+                        border-radius: 100px;
+                        border: 1px solid var(--rule-h);
+                        color: var(--ink3);
+                        font-family: var(--mono);
+                        text-transform: uppercase;
+                    }
+
+                    .analysis-entry .analysis-text .tech-list .highlight-tag {
+                        color: var(--red);
+                        border-color: rgba(192, 57, 43, 0.2);
+                        background: var(--red-dim);
+                    }
+
+                    .analysis-entry .analysis-text .tech-list .blue-tag {
+                        color: var(--blue);
+                        border-color: rgba(74, 106, 138, 0.2);
+                        background: var(--blue-dim);
+                    }
+
+        /* 条目之间的分隔装饰 */
+        .entry-divider {
+            text-align: center;
+            color: var(--ink4);
+            font-size: 18px;
+            letter-spacing: 0.5em;
+            margin: 1rem 0 0.5rem;
+            user-select: none;
+            opacity: 0.4;
+        }
+
+        /* ── 项目描述（选曲原因 + Q&A） ────────────────────── */
+        .project-description {
+            margin: 2.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+            .project-description p {
+                font-size: 14px;
+                color: var(--ink2);
+                line-height: 1.9;
+                font-family: var(--serif);
+                font-weight: 300;
+            }
+
+                .project-description p strong {
+                    color: var(--red);
+                    font-weight: 400;
+                    font-style: italic;
+                }
+
+        /* 引用块 */
+        .quote-block {
+            padding: 1.25rem 1.75rem;
+            border-left: 3px solid var(--red);
+            background: var(--paper2);
+            border-radius: 2px;
+            margin: 0.5rem 0;
+            font-family: var(--serif);
+            font-size: 14px;
+            font-style: italic;
+            color: var(--ink2);
+            line-height: 1.8;
+        }
+
+            .quote-block cite {
+                display: block;
+                margin-top: 0.5rem;
+                font-size: 12px;
+                color: var(--ink3);
+                font-style: normal;
+                font-family: var(--mono);
+                letter-spacing: 0.04em;
+            }
+
+            .quote-block.blue {
+                border-left-color: var(--blue);
+            }
+
+        /* ── Q&A 区域 ────────────────────────────────────────── */
+        .qa-section {
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .qa-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--rule);
+        }
+
+            .qa-item:last-child {
+                border-bottom: none;
+            }
+
+        .qa-q {
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--red);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .qa-a {
+            font-size: 14px;
+            color: var(--ink2);
+            line-height: 1.8;
+            font-family: var(--serif);
+            font-weight: 300;
+        }
+
+            .qa-a strong {
+                color: var(--red);
+                font-weight: 400;
+                font-style: italic;
+            }
+
+            .qa-a .highlight-blue {
+                color: var(--blue);
+                font-weight: 400;
+                font-style: italic;
+            }
+
+        /* ── 技术栈标签 ────────────────────────────────────── */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .tech-tag {
+            font-size: 10px;
+            letter-spacing: 0.04em;
+            padding: 2px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--rule-h);
+            color: var(--ink3);
+            background: transparent;
+            font-family: var(--mono);
+            text-transform: uppercase;
+        }
+
+            .tech-tag.highlight {
+                color: var(--red);
+                border-color: rgba(192, 57, 43, 0.25);
+                background: rgba(192, 57, 43, 0.06);
+            }
+
+            .tech-tag.blue {
+                color: var(--blue);
+                border-color: rgba(74, 106, 138, 0.2);
+                background: var(--blue-dim);
+            }
+
+        /* ── 分隔线 ────────────────────────────────────────── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--rule);
+            margin: 2.5rem 0;
+        }
+
+        /* ── 页脚 ────────────────────────────────────────────── */
+        .footer-sub {
+            border-top: 1px solid var(--rule);
+            padding: 1.25rem 0 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--ink4);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+            .footer-sub a {
+                color: var(--ink3);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+                .footer-sub a:hover {
+                    color: var(--ink);
+                }
+
+        /* ── 响应式 ────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .nav-bar {
+                padding: 0 1.5rem;
+            }
+
+            .page-wrap {
+                padding: 76px 1.5rem 3rem;
+            }
+
+            .project-meta-row {
+                gap: 0.75rem 1.5rem;
+            }
+
+            .nav-meta {
+                display: none;
+            }
+
+            .story-block::before {
+                font-size: 20px;
+                top: 0.5rem;
+                right: 1rem;
+            }
+
+            .analysis-entry .video-meta .entry-title {
+                font-size: 1rem;
+            }
+
+            .analysis-entry .analysis-text {
+                padding: 1rem 1.25rem;
+            }
+
+                .analysis-entry .analysis-text p {
+                    font-size: 13px;
+                }
+
+            .entry-divider {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-btn {
+                font-size: 10px;
+                gap: 5px;
+            }
+
+                .back-btn::before {
+                    font-size: 12px;
+                }
+
+            .story-block {
+                padding: 1.25rem 1.25rem;
+            }
+
+                .story-block p {
+                    font-size: 13px;
+                }
+
+            .analysis-entry .video-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+</head>
 <body>
-<h1>Soundtrack Breakdown</h1>
+    <!-- ── 顶部导航条 ──────────────────────────────────────── -->
+    <nav class="nav-bar">
+        <div class="nav-inner">
+            <a href="../index.html#work" class="back-btn">返回作品</a>
+            <span class="nav-meta">EiiChi_2049</span>
+        </div>
+    </nav>
+
+    <!-- ── 页面主体 ────────────────────────────────────────── -->
+    <main class="page-wrap">
+        <!-- 项目标题 -->
+        <header class="project-header">
+            <div class="project-tag">
+                Analysis · Mock-up
+                <span class="divider-dot">✦</span>
+                Honkai: Star Rail
+            </div>
+            <h1 class="project-title">
+                崩铁 PV 音乐复刻与分析
+                <em>— 学习型再创作 · 持续更新</em>
+            </h1>
+            <div class="project-meta-row">
+                <span class="project-meta-item"><strong>年份</strong> 2024–Present</span>
+                <span class="project-meta-item"><strong>角色</strong> 独立分析 · 复刻制作</span>
+                <span class="project-meta-item"><strong>状态</strong> 系列持续更新</span>
+            </div>
+        </header>
+
+        <!-- ── ✦ 面试故事 ────────────────────────────────────── -->
+        <div class="story-block">
+            <p>
+                <span class="emoji-deco">🎧</span>
+                本来这期作品是准备用来面试上海某二次元大厂的，
+                结果后续也不了了之了。<br />
+                那就放出来给大家看看吧。
+                <span style="display:inline-block; margin-left:6px;">😄</span>
+            </p>
+        </div>
+
+        <!--
+          ── ✦ 选曲原因 ──────────────────────────────────────────
+          在视频列表之前先说明为什么选这三首
+        ────────────────────────────────────────────────────── -->
+        <div class="project-description" style="margin-top: 0;">
+            <p>
+                <strong>选曲原因</strong><br />
+                选择《崩坏：星穹铁道》的 PV 配乐作为学习型再创作对象，主要有三点考量：
+            </p>
+
+            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2.2; padding-left: 1.25rem; margin: 0.25rem 0;">
+                <li><strong>极高的制作水准</strong> —— 向大师们学习是不可或缺的步骤。</li>
+                <li><strong>跨界的音乐风格融合</strong> —— 中国民乐 + 现代电子乐 + 西方交响乐。只有弄清音乐背后的文化逻辑，它才能落地生根。</li>
+                <li><strong>创作流量的联动逻辑</strong> —— PV 配乐 + 主线剧情 + 社区二创 = 角色商业成功。理解这种联动，有助于做出更符合行业需求的作品。</li>
+            </ul>
+        </div>
+
+        <!--
+          ── ✦ 视频 + 分析条目（垂直排列） ──────────────────
+          请替换以下占位内容：
+          - 阮梅：https://www.youtube.com/embed/你的视频ID
+          - 云璃：https://www.youtube.com/embed/你的视频ID
+          - 花火：https://www.youtube.com/embed/你的视频ID
+        ────────────────────────────────────────────────────── -->
+        <!-- === 条目 1：阮梅 === -->
+        <div class="analysis-entry">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/你的视频ID"
+                        title="阮梅 PV 音乐复刻"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="video-meta">
+                <span class="entry-title">阮梅 <em>· 万物生</em></span>
+                <span class="entry-date">2025.02.15</span>
+            </div>
+            <div class="analysis-text">
+                <span class="style-tag">✦ 中国风 Trap</span>
+                <p>
+                    情绪目标：<strong>优雅、克制</strong>，理性中带有内在张力。
+                </p>
+                <p>
+                    编曲结构：民乐 + Trap + 管弦。阮辅助旋律表达，
+                    Trap Hi-hat 驱动节奏，合成器补充"空气感"。
+                </p>
+                <p>
+                    <strong>混音思路：</strong>
+                    30s 之前原声乐器占比多，使用 Delay &amp; Reverb 营造氛围；
+                    Trap 段侧链压缩控制 BASS，让低频有呼吸感；
+                    管弦乐部分多次 EQ 让弦乐"透出来"。
+                </p>
+                <div class="tech-list">
+                    <span class="highlight-tag">民乐</span>
+                    <span class="blue-tag">Trap</span>
+                    <span class="highlight-tag">管弦</span>
+                    <span class="blue-tag">侧链压缩</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="entry-divider">· · ·</div>
+
+        <!-- === 条目 2：云璃 === -->
+        <div class="analysis-entry">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/你的视频ID"
+                        title="云璃 PV 音乐复刻"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="video-meta">
+                <span class="entry-title">云璃 <em>· 误打误撞</em></span>
+                <span class="entry-date">2025.02.20</span>
+            </div>
+            <div class="analysis-text">
+                <span class="style-tag">✦ 电子流行 + 中式融合</span>
+                <p>
+                    情绪目标：<strong>可爱、灵动、轻盈</strong>。
+                </p>
+                <p>
+                    编曲结构：市井气息开头 + 压缩钢琴 + 弹拨类民乐。
+                    木管组"跳跃式"写法表现灵动气息。
+                </p>
+                <p>
+                    <strong>音色设计：</strong>
+                    云璃跳上房顶这段合成器主要由锯齿波 + 方波 + Pitch 构成。
+                </p>
+                <p>
+                    <strong>混音思路：</strong>
+                    民乐之间通过频段错位避免打架（笛子偏高频、弹拨类偏中频）；
+                    鼓组 Loop 微调 Velocity/Pitch；高频避免因追求"可爱"导致刺耳。
+                </p>
+                <div class="tech-list">
+                    <span class="blue-tag">电子流行</span>
+                    <span class="highlight-tag">中式融合</span>
+                    <span class="blue-tag">木管</span>
+                    <span class="highlight-tag">频段错位</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="entry-divider">· · ·</div>
+
+        <!-- === 条目 3：花火 === -->
+        <div class="analysis-entry">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/你的视频ID"
+                        title="花火 PV 音乐复刻"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="video-meta">
+                <span class="entry-title">花火 <em>· 独角戏</em></span>
+                <span class="entry-date">2025.12.24</span>
+            </div>
+            <div class="analysis-text">
+                <span class="style-tag">✦ Glitch Hop + Psy Trance</span>
+                <p>
+                    情绪目标：<strong>疯癫、混乱、不可控</strong>（欢愉）。
+                    —— 打破听觉预期。
+                </p>
+                <p>
+                    <strong>音色设计：</strong>
+                    Bass 的 Support 部分共同构成饱满的听感；
+                    Kick 作为核心驱动力，确保在复杂结构下保持律动。
+                </p>
+                <p>
+                    <strong>混音思路：</strong>
+                    低频部分是重中之重，决定着 Trance 的好与坏；
+                    各种 FX 用于"打断预期"，但通过音量与频段控制避免喧宾夺主；
+                    Glitch 与 Trance 过渡段用自动化（Filter/Panning/BPM）保持新鲜感。
+                </p>
+                <p style="font-size: 13px; color: var(--ink3); font-style: italic;">
+                    Trance 一直放，观众一直爽 ✦
+                </p>
+                <div class="tech-list">
+                    <span class="highlight-tag">Glitch Hop</span>
+                    <span class="blue-tag">Psy Trance</span>
+                    <span class="highlight-tag">FX</span>
+                    <span class="blue-tag">自动化</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── 分隔线 ────────────────────────────────────────── -->
+        <hr class="divider" />
+
+        <!-- ── Q&A ────────────────────────────────────────────── -->
+        <div class="project-description" style="margin-top: 0;">
+            <p><strong>关于这个系列的一些思考</strong></p>
+
+            <div class="qa-section">
+                <div class="qa-item">
+                    <div class="qa-q">Q：为什么选择做"学习型复刻"？</div>
+                    <div class="qa-a">
+                        每个创作者都想尽力做到最好。而向大师们学习是不可或缺的步骤。
+                        崩铁的音乐将中国民乐和现代电子乐、西方交响乐和民族调式互相融合，
+                        只有弄清了音乐背后的文化逻辑，它才能落地生根，
+                        让听众通过音乐感受到故事的深度。
+                    </div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="qa-q">Q：你对声音设计的理解？</div>
+                    <div class="qa-a">
+                        声音设计不仅仅是桥梁，更多的意义在于通过技术层面直接与玩家对话。
+                        本质就是 <strong>帮玩家理解行为</strong>。<br />
+                        音乐制作人要明白：<span class="highlight-blue">什么是简洁的、秩序的、有美感的。</span>
+                        审美或许是未来最稀缺的能力。
+                    </div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="qa-q">Q：后续有什么计划？</div>
+                    <div class="qa-a">
+                        在接下来的项目中，我希望能在游戏音频中实现<strong>更深度的文化融合</strong>，
+                        让音乐成为叙事的一部分。同时也在努力学习 Wwise，
+                        争取为游戏做到更好的音频呈现。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技术标签 -->
+            <div class="tech-tags">
+                <span class="tech-tag highlight">Ableton Live</span>
+                <span class="tech-tag highlight">崩坏：星穹铁道</span>
+                <span class="tech-tag blue">PV 配乐</span>
+                <span class="tech-tag blue">中国风 Trap</span>
+                <span class="tech-tag">Glitch Hop</span>
+                <span class="tech-tag">Psy Trance</span>
+                <span class="tech-tag">侧链压缩</span>
+                <span class="tech-tag">频段错位</span>
+            </div>
+
+            <!-- 结尾引用 -->
+            <div class="quote-block blue" style="margin-top: 0.5rem;">
+                审美或许是未来最稀缺的能力。
+                <cite>—— EiiChi_2049</cite>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 底部 -->
+        <div class="project-description" style="margin-top: 0;">
+            <p style="font-size: 13px; color: var(--ink4); font-style: italic;">
+                💡 对这套分析感兴趣？欢迎
+                <a href="../index.html#contact"
+                   style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(192,57,43,0.25);">联系我</a>
+                交流讨论，或查看
+                <a href="https://space.bilibili.com/23277208"
+                   target="_blank"
+                   style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(192,57,43,0.25);">Bilibili 上的完整视频</a>。
+            </p>
+        </div>
+
+        <!-- ── 页脚 ──────────────────────────────────────────── -->
+        <footer class="footer-sub">
+            <span>© EiiChi_2049</span>
+            <span>
+                <a href="../index.html#work">← 返回作品列表</a>
+            </span>
+        </footer>
+    </main>
 </body>
 </html>
