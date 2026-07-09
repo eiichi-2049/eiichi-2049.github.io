@@ -181,7 +181,8 @@
         background: var(--ink4);
       }
       .hero-title {
-        font-family: var(--serif);
+          /* 优先使用思源宋体，并提供系统宋体作为回退 */
+        font-family:"Noto Serif SC", "Songti SC", "華康明體", serif;
         font-size: clamp(3.2rem, 5.5vw, 5rem);
         font-weight: 300;
         line-height: 1.05;
@@ -191,8 +192,8 @@
         opacity: 0;
       }
       .hero-title strong {
-        font-weight: 300;
-        font-style: italic;
+        font-weight: 500;
+        font-style: normal;
         color: var(--red);
       }
       .hero-desc {
@@ -273,21 +274,25 @@
         text-transform: uppercase;
         color: var(--ink3);
       }
-        .status-avail {
-            font-size: 10px;
-            color: #2d7d46;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            text-shadow: 0 0 12px rgba(45, 125, 70, 0.15);
+      .status-avail {
+        width: 180px; /* 与 .status-val 宽度一致 */
+        flex-shrink: 0; /* 不被压缩，保持固定宽度 */
+        display: flex; /* 让圆点和文字排成一行 */
+        align-items: center;
+        gap: 6px; /* 圆点与文字之间的距离 */
+        font-size: 10px;
+        color: #2d7d46;
+        text-shadow: 0 0 12px rgba(45, 125, 70, 0.15);
+        justify-content: flex-start; /* 文字左对齐，与 status-val 的 text-align: left 匹配 */
         }
         .avail-dot {
-            width: 10px;
-            height: 10px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             background: #2d7d46;
             box-shadow: 0 0 0 3px rgba(45, 125, 70, 0.2);
             animation: pulse-red 2s ease-in-out infinite;
+            flex -shrink: 0; /* 防止被压缩 */
         }
       @keyframes pulse-red {
         0%,
@@ -334,7 +339,7 @@
       .section-header {
         display: flex;
         align-items: baseline;
-        justify-content: space-between;
+        justify-content: flex-start; /* 改为靠左对齐 */
         margin-bottom: 3rem;
       }
       .section-title {
@@ -546,8 +551,9 @@
         font-size: 14px;
         color: var(--ink2);
         line-height: 1.9;
-        font-family: var(--serif);
+        font-family: var(--serif-zh);
         font-weight: 300;
+        letter-spacing: 0.03em;       /* 增加一点字间距 */
       }
       .about-p em {
         font-style: italic;
@@ -711,47 +717,69 @@
 
       /* ── RESPONSIVE ──────────────────────────────────────── */
       @media (max-width: 768px) {
-        section,
-        .nav {
-          padding-left: 1.5rem;
-          padding-right: 1.5rem;
-        }
-        #home {
-          grid-template-columns: 1fr;
-          padding-left: 1.5rem;
-          padding-right: 1.5rem;
-          min-height: auto;
-          padding-top: calc(56px + 3rem);
-          padding-bottom: 4rem;
-        }
-        .home-right {
-          display: none;
-        }
-        .work-grid {
-          grid-template-columns: 1fr;
-        }
-        .skills-two-col {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-        .skills-right {
-          grid-template-columns: 1fr 1fr;
-        }
-        .about-body {
-          grid-template-columns: 1fr;
-          gap: 2.5rem;
-        }
-        .contact-row {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .nav-links {
-          display: none;
-        }
-        footer {
-          padding: 1rem 1.5rem;
-        }
+      section,
+      .nav {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
       }
+
+      #home {
+        grid-template-columns: 1fr;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        min-height: auto;
+        padding-top: calc(56px + 3rem);
+        padding-bottom: 4rem;
+      }
+
+      .home-right {
+        display: block;
+        margin-top: 2.5rem;
+      }
+
+      .status-val {
+        width: auto;
+        flex-shrink: 1;
+        text-align: left;
+      }
+
+      .status-avail {
+        width: auto;
+        flex-shrink: 1;
+        justify-content: flex-start;
+      }
+
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-two-col {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .skills-right {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .about-body {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .contact-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+       display: none;
+      }
+
+      footer {
+        padding: 1rem 1.5rem;
+      }
+        }
     </style>
   </head>
   <body>
@@ -774,7 +802,7 @@
       <div class="home-left">
           <div class="home-eyebrow">
               <div class="home-eyebrow-line"></div>
-              Beyond notes, into sound
+              Beyond notes, into sounds
           </div>                
           <h1 class="hero-title">
               一   知<br />
@@ -824,14 +852,14 @@
           <div class="status-card-body">
             <div class="status-row">
               <span class="status-key">focus</span>
-              <span class="status-val">Game Audio & Sound</span>
+              <span class="status-val">Sound & Game Audio</span>
             </div>
             <div class="status-row">
               <span class="status-key">role</span>
               <span class="status-val">Music Creator</span>
             </div>
             <div class="status-row">
-                <span class="status-key">open to</span>
+                <span class="status-key">intent</span>
                 <span class="status-val">Fulltime / Freelance</span>
             </div>
             <div class="status-row">
@@ -840,7 +868,7 @@
             </div>
             <div class="status-row">
               <span class="status-key">since</span>
-              <span class="status-val">2020</span>
+              <span class="status-val">2022</span>
             </div>
           </div>
         </div>
@@ -852,7 +880,6 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">selected work</h2>
-                <span class="section-count">Featured Projects</span>
             </div>
             <div class="work-grid">
                 <a href="./01-ost/01-ost.html" class="work-card">
@@ -891,7 +918,7 @@
                         [Wwise_101_非官方汉化文档] <em><br />— 写给游戏音频初学者的学习笔记</em>
                     </div>
                     <div class="work-card-footer">
-                        <span class="work-card-stack">Tutorial / User Manual</span>
+                        <span class="work-card-stack">tutorial / user manual</span>
                         <div class="work-card-meta">
                             <span class="work-card-year">2026</span>
                             <span class="work-card-badge wip">wip</span>
@@ -933,7 +960,7 @@
                 <a href="./06-research&writing/06-rw.html" class="work-card">
                     <div class="work-card-num">06 / 06</div>
                     <div class="work-card-title">
-                        [Research & Writing] <em><br />— 关于声音、游戏与创作的思考</em>
+                        [Research & Writing] <em><br />— 关于声音、游戏与创作的研究与思考</em>
                     </div>
                     <div class="work-card-footer">
                         <span class="work-card-stack">random thoughts</span>
@@ -961,7 +988,7 @@
           </p>
           <div class="skills-right">
             <div>
-              <div class="skill-group-title">D.A.W./宿主软件</div>
+              <div class="skill-group-title">D.A.W / 宿主软件</div>
               <div class="skill-list">
                   <div class="skill-item">Ableton Live</div>
                   <div class="skill-item">Cubase</div>
@@ -971,7 +998,7 @@
               </div>
             </div>
             <div>
-                <div class="skill-group-title">Production/制作</div>
+                <div class="skill-group-title">Production / 制作</div>
                 <div class="skill-list">
                     <div class="skill-item">UAD Signature Edition V3</div>
                     <div class="skill-item">Ample China Series</div>
@@ -981,7 +1008,7 @@
                 </div>
                 </div>
             <div>
-                <div class="skill-group-title">Other Tools/工具</div>
+                <div class="skill-group-title">Other Tools / 工具</div>
               <div class="skill-list">
                 <div class="skill-item">Adobe Photoshop</div>
                 <div class="skill-item">DaVinci Resolve 20</div>
@@ -1056,9 +1083,9 @@
       <div class="container">
         <div class="contact-body">
             <h2 class="contact-big">
-                Create <em>Meaning, </em><br />
-                Create <em>Beauty.</em><br />
-</h2>
+                Create <em>Meaning</em><br />
+                Craft <em>Beauty. </em>
+            </h2>
           <div class="contact-row">
               <div class="contact-email-wrap">
                   <div class="contact-label">有项目想法？想合作？还是只想打个招呼？联系我吧。</div>
