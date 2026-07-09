@@ -1,1 +1,782 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Research &amp; Writing — EiiChi_2049</title>
+        <meta
+            name="description"
+            content="Research & Writing — 关于声音、游戏与创作的研究与思考"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
+        </script>
+        <style>
+            /* ── RESET ───────────────────────────────────────────── */
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
 
+            /* ── TOKENS ──────────────────────────────────────────── */
+            :root {
+                --paper: #f5f0e8;
+                --paper2: #ede8df;
+                --ink: #1a1714;
+                --ink2: #3d3830;
+                --ink3: #7a7469;
+                --ink4: #b8b0a4;
+                --rule: rgba(26, 23, 20, 0.1);
+                --rule-h: rgba(26, 23, 20, 0.22);
+                --red: #c0392b;
+                --red-dim: rgba(192, 57, 43, 0.08);
+                --serif: "Fraunces", serif;
+                --mono: "DM Mono", monospace;
+                --serif-zh: "Noto Serif SC", "Songti SC", "華康明體", serif;
+                --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            /* ── BASE ────────────────────────────────────────────── */
+            body {
+                font-family: var(--mono);
+                background: var(--paper);
+                color: var(--ink);
+                font-size: 13px;
+                line-height: 1.7;
+                overflow-x: hidden;
+            }
+
+            /* subtle paper texture */
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: repeating-linear-gradient(0deg,
+                        transparent,
+                        transparent 27px,
+                        rgba(26, 23, 20, 0.025) 27px,
+                        rgba(26, 23, 20, 0.025) 28px);
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            /* ── NAV ─────────────────────────────────────────────── */
+            .nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                height: 56px;
+                border-bottom: 1px solid var(--rule);
+                background: rgba(245, 240, 232, 0.92);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                padding: 0 3rem;
+            }
+            .nav-inner {
+                max-width: 1080px;
+                margin: 0 auto;
+                width: 100%;
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+            }
+            .nav-logo {
+                font-family: var(--serif);
+                font-size: 17px;
+                font-weight: 300;
+                font-style: italic;
+                color: var(--ink);
+                text-decoration: none;
+                letter-spacing: -0.01em;
+            }
+            .nav-links {
+                display: flex;
+                gap: 2rem;
+                list-style: none;
+            }
+            .nav-links a {
+                font-size: 11px;
+                color: var(--ink3);
+                text-decoration: none;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                transition: color 0.2s;
+                position: relative;
+            }
+            .nav-links a::after {
+                content: "";
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--red);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.25s var(--ease);
+            }
+            .nav-links a:hover {
+                color: var(--ink);
+            }
+            .nav-links a:hover::after {
+                transform: scaleX(1);
+            }
+            .nav-links a.active {
+                color: var(--ink);
+            }
+            .nav-links a.active::after {
+                transform: scaleX(1);
+                background: var(--ink4);
+            }
+
+            /* ── LAYOUT ──────────────────────────────────────────── */
+            .container {
+                max-width: 1080px;
+                margin: 0 auto;
+            }
+            section {
+                padding: 6rem 3rem;
+                position: relative;
+                z-index: 2;
+            }
+
+            /* ── PAGE HEADER ────────────────────────────────────── */
+            .page-header {
+                padding-top: calc(56px + 4rem);
+                padding-bottom: 2rem;
+                border-bottom: 1px solid var(--rule);
+            }
+            .page-header .container {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .page-header-label {
+                font-size: 11px;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--ink4);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .page-header-label-line {
+                width: 32px;
+                height: 1px;
+                background: var(--ink4);
+            }
+            .page-header-title {
+                font-family: var(--serif);
+                font-size: clamp(2.4rem, 5vw, 4rem);
+                font-weight: 300;
+                line-height: 1.1;
+                color: var(--ink);
+                letter-spacing: -0.02em;
+            }
+            .page-header-title em {
+                font-style: italic;
+                color: var(--red);
+            }
+            .page-header-desc {
+                font-size: 14px;
+                color: var(--ink3);
+                max-width: 560px;
+                line-height: 1.8;
+                margin-top: 0.5rem;
+                font-family: var(--serif-zh);
+                font-weight: 300;
+                letter-spacing: 0.03em;
+            }
+
+            /* ── TWO-COL LAYOUT ──────────────────────────────────── */
+            .rw-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0; /* 改为0，通过padding控制间距 */
+                padding: 2rem;
+                border: 1px solid var(--rule);
+                border-radius: 4px;
+                background: var(--paper);
+                opacity: 0;
+                transform: translateY(16px);
+                transition: opacity 0.2s;
+            }
+            .rw-col {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .rw-col-header {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                border-bottom: 1px solid var(--rule);
+                padding-bottom: 0.5rem;
+                margin-bottom: 0.25rem;
+            }
+            .rw-col-title {
+                font-family: var(--serif);
+                font-size: 1.1rem;
+                font-weight: 300;
+                font-style: italic;
+                color: var(--ink);
+                letter-spacing: -0.01em;
+            }
+            .rw-col-count {
+                font-size: 10px;
+                color: var(--ink4);
+                letter-spacing: 0.06em;
+            }
+
+            /* 桌面端：左侧加分割线 */
+            @media (min-width: 769px) {
+                .rw-col:first-child {
+                    padding-right: 2rem;
+                    border-right: 1px solid var(--rule);
+                }
+                .rw-col:last-child {
+                    padding-left: 2rem;
+                }
+            }
+
+            /* ── ENTRY CARD ──────────────────────────────────────── */
+            .entry-card {
+                display: block;
+                text-decoration: none;
+                color: var(--ink);
+                padding: 1.25rem 1.5rem;
+                border: 1px solid var(--rule);
+                border-radius: 4px;
+                background: var(--paper);
+                transition: background 0.2s, border-color 0.2s, transform 0.15s;
+                position: relative;
+                overflow: hidden;
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            .entry-card::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: var(--red);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.35s var(--ease);
+            }
+            .entry-card:hover {
+                background: var(--paper2);
+                border-color: var(--rule-h);
+            }
+            .entry-card:hover::before {
+                transform: scaleX(1);
+            }
+            .entry-card:hover .entry-arrow {
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+            .entry-card-top {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 0.75rem;
+            }
+            .entry-title {
+                font-family: var(--serif);
+                font-size: 1.05rem;
+                font-weight: 300;
+                line-height: 1.25;
+                color: var(--ink);
+                letter-spacing: -0.01em;
+            }
+            .entry-title em {
+                font-style: italic;
+                color: var(--ink3);
+            }
+            .entry-arrow {
+                flex-shrink: 0;
+                font-size: 16px;
+                color: var(--ink3);
+                opacity: 0;
+                transform: translate(-4px, 4px);
+                transition: opacity 0.2s, transform 0.2s;
+                margin-top: 2px;
+            }
+            .entry-desc {
+                font-size: 12.5px;
+                color: var(--ink3);
+                line-height: 1.6;
+                margin-top: 0.4rem;
+                font-family: var(--serif-zh);
+                font-weight: 300;
+                letter-spacing: 0.03em;
+            }
+            .entry-footer {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-top: 0.9rem;
+                flex-wrap: wrap;
+            }
+            .entry-date {
+                font-size: 10px;
+                color: var(--ink4);
+                letter-spacing: 0.04em;
+            }
+            .entry-badge {
+                font-size: 9px;
+                letter-spacing: 0.06em;
+                padding: 2px 10px;
+                border-radius: 100px;
+                border: 1px solid var(--rule-h);
+                color: var(--ink3);
+                text-transform: uppercase;
+            }
+            .entry-badge.wip {
+                color: var(--red);
+                border-color: rgba(192, 57, 43, 0.3);
+                background: var(--red-dim);
+            }
+            .entry-badge.done {
+                color: #2d7d46;
+                border-color: rgba(45, 125, 70, 0.2);
+                background: rgba(45, 125, 70, 0.06);
+            }
+            .entry-badge.series {
+                color: #a07020;
+                border-color: rgba(160, 112, 32, 0.25);
+                background: rgba(160, 112, 32, 0.07);
+            }
+            .entry-badge.single {
+                color: var(--ink3);
+                border-color: var(--rule-h);
+                background: transparent;
+            }
+
+            /* ── BACK LINK ───────────────────────────────────────── */
+            .back-link-wrap {
+                padding: 0 3rem 2rem 3rem;
+                max-width: 1080px;
+                margin: 0 auto;
+            }
+            .back-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 11px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--ink3);
+                text-decoration: none;
+                transition: color 0.2s;
+                border-bottom: 1px solid transparent;
+                padding-bottom: 2px;
+            }
+            .back-link:hover {
+                color: var(--ink);
+                border-bottom-color: var(--ink4);
+            }
+            .back-link-arrow {
+                font-size: 14px;
+                transition: transform 0.2s var(--ease);
+            }
+            .back-link:hover .back-link-arrow {
+                transform: translateX(-4px);
+            }
+
+            /* ── FOOTER ──────────────────────────────────────────── */
+            footer {
+                border-top: 1px solid var(--rule);
+                padding: 1.25rem 3rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                z-index: 2;
+                background: var(--paper2);
+            }
+            .footer-inner {
+                max-width: 1080px;
+                margin: 0 auto;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .footer-l {
+                font-size: 11px;
+                color: var(--ink4);
+            }
+            .footer-r {
+                font-size: 11px;
+                color: var(--ink3);
+            }
+
+            /* ── RESPONSIVE ──────────────────────────────────────── */
+            @media (max-width: 768px) {
+                section,
+                .nav {
+                    padding-left: 1.5rem;
+                    padding-right: 1.5rem;
+                }
+                .page-header {
+                    padding-left: 1.5rem;
+                    padding-right: 1.5rem;
+                }
+                .back-link-wrap {
+                    padding-left: 1.5rem;
+                    padding-right: 1.5rem;
+                }
+                .rw-grid {
+                    grid-template-columns: 1fr;
+                    gap: 2rem;
+                    padding: 1.5rem;
+                }
+                /* 移动端去掉分割线和左右内边距 */
+                .rw-col:first-child {
+                    padding-right: 0;
+                    border-right: none;
+                }
+                .rw-col:last-child {
+                    padding-left: 0;
+                }
+                .nav-links {
+                    display: none;
+                }
+                footer {
+                    padding: 1rem 1.5rem;
+                }
+                .entry-card {
+                    padding: 1rem 1.25rem;
+                }
+                .entry-title {
+                    font-size: 0.95rem;
+                }
+                .entry-desc {
+                    font-size: 12px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .page-header-title {
+                    font-size: clamp(1.8rem, 10vw, 2.8rem);
+                }
+                .page-header-desc {
+                    font-size: 13px;
+                }
+                .rw-col-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.2rem;
+                }
+                .entry-card-top {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.25rem;
+                }
+                .entry-arrow {
+                    align-self: flex-end;
+                }
+            }
+        </style>
+    </head>
+    <body>
+
+        <!-- ── NAV ──────────────────────────────────────────────── -->
+        <nav class="nav">
+            <div class="nav-inner">
+                <a href="../index.html#home" class="nav-logo">EiiChi2049</a>
+                <ul class="nav-links">
+                    <li><a href="../index.html#home">home</a></li>
+                    <li><a href="../index.html#work">work</a></li>
+                    <li><a href="../index.html#skills">skills</a></li>
+                    <li><a href="../index.html#about">about</a></li>
+                    <li><a href="../index.html#contact">contact</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- ── BACK LINK ────────────────────────────────────────── -->
+        <div class="back-link-wrap" style="padding-top:calc(56px + 1.5rem);">
+            <a href="../index.html#work" class="back-link">
+                <span class="back-link-arrow">←</span> back to work
+            </a>
+        </div>
+
+        <!-- ── PAGE HEADER ──────────────────────────────────────── -->
+        <div class="page-header">
+            <div class="container">
+                <div class="page-header-label">
+                    <div class="page-header-label-line"></div>
+                    06 / 06
+                </div>
+                <h1 class="page-header-title">
+                    <em>Research</em> &amp; <em>Writing</em>
+</h1>
+                <p class="page-header-desc">
+                    从技术研究到随笔写作，记录那些在创作途中闪过的念头与沉淀下来的笔记
+                </p>
+            </div>
+        </div>
+
+        <!-- ── MAIN CONTENT ────────────────────────────────────── -->
+        <section style="padding-top:1rem; padding-bottom:5rem;">
+            <div class="container">
+
+                <div class="rw-grid" id="rwGrid">
+
+                    <!-- ── LEFT: RESEARCH ────────────────────────── -->
+                    <div class="rw-col">
+                        <div class="rw-col-header">
+                            <span class="rw-col-title">Research</span>
+                            <span class="rw-col-count">【】 projects</span>
+                        </div>
+
+                        <!-- 研究 1 -->
+                        <a href="#" class="entry-card" data-delay="0">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    【声音空间化与情绪映射】
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                【这里写简介】
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2025 · 进行中</span>
+                                <span class="entry-badge wip">wip</span>
+                            </div>
+                        </a>
+
+                        <!-- 研究 2 -->
+                        <a href="#" class="entry-card" data-delay="0.06">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    【游戏音频的叙事功能】
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                【这里写简介】
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2024 · 已完结</span>
+                                <span class="entry-badge done">done</span>
+                            </div>
+                        </a>
+
+                        <!-- 研究 3 -->
+                        <a href="#" class="entry-card" data-delay="0.12">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    【民族乐器数字采样与合成研究】
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                【聚焦中国传统乐器的采样技术、音色建模与在当代音乐制作中的
+                                融合应用，探索传统音色的数字重生路径。】
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2025 · 进行中</span>
+                                <span class="entry-badge wip">wip</span>
+                            </div>
+                        </a>
+
+                        <!-- 研究 4 -->
+                        <a href="#" class="entry-card" data-delay="0.18">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    【动态音乐系统设计】
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                【基于玩家状态与情境的自适应音乐生成系统，
+                                研究交互式音乐在游戏中的实时响应与情感适配。】
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2025 · 进行中</span>
+                                <span class="entry-badge wip">wip</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- ── RIGHT: WRITING ────────────────────────── -->
+                    <div class="rw-col">
+                        <div class="rw-col-header">
+                            <span class="rw-col-title">Writing</span>
+                            <span class="rw-col-count">【】 articles</span>
+                        </div>
+
+                        <!-- 文章 1 -->
+                        <a href="#" class="entry-card" data-delay="0.04">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    《我对AI的看法——扭蛋时代》
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                我投币，我旋转，我复制，我粘贴
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2026/06/05</span>
+                                <span class="entry-badge single">single</span>
+                            </div>
+                        </a>
+
+                        <!-- 文章 2 -->
+                        <a href="#" class="entry-card" data-delay="0.10">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    《Pulling Out All Stops》
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                全力以赴
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2025 · 单篇</span>
+                                <span class="entry-badge single">single</span>
+                            </div>
+                        </a>
+
+                        <!-- 文章 3 -->
+                        <a href="#" class="entry-card" data-delay="0.16">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    《一生悬命，知而即行》
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                知道了，那就去做吧。哪怕做出来真的是一坨。一坨也有它的意义，因为它
+                                证明你曾经出发，而出发本身，就是对平庸最有力的反抗了。
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2025 · 单篇</span>
+                                <span class="entry-badge single">single</span>
+                            </div>
+                        </a>
+
+                        <!-- 文章 4 -->
+                        <a href="#" class="entry-card" data-delay="0.22">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    音频插件开发手记：BKEQ_Hybrid 的诞生
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                从概念到实现，记录一款混合型均衡器插件的设计历程，
+                                包括编程、UI 设计与用户体验的思考。
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2026 · 单篇</span>
+                                <span class="entry-badge single">single</span>
+                            </div>
+                        </a>
+
+                        <!-- 文章 5 -->
+                        <a href="#" class="entry-card" data-delay="0.22">
+                            <div class="entry-card-top">
+                                <span class="entry-title">
+                                    从《明日方舟：终末地》出发，浅析大型游戏音频系统架构 
+                                </span>
+                                <span class="entry-arrow">↗</span>
+                            </div>
+                            <p class="entry-desc">
+                                从概念到实现，记录一款混合型均衡器插件的设计历程，
+                                包括编程、UI 设计与用户体验的思考。
+                            </p>
+                            <div class="entry-footer">
+                                <span class="entry-date">2026 · 系列</span>
+                                <span class="entry-badge wip">wip</span>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+                <!-- /rw-grid -->
+
+            </div>
+        </section>
+
+        <!-- ── FOOTER ─────────────────────────────────────────────── -->
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-l">
+                    © EiiChi_2049
+                </div>
+                <div class="footer-r"></div>
+            </div>
+        </footer>
+
+        <!-- Special Thanks To Kayspace ✪ https://github.com/kayspace/portfolio-template -->
+
+        <!-- ── GSAP ───────────────────────────────────────────────── -->
+        <script>
+            gsap.registerPlugin(ScrollTrigger);
+
+            // ── 两栏整体入场 ──────────────────────────────────────
+            const grid = document.getElementById('rwGrid');
+            if (grid) {
+                gsap.to(grid, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: grid,
+                        start: 'top 88%',
+                    },
+                });
+            }
+
+            // ── 每个卡片依次入场 ──────────────────────────────────
+            const cards = document.querySelectorAll('.entry-card');
+            cards.forEach((el) => {
+                const delay = parseFloat(el.getAttribute('data-delay')) || 0;
+                gsap.to(el, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: 'power2.out',
+                    delay: delay,
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 92%',
+                    },
+                });
+            });
+
+            // ── 导航高亮（子页面固定高亮 work） ──────────────────
+            document.querySelectorAll('.nav-links a').forEach((a) => {
+                if (a.getAttribute('href') === '../index.html#work') {
+                    a.classList.add('active');
+                }
+            });
+        </script>
+
+    </body>
+</html>
