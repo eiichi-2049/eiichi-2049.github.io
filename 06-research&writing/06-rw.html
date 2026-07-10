@@ -47,6 +47,170 @@
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
       }
 
+      /* ── 模态框整体风格 ──────────────────────────── */
+      .rw-modal-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 720px;
+        max-height: 80vh;
+        background: var(--paper);
+        border: 1px solid var(--rule-h);
+        border-radius: 4px;
+        box-shadow: 0 20px 60px rgba(26, 23, 20, 0.25);
+        overflow-y: auto;
+        padding: 2.5rem 3rem 2.5rem 3rem;
+        transition: opacity 0.25s ease;
+      }
+
+      /* ── 定制滚动条 ──────────────── */
+      .rw-modal-box::-webkit-scrollbar {
+        width: 5px;
+        background: transparent;
+      }
+      .rw-modal-box::-webkit-scrollbar-track {
+        background: var(--paper2);
+        border-radius: 10px;
+        margin: 1.5rem 0;
+      }
+      .rw-modal-box::-webkit-scrollbar-thumb {
+        background: var(--ink4);
+        border-radius: 10px;
+        border: 1px solid var(--paper);
+      }
+      .rw-modal-box::-webkit-scrollbar-thumb:hover {
+        background: var(--ink3);
+      }
+
+      .rw-modal-box {
+        scrollbar-width: thin;
+        scrollbar-color: var(--ink4) var(--paper2);
+      }
+
+      /* ── 关闭按钮 ──────────────────────────────────── */
+      .rw-modal-close {
+        float: right;
+        background: none;
+        border: none;
+        font-family: var(--serif);
+        font-size: 1.8rem;
+        line-height: 1;
+        color: var(--ink3);
+        cursor: pointer;
+        padding: 0 0.2rem 0.2rem 0.2rem;
+        transition: color 0.2s;
+        margin-top: -0.2rem;
+        margin-right: -0.3rem;
+      }
+      .rw-modal-close:hover {
+        color: var(--red);
+      }
+
+      /* ── 弹窗内的文章排版 ────────────── */
+      .rw-modal-content {
+        font-family: var(--serif-zh), var(--serif);
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.9;
+        padding-right: 0.2rem;
+      }
+
+      .rw-modal-content h1 {
+        font-family: var(--serif);
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+        font-weight: 300;
+        font-style: italic;
+        letter-spacing: -0.01em;
+        margin: 0 0 0.8rem 0;
+        color: var(--ink);
+      }
+      .rw-modal-content h2 {
+        font-family: var(--serif);
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin: 1.8rem 0 0.8rem 0;
+        color: var(--ink);
+      }
+      .rw-modal-content h3 {
+        font-family: var(--serif);
+        font-size: 1.1rem;
+        font-weight: 400;
+        font-style: italic;
+        margin: 1.5rem 0 0.5rem 0;
+        color: var(--ink2);
+      }
+      .rw-modal-content p {
+        margin: 1rem 0;
+        color: var(--ink2);
+      }
+      .rw-modal-content strong {
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .rw-modal-content em {
+        font-style: italic;
+        color: var(--red);
+      }
+      .rw-modal-content blockquote {
+        border-left: 3px solid var(--red);
+        padding-left: 1.5rem;
+        margin: 1.5rem 0;
+        color: var(--ink3);
+        font-style: italic;
+      }
+      .rw-modal-content code {
+        font-family: var(--mono);
+        font-size: 0.85em;
+        background: var(--paper2);
+        padding: 0.1em 0.5em;
+        border-radius: 3px;
+        color: var(--ink);
+        border: 1px solid var(--rule);
+      }
+      .rw-modal-content pre {
+        background: var(--paper2);
+        padding: 1.2rem 1.5rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        border: 1px solid var(--rule);
+        font-family: var(--mono);
+        font-size: 12px;
+        line-height: 1.6;
+        color: var(--ink);
+      }
+      .rw-modal-content ul,
+      .rw-modal-content ol {
+        padding-left: 1.8rem;
+        margin: 0.8rem 0;
+      }
+      .rw-modal-content li {
+        margin: 0.3rem 0;
+        color: var(--ink2);
+      }
+      .rw-modal-content a {
+        color: var(--red);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-color: rgba(192, 57, 43, 0.3);
+      }
+      .rw-modal-content a:hover {
+        text-decoration-color: var(--red);
+      }
+
+      /* ── 响应式调整 ──────────────────────────────────── */
+      @media (max-width: 640px) {
+        .rw-modal-box {
+          padding: 1.5rem 1.5rem 2rem 1.5rem;
+          width: 92%;
+          max-height: 85vh;
+        }
+        .rw-modal-box::-webkit-scrollbar-track {
+          margin: 0.8rem 0;
+        }
+      }
+
       /* ── BASE ────────────────────────────────────────────── */
       body {
         font-family: var(--mono);
@@ -392,90 +556,6 @@
           transform 0.2s;
       }
 
-      /* ── MODAL ───────────────────────────────────────────── */
-      #modal-content h1,
-      #modal-content h2,
-      #modal-content h3 {
-        font-family: var(--serif);
-        font-weight: 300;
-        letter-spacing: -0.01em;
-      }
-      #modal-content h1 {
-        font-size: 1.6rem;
-        margin-bottom: 1.2rem;
-      }
-      #modal-content h2 {
-        font-size: 1.3rem;
-        margin: 1.5rem 0 0.8rem;
-      }
-      #modal-content h3 {
-        font-size: 1.1rem;
-        margin: 1.2rem 0 0.6rem;
-      }
-      #modal-content p {
-        margin: 1em 0;
-        font-size: 14px;
-        color: var(--ink2);
-        line-height: 1.8;
-      }
-      #modal-content ul,
-      #modal-content ol {
-        margin: 0.8em 0;
-        padding-left: 1.5em;
-        font-size: 14px;
-        color: var(--ink2);
-        line-height: 1.8;
-      }
-      #modal-content li {
-        margin: 0.3em 0;
-      }
-      #modal-content code {
-        font-family: var(--mono);
-        background: var(--paper2);
-        padding: 0.1em 0.4em;
-        border-radius: 3px;
-        font-size: 0.9em;
-      }
-      #modal-content pre {
-        background: var(--paper2);
-        padding: 1rem 1.2rem;
-        border-radius: 4px;
-        overflow-x: auto;
-        margin: 1em 0;
-      }
-      #modal-content pre code {
-        background: none;
-        padding: 0;
-      }
-      #modal-content blockquote {
-        border-left: 3px solid var(--red);
-        padding-left: 1.2rem;
-        margin: 1.5rem 0;
-        color: var(--ink3);
-      }
-      #modal-content a {
-        color: var(--red);
-        text-decoration: none;
-        border-bottom: 1px solid rgba(192, 57, 43, 0.3);
-      }
-      #modal-content a:hover {
-        border-bottom-color: var(--red);
-      }
-      #modal-content img {
-        max-width: 100%;
-        border-radius: 4px;
-        margin: 1em 0;
-      }
-      #modal-content hr {
-        border: none;
-        border-top: 1px solid var(--rule);
-        margin: 2em 0;
-      }
-      #modal-content strong {
-        color: var(--ink);
-        font-weight: 500;
-      }
-
       /* ── FOOTER ──────────────────────────────────────────── */
       footer {
         border-top: 1px solid var(--rule);
@@ -546,11 +626,6 @@
         }
         footer {
           padding: 1rem 1.5rem;
-        }
-        #modal-container {
-          width: 94% !important;
-          padding: 1.5rem !important;
-          max-height: 85vh !important;
         }
       }
     </style>
@@ -783,10 +858,10 @@
     </footer>
 
     <!-- ── MODAL ─────────────────────────────────────────────── -->
-    <div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:999; backdrop-filter:blur(4px);">
-      <div id="modal-container" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:90%; max-width:720px; max-height:80vh; background:var(--paper); border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,0.2); overflow-y:auto; padding:2.5rem 3rem; border:1px solid var(--rule);">
-        <button id="modal-close" style="float:right; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--ink3); line-height:1;">&times;</button>
-        <div id="modal-content" style="font-family:var(--serif); line-height:1.8; color:var(--ink);"></div>
+    <div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(26,23,20,0.35); z-index:999; backdrop-filter:blur(2px);">
+      <div id="modal-container" class="rw-modal-box">
+        <button id="modal-close" class="rw-modal-close">&times;</button>
+        <div id="modal-content" class="rw-modal-content"></div>
       </div>
     </div>
 
