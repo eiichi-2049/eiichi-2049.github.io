@@ -10,7 +10,7 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+SC:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -151,19 +151,21 @@
       #home {
         min-height: 100vh;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: start;
         padding-top: 56px;
-        gap: 4rem;
+        gap: 3rem;
         max-width: 1080px;
         margin: 0 auto;
         padding-left: 3rem;
         padding-right: 3rem;
+        position: relative;
       }
-
       .home-left {
         padding: 3rem 0;
+        position: relative;
       }
+      /* decorative divider removed per request */
       .home-eyebrow {
         font-size: 11px;
         letter-spacing: 0.14em;
@@ -181,17 +183,23 @@
         background: var(--ink4);
       }
       .hero-title {
-          /* 优先使用思源宋体，并提供系统宋体作为回退 */
-        font-family:"Noto Serif SC", "Songti SC", "華康明體", serif;
+        font-family: "Noto Serif SC", "Songti SC", "華康明體", serif;
         font-size: clamp(3.2rem, 5.5vw, 5rem);
         font-weight: 300;
-        line-height: 1.05;
+        line-height: 1.2;
         color: var(--ink);
         margin-bottom: 2rem;
         letter-spacing: -0.02em;
         opacity: 0;
+        display: inline-flex;
+        gap: 0.35em;
       }
-      .hero-title strong {
+      .hero-col {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.25;
+      }
+      .hero-col .hero-em {
         font-weight: 500;
         font-style: normal;
         color: var(--red);
@@ -252,8 +260,13 @@
         color: var(--ink);
       }
 
-      /* right side — status card */
+      /* right side — status card + logo */
       .home-right {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 3rem 0;
         opacity: 0;
       }
       .status-card {
@@ -261,29 +274,36 @@
         border-radius: 4px;
         background: var(--paper2);
         overflow: hidden;
+        transition: box-shadow 0.25s ease;
+        flex-shrink: 0;
+        transform: translateY(15%);
+      }
+      .status-card:hover {
+        box-shadow: 0 2px 16px rgba(26, 23, 20, 0.06);
       }
       .status-card-header {
-        padding: 0.75rem 1.25rem;
+        padding: 1rem 3.5rem;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: 3rem;
       }
       .status-card-title {
         font-size: 10px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--ink3);
+        white-space: nowrap;
       }
       .status-avail {
-        width: 180px; /* 与 .status-val 宽度一致 */
-        flex-shrink: 0; /* 不被压缩，保持固定宽度 */
-        display: flex; /* 让圆点和文字排成一行 */
+        width: 220px;
+        flex-shrink: 0;
+        display: flex;
         align-items: center;
-        gap: 6px; /* 圆点与文字之间的距离 */
+        gap: 6px;
         font-size: 10px;
         color: #2d7d46;
         text-shadow: 0 0 12px rgba(45, 125, 70, 0.15);
-        justify-content: flex-start; /* 文字左对齐，与 status-val 的 text-align: left 匹配 */
+        justify-content: flex-start;
         }
         .avail-dot {
             width: 5px;
@@ -292,7 +312,7 @@
             background: #2d7d46;
             box-shadow: 0 0 0 3px rgba(45, 125, 70, 0.2);
             animation: pulse-red 2s ease-in-out infinite;
-            flex -shrink: 0; /* 防止被压缩 */
+            flex-shrink: 0;
         }
       @keyframes pulse-red {
         0%,
@@ -304,33 +324,42 @@
         }
       }
       .status-card-body {
-        padding: 1.5rem 1.25rem;
+        padding: 2.1rem 3.5rem;
       }
+      .home-logo {
+        display: block;
+        width: clamp(100px, 10vw, 200px);
+        height: auto;
+        opacity: 0.85;
+        pointer-events: none;
+        align-self: flex-end;
+        mix-blend-mode: screen;
+        object-fit: contain;
+      }
+
       .status-row {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        padding: 7px 0;
+        padding: 14px 0;
         border-bottom: 1px solid var(--rule);
-        font-size: 12px;
+        font-size: 15px;
       }
 
       .status-row-base {
-        border-radius: 4px;           /* 让玻璃圆角更柔和 */
+        border-radius: 4px;
         transition: background 0.4s ease;
-        padding: 2px 4px;            /* 给玻璃背景一点内边距 */
-        margin: 0 -4px;              /* 抵消内边距，保持对齐 */
       }
 
       .status-row-base .status-val {
-        filter: blur(3px);           /* 默认模糊，模拟毛玻璃 */
+        filter: blur(3px);
         transition: filter 0.4s ease, color 0.4s ease;
-        color: var(--ink2);          /* 稍微加深一点默认色，避免模糊后太淡 */
+        color: var(--ink2);
       }
 
       .status-row-base:hover .status-val {
-        filter: blur(0);             /* 悬停时变得清晰 */
-        color: var(--ink);           /* 恢复深色 */
+        filter: blur(0);
+        color: var(--ink);
       }
 
       .status-row:last-child {
@@ -342,9 +371,9 @@
         }
       .status-val {
         color: var(--ink);
-        width: 180px;           /* 固定宽度，让所有值从同一列开始 */
-        flex-shrink: 0;         /* 防止被压缩 */
-        text-align: left;       /* 文字左对齐 */
+        width: 220px;
+        flex-shrink: 0;
+        text-align: left;
       }
 
       /* ── WORK ────────────────────────────────────────────── */
@@ -358,7 +387,7 @@
       .section-header {
         display: flex;
         align-items: baseline;
-        justify-content: flex-start; /* 改为靠左对齐 */
+        justify-content: flex-start;
         margin-bottom: 3rem;
       }
       .section-title {
@@ -470,21 +499,20 @@
         color: var(--ink3);
       }
       .work-card-badge.live {
-        color: #2d7d46;         /* 改成和available一样的颜色 */
+        color: #2d7d46;
         border-color: rgba(45, 125, 70, 0.15);
         background: rgba(45, 125, 70, 0.08);
       }
       .work-card-badge.wip {
-        color: #c0392b;         /* 改成和知而即行一样的颜色 */
+        color: #c0392b;
         border-color: rgba(192, 57, 43, 0.15);
         background: rgba(192, 57, 43, 0.08);
       }
       .work-card-badge.archived {
         color: #555;
-        border-color: rgba(128 ,128 ,128 , 0.25);
-        Background: rgba(128, 128, 128, 0.05);
-        }
-
+        border-color: rgba(128, 128, 128, 0.25);
+        background: rgba(128, 128, 128, 0.05);
+      }
 
       .work-card-arrow {
         position: absolute;
@@ -510,7 +538,6 @@
         grid-template-columns: 1fr 2fr;
         gap: 4rem;
         margin-top: 1rem;
-        align-items: start;
         opacity: 0;
         transform: translateY(16px);
       }
@@ -579,7 +606,7 @@
         line-height: 1.9;
         font-family: var(--serif-zh);
         font-weight: 300;
-        letter-spacing: 0.03em;       /* 增加一点字间距 */
+        letter-spacing: 0.03em;
       }
       .about-p em {
         font-style: italic;
@@ -640,38 +667,34 @@
         color: var(--red);
       }
 
-      /* ─── 核心改动在这 ─── */
       .contact-row {
         display: flex;
-        flex-direction: column; /* 竖向排列，先放小字行，再放邮箱+社交行 */
+        flex-direction: column;
         gap: 0.5rem;
       }
 
-      /* 小字单独一行 */
       .contact-label {
         font-size: 10px;
         color: var(--ink4);
         letter-spacing: 0.1em;
         text-transform: uppercase;
         line-height: 1.4;
-        margin: 0; /* 去掉多余的margin */
+        margin: 0;
       }
 
-      /* 邮箱 + 社交放在同一行，两端对齐 */
       .contact-bottom-row {
         display: flex;
-        align-items: center; /* 垂直居中对齐，邮箱和社交自然对在一条线上 */
+        align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 2rem;
       }
 
-      /* 邮箱容器：不拉伸，宽度由内容决定 */
       .contact-email-wrap {
-        flex: 0 1 auto; /* 不拉伸，只收缩 */
+        flex: 0 1 auto;
         min-width: 0;
-        display: inline-block; /* 宽度紧贴内容 */
-        max-width: 100%; /* 防止溢出 */
+        display: inline-block;
+        max-width: 100%;
       }
 
       .contact-email {
@@ -684,7 +707,7 @@
         border-bottom: 1px solid var(--rule-h);
         padding-bottom: 2px;
         transition: color 0.2s, border-color 0.2s;
-        display: inline-block; /* 下划线只包住文字 */
+        display: inline-block;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -696,12 +719,11 @@
         border-color: rgba(192, 57, 43, 0.4);
       }
 
-      /* 社交链接：宽度由内容决定，与邮箱在同一行自然对齐 */
       .social-stack {
         display: flex;
         gap: 1.5rem;
-        flex: 0 0 auto; /* 不伸缩，保持内容宽度 */
-        align-items: center; /* 内部链接垂直居中 */
+        flex: 0 0 auto;
+        align-items: center;
       }
 
       .social-link {
@@ -715,7 +737,7 @@
       }
 
       .social-link::after {
-        content: "↗";
+        content: "\2197";
         font-size: 9px;
         margin-left: 3px;
         opacity: 0;
@@ -729,6 +751,7 @@
       .social-link:hover::after {
         opacity: 1;
       }
+
       /* ── FOOTER ──────────────────────────────────────────── */
       footer {
         border-top: 1px solid var(--rule);
@@ -768,69 +791,84 @@
 
       /* ── RESPONSIVE ──────────────────────────────────────── */
       @media (max-width: 768px) {
-      section,
-      .nav {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-      }
-
-      #home {
-        grid-template-columns: 1fr;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        min-height: auto;
-        padding-top: calc(56px + 3rem);
-        padding-bottom: 4rem;
-      }
-
-      .home-right {
-        display: block;
-        margin-top: 2.5rem;
-      }
-
-      .status-val {
-        width: auto;
-        flex-shrink: 1;
-        text-align: left;
-      }
-
-      .status-avail {
-        width: auto;
-        flex-shrink: 1;
-        justify-content: flex-start;
-      }
-
-      .work-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .skills-two-col {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .skills-right {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .about-body {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
-      .contact-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .nav-links {
-       display: none;
-      }
-
-      footer {
-        padding: 1rem 1.5rem;
-      }
+        section,
+        .nav {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
         }
+
+        #home {
+          grid-template-columns: 1fr;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+          min-height: auto;
+          padding-top: calc(56px + 3rem);
+          padding-bottom: 4rem;
+        }
+
+        .home-right {
+          align-self: auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          gap: 2rem;
+          padding: 0;
+          margin-top: 2rem;
+          width: 100%;
+        }
+
+        .status-val {
+          width: auto;
+          flex-shrink: 1;
+          text-align: left;
+        }
+
+        .status-avail {
+          width: auto;
+          flex-shrink: 1;
+          justify-content: flex-start;
+        }
+
+        .work-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .skills-two-col {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .skills-right {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .about-body {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+
+        .contact-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        footer {
+          padding: 1rem 1.5rem;
+        }
+
+        .status-card {
+          transform: none !important;
+        }
+
+        .home-logo {
+          width: clamp(80px, 20vw, 140px);
+          align-self: flex-start;
+        }
+      }
     </style>
   </head>
   <body>
@@ -854,16 +892,24 @@
           <div class="home-eyebrow">
               <div class="home-eyebrow-line"></div>
               Beyond notes, into sounds
-          </div>                
+          </div>
           <h1 class="hero-title">
-              一   知<br />
-              所   而<br />
-              <strong>懸</strong>   即<br />
-              命   <strong>行</strong>
-</h1>
+              <span class="hero-col">
+                <span>一</span>
+                <span>所</span>
+                <span class="hero-em">懸</span>
+                <span>命</span>
+              </span>
+              <span class="hero-col">
+                <span>知</span>
+                <span>而</span>
+                <span>即</span>
+                <span class="hero-em">行</span>
+              </span>
+          </h1>
           <p class="hero-desc">
               探索音乐、声音与技术之间的边界。<br />
-              从管弦配乐到声音设计，从插件开发到声音研究。
+              从配器编曲到声音设计，从音乐创作到音频工程。
               <br />
               Exploring the intersection between music, sound and technology.<br />
               From orchestration to sound design, from composition to audio engineering.
@@ -871,21 +917,13 @@
         <div class="hero-actions">
           <button
             class="btn-primary"
-            onclick="
-              document
-                .getElementById('contact')
-                .scrollIntoView({ behavior: 'smooth' })
-            "
+            onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
           >
             与我联系
           </button>
           <button
             class="btn-outline"
-            onclick="
-              document
-                .getElementById('work')
-                .scrollIntoView({ behavior: 'smooth' })
-            "
+            onclick="document.getElementById('work').scrollIntoView({ behavior: 'smooth' })"
           >
             浏览作品
           </button>
@@ -894,11 +932,11 @@
       <div class="home-right">
         <div class="status-card">
           <div class="status-card-header">
-            <span class="status-card-title">current status</span>
-            <span class="status-avail"
-             ><div class="avail-dot"></div>
-              available</span
-            >
+            <span class="status-card-title">status</span>
+            <span class="status-avail">
+              <div class="avail-dot"></div>
+              available
+            </span>
           </div>
           <div class="status-card-body">
             <div class="status-row">
@@ -923,6 +961,14 @@
             </div>
           </div>
         </div>
+          <video
+           src="../00-index_images/LOGO05.mp4"
+           autoplay
+           loop
+           muted
+           playsinline
+           class="home-logo"
+           ></video>
       </div>
     </section>
 
@@ -936,7 +982,7 @@
                 <a href="./01-ost/01-ost.html" class="work-card">
                     <div class="work-card-num">01 / 06</div>
                     <div class="work-card-title">
-                        [Original Soundtracks] <em><br />— 为独立游戏创作的音乐</em>
+                        [Original Soundtracks] <em><br />— 为独立游戏创作音乐</em>
                     </div>
                     <div class="work-card-footer">
                         <span class="work-card-stack">composition / sfx</span>
@@ -951,7 +997,7 @@
                 <a href="./02-bkeq/02-bkeq.html" class="work-card">
                     <div class="work-card-num">02 / 06</div>
                     <div class="work-card-title">
-                        [BKEQ Hybrid — Audio Plugin] <em><br />— 结合Pultec与SSL特点的均衡器</em>
+                        [BKEQ_Hybrid — Audio Plugin] <em><br />— 融合Pultec与SSL声音特点的均衡器</em>
                     </div>
                     <div class="work-card-footer">
                         <span class="work-card-stack">vst3 / user interface</span>
@@ -966,7 +1012,7 @@
                 <a href="./03-wwise/03-wwise.html" class="work-card">
                     <div class="work-card-num">03 / 06</div>
                     <div class="work-card-title">
-                        [Wwise_101_非官方汉化文档] <em><br />— 写给游戏音频初学者的学习笔记</em>
+                        [Wwise_101_非官方汉化文档] <em><br />— 一份音频中间件初学者的学习笔记</em>
                     </div>
                     <div class="work-card-footer">
                         <span class="work-card-stack">tutorial / user manual</span>
@@ -981,7 +1027,7 @@
                 <a href="./04-hsr/04-hsr-1.html" class="work-card">
                     <div class="work-card-num">04 / 06</div>
                     <div class="work-card-title">
-                        [Honkai:SR Music Analysis] <em><br />— 崩铁PV音乐的分析与复刻</em>
+                        [Honkai:SR Music Analysis] <em><br />— 分析和复刻崩铁PV音乐</em>
                     </div>
                     <div class="work-card-footer">
                         <span class="work-card-stack">soundtrack analysis / mock up</span>
@@ -996,7 +1042,7 @@
                 <a href="#" class="work-card">
                     <div class="work-card-num">05 / 06</div>
                     <div class="work-card-title">
-                        [Acoustic Diver] <em><br />— 探索声音、空间与情绪之间的关系</em>
+                        [Acoustic Diver] <em><br />— 探索声音、空间与情绪</em>
                     </div>
                     <div class="work-card-footer">
                         <span class="work-card-stack">soundscape / audio design</span>
@@ -1011,19 +1057,18 @@
                 <a href="./06-research&writing/06-rw.html" class="work-card">
                     <div class="work-card-num">06 / 06</div>
                     <div class="work-card-title">
-                        [Research & Writing] <em><br />— 关于声音、游戏与创作的研究与思考</em>
+                        [Research & Writing] <em><br />— 声音、游戏与创作相关研究与思考</em>
                     </div>
                     <div class="work-card-footer">
                         <span class="work-card-stack">random thoughts</span>
                         <div class="work-card-meta">
                             <span class="work-card-year">2021–present</span>
-                            <span class="work-card-badge live">;D</span>
+                            <span class="work-card-badge live">live</span>
                         </div>
                     </div>
                     <div class="work-card-arrow">↗</div>
                 </a>
             </div>
-
         </div>
     </section>
 
@@ -1064,7 +1109,7 @@
                 <div class="skill-item">Adobe Photoshop</div>
                 <div class="skill-item">DaVinci Resolve 20</div>
                 <div class="skill-item">Wwise 101</div>
-                <div class="skill-item">AI-assisted Workflow</div>
+                <div class="skill-item">AI-assisted Soudntrack Draft</div>
               </div>
             </div>
           </div>
@@ -1087,15 +1132,15 @@
               </p>
               <p class="about-p">
                   关于我<br />
-                  一个正在用<em> “一生悬命” </em>的方式去工作，却还不确定自己已经走了多远的创作者。<br />
+                  一个正在用<em> "一生悬命" </em>的方式去工作，却还不确定自己已经走了多远的创作者。<br />
                   <em>对自己严苛，但不断前行。</em><br />
                   愿意承认自己<em>还不够好，</em>但绝不让这份承认变成放弃的理由。
               </p>
               <p class="about-p">
                   追求极致<br />
-                  <em>“如果不满意，就再来一次”</em><br />
+                  <em>"如果不满意，就再来一次"</em><br />
                   乐队的铜管与弦乐平衡我调整了两周，那台均衡器的UI我修改了二十二版，五十八分钟的视频翻译从初稿到最终版经过了反复校对。<br />
-                  因为<em>“ 知而即行 ”</em>，我愿意追求一个自己能看见、能确认、能点头说<em>“这版还不错”</em>的满意度。
+                  因为<em>" 知而即行 "</em>，我愿意追求一个自己能看见、能确认、能点头说<em>"这版还不错"</em>的满意度。
               </p>
           </div>
           <div class="about-aside">
@@ -1138,14 +1183,11 @@
                     Craft <em>Beauty.</em>
                 </h2>
                 <div class="contact-row">
-                    <!-- 第一行：小字 -->
                     <div class="contact-label">
                         有项目想法？想合作？还是只想打个招呼？联系我吧。<br>
                         Got a project idea? Wanna collab? <br>
                         Or just say hi? Drop a line.
                     </div>
-
-                    <!-- 第二行：邮箱 + 社交（左右并排） -->
                     <div class="contact-bottom-row">
                         <div class="contact-email-wrap">
                             <a href="mailto:enchitsui@foxmail.com" class="contact-email">
@@ -1164,32 +1206,26 @@
             </div>
         </div>
     </section>
+
     <!-- ── FOOTER ─────────────────────────────────────────────── -->
     <footer>
         <div class="footer-inner">
             <div class="footer-l">
-                 © EiiChi_2049
+                 &copy; EiiChi_2049
             </div>
             <div class="footer-r"></div>
-            </div>
+        </div>
     </footer>
-
-            <!-- Special Thanks To Kayspace ✪ https://github.com/kayspace/portfolio-template/blob/master/templates/template2.html -->
 
     <!-- ── GSAP ───────────────────────────────────────────────── -->
     <script>
       gsap.registerPlugin(ScrollTrigger);
 
-      /* hero */
+      // Removed alignStatusCard — now handled by CSS Flex + transform
+
       gsap.set(
-        [
-          ".home-eyebrow",
-          ".hero-title",
-          ".hero-desc",
-          ".hero-actions",
-          ".home-right",
-        ],
-        { y: 24 },
+        [".home-eyebrow", ".hero-title", ".hero-desc", ".hero-actions", ".home-right"],
+        { y: 24 }
       );
 
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -1199,7 +1235,6 @@
         .to(".hero-actions", { opacity: 1, y: 0, duration: 0.6 }, 0.8)
         .to(".home-right", { opacity: 1, y: 0, duration: 0.8 }, 0.55);
 
-      /* work cards staggered */
       gsap.utils.toArray(".work-card").forEach((el, i) => {
         gsap.to(el, {
           opacity: 1,
@@ -1211,7 +1246,6 @@
         });
       });
 
-      /* sections */
       [".skills-two-col", ".about-body", ".contact-body"].forEach((sel) => {
         const el = document.querySelector(sel);
         if (!el) return;
@@ -1224,37 +1258,22 @@
         });
       });
 
-      /* active nav */
+      /* active nav — 只创建一个 observer，观察所有 section */
       const sections = document.querySelectorAll("section[id]");
       const links = document.querySelectorAll(".nav-links a");
-      new IntersectionObserver(
+      const navObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (!e.isIntersecting) return;
             links.forEach((a) => {
-              const active = a.getAttribute("href") === "#" + e.target.id;
-              a.style.color = active ? "var(--ink)" : "";
+              const target = a.getAttribute("href");
+              a.style.color = target === "#" + e.target.id ? "var(--ink)" : "";
             });
           });
         },
-        { threshold: 0.4 },
-      ).observe;
-      sections.forEach((s) =>
-        new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (!e.isIntersecting) return;
-              links.forEach((a) => {
-                a.style.color =
-                  a.getAttribute("href") === "#" + e.target.id
-                    ? "var(--ink)"
-                    : "";
-              });
-            });
-          },
-          { threshold: 0.35 },
-        ).observe(s),
+        { threshold: 0.35 }
       );
+      sections.forEach((s) => navObserver.observe(s));
     </script>
   </body>
 </html>
