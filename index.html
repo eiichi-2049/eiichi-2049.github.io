@@ -153,6 +153,8 @@
         display: grid;
         grid-template-columns: 1.1fr 0.9fr;
         align-items: start;
+        /*让整个 grid 内容垂直居中，消除缩放时底部大片空白*/
+        align-content: center;
         padding-top: 56px;
         gap: 3rem;
         max-width: 1080px;
@@ -863,8 +865,8 @@
         }
 
         .home-logo {
-          width: clamp(50px, 15vw, 80px);
-          align-self: flex-start;
+          width: clamp(120px, 25vw, 200px);
+          align-self: center;
         }
       }
     </style>
