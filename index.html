@@ -972,10 +972,17 @@
              src="00-index_images/LOGO05.mp4"
              style="display:none"
              playsinline
-             autoplay
              muted
              preload="auto"
-             id="logoVideo"
+             id="logoVideoFwd"
+             ></video>
+            <video
+             src="00-index_images/LOGO05R.mp4"
+             style="display:none"
+             playsinline
+             muted
+             preload="auto"
+             id="logoVideoRev"
              ></video>
           </div>
       </div>
@@ -1267,25 +1274,26 @@
         });
       });
 
-      /* ── LOGO：Canvas 渲染 → 正放·倒放循环 ────────── */
+      /* ── LOGO：双视频交替 → 正放·倒放无缝循环 ───── */
       (function () {
-        var video = document.getElementById("logoVideo");
         var canvas = document.getElementById("logoCanvas");
-        if (!video || !canvas) return;
+        var vFwd   = document.getElementById("logoVideoFwd");
+        var vRev   = document.getElementById("logoVideoRev");
+        if (!canvas || !vFwd || !vRev) return;
         var ctx = canvas.getContext("2d", { willReadFrequently: true });
-        var revId = null;
+        var active = vFwd;
         var w = 0, h = 0;
 
         /* 逐像素：黑/深色 → 透明 */
         function drawFrame() {
-          if (w === 0) { w = video.videoWidth; h = video.videoHeight; }
+          if (active.paused) return;
+          if (w === 0) { w = active.videoWidth; h = active.videoHeight; }
           if (w === 0 || h === 0) return;
           if (canvas.width !== w) { canvas.width = w; canvas.height = h; }
-          ctx.drawImage(video, 0, 0, w, h);
+          ctx.drawImage(active, 0, 0, w, h);
           var img = ctx.getImageData(0, 0, w, h);
           var d = img.data;
-          var len = d.length;
-          for (var i = 0; i < len; i += 4) {
+          for (var i = 0; i < d.length; i += 4) {
             if (d[i] < 35 && d[i+1] < 35 && d[i+2] < 35) {
               d[i+3] = 0;
             }
@@ -1293,44 +1301,30 @@
           ctx.putImageData(img, 0, 0);
         }
 
-        /* 倒放：逐帧递减 currentTime */
-        function goBackward() {
-          function step() {
-            if (video.currentTime <= 0.04) {
-              video.currentTime = 0;
-              revId = null;
-              return;
-            }
-            video.currentTime = Math.max(0, video.currentTime - 0.025);
-            drawFrame();
-            revId = requestAnimationFrame(step);
-          }
-          step();
-        }
-
-        video.addEventListener("ended", function () {
-          if (revId) cancelAnimationFrame(revId);
-          goBackward();
-        });
-
-        /* 正放 + 主渲染循环 */
         function renderLoop() {
-          if (!revId) drawFrame();
+          drawFrame();
           requestAnimationFrame(renderLoop);
         }
 
-        video.addEventListener("loadedmetadata", function () {
-          w = video.videoWidth; h = video.videoHeight;
-          if (w && h) { canvas.width = w; canvas.height = h; }
-          video.play().catch(function () {});
-          renderLoop();
-        });
+        function switchTo(v) {
+          active = v;
+          w = 0; h = 0;
+          v.currentTime = 0;
+          v.play().catch(function () {});
+        }
 
-        if (video.readyState >= 1) {
-          w = video.videoWidth; h = video.videoHeight;
-          if (w && h) { canvas.width = w; canvas.height = h; }
-          video.play().catch(function () {});
+        vFwd.addEventListener("ended", function () { switchTo(vRev); });
+        vRev.addEventListener("ended", function () { switchTo(vFwd); });
+
+        /* 启动：等正放视频可播后开始 */
+        function start() {
+          vFwd.play().catch(function () {});
           renderLoop();
+        }
+        if (vFwd.readyState >= 2) {
+          start();
+        } else {
+          vFwd.addEventListener("canplay", start, { once: true });
         }
       })();
 
