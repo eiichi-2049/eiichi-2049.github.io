@@ -330,8 +330,6 @@
       }
       .logo-wrap {
         align-self: flex-end;
-        background: var(--paper);
-        isolation: isolate;
       }
       .home-logo {
         display: block;
@@ -339,7 +337,6 @@
         height: auto;
         opacity: 0.85;
         pointer-events: none;
-        mix-blend-mode: screen;
       }
 
       .status-row {
@@ -967,13 +964,15 @@
           </div>
         </div>
           <div class="logo-wrap">
-            <video
-             src="../00-index_images/LOGO05.mp4"
+            <canvas
              class="home-logo"
-             muted
+             id="logoCanvas"
+             ></canvas>
+            <video
+             src="../00-index_images/LOGO05.gif"
+             style="display:none"
              playsinline
              autoplay
-             loop
              preload="auto"
              id="logoVideo"
              ></video>
@@ -1267,34 +1266,71 @@
         });
       });
 
-      /* ── LOGO 视频：正放 → 倒放 循环 ────────────── */
+      /* ── LOGO：Canvas 渲染 → 正放·倒放循环 ────────── */
       (function () {
-        var v = document.getElementById("logoVideo");
-        if (!v) return;
+        var video = document.getElementById("logoVideo");
+        var canvas = document.getElementById("logoCanvas");
+        if (!video || !canvas) return;
+        var ctx = canvas.getContext("2d");
         var revId = null;
+        var w = 0, h = 0;
 
+        /* 逐像素：黑/深色 → 透明 */
+        function drawFrame() {
+          if (w === 0) { w = video.videoWidth; h = video.videoHeight; }
+          if (w === 0 || h === 0) return;
+          if (canvas.width !== w) { canvas.width = w; canvas.height = h; }
+          ctx.drawImage(video, 0, 0, w, h);
+          var img = ctx.getImageData(0, 0, w, h);
+          var d = img.data;
+          var len = d.length;
+          for (var i = 0; i < len; i += 4) {
+            if (d[i] < 35 && d[i+1] < 35 && d[i+2] < 35) {
+              d[i+3] = 0;
+            }
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+
+        /* 倒放：逐帧递减 currentTime */
         function goBackward() {
           function step() {
-            if (v.currentTime <= 0.04) {
-              v.currentTime = 0;
-              v.playbackRate = 1;
-              v.loop = true;
+            if (video.currentTime <= 0.04) {
+              video.currentTime = 0;
+              revId = null;
               return;
             }
-            v.currentTime = Math.max(0, v.currentTime - 0.025);
+            video.currentTime = Math.max(0, video.currentTime - 0.025);
+            drawFrame();
             revId = requestAnimationFrame(step);
           }
           step();
         }
 
-        v.addEventListener("ended", function () {
-          v.loop = false;
+        video.addEventListener("ended", function () {
           if (revId) cancelAnimationFrame(revId);
           goBackward();
         });
 
-        // 首次到达结尾时触发倒放
-        // autoplay + loop 让浏览器自动播放，不需要 JS 调用 play()
+        /* 正放 + 主渲染循环 */
+        function renderLoop() {
+          if (!revId) drawFrame();
+          requestAnimationFrame(renderLoop);
+        }
+
+        video.addEventListener("loadedmetadata", function () {
+          w = video.videoWidth; h = video.videoHeight;
+          if (w && h) { canvas.width = w; canvas.height = h; }
+          video.play().catch(function () {});
+          renderLoop();
+        });
+
+        if (video.readyState >= 1) {
+          w = video.videoWidth; h = video.videoHeight;
+          if (w && h) { canvas.width = w; canvas.height = h; }
+          video.play().catch(function () {});
+          renderLoop();
+        }
       })();
 
       /* active nav — 只创建一个 observer，观察所有 section */
