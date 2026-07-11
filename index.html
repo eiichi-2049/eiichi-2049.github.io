@@ -1283,10 +1283,15 @@
         var ctx = canvas.getContext("2d", { willReadFrequently: true });
         var active = vFwd;
         var w = 0, h = 0;
+        var gate = false; /* 切换门控：防止新视频首帧泄漏 */
 
         /* 逐像素：黑/深色 → 透明 */
         function drawFrame() {
           if (active.paused) return;
+          if (gate) {
+            if (active.readyState < 2) return;
+            gate = false;
+          }
           if (w === 0) { w = active.videoWidth; h = active.videoHeight; }
           if (w === 0 || h === 0) return;
           if (canvas.width !== w) { canvas.width = w; canvas.height = h; }
@@ -1307,10 +1312,10 @@
         }
 
         function switchTo(v) {
+          gate = true;
           active = v;
-          w = 0; h = 0;
           v.currentTime = 0;
-          v.play().catch(function () {});
+          v.play().catch(function () { gate = false; });
         }
 
         vFwd.addEventListener("ended", function () { switchTo(vRev); });
@@ -1318,7 +1323,8 @@
 
         /* 启动：等正放视频可播后开始 */
         function start() {
-          vFwd.play().catch(function () {});
+          gate = true;
+          vFwd.play().catch(function () { gate = false; });
           renderLoop();
         }
         if (vFwd.readyState >= 2) {
