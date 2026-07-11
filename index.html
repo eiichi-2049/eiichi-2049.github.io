@@ -328,13 +328,17 @@
       .status-card-body {
         padding: 2.1rem 3.5rem;
       }
+      .logo-wrap {
+        align-self: flex-end;
+        background: var(--paper);
+        isolation: isolate;
+      }
       .home-logo {
         display: block;
         width: clamp(450px, 8vw, 900px);
         height: auto;
         opacity: 0.85;
         pointer-events: none;
-        align-self: flex-end;
         mix-blend-mode: screen;
       }
 
@@ -862,9 +866,12 @@
           transform: none !important;
         }
 
+        .logo-wrap {
+          align-self: center;
+        }
+
         .home-logo {
           width: clamp(120px, 25vw, 200px);
-          align-self: center;
         }
       }
     </style>
@@ -959,15 +966,18 @@
             </div>
           </div>
         </div>
-          <video
-           src="../00-index_images/LOGO05.mp4"
-           class="home-logo"
-           muted
-           playsinline
-           autoplay
-           preload="auto"
-           id="logoVideo"
-           ></video>
+          <div class="logo-wrap">
+            <video
+             src="../00-index_images/LOGO05.mp4"
+             class="home-logo"
+             muted
+             playsinline
+             autoplay
+             loop
+             preload="auto"
+             id="logoVideo"
+             ></video>
+          </div>
       </div>
     </section>
 
@@ -1259,23 +1269,16 @@
 
       /* ── LOGO 视频：正放 → 倒放 循环 ────────────── */
       (function () {
-        const v = document.getElementById("logoVideo");
+        var v = document.getElementById("logoVideo");
         if (!v) return;
-        let revId = null;
-        let started = false;
+        var revId = null;
 
-        function playForward() {
-          if (revId) { cancelAnimationFrame(revId); revId = null; }
-          v.playbackRate = 1;
-          v.play().catch(function () {});
-        }
-
-        function playBackward() {
+        function goBackward() {
           function step() {
             if (v.currentTime <= 0.04) {
               v.currentTime = 0;
-              v.pause();
-              setTimeout(playForward, 400);
+              v.playbackRate = 1;
+              v.loop = true;
               return;
             }
             v.currentTime = Math.max(0, v.currentTime - 0.025);
@@ -1284,21 +1287,14 @@
           step();
         }
 
-        v.addEventListener("ended", playBackward);
+        v.addEventListener("ended", function () {
+          v.loop = false;
+          if (revId) cancelAnimationFrame(revId);
+          goBackward();
+        });
 
-        function startLoop() {
-          if (started) return;
-          started = true;
-          v.pause();
-          v.currentTime = 0;
-          setTimeout(playForward, 600);
-        }
-
-        if (v.readyState >= 2) {
-          startLoop();
-        } else {
-          v.addEventListener("canplay", startLoop, { once: true });
-        }
+        // 首次到达结尾时触发倒放
+        // autoplay + loop 让浏览器自动播放，不需要 JS 调用 play()
       })();
 
       /* active nav — 只创建一个 observer，观察所有 section */
