@@ -55,7 +55,7 @@
             }
 
         /* ── 顶部导航条 ──────────────────────────────────────── */
-        .nav-bar {
+        .nav {
             position: fixed;
             top: 0;
             left: 0;
@@ -79,58 +79,51 @@
             justify-content: space-between;
         }
 
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--mono);
-            font-size: 11px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--ink3);
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 17px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--ink);
             text-decoration: none;
-            transition: color 0.25s var(--ease);
-            position: relative;
-            padding: 4px 0;
+            letter-spacing: -0.01em;
         }
 
-            .back-btn::before {
-                content: "←";
-                font-size: 14px;
-                transition: transform 0.25s var(--ease);
-                display: inline-block;
-            }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
 
-            .back-btn::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 1px;
-                background: var(--red);
-                transform: scaleX(0);
-                transform-origin: left;
-                transition: transform 0.3s var(--ease);
-            }
-
-            .back-btn:hover {
-                color: var(--ink);
-            }
-
-                .back-btn:hover::before {
-                    transform: translateX(-3px);
-                }
-
-                .back-btn:hover::after {
-                    transform: scaleX(1);
-                }
-
-        .nav-meta {
-            font-size: 10px;
-            color: var(--ink4);
-            letter-spacing: 0.08em;
+        .nav-links a {
+            font-size: 11px;
+            color: var(--ink3);
+            text-decoration: none;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
         }
 
         /* ── 页面主体 ────────────────────────────────────────── */
@@ -148,6 +141,23 @@
             border-bottom: 1px solid var(--rule);
             padding-bottom: 1.5rem;
         }
+
+        .page-back {
+            font-size: 11px;
+            color: var(--ink3);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+
+            .page-back:hover {
+                color: var(--red);
+            }
 
         .project-tag {
             font-size: 10px;
@@ -476,7 +486,7 @@
 
         /* ── 响应式 ────────────────────────────────────────── */
         @media (max-width: 768px) {
-            .nav-bar {
+            .nav {
                 padding: 0 1.5rem;
             }
 
@@ -506,7 +516,7 @@
                 white-space: normal;
             }
 
-            .nav-meta {
+            .nav-links {
                 display: none;
             }
         }
@@ -515,24 +525,19 @@
             .chapter-grid {
                 grid-template-columns: 1fr;
             }
-
-            .back-btn {
-                font-size: 10px;
-                gap: 5px;
-            }
-
-                .back-btn::before {
-                    font-size: 12px;
-                }
         }
     </style>
 </head>
 <body>
-    <!-- ── 顶部导航条 ──────────────────────────────────────── -->
-    <nav class="nav-bar">
+    <!-- ── NAV ──────────────────────────────────────────────── -->
+    <nav class="nav">
         <div class="nav-inner">
-            <a href="../index.html#work" class="back-btn">返回作品</a>
-            <span class="nav-meta">EiiChi_2049</span>
+            <a href="../index.html" class="nav-logo">EiiChi2049</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#skills">skills</a></li>
+                <li><a href="../index.html#about">about</a></li>
+                <li><a href="../index.html#contact">contact</a></li>
+            </ul>
         </div>
     </nav>
 
@@ -540,6 +545,7 @@
     <main class="page-wrap">
         <!-- 项目标题 -->
         <header class="project-header">
+            <a href="../index.html#work" class="page-back">← back to work</a>
             <div class="project-tag">Documentation · Wwise</div>
             <h1 class="project-title">
                 Wwise_101_非官方汉化文档

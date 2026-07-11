@@ -56,7 +56,7 @@
             }
 
         /* ── 顶部导航条 ──────────────────────────────────────── */
-        .nav-bar {
+        .nav {
             position: fixed;
             top: 0;
             left: 0;
@@ -80,58 +80,51 @@
             justify-content: space-between;
         }
 
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--mono);
-            font-size: 11px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--ink3);
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 17px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--ink);
             text-decoration: none;
-            transition: color 0.25s var(--ease);
-            position: relative;
-            padding: 4px 0;
+            letter-spacing: -0.01em;
         }
 
-            .back-btn::before {
-                content: "←";
-                font-size: 14px;
-                transition: transform 0.25s var(--ease);
-                display: inline-block;
-            }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
 
-            .back-btn::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 1px;
-                background: var(--red);
-                transform: scaleX(0);
-                transform-origin: left;
-                transition: transform 0.3s var(--ease);
-            }
-
-            .back-btn:hover {
-                color: var(--ink);
-            }
-
-                .back-btn:hover::before {
-                    transform: translateX(-3px);
-                }
-
-                .back-btn:hover::after {
-                    transform: scaleX(1);
-                }
-
-        .nav-meta {
-            font-size: 10px;
-            color: var(--ink4);
-            letter-spacing: 0.08em;
+        .nav-links a {
+            font-size: 11px;
+            color: var(--ink3);
+            text-decoration: none;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
         }
 
         /* ── 页面主体 ────────────────────────────────────────── */
@@ -143,37 +136,51 @@
             z-index: 2;
         }
 
-        /* ── 页面总标题 ──────────────────────────────────────── */
+        /* ── 页面 Hero ──────────────────────────────────────── */
         .page-header {
             margin-bottom: 2.5rem;
             border-bottom: 1px solid var(--rule);
             padding-bottom: 1.25rem;
         }
 
-        .page-tag {
-            font-size: 10px;
-            letter-spacing: 0.12em;
+        .page-back {
+            font-size: 11px;
+            color: var(--ink3);
+            text-decoration: none;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--red);
-            margin-bottom: 0.3rem;
-            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
         }
+
+            .page-back:hover {
+                color: var(--red);
+            }
 
         .page-title {
             font-family: var(--serif);
-            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-size: clamp(2.4rem, 5vw, 4rem);
             font-weight: 300;
             line-height: 1.1;
             color: var(--ink);
+            margin-bottom: 1.75rem;
             letter-spacing: -0.02em;
         }
 
             .page-title em {
                 font-style: italic;
-                color: var(--ink3);
-                font-size: 0.6em;
-                font-weight: 300;
+                color: var(--red);
             }
+
+        .page-desc {
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 620px;
+            line-height: 1.9;
+        }
 
         /* ── 单个专辑模块 ────────────────────────────────────── */
         .album-section {
@@ -694,7 +701,7 @@
         }
 
         @media (max-width: 560px) {
-            .nav-bar {
+            .nav {
                 padding: 0 1.25rem;
             }
 
@@ -760,21 +767,12 @@
                 min-width: 28px;
             }
 
-            .nav-meta {
+            .nav-links {
                 display: none;
             }
         }
 
         @media (max-width: 420px) {
-            .back-btn {
-                font-size: 10px;
-                gap: 5px;
-            }
-
-                .back-btn::before {
-                    font-size: 12px;
-                }
-
             .cover-wrapper {
                 max-width: 140px;
             }
@@ -791,23 +789,28 @@
     </style>
 </head>
 <body>
-    <!-- ── 顶部导航条 ──────────────────────────────────────── -->
-    <nav class="nav-bar">
+    <!-- ── NAV ──────────────────────────────────────────────── -->
+    <nav class="nav">
         <div class="nav-inner">
-            <a href="../index.html#work" class="back-btn">返回作品</a>
-            <span class="nav-meta">EiiChi_2049</span>
+            <a href="../index.html" class="nav-logo">EiiChi2049</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#skills">skills</a></li>
+                <li><a href="../index.html#about">about</a></li>
+                <li><a href="../index.html#contact">contact</a></li>
+            </ul>
         </div>
     </nav>
 
     <!-- ── 页面主体 ────────────────────────────────────────── -->
     <main class="page-wrap">
 
-        <!-- 页面总标题 -->
+        <!-- 页面 Hero -->
         <header class="page-header">
-            <div class="page-tag">音乐作品集</div>
+            <a href="../index.html#work" class="page-back">← back to work</a>
             <h1 class="page-title">
-                [Original Soundtracks] <em>— 为独立游戏创作的音乐</em>
+                <em>[Original Soundtracks]</em>
             </h1>
+            <p class="page-desc">为独立游戏创作的音乐作品集</p>
         </header>
 
         <!-- ── 专辑容器（由 JavaScript 动态渲染） ────────────── -->
@@ -864,17 +867,17 @@
         ========================================================= */
         const ALBUMS = [{
         id: '2025回合制游戏',
-        title: '2025回合制游戏',
-        titleEn: '2025回合制游戏',
+        title: '2025开拓芯',
+        titleEn: '2025IndieGame',
         year: '2025',
         artist: 'EiiChi',
         cover: '../images/album-cover.jpg', // 替换为实际封面
         songs: [
-        { title: '_BANJO_90_', duration: '1:22', file: 'audio/_BANJO_90_.wav' },
-        { title: '不可播放【_Choices_】', duration: '1:12', file: '【MUSIC】' },
-        { title: '不可播放【_KB280_121_DM_】', duration: '0:14', file: '【MUSIC】' },
-        { title: '不可播放【_music_box_2025_】', duration: '0:24', file: '【MUSIC】' },
-        { title: '不可播放【_Robot_Sad_Piano_60_】', duration: '0:48', file: '【MUSIC】' },
+        { title: '_BANJO_90_', duration: '1:22', file: '../audio/_BANJO_90_.wav' },
+        { title: '_Choices_', duration: '1:12', file: './audio/_Choices_.wav' },
+        { title: '_KB280_121_DM_', duration: '0:14', file: './audio/_KB280_121_DM_.wav' },
+        { title: '_music_box_2025_', duration: '0:24', file: './audio/_music_box_2025_.wav' },
+        { title: '_Robot_Sad_Piano_60_', duration: '0:48', file: './audio/_Robot_Sad_Piano_60_.wav' },
         ]
         }, {
         id: '【占位符】',
@@ -969,7 +972,6 @@
         <div class="album-meta">
         <span><strong>艺术家</strong> ${album.artist}</span>
         <span><strong>年份</strong> ${album.year}</span>
-        <span><strong>曲目</strong> ${album.songs.length} 首</span>
         </div>
         </div>
         `;
@@ -1301,7 +1303,6 @@
         }
 
         console.log(`🎵 多专辑播放器已就绪 · 共 ${ALBUMS.length} 张专辑`);
-        console.log(`📀 总曲目 ${getTotalSongs()} 首`);
         console.log('💡 点击曲目切换 · 空格键播放/暂停');
         console.log('📌 音乐文件占位符: 【MUSIC】');
     </script>

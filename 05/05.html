@@ -1,1 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05 · EiiChi_2049</title>
+    <meta name="description" content="EiiChi_2049" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+          rel="stylesheet" />
+    <style>
+        /* ── 核心变量 ──────────────────────────────────────── */
+        :root {
+            --paper: #f5f0e8;
+            --paper2: #ede8df;
+            --ink: #1a1714;
+            --ink2: #3d3830;
+            --ink3: #7a7469;
+            --ink4: #b8b0a4;
+            --rule: rgba(26, 23, 20, 0.1);
+            --rule-h: rgba(26, 23, 20, 0.22);
+            --red: #c0392b;
+            --serif: "Fraunces", serif;
+            --mono: "DM Mono", monospace;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ── 重置 ────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--mono);
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+            /* 纸质纹理 */
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(26, 23, 20, 0.025) 27px, rgba(26, 23, 20, 0.025) 28px);
+                pointer-events: none;
+                z-index: 0;
+            }
+
+        /* ── 顶部导航条 ──────────────────────────────────────── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px;
+            border-bottom: 1px solid var(--rule);
+            background: rgba(245, 240, 232, 0.92);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 3rem;
+        }
+
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 17px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 11px;
+            color: var(--ink3);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* ── 页面主体 ────────────────────────────────────────── */
+        .page-wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 88px 2rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── 页面 Hero ──────────────────────────────────────── */
+        .page-header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 1.25rem;
+        }
+
+        .page-back {
+            font-size: 11px;
+            color: var(--ink3);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+
+            .page-back:hover {
+                color: var(--red);
+            }
+
+        .page-title {
+            font-family: var(--serif);
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--ink);
+            margin-bottom: 1.75rem;
+            letter-spacing: -0.02em;
+        }
+
+            .page-title em {
+                font-style: italic;
+                color: var(--red);
+            }
+
+        .page-desc {
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 620px;
+            line-height: 1.9;
+        }
+
+        /* ── 页脚 ────────────────────────────────────────────── */
+        .footer-sub {
+            border-top: 1px solid var(--rule);
+            padding: 1.25rem 0 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--ink4);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+            .footer-sub a {
+                color: var(--ink3);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+                .footer-sub a:hover {
+                    color: var(--ink);
+                }
+
+        /* ── 响应式 ────────────────────────────────────────── */
+        @media (max-width: 560px) {
+            .nav {
+                padding: 0 1.25rem;
+            }
+
+            .page-wrap {
+                padding: 76px 1.25rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ── NAV ──────────────────────────────────────────────── -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="../index.html" class="nav-logo">EiiChi2049</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#skills">skills</a></li>
+                <li><a href="../index.html#about">about</a></li>
+                <li><a href="../index.html#contact">contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ── 页面主体 ────────────────────────────────────────── -->
+    <main class="page-wrap">
+
+        <!-- 页面 Hero -->
+        <header class="page-header">
+            <a href="../index.html#work" class="page-back">← back to work</a>
+            <h1 class="page-title">
+                <em>[标题]</em>
+            </h1>
+            <p class="page-desc">描述文字 · 在此处填写页面简介</p>
+        </header>
+
+        <!-- ── 内容区 ────────────────────────────────────────── -->
+        <div>
+            <!-- 在此添加页面内容 -->
+        </div>
+
+        <!-- ── 页脚 ──────────────────────────────────────────── -->
+        <footer class="footer-sub">
+            <span>© EiiChi_2049</span>
+            <span>
+                <a href="../index.html#work">← 返回作品列表</a>
+            </span>
+        </footer>
+    </main>
+</body>
+</html>
 
