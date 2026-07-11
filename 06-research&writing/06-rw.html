@@ -104,6 +104,25 @@
       .rw-window.docked .rw-body { display: none; }
       .rw-window.docked .rw-titlebar { border-bottom: none; padding: 8px 12px; }
       .rw-window.docked .rw-wintitle { font-size: 11px; }
+      /* ── 调整大小手柄 ────────── */
+      .rw-resize {
+        position: absolute;
+        bottom: 0; right: 0;
+        width: 18px; height: 18px;
+        cursor: nwse-resize;
+        z-index: 5;
+        background: linear-gradient(135deg,
+          transparent 50%, var(--ink4) 50%,
+          transparent 54%, var(--ink4) 54%,
+          transparent 66%, var(--ink4) 66%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .rw-window:hover .rw-resize,
+      .rw-window.focused .rw-resize { opacity: 0.4; }
+      .rw-window.docked .rw-resize { display: none; }
       /* ── 标题栏 ────────────── */
       .rw-titlebar {
         display: flex;
@@ -278,7 +297,7 @@
       .rw-toast {
         position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
         background: var(--ink); color: var(--paper);
-        font-family: var(--zh); font-size: 12px;
+        font-family: var(--serif-zh); font-size: 12px;
         padding: 8px 18px; border-radius: 6px;
         opacity: 0; transition: opacity 0.25s;
         pointer-events: none; z-index: 1000;
@@ -454,8 +473,17 @@
 
       /* ── TWO-COLUMN BODY ─────────────────────────────────── */
       #rw-body {
-        border-top: 1px solid var(--rule);
         padding: 5rem 3rem 7rem;
+      }
+      #rw-body::before {
+        content: "";
+        display: block;
+        height: 6px;
+        margin-bottom: 2rem;
+        background:
+            linear-gradient(to right, transparent 0%, var(--ink3) 10%, var(--ink3) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
+            linear-gradient(to right, transparent 0%, var(--ink3) 15%, var(--ink3) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
+        opacity: 0.45;
       }
       .rw-columns {
         display: grid;
@@ -730,6 +758,7 @@
       </p>
     </section>
 
+
     <!-- ── TWO COLUMN BODY ──────────────────────────────────── -->
     <section id="rw-body">
       <div class="container">
@@ -988,7 +1017,8 @@
               '</div>' +
               '<span class="rw-wintitle">' + title + '</span>' +
             '</div>' +
-            '<div class="rw-body"><div class="rw-modal-content"></div></div>';
+            '<div class="rw-body"><div class="rw-modal-content"></div></div>' +
+            '<div class="rw-resize"></div>';
           desktop.appendChild(win);
 
           var content = win.querySelector('.rw-modal-content');
@@ -1011,6 +1041,78 @@
             win.classList.add('focused');
           });
 
+          /* 拖拽 */
+          var titlebar = win.querySelector('.rw-titlebar');
+          var dragging = false, startX, startY, origLeft, origTop;
+          titlebar.addEventListener('mousedown', function(e) {
+            if (e.target.closest('.rw-dot')) return; /* 不拦截交通灯 */
+            if (entry.docked) return;
+            e.preventDefault();
+            dragging = true;
+            var rect = win.getBoundingClientRect();
+            /* 去掉 centering transform，用 left/top 定位 */
+            win.style.transform = 'none';
+            win.style.left = rect.left + 'px';
+            win.style.top  = rect.top  + 'px';
+            win.style.marginLeft = '0';
+            win.style.marginTop  = '0';
+            startX = e.clientX;
+            startY = e.clientY;
+            origLeft = rect.left;
+            origTop  = rect.top;
+          });
+          document.addEventListener('mousemove', function(e) {
+            if (!dragging) return;
+            var w = win.offsetWidth;
+            var h = win.offsetHeight;
+            var newLeft = origLeft + e.clientX - startX;
+            var newTop  = origTop  + e.clientY - startY;
+            /* 限制至少保留一部分在屏幕内 */
+            var minLeft = -(w - 80);
+            var maxLeft = window.innerWidth - 80;
+            var minTop  = 0;
+            var maxTop  = window.innerHeight - 40;
+            win.style.left = Math.max(minLeft, Math.min(maxLeft, newLeft)) + 'px';
+            win.style.top  = Math.max(minTop,  Math.min(maxTop,  newTop))  + 'px';
+          });
+          document.addEventListener('mouseup', function() {
+            dragging = false;
+            resizing = false;
+          });
+
+          /* 调整大小 */
+          var resizing = false, resizeStartW, resizeStartH, resizeStartX, resizeStartY;
+          var resizeHandle = win.querySelector('.rw-resize');
+          resizeHandle.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (entry.docked) return;
+            resizing = true;
+            /* 切换到绝对定位 */
+            var rect = win.getBoundingClientRect();
+            win.style.transform = 'none';
+            win.style.left = rect.left + 'px';
+            win.style.top  = rect.top  + 'px';
+            win.style.width = rect.width + 'px';
+            win.style.height = rect.height + 'px';
+            win.style.marginLeft = '0';
+            win.style.marginTop  = '0';
+            resizeStartW = rect.width;
+            resizeStartH = rect.height;
+            resizeStartX = e.clientX;
+            resizeStartY = e.clientY;
+          });
+          document.addEventListener('mousemove', function(e) {
+            if (resizing) {
+              var newW = Math.max(280, resizeStartW + e.clientX - resizeStartX);
+              var newH = Math.max(200, resizeStartH + e.clientY - resizeStartY);
+              var maxW = window.innerWidth - parseInt(win.style.left) - 80;
+              var maxH = window.innerHeight - parseInt(win.style.top) - 40;
+              win.style.width  = Math.min(newW, maxW) + 'px';
+              win.style.height = Math.min(newH, maxH) + 'px';
+            }
+          });
+
           /* 最小化后点击恢复 */
           win.addEventListener('click', function() {
             if (entry.docked) undockWindow(entry);
@@ -1023,11 +1125,15 @@
           entry.el.remove();
           windows = windows.filter(function(w) { return w !== entry; });
           relayoutDocks();
+          relayoutCascade();
         }
 
         function dockWindow(entry) {
           if (entry.docked) return;
           entry.docked = true;
+          entry.el.style.transform  = '';
+          entry.el.style.marginLeft = '';
+          entry.el.style.marginTop  = '';
           entry.el.classList.add('docked');
           entry.el.classList.remove('focused');
           entry.el.style.zIndex = '';
@@ -1040,8 +1146,12 @@
           entry.el.classList.remove('docked');
           entry.el.style.zIndex = ++zIndex;
           entry.el.classList.add('focused');
-          entry.el.style.left = '';
-          entry.el.style.top = '';
+          /* 还原居中定位 */
+          entry.el.style.transform = 'translate(-50%, -50%)';
+          entry.el.style.left = '50%';
+          entry.el.style.top  = '50%';
+          entry.el.style.marginLeft = '';
+          entry.el.style.marginTop  = '';
           relayoutDocks();
         }
 
@@ -1049,10 +1159,21 @@
           var docked = windows.filter(function(w) { return w.docked; });
           docked.forEach(function(w, i) {
             w.dockIndex = i;
+            w.el.style.transform  = '';
             w.el.style.marginLeft = '';
             w.el.style.marginTop  = '';
-            w.el.style.top = (70 + i * 48) + 'px';
+            w.el.style.top  = (70 + i * 48) + 'px';
             w.el.style.left = '0';
+            w.el.style.zIndex = 1000 + i;
+          });
+        }
+
+        /* 关闭窗口后重算级联偏移 */
+        function relayoutCascade() {
+          var open = windows.filter(function(w) { return !w.docked; });
+          open.forEach(function(w, i) {
+            w.el.style.marginLeft = (i * 16) + 'px';
+            w.el.style.marginTop  = (i * 12) + 'px';
           });
         }
 

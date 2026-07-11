@@ -149,9 +149,17 @@
 
         /* ── 项目标题区 ──────────────────────────────────────── */
         .project-header {
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid var(--rule);
-            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .project-header::after {
+            content: "";
+            display: block;
+            height: 6px;
+            margin-top: 0.5rem;
+            background:
+                linear-gradient(to right, transparent 0%, var(--ink3) 10%, var(--ink3) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
+                linear-gradient(to right, transparent 0%, var(--ink3) 15%, var(--ink3) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
+            opacity: 0.45;
         }
 
         .page-back {
@@ -652,20 +660,13 @@
                 崩铁 PV 音乐复刻与分析
                 <em>— 学习型再创作 · 持续更新</em>
             </h1>
-            <div class="project-meta-row">
-                <span class="project-meta-item"><strong>年份</strong> 2024–Present</span>
-                <span class="project-meta-item"><strong>角色</strong> 独立分析 · 复刻制作</span>
-                <span class="project-meta-item"><strong>状态</strong> 系列持续更新</span>
-            </div>
         </header>
 
         <!-- ── ✦ 面试故事 ────────────────────────────────────── -->
         <div class="story-block">
             <p>
                 <span class="emoji-deco">🎧</span>
-                本来这期作品是准备用来面试上海某二次元大厂的，
-                结果后续也不了了之了。<br />
-                那就放出来给大家看看吧。
+                这系列作品正在在Bilibili上持续更新，欢迎点赞投币
                 <span style="display:inline-block; margin-left:6px;">😄</span>
             </p>
         </div>

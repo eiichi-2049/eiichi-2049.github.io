@@ -146,9 +146,17 @@
 
         /* ── 页面 Hero ──────────────────────────────────────── */
         .page-header {
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid var(--rule);
-            padding-bottom: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .page-header::after {
+            content: "";
+            display: block;
+            height: 6px;
+            margin-top: 0.5rem;
+            background:
+                linear-gradient(to right, transparent 0%, var(--ink3) 10%, var(--ink3) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
+                linear-gradient(to right, transparent 0%, var(--ink3) 15%, var(--ink3) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
+            opacity: 0.45;
         }
 
         .page-back {
@@ -255,6 +263,7 @@
             <p class="page-desc">描述文字 · 在此处填写页面简介</p>
         </header>
 
+
         <!-- ── 内容区 ────────────────────────────────────────── -->
         <div>
             <!-- 在此添加页面内容 -->
@@ -263,9 +272,6 @@
         <!-- ── 页脚 ──────────────────────────────────────────── -->
         <footer class="footer-sub">
             <span>© EiiChi_2049</span>
-            <span>
-                <a href="../index.html#work">← 返回作品列表</a>
-            </span>
         </footer>
     </main>
 </body>

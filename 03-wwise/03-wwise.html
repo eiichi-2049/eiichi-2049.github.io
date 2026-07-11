@@ -147,9 +147,17 @@
 
         /* ── 项目标题区 ──────────────────────────────────────── */
         .project-header {
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid var(--rule);
-            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .project-header::after {
+            content: "";
+            display: block;
+            height: 6px;
+            margin-top: 0.5rem;
+            background:
+                linear-gradient(to right, transparent 0%, var(--ink3) 10%, var(--ink3) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
+                linear-gradient(to right, transparent 0%, var(--ink3) 15%, var(--ink3) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
+            opacity: 0.45;
         }
 
         .page-back {
@@ -309,9 +317,12 @@
             }
 
                 .project-description p strong {
-                    color: var(--red);
+                    color: var(--ink);
                     font-weight: 400;
-                    font-style: italic;
+                    font-style: normal;
+                    font-size: 1.3em;
+                    display: inline-block;
+                    margin: 0.1em 0;
                 }
 
         /* 引用块 */
@@ -384,9 +395,10 @@
             }
 
             .chapter-item .sub {
+                font-family: var(--zh);
                 font-size: 11px;
                 color: var(--ink3);
-                font-style: italic;
+                font-style: normal;
                 display: block;
                 margin-top: 0.1rem;
             }
@@ -422,7 +434,7 @@
 
             .progress-item .bar {
                 flex: 1;
-                height: 2px;
+                height: 4px;
                 background: var(--rule-h);
                 border-radius: 2px;
                 overflow: hidden;
@@ -432,6 +444,8 @@
                     height: 100%;
                     background: var(--red);
                     border-radius: 2px;
+                    width: 0;
+                    transition: width 1s var(--ease);
                 }
 
         /* 技术栈标签 */
@@ -560,19 +574,13 @@
             <a href="../index.html#work" class="page-back">← back to work</a>
             <div class="project-tag">Documentation · Wwise</div>
             <h1 class="project-title">
-                Wwise_101_非官方汉化文档
+                Wwise_101_非官方汉化文档<br/>
                 <em>— 写给游戏音频初学者的学习笔记</em>
             </h1>
-            <div class="project-meta-row">
-                <span class="project-meta-item"><strong>年份</strong> 2026–Present</span>
-                <span class="project-meta-item"><strong>角色</strong> 独立作者 · 声音设计师</span>
-                <span class="project-meta-item"><strong>状态</strong> 逐章填充中</span>
-            </div>
         </header>
-        ────────────────────────────────────────────────────── -->
         <!-- 笔记封面截图 -->
         <div class="media-block">
-            <img src="../images/wwise-cover.jpg"
+            <img src="images/wwise-cover.jpg"
                  alt="Wwise_101 非官方汉化文档 封面"
                  loading="lazy" />
             <div class="media-caption">📖 非官方汉化文档 · 持续更新中</div>
@@ -581,16 +589,12 @@
         <!-- ── 项目描述 ──────────────────────────────────────── -->
         <!-- Tip / 导语 -->
         <div class="project-description">
-            <div class="quote-block" style="border-left-color: var(--ink4);">
-                💡 一本写给游戏音频初学者、Sound Designer、技术音频爱好者的 Wwise 学习笔记。
-            </div>
 
             <!-- Warning -->
             <div class="quote-block warning">
                 ⚠️ 本项目为个人学习笔记与非官方整理，不代表官方观点。<br />
                 部分内容会包含主观理解与项目经验。<br />
                 章节可能长期更新、重构、推翻重写。
-                <cite>lab magiconch com 福音戰士標題生成器 -1782619418511</cite>
             </div>
 
             <p>
@@ -739,38 +743,30 @@
             <div class="progress-item">
                 <span class="status done">已完成</span>
                 <span>全书骨架</span>
-                <div class="bar"><div class="fill" style="width:100%;"></div></div>
+                <div class="bar"><div class="fill" data-width="100%"></div></div>
             </div>
             <div class="progress-item">
                 <span class="status wip">进行中</span>
                 <span>逐章填充</span>
-                <div class="bar"><div class="fill" style="width:40%;"></div></div>
+                <div class="bar"><div class="fill" data-width="30%"></div></div>
             </div>
             <div class="progress-item">
                 <span class="status wip">进行中</span>
-                <span>配图与工程示例</span>
-                <div class="bar"><div class="fill" style="width:15%;"></div></div>
+                <span>工程示例</span>
+                <div class="bar"><div class="fill" data-width="15%"></div></div>
             </div>
             <div class="progress-item">
                 <span class="status wip">进行中</span>
-                <span>终章后的终章以及赞助特典（？</span>
-                <div class="bar"><div class="fill" style="width:5%;"></div></div>
+                <span>赞助特典（？</span>
+                <div class="bar"><div class="fill" data-width="5%"></div></div>
             </div>
             <div class="progress-item">
                 <span class="status">计划中</span>
                 <span>English Version（TBD）</span>
-                <div class="bar"><div class="fill" style="width:0%;"></div></div>
+                <div class="bar"><div class="fill" data-width="0%"></div></div>
             </div>
 
             <!-- 技术标签 -->
-            <div class="tech-tags">
-                <span class="tech-tag highlight">Wwise</span>
-                <span class="tech-tag highlight">游戏音频</span>
-                <span class="tech-tag eva">⚡ Evangelion</span>
-                <span class="tech-tag">Documentation</span>
-                <span class="tech-tag">Sound Design</span>
-                <span class="tech-tag">Technical Audio</span>
-            </div>
         </div>
 
         <hr class="divider" />
@@ -787,10 +783,34 @@
         <!-- ── 页脚 ──────────────────────────────────────────── -->
         <footer class="footer-sub">
             <span>© EiiChi_2049</span>
-            <span>
-                <a href="../index.html#work">← 返回作品列表</a>
-            </span>
         </footer>
     </main>
+    <script>
+      /* 进度条入场动画 */
+      var fills = document.querySelectorAll('.progress-item .fill');
+      var statusEls = document.querySelectorAll('.progress-item .status');
+      var origTexts = [];
+      statusEls.forEach(function(s) { origTexts.push(s.textContent); });
+      var progSection = document.querySelector('.progress-item').parentNode;
+      function resetFills() {
+        fills.forEach(function(f) { f.style.width = '0'; });
+        statusEls.forEach(function(s, i) {
+          if (origTexts[i] === '已完成') s.textContent = '未完成';
+        });
+      }
+      function playFills() {
+        fills.forEach(function(f) {
+          f.style.width = f.dataset.width;
+        });
+        statusEls.forEach(function(s, i) { s.textContent = origTexts[i]; });
+      }
+      progSection.addEventListener('mouseenter', function() {
+        resetFills();
+        setTimeout(playFills, 50);
+      });
+      progSection.addEventListener('mouseleave', function() {
+        resetFills();
+      });
+    </script>
 </body>
 </html>

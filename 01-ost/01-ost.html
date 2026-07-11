@@ -148,9 +148,17 @@
 
         /* ── 页面 Hero ──────────────────────────────────────── */
         .page-header {
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid var(--rule);
-            padding-bottom: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .page-header::after {
+            content: "";
+            display: block;
+            height: 6px;
+            margin-top: 0.5rem;
+            background:
+                linear-gradient(to right, transparent 0%, var(--ink3) 10%, var(--ink3) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
+                linear-gradient(to right, transparent 0%, var(--ink3) 15%, var(--ink3) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
+            opacity: 0.45;
         }
 
         .page-back {
@@ -830,13 +838,9 @@
             <p class="page-desc">为独立游戏创作的音乐作品集</p>
         </header>
 
+
         <!-- ── 专辑容器（由 JavaScript 动态渲染） ────────────── -->
         <div id="albumContainer"></div>
-
-        <!-- 占位提示 -->
-        <div style="margin: 1rem 0 0.5rem; font-size: 12px; color: var(--ink4); font-style: italic; border-top: 1px solid var(--rule); padding-top: 1.5rem;">
-            ⚡ 后续批量替换
-        </div>
 
         <!-- ── 页脚 ──────────────────────────────────────────── -->
         <footer class="footer-sub">
