@@ -382,8 +382,6 @@
         border-top: 1px solid var(--rule);
         padding: 6rem 3rem;
       }
-      #work .container {
-      }
 
       .section-header {
         display: flex;
@@ -613,8 +611,7 @@
         font-style: italic;
         color: var(--red);
       }
-      .about-aside {
-      }
+
       .aside-block {
         border-left: 2px solid var(--rule-h);
         padding-left: 1.25rem;
@@ -967,6 +964,7 @@
            class="home-logo"
            muted
            playsinline
+           autoplay
            preload="auto"
            id="logoVideo"
            ></video>
@@ -1260,44 +1258,48 @@
       });
 
       /* ── LOGO 视频：正放 → 倒放 循环 ────────────── */
-      const logoVideo = document.getElementById("logoVideo");
-      if (logoVideo) {
+      (function () {
+        const v = document.getElementById("logoVideo");
+        if (!v) return;
         let revId = null;
+        let started = false;
 
         function playForward() {
           if (revId) { cancelAnimationFrame(revId); revId = null; }
-          logoVideo.playbackRate = 1;
-          logoVideo.play();
+          v.playbackRate = 1;
+          v.play().catch(function () {});
         }
 
         function playBackward() {
-          const rev = () => {
-            if (logoVideo.currentTime <= 0.04) {
-              logoVideo.currentTime = 0;
-              logoVideo.pause();
+          function step() {
+            if (v.currentTime <= 0.04) {
+              v.currentTime = 0;
+              v.pause();
               setTimeout(playForward, 400);
               return;
             }
-            logoVideo.currentTime = Math.max(0, logoVideo.currentTime - 0.025);
-            revId = requestAnimationFrame(rev);
-          };
-          rev();
+            v.currentTime = Math.max(0, v.currentTime - 0.025);
+            revId = requestAnimationFrame(step);
+          }
+          step();
         }
 
-        logoVideo.addEventListener("ended", playBackward);
-        // 等待元数据加载完成后开始
-        logoVideo.addEventListener("loadedmetadata", () => {
-          logoVideo.pause();
-          logoVideo.currentTime = 0;
-          setTimeout(playForward, 600);
-        });
-        // 如果已经加载完成则直接开始
-        if (logoVideo.readyState >= 1) {
-          logoVideo.pause();
-          logoVideo.currentTime = 0;
+        v.addEventListener("ended", playBackward);
+
+        function startLoop() {
+          if (started) return;
+          started = true;
+          v.pause();
+          v.currentTime = 0;
           setTimeout(playForward, 600);
         }
-      }
+
+        if (v.readyState >= 2) {
+          startLoop();
+        } else {
+          v.addEventListener("canplay", startLoop, { once: true });
+        }
+      })();
 
       /* active nav — 只创建一个 observer，观察所有 section */
       const sections = document.querySelectorAll("section[id]");
