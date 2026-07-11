@@ -131,7 +131,7 @@
         .page-wrap {
             max-width: 1080px;
             margin: 0 auto;
-            padding: 88px 2rem 2rem;
+            padding: 88px 3rem 2rem;
             position: relative;
             z-index: 2;
         }
@@ -448,7 +448,7 @@
             border-top: 1px solid var(--rule);
             display: flex;
             align-items: center;
-            padding: 0 2rem;
+            padding: 0 3rem;
             transition: transform 0.4s var(--ease);
         }
 
@@ -700,17 +700,24 @@
             }
         }
 
-        @media (max-width: 560px) {
+        @media (max-width: 768px) {
             .nav {
-                padding: 0 1.25rem;
+                padding: 0 1.5rem;
             }
 
             .page-wrap {
-                padding: 76px 1.25rem 1.5rem;
+                padding: 76px 1.5rem 1.5rem;
             }
 
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 560px) {
+
             .player-bar {
-                padding: 0 0.75rem;
+                padding: 0 1.5rem;
                 height: 70px;
             }
 
@@ -867,8 +874,8 @@
         ========================================================= */
         const ALBUMS = [{
         id: '2025回合制游戏',
-        title: '2025开拓芯',
-        titleEn: '2025IndieGame',
+        title: '开拓芯大学生游戏创作大赛',
+        titleEn: 'Coreblazer',
         year: '2025',
         artist: 'EiiChi',
         cover: '../images/album-cover.jpg', // 替换为实际封面
