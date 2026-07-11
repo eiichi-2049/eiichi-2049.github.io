@@ -9,6 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
           rel="stylesheet" />
     <style>
+        /* ── 本地字体 ──────────────────────────────────────── */
+        @font-face {
+            font-family: "OPPO Sans";
+            src: url("../fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
         /* ── 核心变量 ──────────────────────────────────────── */
         :root {
             --paper: #f5f0e8;
@@ -21,6 +30,7 @@
             --rule-h: rgba(26, 23, 20, 0.22);
             --red: #c0392b;
             --serif: "Fraunces", serif;
+            --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
             --mono: "DM Mono", monospace;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }

@@ -10,6 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
           rel="stylesheet" />
     <style>
+        /* ── 本地字体 ──────────────────────────────────────── */
+        @font-face {
+            font-family: "OPPO Sans";
+            src: url("../fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
         /* ── 核心变量 ──────────────────────────────────────── */
         :root {
             --paper: #f5f0e8;
@@ -22,6 +31,7 @@
             --rule-h: rgba(26, 23, 20, 0.22);
             --red: #c0392b;
             --serif: "Fraunces", serif;
+            --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
             --mono: "DM Mono", monospace;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -294,7 +304,7 @@
                 font-size: 14px;
                 color: var(--ink2);
                 line-height: 1.9;
-                font-family: var(--serif);
+                font-family: var(--zh);
                 font-weight: 300;
             }
 
@@ -311,9 +321,10 @@
             background: var(--paper2);
             border-radius: 2px;
             margin: 0.5rem 0;
-            font-family: var(--serif);
+            font-family: var(--zh);
+            font-weight: 300;
+            font-style: normal;
             font-size: 14px;
-            font-style: italic;
             color: var(--ink2);
             line-height: 1.8;
         }
@@ -365,9 +376,9 @@
             }
 
             .chapter-item .title {
-                font-family: var(--serif);
+                font-family: var(--zh);
+                font-weight: 300;
                 font-size: 14px;
-                font-weight: 400;
                 color: var(--ink);
                 line-height: 1.3;
             }
@@ -386,7 +397,8 @@
             align-items: center;
             gap: 0.75rem;
             font-size: 13px;
-            font-family: var(--serif);
+            font-family: var(--zh);
+            font-weight: 300;
             color: var(--ink2);
             padding: 0.3rem 0;
         }
@@ -590,7 +602,7 @@
                 <strong>关于风格</strong>
             </p>
 
-            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
+            <ul style="font-family: var(--zh); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
                 <li>不是 手册抄写</li>
                 <li>不是 官方文档复读</li>
                 <li>是 一个业余声音设计师 / evangelion 厨的 <strong>实战心法 + 脑内弹幕</strong></li>

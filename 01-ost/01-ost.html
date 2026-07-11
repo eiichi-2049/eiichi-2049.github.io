@@ -9,6 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
           rel="stylesheet" />
     <style>
+        /* ── 本地字体 ──────────────────────────────────────── */
+        @font-face {
+            font-family: "OPPO Sans";
+            src: url("../fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
         /* ── 核心变量（与首页保持一致） ──────────────────────── */
         :root {
             --paper: #f5f0e8;
@@ -21,6 +30,7 @@
             --rule-h: rgba(26, 23, 20, 0.22);
             --red: #c0392b;
             --serif: "Fraunces", serif;
+            --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
             --mono: "DM Mono", monospace;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
             --player-h: 80px;
@@ -272,7 +282,7 @@
             justify-content: center;
             background: linear-gradient(145deg, var(--paper2), var(--paper));
             color: var(--ink3);
-            font-family: var(--serif);
+            font-family: var(--zh);
             font-weight: 300;
             text-align: center;
             padding: 1.5rem;
@@ -345,7 +355,7 @@
             .track-item .track-title {
                 font-size: 13px;
                 color: var(--ink2);
-                font-family: var(--serif);
+                font-family: var(--zh);
                 font-weight: 300;
                 letter-spacing: 0.02em;
                 transition: color 0.2s var(--ease);
@@ -493,7 +503,7 @@
 
             .player-now .now-title {
                 font-size: 12px;
-                font-family: var(--serif);
+                font-family: var(--zh);
                 font-weight: 300;
                 color: var(--ink);
                 white-space: nowrap;

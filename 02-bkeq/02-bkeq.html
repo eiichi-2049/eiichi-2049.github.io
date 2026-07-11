@@ -10,6 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
           rel="stylesheet" />
     <style>
+        /* ── 本地字体 ──────────────────────────────────────── */
+        @font-face {
+            font-family: "OPPO Sans";
+            src: url("../fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
         /* ── 核心变量 ──────────────────────────────────────── */
         :root {
             --paper: #f5f0e8;
@@ -22,6 +31,7 @@
             --rule-h: rgba(26, 23, 20, 0.22);
             --red: #c0392b;
             --serif: "Fraunces", serif;
+            --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
             --mono: "DM Mono", monospace;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -275,7 +285,7 @@
                 font-size: 14px;
                 color: var(--ink2);
                 line-height: 1.9;
-                font-family: var(--serif);
+                font-family: var(--zh);
                 font-weight: 300;
             }
 
@@ -292,9 +302,10 @@
             background: var(--paper2);
             border-radius: 2px;
             margin: 0.5rem 0;
-            font-family: var(--serif);
+            font-family: var(--zh);
+            font-weight: 300;
+            font-style: normal;
             font-size: 14px;
-            font-style: italic;
             color: var(--ink2);
             line-height: 1.8;
         }
@@ -337,7 +348,7 @@
             .feature-item .desc {
                 font-size: 13px;
                 color: var(--ink2);
-                font-family: var(--serif);
+                font-family: var(--zh);
                 font-weight: 300;
                 margin-top: 0.25rem;
                 line-height: 1.5;
@@ -529,7 +540,7 @@
                 <strong>特性 / Features</strong>
             </p>
 
-            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
+            <ul style="font-family: var(--zh); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
                 <li><strong>风格混搭</strong> — 提供两种不同风格的混搭选择，并支持 SOLO 模式，可单纯当作 Pultec 或 SSL EQ 类模拟使用。</li>
                 <li><strong>图形 UI</strong> — 操作界面直观，所见即所得。</li>
                 <li><strong>开箱即用</strong> — VST3 格式，无需繁琐安装。</li>
@@ -546,7 +557,7 @@
                 你需要一个 DAW（数字音频工作站）来作为载体使用。
             </p>
 
-            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
+            <ul style="font-family: var(--zh); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
                 <li>推荐免费 DAW — <strong>Reaper</strong></li>
                 <li>将 <code style="background: var(--paper2); padding: 0.1rem 0.4rem; border-radius: 2px; font-size: 12px; color: var(--ink2);">.vst3</code> 文件放入 <code style="background: var(--paper2); padding: 0.1rem 0.4rem; border-radius: 2px; font-size: 12px; color: var(--ink2);">C:\Program Files\Common Files\VST3</code>，DAW 会自动扫描并识别。</li>
             </ul>

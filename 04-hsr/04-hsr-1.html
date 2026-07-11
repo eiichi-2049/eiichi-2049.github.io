@@ -10,6 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
           rel="stylesheet" />
     <style>
+        /* ── 本地字体 ──────────────────────────────────────── */
+        @font-face {
+            font-family: "OPPO Sans";
+            src: url("../fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
         /* ── 核心变量 ──────────────────────────────────────── */
         :root {
             --paper: #f5f0e8;
@@ -24,6 +33,7 @@
             --blue: #4a6a8a;
             --blue-dim: rgba(74, 106, 138, 0.06);
             --serif: "Fraunces", serif;
+            --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
             --mono: "DM Mono", monospace;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -235,9 +245,9 @@
             }
 
             .story-block p {
-                font-family: var(--serif);
+                font-family: var(--zh);
                 font-size: 14px;
-                font-style: italic;
+                font-style: normal;
                 color: var(--ink2);
                 line-height: 1.8;
                 margin: 0;
@@ -349,7 +359,7 @@
                     font-size: 14px;
                     color: var(--ink2);
                     line-height: 1.9;
-                    font-family: var(--serif);
+                    font-family: var(--zh);
                     font-weight: 300;
                     margin: 0;
                 }
@@ -413,7 +423,7 @@
                 font-size: 14px;
                 color: var(--ink2);
                 line-height: 1.9;
-                font-family: var(--serif);
+                font-family: var(--zh);
                 font-weight: 300;
             }
 
@@ -430,9 +440,10 @@
             background: var(--paper2);
             border-radius: 2px;
             margin: 0.5rem 0;
-            font-family: var(--serif);
+            font-family: var(--zh);
+            font-weight: 300;
+            font-style: normal;
             font-size: 14px;
-            font-style: italic;
             color: var(--ink2);
             line-height: 1.8;
         }
@@ -478,7 +489,7 @@
             font-size: 14px;
             color: var(--ink2);
             line-height: 1.8;
-            font-family: var(--serif);
+            font-family: var(--zh);
             font-weight: 300;
         }
 
@@ -669,7 +680,7 @@
                 选择《崩坏：星穹铁道》的 PV 配乐作为学习型再创作对象，主要有三点考量：
             </p>
 
-            <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2.2; padding-left: 1.25rem; margin: 0.25rem 0;">
+            <ul style="font-family: var(--zh); font-size: 14px; color: var(--ink2); line-height: 2.2; padding-left: 1.25rem; margin: 0.25rem 0;">
                 <li><strong>极高的制作水准</strong> —— 向大师们学习是不可或缺的步骤。</li>
                 <li><strong>跨界的音乐风格融合</strong> —— 中国民乐 + 现代电子乐 + 西方交响乐。只有弄清音乐背后的文化逻辑，它才能落地生根。</li>
                 <li><strong>创作流量的联动逻辑</strong> —— PV 配乐 + 主线剧情 + 社区二创 = 角色商业成功。理解这种联动，有助于做出更符合行业需求的作品。</li>
