@@ -969,10 +969,11 @@
              id="logoCanvas"
              ></canvas>
             <video
-             src="../00-index_images/LOGO05.gif"
+             src="00-index_images/LOGO05.mp4"
              style="display:none"
              playsinline
              autoplay
+             muted
              preload="auto"
              id="logoVideo"
              ></video>
@@ -1271,7 +1272,7 @@
         var video = document.getElementById("logoVideo");
         var canvas = document.getElementById("logoCanvas");
         if (!video || !canvas) return;
-        var ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext("2d", { willReadFrequently: true });
         var revId = null;
         var w = 0, h = 0;
 
