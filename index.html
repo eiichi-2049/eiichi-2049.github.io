@@ -335,6 +335,7 @@
         opacity: 0.85;
         pointer-events: none;
         align-self: flex-end;
+        mix-blend-mode: screen;
       }
 
       .status-row {
@@ -961,11 +962,14 @@
             </div>
           </div>
         </div>
-          <img
-           src="../00-index_images/LOGO.png"
-           art="logo"
+          <video
+           src="../00-index_images/LOGO05.mp4"
            class="home-logo"
-           />
+           muted
+           playsinline
+           preload="auto"
+           id="logoVideo"
+           ></video>
       </div>
     </section>
 
@@ -1254,6 +1258,46 @@
           scrollTrigger: { trigger: el, start: "top 86%" },
         });
       });
+
+      /* ── LOGO 视频：正放 → 倒放 循环 ────────────── */
+      const logoVideo = document.getElementById("logoVideo");
+      if (logoVideo) {
+        let revId = null;
+
+        function playForward() {
+          if (revId) { cancelAnimationFrame(revId); revId = null; }
+          logoVideo.playbackRate = 1;
+          logoVideo.play();
+        }
+
+        function playBackward() {
+          const rev = () => {
+            if (logoVideo.currentTime <= 0.04) {
+              logoVideo.currentTime = 0;
+              logoVideo.pause();
+              setTimeout(playForward, 400);
+              return;
+            }
+            logoVideo.currentTime = Math.max(0, logoVideo.currentTime - 0.025);
+            revId = requestAnimationFrame(rev);
+          };
+          rev();
+        }
+
+        logoVideo.addEventListener("ended", playBackward);
+        // 等待元数据加载完成后开始
+        logoVideo.addEventListener("loadedmetadata", () => {
+          logoVideo.pause();
+          logoVideo.currentTime = 0;
+          setTimeout(playForward, 600);
+        });
+        // 如果已经加载完成则直接开始
+        if (logoVideo.readyState >= 1) {
+          logoVideo.pause();
+          logoVideo.currentTime = 0;
+          setTimeout(playForward, 600);
+        }
+      }
 
       /* active nav — 只创建一个 observer，观察所有 section */
       const sections = document.querySelectorAll("section[id]");
