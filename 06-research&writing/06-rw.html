@@ -73,8 +73,8 @@
           0 0 0 1px rgba(26, 23, 20, 0.06),
           0 20px 60px rgba(26, 23, 20, 0.14);
         width: 90%;
-        max-width: 720px;
-        max-height: 82vh;
+        max-width: 95vw;
+        max-height: 95vh;
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -167,7 +167,7 @@
       }
       .rw-dot.y:hover::after { opacity: 1; }
       .rw-wintitle {
-        font-family: var(--serif);
+        font-family: var(--serif), var(--serif-zh);
         font-size: 13px;
         font-weight: 300;
         color: var(--ink3);
@@ -450,7 +450,7 @@
         background: var(--ink4);
       }
       .rw-title {
-        font-family: var(--serif);
+        font-family: var(--serif), var(--serif-zh);
         font-size: clamp(2.4rem, 5vw, 4rem);
         font-weight: 300;
         line-height: 1.1;
@@ -464,6 +464,7 @@
         color: var(--red);
       }
       .rw-desc {
+        font-family: var(--serif-zh);
         font-size: 13px;
         color: var(--ink3);
         max-width: 620px;
@@ -513,14 +514,15 @@
         font-weight: 500;
       }
       .rw-col-title {
-        font-family: var(--serif);
-        font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+        font-family: var(--serif), var(--serif-zh);
+        font-size: clamp(2.8rem, 4.4vw, 3.8rem);
         font-weight: 300;
         font-style: italic;
         color: var(--ink);
         letter-spacing: -0.01em;
       }
       .rw-col-sub {
+        font-family: var(--serif-zh);
         font-size: 11px;
         color: var(--ink4);
         margin-top: 0.6rem;
@@ -583,7 +585,7 @@
         flex-shrink: 0;
       }
       .rw-item-title {
-        font-family: var(--serif);
+        font-family: var(--serif), var(--serif-zh);
         font-size: 1.05rem;
         font-weight: 400;
         line-height: 1.35;
@@ -591,6 +593,7 @@
         letter-spacing: -0.005em;
       }
       .rw-item-desc {
+        font-family: var(--serif-zh);
         font-size: 12px;
         color: var(--ink3);
         line-height: 1.75;
@@ -766,7 +769,6 @@
           <!-- ── LEFT: RESEARCH ─────────────────────────────── -->
           <div class="rw-col">
             <div class="rw-col-head">
-              <div class="rw-col-eyebrow">研究</div>
               <div class="rw-col-title">Research</div>
               <div class="rw-col-sub">
                 拆解声音与游戏系统的笔记，更像是给自己看的实验记录？
@@ -850,7 +852,6 @@
           <!-- ── RIGHT: WRITING ──────────────────────────────── -->
           <div class="rw-col">
             <div class="rw-col-head">
-              <div class="rw-col-eyebrow">文章</div>
               <div class="rw-col-title">Writing</div>
               <div class="rw-col-sub">
                 关于坚持、怀疑，以及为什么还在做这件事。
@@ -879,7 +880,7 @@
                 <div class="rw-item-arrow">↗</div>
               </a>
 
-              <a href="#" class="rw-item" data-slug="W02">
+              <a href="#" class="rw-item" data-slug="我对于AI的看法——扭蛋时代">
                 <div class="rw-item-top">
                   <span class="rw-item-num">W.02</span>
                 </div>
@@ -901,7 +902,7 @@
                 <div class="rw-item-arrow">↗</div>
               </a>
 
-              <a href="#" class="rw-item" data-slug="W03">
+              <a href="#" class="rw-item" data-slug="一生悬命，知而即行">
                 <div class="rw-item-top">
                   <span class="rw-item-num">W.03</span>
                 </div>
@@ -941,6 +942,144 @@
                   </div>
                   <div class="rw-item-meta">
                     <span class="rw-item-date">2026/05/22</span>
+                    <span class="rw-badge note">note</span>
+                  </div>
+                </div>
+                <div class="rw-item-arrow">↗</div>
+              </a>
+
+              <a href="#" class="rw-item" data-slug="【写在面试之后】——你切不可丢弃那勇敢的心">
+                <div class="rw-item-top">
+                  <span class="rw-item-num">W.05</span>
+                </div>
+                <div class="rw-item-title">
+                  写在鹰角面试之后——你切不可丢弃那勇敢的心
+                </div>
+                <p class="rw-item-desc">
+                  不涉及题库分享，仅记录一些面试后的感受。为什么古希腊人会把勇敢视为四美德之一？
+                </p>
+                <div class="rw-item-footer">
+                  <div class="rw-item-tags">
+                    <span class="rw-tag">interview</span>
+                    <span class="rw-tag">reflection</span>
+                  </div>
+                  <div class="rw-item-meta">
+                    <span class="rw-item-date">2026</span>
+                    <span class="rw-badge essay">essay</span>
+                  </div>
+                </div>
+                <div class="rw-item-arrow">↗</div>
+              </a>
+
+              <a href="#" class="rw-item" data-slug="【影评】《挽救计划》回眸——为什么好看？">
+                <div class="rw-item-top">
+                  <span class="rw-item-num">W.06</span>
+                </div>
+                <div class="rw-item-title">
+                  【影评】《挽救计划》回眸——为什么好看？
+                </div>
+                <p class="rw-item-desc">
+                  在太空歌剧题材浩如烟海的当下，这部电影拍出了许多科幻片没有展示的——纯粹的孤独之美。
+                </p>
+                <div class="rw-item-footer">
+                  <div class="rw-item-tags">
+                    <span class="rw-tag">film</span>
+                    <span class="rw-tag">review</span>
+                  </div>
+                  <div class="rw-item-meta">
+                    <span class="rw-item-date">2026</span>
+                    <span class="rw-badge essay">essay</span>
+                  </div>
+                </div>
+                <div class="rw-item-arrow">↗</div>
+              </a>
+
+              <a href="#" class="rw-item" data-slug="【浅度思考】Pulling Out All Stops">
+                <div class="rw-item-top">
+                  <span class="rw-item-num">W.07</span>
+                </div>
+                <div class="rw-item-title">
+                  【浅度思考】Pulling Out All Stops
+                </div>
+                <p class="rw-item-desc">
+                  从《星际穿越》配乐幕后谈起，聊聊管风琴与"全力以赴"的声音哲学。
+                </p>
+                <div class="rw-item-footer">
+                  <div class="rw-item-tags">
+                    <span class="rw-tag">film music</span>
+                    <span class="rw-tag">hans zimmer</span>
+                  </div>
+                  <div class="rw-item-meta">
+                    <span class="rw-item-date">2026</span>
+                    <span class="rw-badge essay">essay</span>
+                  </div>
+                </div>
+                <div class="rw-item-arrow">↗</div>
+              </a>
+
+              <a href="#" class="rw-item" data-slug="【浅度思考】woc-原">
+                <div class="rw-item-top">
+                  <span class="rw-item-num">W.08</span>
+                </div>
+                <div class="rw-item-title">
+                  【浅度思考】Woc，原！
+                </div>
+                <p class="rw-item-desc">
+                  在如今的互联网语境里，OP早已脱离"原神玩家"的中性指代，转而成为一顶带有浓烈贬义色彩的帽子。
+                </p>
+                <div class="rw-item-footer">
+                  <div class="rw-item-tags">
+                    <span class="rw-tag">culture</span>
+                    <span class="rw-tag">genshin</span>
+                  </div>
+                  <div class="rw-item-meta">
+                    <span class="rw-item-date">2026</span>
+                    <span class="rw-badge essay">essay</span>
+                  </div>
+                </div>
+                <div class="rw-item-arrow">↗</div>
+              </a>
+
+              <a href="#" class="rw-item" data-slug="【浅度思考】从《明日方舟：终末地》出发，浅析大型游戏音频系统架构 Vol.0">
+                <div class="rw-item-top">
+                  <span class="rw-item-num">W.09</span>
+                </div>
+                <div class="rw-item-title">
+                  从《明日方舟：终末地》出发，浅析大型游戏音频系统架构 Vol.0
+                </div>
+                <p class="rw-item-desc">
+                  结合官方分享的文章和视频，浅谈大型游戏音频系统架构：Wwise、对象、台本、环境与优化。
+                </p>
+                <div class="rw-item-footer">
+                  <div class="rw-item-tags">
+                    <span class="rw-tag">sound design</span>
+                    <span class="rw-tag">spatial audio</span>
+                  </div>
+                  <div class="rw-item-meta">
+                    <span class="rw-item-date">2026</span>
+                    <span class="rw-badge note">note</span>
+                  </div>
+                </div>
+                <div class="rw-item-arrow">↗</div>
+              </a>
+
+              <a href="#" class="rw-item" data-slug="【转载】你是隐藏的天才吗？">
+                <div class="rw-item-top">
+                  <span class="rw-item-num">W.10</span>
+                </div>
+                <div class="rw-item-title">
+                  （转载）你是隐藏的天才吗？
+                </div>
+                <p class="rw-item-desc">
+                  任务要求很简单：在你选定的数字音频工作站中拓展你的创作实践，尽全力做到极致。但事情却不太对劲。
+                </p>
+                <div class="rw-item-footer">
+                  <div class="rw-item-tags">
+                    <span class="rw-tag">translation</span>
+                    <span class="rw-tag">education</span>
+                  </div>
+                  <div class="rw-item-meta">
+                    <span class="rw-item-date">2026</span>
                     <span class="rw-badge note">note</span>
                   </div>
                 </div>
@@ -1104,10 +1243,10 @@
           });
           document.addEventListener('mousemove', function(e) {
             if (resizing) {
-              var newW = Math.max(280, resizeStartW + e.clientX - resizeStartX);
-              var newH = Math.max(200, resizeStartH + e.clientY - resizeStartY);
-              var maxW = window.innerWidth - parseInt(win.style.left) - 80;
-              var maxH = window.innerHeight - parseInt(win.style.top) - 40;
+              var newW = Math.max(200, resizeStartW + e.clientX - resizeStartX);
+              var newH = Math.max(150, resizeStartH + e.clientY - resizeStartY);
+              var maxW = window.innerWidth - parseInt(win.style.left) - 20;
+              var maxH = window.innerHeight - parseInt(win.style.top) - 20;
               win.style.width  = Math.min(newW, maxW) + 'px';
               win.style.height = Math.min(newH, maxH) + 'px';
             }
@@ -1209,7 +1348,7 @@
             obj.win.style.marginLeft = (n * 16) + 'px';
             obj.win.style.marginTop  = (n * 12) + 'px';
 
-            var mdPath = 'content/' + slug + '.md';
+            var mdPath = 'content/' + encodeURI(slug) + '.md';
             fetch(mdPath)
               .then(function(res) {
                 if (!res.ok) throw new Error('HTTP ' + res.status);
