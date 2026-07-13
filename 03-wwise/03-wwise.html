@@ -188,19 +188,25 @@
 
         .project-title {
             font-family: var(--serif);
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.4rem, 5vw, 4rem);
             font-weight: 300;
             line-height: 1.1;
             color: var(--ink);
+            margin-bottom: 1.75rem;
             letter-spacing: -0.02em;
         }
 
             .project-title em {
                 font-style: italic;
-                color: var(--ink3);
-                font-size: 0.7em;
-                font-weight: 300;
+                color: var(--red);
             }
+
+        .page-desc {
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 620px;
+            line-height: 1.9;
+        }
 
         .project-meta-row {
             display: flex;
@@ -355,52 +361,95 @@
                 background: rgba(160, 112, 32, 0.06);
             }
 
-        /* 章节地图网格 */
+        /* ── 章节地图（重新设计） ──────────────────────────── */
+        .chapter-map {
+            margin: 1.5rem 0;
+        }
+
+        .chapter-map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-bottom: 0.6rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .chapter-map-header .map-title {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--ink);
+        }
+
         .chapter-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1px;
             background: var(--rule);
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
             border: 1px solid var(--rule);
-            margin: 0.5rem 0;
         }
 
         .chapter-item {
-            padding: 0.9rem 1rem;
-            background: var(--paper);
-            transition: background 0.15s;
-        }
-
-            .chapter-item:hover {
-                background: var(--paper2);
+                padding: 1rem 1.2rem;
+                background: var(--paper);
+                transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
             }
 
-            .chapter-item .num {
-                font-size: 10px;
-                letter-spacing: 0.06em;
-                color: var(--red);
-                font-weight: 500;
+                .chapter-item:hover {
+                    background: var(--paper2);
+                }
+
+                .chapter-item .num-row {
+                    display: flex;
+                    align-items: baseline;
+                    gap: 0.65rem;
+                }
+
+                .chapter-item .num {
+                    font-size: 22px;
+                    letter-spacing: 0.04em;
+                    color: var(--red);
+                    font-weight: 500;
+                    flex-shrink: 0;
+                    font-family: var(--mono);
+                    line-height: 1;
+                }
+
+                .chapter-item .title {
+                    font-family: var(--zh);
+                    font-weight: 400;
+                    font-size: 14px;
+                    color: var(--ink);
+                    line-height: 1.4;
+                }
+
+                .chapter-item .official-name {
+                    font-family: var(--zh);
+                    font-size: 12px;
+                    color: var(--ink3);
+                    font-weight: 300;
+                    line-height: 1.4;
+                    padding-left: 0.4rem;
+                    border-left: 2px solid var(--rule);
+                }
+
+                    .chapter-item .official-name::before {
+                        content: "📖 ";
+                        font-size: 10px;
+                    }
+
+                .chapter-item .sub {
+                    font-family: var(--zh);
+                    font-size: 11px;
+                font-style: italic;
                 display: block;
-                margin-bottom: 0.15rem;
-            }
-
-            .chapter-item .title {
-                font-family: var(--zh);
-                font-weight: 300;
-                font-size: 14px;
-                color: var(--ink);
-                line-height: 1.3;
-            }
-
-            .chapter-item .sub {
-                font-family: var(--zh);
-                font-size: 11px;
-                color: var(--ink3);
-                font-style: normal;
-                display: block;
-                margin-top: 0.1rem;
             }
 
         /* 进度条风格 */
@@ -525,7 +574,7 @@
             }
 
             .chapter-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
             }
 
             .project-meta-row {
@@ -572,11 +621,10 @@
         <!-- 项目标题 -->
         <header class="project-header">
             <a href="../index.html#work" class="page-back">← back to work</a>
-            <div class="project-tag">Documentation · Wwise</div>
             <h1 class="project-title">
-                Wwise_101_非官方汉化文档<br/>
-                <em>— 写给游戏音频初学者的学习笔记</em>
+                <em>[Wwise 101 Unofficial]</em>
             </h1>
+            <p class="page-desc">写给游戏音频初学者的学习笔记 · 非官方汉化</p>
         </header>
         <!-- 笔记封面截图 -->
         <div class="media-block">
@@ -617,7 +665,7 @@
             </p>
 
             <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
-                <li>迷之引用（来自动画、meme）</li>
+                <li>迷之引用（来自动画、memes）</li>
                 <li>"要是有人能早告诉我就好了"的 tips</li>
             </ul>
 
@@ -627,7 +675,7 @@
             </p>
 
             <div class="quote-block" style="border-left-color: var(--ink3);">
-                "一个想要进入游戏音频行业的人，对 Wwise 的拆解与理解。"
+                "一个刚刚进入游戏音频的人，对 Wwise 的理解与拆解。"
             </div>
 
             <p>它会包含：</p>
@@ -641,99 +689,157 @@
                 <li>部分音频行业理解</li>
             </ul>
 
-            <!-- ── 章节地图 ──────────────────────────────────── -->
-            <p><strong>章节地图</strong></p>
+            <!-- ── 章节地图（重新设计） ────────────────────────── -->
+            <div class="chapter-map">
+                <div class="chapter-map-header">
+                    <span class="map-title">🗺️ 章节地图</span>
+                </div>
 
-            <div class="chapter-grid">
-                <div class="chapter-item">
-                    <span class="num">01</span>
-                    <span class="title">Wwise、袭来</span>
-                    <span class="sub">逃げちゃダメだ…</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">02</span>
-                    <span class="title">陌生的、天花板</span>
-                    <span class="sub">我要当Wwise高手，zdjd？</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">03</span>
-                    <span class="title">在界面之彼方</span>
-                    <span class="sub">A.T.力场全开</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">04</span>
-                    <span class="title">只要微笑就好了</span>
-                    <span class="sub">——那么你是为了什么驾驶Wwise</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">05</span>
-                    <span class="title">在静止的黑暗中</span>
-                    <span class="sub">黑雨袭来之时，NERV停转之日！</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">06</span>
-                    <span class="title">I WANT TO PLAY A CUBE</span>
-                    <span class="sub">Make your choice.</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">07</span>
-                    <span class="title">打钩打钩叫叫叫</span>
-                    <span class="sub">听通机听通机,出示出示建库码~</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">08</span>
-                    <span class="title">瞬间、声声相印</span>
-                    <span class="sub">两只豪猪到底要距离多远才能不被冻死呢</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">09</span>
-                    <span class="title">Let master master mastering.</span>
-                    <span class="sub">Buffalo buffalo buffalo</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">10</span>
-                    <span class="title">REI Ⅰ</span>
-                    <span class="sub">/</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">11</span>
-                    <span class="title">ACOUSTICS_DIVER</span>
-                    <span class="sub">/</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">12</span>
-                    <span class="title">REI Ⅱ</span>
-                    <span class="sub">You Can (Not) Advance</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">13</span>
-                    <span class="title">REI Ⅲ</span>
-                    <span class="sub">不是你的人偶</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">14</span>
-                    <span class="title">结束的"4"界</span>
-                    <span class="sub">THRICE UPON A TIME.</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">15</span>
-                    <span class="title">又幻想了……</span>
-                    <span class="sub">被选中制作DEMO的Sound Designer</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">16</span>
-                    <span class="title">在视窗中心呼唤"优化"的野兽</span>
-                    <span class="sub">哦咩得多~（鼓掌）（鼓掌）</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">终章</span>
-                    <span class="title">我要、退出这个行业</span>
-                    <span class="sub">Jam a man of fortune,and J must seek my fortune.——xQc</span>
-                </div>
-                <div class="chapter-item">
-                    <span class="num">18</span>
-                    <span class="title">考验，最后一战</span>
-                    <span class="sub">刻意，这也言詹？</span>
+                <div class="chapter-grid">
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">01</span>
+                            <span class="title">Wwise、袭来</span>
+                        </div>
+                        <span class="official-name">Wwise 初始化、创建工程、音频导入、Events、SoundBank</span>
+                        <span class="sub">逃げちゃダメだ…</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">02</span>
+                            <span class="title">陌生的、天花板</span>
+                        </div>
+                        <span class="official-name">Sound SFX 复制、Source Editor、属性编辑器、多动作 Events</span>
+                        <span class="sub">我要当Wwise高手，zdjd？</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">03</span>
+                            <span class="title">在界面之彼方</span>
+                        </div>
+                        <span class="official-name">Actor-Mixer 层级结构与总线分配</span>
+                        <span class="sub">A.T.力场全开</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">04</span>
+                            <span class="title">只要微笑就好了</span>
+                        </div>
+                        <span class="official-name">RTPC 实时参数控制与 Game Parameter 绑定</span>
+                        <span class="sub">——那么你是为了什么驾驶Wwise</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">05</span>
+                            <span class="title">在静止的黑暗中</span>
+                        </div>
+                        <span class="official-name">State 与 Switch 管理、音乐换轨逻辑</span>
+                        <span class="sub">黑雨袭来之时，NERV停转之日！</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">06</span>
+                            <span class="title">I WANT TO PLAY A CUBE</span>
+                        </div>
+                        <span class="official-name">Master Audio Bus 与总线架构设计</span>
+                        <span class="sub">Make your choice.</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">07</span>
+                            <span class="title">打钩打钩叫叫叫</span>
+                        </div>
+                        <span class="official-name">Mixing Desk 混音台操作与 Effect 路由</span>
+                        <span class="sub">听通机听通机,出示出示建库码~</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">08</span>
+                            <span class="title">瞬间、声声相印</span>
+                        </div>
+                        <span class="official-name">MIDI 与控制器映射、音乐同步</span>
+                        <span class="sub">两只豪猪到底要距离多远才能不被冻死呢</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">09</span>
+                            <span class="title">Let master master mastering.</span>
+                        </div>
+                        <span class="official-name">3D 定位与空间音频、Attenuation 曲线</span>
+                        <span class="sub">Buffalo buffalo buffalo</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">10</span>
+                            <span class="title">REI Ⅰ</span>
+                        </div>
+                        <span class="official-name">Speaker Panning 与声道配置</span>
+                        <span class="sub">/</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">11</span>
+                            <span class="title">ACOUSTICS_DIVER</span>
+                        </div>
+                        <span class="official-name">Audio Effects 音频效果器应用</span>
+                        <span class="sub">/</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">12</span>
+                            <span class="title">REI Ⅱ</span>
+                        </div>
+                        <span class="official-name">Performance Analyzer 性能分析器与 Profiling</span>
+                        <span class="sub">You Can (Not) Advance</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">13</span>
+                            <span class="title">REI Ⅲ</span>
+                        </div>
+                        <span class="official-name">优化策略与 Voice Management</span>
+                        <span class="sub">不是你的人偶</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">14</span>
+                            <span class="title">结束的"4"界</span>
+                        </div>
+                        <span class="official-name">SoundBank 管理与发布策略</span>
+                        <span class="sub">THRICE UPON A TIME.</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">15</span>
+                            <span class="title">又幻想了……</span>
+                        </div>
+                        <span class="official-name">Interactive Music 交互音乐系统</span>
+                        <span class="sub">被选中制作DEMO的Sound Designer</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">16</span>
+                            <span class="title">在视窗中心呼唤"优化"的野兽</span>
+                        </div>
+                        <span class="official-name">Wwise 与游戏引擎集成（Unity/Unreal）</span>
+                        <span class="sub">哦咩得多~（鼓掌）（鼓掌）</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">17</span>
+                            <span class="title">我要、退出这个行业</span>
+                        </div>
+                        <span class="official-name">动态对话与语音系统 (Dialogue & Voice)</span>
+                        <span class="sub">Jam a man of fortune,and J must seek my fortune.——xQc</span>
+                    </div>
+                    <div class="chapter-item">
+                        <div class="num-row">
+                            <span class="num">18</span>
+                            <span class="title">考验，最后一战</span>
+                        </div>
+                        <span class="official-name">高级 SoundBank 策略与内存管理</span>
+                        <span class="sub">刻意，这也言詹？</span>
+                    </div>
                 </div>
             </div>
 

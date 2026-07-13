@@ -288,29 +288,30 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(145deg, var(--paper2), var(--paper));
+            background: var(--grad);
             color: var(--ink3);
             font-family: var(--zh);
             font-weight: 300;
             text-align: center;
             padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
         }
+
+            .cover-placeholder::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 21px);
+                pointer-events: none;
+            }
 
             .cover-placeholder .big-icon {
                 font-size: 2.8rem;
-                opacity: 0.4;
+                opacity: 0.5;
                 margin-bottom: 0.3rem;
-            }
-
-            .cover-placeholder .album-name {
-                font-size: 1rem;
-                color: var(--ink2);
-            }
-
-            .cover-placeholder .artist-name {
-                font-size: 0.75rem;
-                color: var(--ink4);
-                font-family: var(--mono);
+                filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+                position: relative;
             }
 
         /* 右栏：曲目列表 */
@@ -445,6 +446,202 @@
                 opacity: 0.5;
             }
         }
+
+        /* ── 选项卡导航 ──────────────────────────────────────── */
+        .tab-bar {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--rule);
+            position: relative;
+        }
+
+        .tab-btn {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink3);
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s var(--ease), background 0.2s var(--ease);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .tab-btn:hover {
+                color: var(--ink);
+                background: var(--paper2);
+            }
+
+            .tab-btn::after {
+                content: "";
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: var(--red);
+                transform: scaleX(0);
+                transition: transform 0.3s var(--ease);
+            }
+
+            .tab-btn.active {
+                color: var(--ink);
+            }
+
+                .tab-btn.active::after {
+                    transform: scaleX(1);
+                }
+
+        .tab-content {
+            display: none;
+        }
+
+            .tab-content.active {
+                display: block;
+                animation: tabFadeIn 0.35s var(--ease);
+            }
+
+        @keyframes tabFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── SFX 分类卡片 ──────────────────────────────────── */
+        .sfx-section {
+            margin-bottom: 3rem;
+        }
+
+            .sfx-section .sfx-header {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                border-bottom: 1px solid var(--rule);
+                padding-bottom: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .sfx-section .sfx-title {
+                font-family: var(--serif);
+                font-size: 1.3rem;
+                font-weight: 300;
+                color: var(--ink);
+                letter-spacing: -0.01em;
+            }
+
+            .sfx-section .sfx-count {
+                font-size: 11px;
+                color: var(--ink4);
+                font-style: italic;
+            }
+
+        .sfx-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .sfx-card {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.75rem 1rem;
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+            user-select: none;
+        }
+
+            .sfx-card:hover {
+                background: var(--paper2);
+                border-color: var(--rule-h);
+            }
+
+            .sfx-card:active {
+                transform: scale(0.98);
+            }
+
+            .sfx-card .sfx-icon {
+                font-size: 1.2rem;
+                opacity: 0.5;
+                flex-shrink: 0;
+                width: 28px;
+                text-align: center;
+            }
+
+            .sfx-card .sfx-info {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .sfx-card .sfx-label {
+                font-size: 12px;
+                font-family: var(--zh);
+                font-weight: 300;
+                color: var(--ink2);
+                letter-spacing: 0.02em;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .sfx-card .sfx-tags {
+                font-size: 10px;
+                color: var(--ink4);
+                font-family: var(--mono);
+                letter-spacing: 0.04em;
+            }
+
+            .sfx-card .sfx-duration {
+                font-size: 11px;
+                color: var(--ink4);
+                font-variant-numeric: tabular-nums;
+                flex-shrink: 0;
+            }
+
+            .sfx-card .sfx-play-btn {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                border: 1px solid var(--rule-h);
+                background: var(--paper);
+                color: var(--ink3);
+                font-size: 11px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+                flex-shrink: 0;
+            }
+
+                .sfx-card .sfx-play-btn:hover {
+                    background: var(--red);
+                    color: #fff;
+                    border-color: var(--red);
+                }
+
+            .sfx-card.active {
+                background: rgba(192, 57, 43, 0.06);
+                border-color: var(--red);
+            }
+
+                .sfx-card.active .sfx-label {
+                    color: var(--red);
+                }
 
         /* ── 分隔线 ──────────────────────────────────────────── */
         .divider {
@@ -839,8 +1036,21 @@
         </header>
 
 
-        <!-- ── 专辑容器（由 JavaScript 动态渲染） ────────────── -->
-        <div id="albumContainer"></div>
+        <!-- ── 选项卡导航 ──────────────────────────────────── -->
+        <div class="tab-bar" id="tabBar">
+            <button class="tab-btn active" data-tab="music">🎵 Music</button>
+            <button class="tab-btn" data-tab="sfx">🔊 SFX</button>
+        </div>
+
+        <!-- ── Music 内容 ───────────────────────────────────── -->
+        <div class="tab-content active" id="tabMusic">
+            <div id="albumContainer"></div>
+        </div>
+
+        <!-- ── SFX 内容 ─────────────────────────────────────── -->
+        <div class="tab-content" id="tabSfx">
+            <div id="sfxContainer"></div>
+        </div>
 
         <!-- ── 页脚 ──────────────────────────────────────────── -->
         <footer class="footer-sub">
@@ -887,12 +1097,12 @@
         音乐文件暂用 【MUSIC】 占位，后续替换为真实路径即可
         ========================================================= */
         const ALBUMS = [{
-        id: '2025回合制游戏',
+        id: 'coreblazer-2025',
         title: '开拓芯大学生游戏创作大赛',
         titleEn: 'Coreblazer',
         year: '2025',
         artist: 'EiiChi',
-        cover: '../images/album-cover.jpg', // 替换为实际封面
+        cover: '',
         songs: [
         { title: '_BANJO_90_', duration: '1:22', file: './audio/BANJO_90.mp3' },
         { title: '_Choices_', duration: '1:12', file: './audio/Choices_.mp3' },
@@ -901,29 +1111,144 @@
         { title: '_Robot_Sad_Piano_60_', duration: '0:48', file: './audio/Robot_Sad_Piano_60_.mp3' },
         ]
         }, {
-        id: '【占位符】',
-        title: '【占位符】',
-        titleEn: '【占位符EN】',
+        id: 'placeholder-album-1',
+        title: '星穹之下',
+        titleEn: 'Under the Starry Sky',
         year: '2026',
-        cover: '../images/album-cover-2.jpg', // 替换为实际封面
+        artist: 'EiiChi',
+        cover: '',
         songs: [
-        { title: '【歌曲名称】', duration: '4:10', file: '【MUSIC】' },
-        { title: '【歌曲名称】', duration: '3:45', file: '【MUSIC】' },
-        { title: '【歌曲名称】', duration: '5:22', file: '【MUSIC】' },
-        { title: '【歌曲名称】', duration: '4:50', file: '【MUSIC】' },
-        { title: '【歌曲名称】', duration: '3:35', file: '【MUSIC】' },
+        { title: '星穹序曲', duration: '3:42', file: '【MUSIC】' },
+        { title: '银河铁道之夜', duration: '4:15', file: '【MUSIC】' },
+        { title: '星尘回响', duration: '5:08', file: '【MUSIC】' },
+        { title: '光年之外', duration: '3:56', file: '【MUSIC】' },
+        { title: '引力之舞', duration: '4:30', file: '【MUSIC】' },
+        { title: '深空信标', duration: '6:12', file: '【MUSIC】' },
+        { title: '轨道残响', duration: '3:28', file: '【MUSIC】' },
+        { title: '归途', duration: '4:44', file: '【MUSIC】' },
         ]
         }, {
-        id: '【占位符】',
-        title: '【占位符】',
-        titleEn: '【占位符EN】',
+        id: 'placeholder-album-2',
+        title: '机械之梦',
+        titleEn: 'Dreams of Machinery',
         year: '2026',
-        cover: '../images/album-cover-3.jpg', // 替换为实际封面
+        artist: 'EiiChi',
+        cover: '',
         songs: [
-        { title: '【歌曲名称】', duration: '4:20', file: '【MUSIC】' },
-        { title: '【歌曲名称】', duration: '3:55', file: '【MUSIC】' },
-        { title: '【歌曲名称】', duration: '6:10', file: '【MUSIC】' },
-        { title: '【歌曲名称】', duration: '3:00', file: '【MUSIC】' },
+        { title: '觉醒', duration: '4:02', file: '【MUSIC】' },
+        { title: '齿轮与和弦', duration: '3:35', file: '【MUSIC】' },
+        { title: '钢铁摇篮曲', duration: '5:20', file: '【MUSIC】' },
+        { title: '电路迷雾', duration: '3:48', file: '【MUSIC】' },
+        { title: '核心过热', duration: '2:55', file: '【MUSIC】' },
+        { title: '静默重启', duration: '4:16', file: '【MUSIC】' },
+        { title: '数据洪流', duration: '3:40', file: '【MUSIC】' },
+        { title: '终末指令', duration: '5:05', file: '【MUSIC】' },
+        { title: '新纪元', duration: '4:33', file: '【MUSIC】' },
+        ]
+        }, {
+        id: 'placeholder-album-3',
+        title: '雨林漫游者',
+        titleEn: 'Rainforest Rambler',
+        year: '2026',
+        artist: 'EiiChi',
+        cover: '',
+        songs: [
+        { title: '晨雾', duration: '3:50', file: '【MUSIC】' },
+        { title: '树冠间的光', duration: '4:22', file: '【MUSIC】' },
+        { title: '溪流与鸟鸣', duration: '5:15', file: '【MUSIC】' },
+        { title: '露珠的华尔兹', duration: '2:48', file: '【MUSIC】' },
+        { title: '藤蔓迷宫', duration: '4:05', file: '【MUSIC】' },
+        { title: '雨后彩虹', duration: '3:30', file: '【MUSIC】' },
+        { title: '暮色蝉鸣', duration: '5:50', file: '【MUSIC】' },
+        { title: '星夜低语', duration: '4:18', file: '【MUSIC】' },
+        ]
+        }, {
+        id: 'placeholder-album-4',
+        title: '像素往事',
+        titleEn: 'Pixelated Past',
+        year: '2026',
+        artist: 'EiiChi',
+        cover: '',
+        songs: [
+        { title: '8bit 启程', duration: '2:10', file: '【MUSIC】' },
+        { title: '城堡探险', duration: '3:25', file: '【MUSIC】' },
+        { title: '地下城深处', duration: '4:45', file: '【MUSIC】' },
+        { title: 'Boss 战！', duration: '3:00', file: '【MUSIC】' },
+        { title: '胜利回响', duration: '2:35', file: '【MUSIC】' },
+        { title: '静谧村庄', duration: '3:50', file: '【MUSIC】' },
+        { title: '最终决战', duration: '5:20', file: '【MUSIC】' },
+        { title: '结局—— credits', duration: '4:10', file: '【MUSIC】' },
+        ]
+        }];
+
+        /* =========================================================
+        🎧 SFX 音效分类数据
+        ========================================================= */
+        const SFX_CATEGORIES = [{
+        id: 'ambient',
+        title: '环境音效',
+        titleEn: 'Ambient SFX',
+        icon: '🌿',
+        sounds: [
+        { label: '森林·微风', tags: 'ambient · nature', duration: '0:30', file: '【SFX】' },
+        { label: '森林·雨声', tags: 'ambient · rain', duration: '0:45', file: '【SFX】' },
+        { label: '森林·鸟鸣', tags: 'ambient · birds', duration: '0:20', file: '【SFX】' },
+        { label: '洞穴·水滴', tags: 'ambient · cave', duration: '0:25', file: '【SFX】' },
+        { label: '洞穴·风声', tags: 'ambient · wind', duration: '0:35', file: '【SFX】' },
+        { label: '城市·街道', tags: 'ambient · city', duration: '0:40', file: '【SFX】' },
+        { label: '城市·雨夜', tags: 'ambient · night', duration: '0:50', file: '【SFX】' },
+        { label: '水下·气泡', tags: 'ambient · underwater', duration: '0:20', file: '【SFX】' },
+        ]
+        }, {
+        id: 'combat',
+        title: '战斗音效',
+        titleEn: 'Combat SFX',
+        icon: '⚔️',
+        sounds: [
+        { label: '剑·挥砍', tags: 'weapon · sword', duration: '0:05', file: '【SFX】' },
+        { label: '剑·格挡', tags: 'weapon · parry', duration: '0:08', file: '【SFX】' },
+        { label: '弓箭·发射', tags: 'weapon · bow', duration: '0:04', file: '【SFX】' },
+        { label: '弓箭·命中', tags: 'weapon · impact', duration: '0:06', file: '【SFX】' },
+        { label: '爆炸·小型', tags: 'explosion · small', duration: '0:10', file: '【SFX】' },
+        { label: '爆炸·大型', tags: 'explosion · large', duration: '0:15', file: '【SFX】' },
+        { label: '魔法·火球', tags: 'magic · fire', duration: '0:12', file: '【SFX】' },
+        { label: '魔法·冰霜', tags: 'magic · ice', duration: '0:10', file: '【SFX】' },
+        { label: '魔法·闪电', tags: 'magic · lightning', duration: '0:08', file: '【SFX】' },
+        { label: '盾牌·格挡', tags: 'defense · shield', duration: '0:07', file: '【SFX】' },
+        ]
+        }, {
+        id: 'ui',
+        title: '界面音效',
+        titleEn: 'UI SFX',
+        icon: '🖱️',
+        sounds: [
+        { label: '按钮·点击', tags: 'ui · click', duration: '0:02', file: '【SFX】' },
+        { label: '按钮·悬停', tags: 'ui · hover', duration: '0:03', file: '【SFX】' },
+        { label: '弹窗·打开', tags: 'ui · modal', duration: '0:06', file: '【SFX】' },
+        { label: '弹窗·关闭', tags: 'ui · dismiss', duration: '0:04', file: '【SFX】' },
+        { label: '确认·成功', tags: 'feedback · success', duration: '0:05', file: '【SFX】' },
+        { label: '确认·错误', tags: 'feedback · error', duration: '0:07', file: '【SFX】' },
+        { label: '确认·警告', tags: 'feedback · warning', duration: '0:06', file: '【SFX】' },
+        { label: '成就·解锁', tags: 'achievement · unlock', duration: '0:10', file: '【SFX】' },
+        { label: '升级·叮', tags: 'levelup · ding', duration: '0:04', file: '【SFX】' },
+        { label: '加载·进度', tags: 'loading · progress', duration: '0:15', file: '【SFX】' },
+        ]
+        }, {
+        id: 'character',
+        title: '角色音效',
+        titleEn: 'Character SFX',
+        icon: '👤',
+        sounds: [
+        { label: '脚步声·木板', tags: 'footstep · wood', duration: '0:03', file: '【SFX】' },
+        { label: '脚步声·石头', tags: 'footstep · stone', duration: '0:04', file: '【SFX】' },
+        { label: '脚步声·草地', tags: 'footstep · grass', duration: '0:03', file: '【SFX】' },
+        { label: '跳跃·起跳', tags: 'jump · launch', duration: '0:03', file: '【SFX】' },
+        { label: '跳跃·落地', tags: 'jump · land', duration: '0:04', file: '【SFX】' },
+        { label: '受击·轻', tags: 'hurt · light', duration: '0:05', file: '【SFX】' },
+        { label: '受击·重', tags: 'hurt · heavy', duration: '0:08', file: '【SFX】' },
+        { label: '拾取·物品', tags: 'pickup · item', duration: '0:03', file: '【SFX】' },
+        { label: '开门·木门', tags: 'door · wood', duration: '0:06', file: '【SFX】' },
+        { label: '开门·铁门', tags: 'door · metal', duration: '0:08', file: '【SFX】' },
         ]
         }];
 
@@ -932,6 +1257,7 @@
         ========================================================= */
         const audio = document.getElementById('audioPlayer');
         const container = document.getElementById('albumContainer');
+        const sfxContainer = document.getElementById('sfxContainer');
         const btnPlay = document.getElementById('btnPlay');
         const btnPrev = document.getElementById('btnPrev');
         const btnNext = document.getElementById('btnNext');
@@ -942,12 +1268,16 @@
         const nowTitle = document.getElementById('nowTitle');
         const nowArtist = document.getElementById('nowArtist');
         const nowThumb = document.getElementById('nowThumb');
+        const tabBar = document.getElementById('tabBar');
 
         let currentAlbumIndex = 0;
         let currentSongIndex = 0;
+        let currentSfxCategory = 0;
+        let currentSfxIndex = 0;
         let isPlaying = false;
+        let activeTab = 'music'; // 'music' or 'sfx'
 
-        // 扁平映射：用于上一首/下一首
+        // 扁平映射：用于上一首/下一首（Music）
         function getFlatIndex(albumIdx, songIdx) {
         let count = 0;
         for (let a = 0; a < ALBUMS.length; a++) {
@@ -974,8 +1304,53 @@
         return ALBUMS.reduce((acc, album) => acc + album.songs.length, 0);
         }
 
+        // 扁平映射：SFX
+        function getSfxFlatIndex(catIdx, sIdx) {
+        let count = 0;
+        for (let c = 0; c < SFX_CATEGORIES.length; c++) {
+        for (let s = 0; s < SFX_CATEGORIES[c].sounds.length; s++) {
+        if (c === catIdx && s === sIdx) return count;
+        count++;
+        }
+        }
+        return 0;
+        }
+
+        function getSfxByFlatIndex(flatIdx) {
+        let count = 0;
+        for (let c = 0; c < SFX_CATEGORIES.length; c++) {
+        for (let s = 0; s < SFX_CATEGORIES[c].sounds.length; s++) {
+        if (count === flatIdx) return { catIdx: c, soundIdx: s, sound: SFX_CATEGORIES[c].sounds[s] };
+        count++;
+        }
+        }
+        return null;
+        }
+
+        function getTotalSfx() {
+        return SFX_CATEGORIES.reduce((acc, cat) => acc + cat.sounds.length, 0);
+        }
+
         /* =========================================================
-        渲染所有专辑
+        选项卡切换
+        ========================================================= */
+        function switchTab(tab) {
+        activeTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+        document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.toggle('active', el.id === 'tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+        });
+        }
+
+        tabBar.addEventListener('click', (e) => {
+        const btn = e.target.closest('.tab-btn');
+        if (btn) switchTab(btn.dataset.tab);
+        });
+
+        /* =========================================================
+        渲染所有专辑（Music Tab）
         ========================================================= */
         function renderAlbums() {
         container.innerHTML = '';
@@ -984,7 +1359,6 @@
         section.className = 'album-section';
         section.dataset.albumIndex = aIdx;
 
-        // 专辑头部
         const header = document.createElement('div');
         header.className = 'album-header';
         header.innerHTML = `
@@ -998,35 +1372,45 @@
         `;
         section.appendChild(header);
 
-        // 封面 + 曲目网格
         const grid = document.createElement('div');
         grid.className = 'album-grid';
 
         // 左：封面
+        const gradients = [
+        'linear-gradient(145deg, #2d1b3d, #1a1a2e)',
+        'linear-gradient(145deg, #0f3443, #1a2a3a)',
+        'linear-gradient(145deg, #3d1c1c, #2a1a1a)',
+        'linear-gradient(145deg, #1b3d2d, #1a2e1a)',
+        'linear-gradient(145deg, #2d2d1b, #3d3d1a)'
+        ];
+        const grad = gradients[aIdx % gradients.length];
+
         const coverCol = document.createElement('div');
         const coverWrapper = document.createElement('div');
         coverWrapper.className = 'cover-wrapper';
-        // 封面图片
-        const img = document.createElement('img');
-        img.src = album.cover || '#';
-        img.alt = `${album.title} 封面`;
-        img.loading = 'lazy';
-        img.onerror = function() {
-        this.style.display = 'none';
-        const placeholder = this.nextElementSibling;
-        if (placeholder) placeholder.style.display = 'flex';
-        };
-        coverWrapper.appendChild(img);
+        coverWrapper.style.setProperty('--grad', grad);
 
         const placeholder = document.createElement('div');
         placeholder.className = 'cover-placeholder';
-        placeholder.style.display = 'none';
-        placeholder.innerHTML = `
-        <div class="big-icon">♫</div>
-        <div class="album-name">${album.title}</div>
-        <div class="artist-name">${album.artist}</div>
-        `;
+        placeholder.style.display = 'flex';
+        placeholder.innerHTML = `<div class="big-icon">♫</div>`;
         coverWrapper.appendChild(placeholder);
+
+        // 有封面图片时才创建 img 标签
+        if (album.cover) {
+        const img = document.createElement('img');
+        img.src = album.cover;
+        img.alt = `${album.title} 封面`;
+        img.loading = 'lazy';
+        img.onload = function() {
+        placeholder.style.display = 'none';
+        this.style.display = 'block';
+        };
+        img.onerror = function() {
+        this.remove();
+        };
+        coverWrapper.appendChild(img);
+        }
         coverCol.appendChild(coverWrapper);
         grid.appendChild(coverCol);
 
@@ -1042,12 +1426,6 @@
         item.dataset.songIndex = sIdx;
 
         const isActive = (aIdx === currentAlbumIndex && sIdx === currentSongIndex);
-        if (isActive) item.classList.add('active');
-        if (isActive && isPlaying) {
-        const dot = document.createElement('span');
-        dot.className = 'track-indicator playing';
-        // 重新构建，稍复杂，用innerHTML一次性构建
-        }
 
         item.innerHTML = `
         <span class="track-index">${String(sIdx + 1).padStart(2, '0')}</span>
@@ -1058,11 +1436,7 @@
         <span class="track-duration">${song.duration}</span>
         `;
 
-        // 修正 indicator 的 class (因为 innerHTML 里的 class 是静态的)
-        const indicator = item.querySelector('.track-indicator');
-        if (isActive && isPlaying) {
-        indicator.classList.add('playing');
-        }
+        if (isActive) item.classList.add('active');
 
         item.addEventListener('click', () => {
         playSong(aIdx, sIdx);
@@ -1078,7 +1452,58 @@
         }
 
         /* =========================================================
-        更新高亮
+        渲染 SFX
+        ========================================================= */
+        function renderSfx() {
+        sfxContainer.innerHTML = '';
+        SFX_CATEGORIES.forEach((cat, cIdx) => {
+        const section = document.createElement('div');
+        section.className = 'sfx-section';
+
+        const header = document.createElement('div');
+        header.className = 'sfx-header';
+        header.innerHTML = `
+        <h3 class="sfx-title">${cat.icon} ${cat.title} <small style="font-size:0.7rem;color:var(--ink3);font-style:italic;font-weight:300;margin-left:0.5rem;">${cat.titleEn}</small></h3>
+        <span class="sfx-count">${cat.sounds.length} 个音效</span>
+        `;
+        section.appendChild(header);
+
+        const grid = document.createElement('div');
+        grid.className = 'sfx-grid';
+
+        cat.sounds.forEach((sound, sIdx) => {
+        const card = document.createElement('div');
+        card.className = 'sfx-card';
+        card.dataset.catIndex = cIdx;
+        card.dataset.soundIndex = sIdx;
+
+        const isActive = (cIdx === currentSfxCategory && sIdx === currentSfxIndex);
+        if (isActive) card.classList.add('active');
+
+        card.innerHTML = `
+        <span class="sfx-icon">${cat.icon}</span>
+        <span class="sfx-info">
+        <span class="sfx-label">${sound.label}</span>
+        <span class="sfx-tags">${sound.tags}</span>
+        </span>
+        <span class="sfx-duration">${sound.duration}</span>
+        <button class="sfx-play-btn">▶</button>
+        `;
+
+        card.addEventListener('click', () => {
+        playSfx(cIdx, sIdx);
+        });
+
+        grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        sfxContainer.appendChild(section);
+        });
+        }
+
+        /* =========================================================
+        更新高亮（Music）
         ========================================================= */
         function updateHighlights() {
         const allItems = container.querySelectorAll('.track-item');
@@ -1097,7 +1522,30 @@
         }
 
         /* =========================================================
-        播放核心
+        更新高亮（SFX）
+        ========================================================= */
+        function updateSfxHighlights() {
+        const allCards = sfxContainer.querySelectorAll('.sfx-card');
+        allCards.forEach(card => {
+        const cIdx = parseInt(card.dataset.catIndex);
+        const sIdx = parseInt(card.dataset.soundIndex);
+        const isActive = (cIdx === currentSfxCategory && sIdx === currentSfxIndex);
+        card.classList.toggle('active', isActive);
+        const btn = card.querySelector('.sfx-play-btn');
+        if (isActive && isPlaying) {
+        btn.textContent = '❚❚';
+        btn.style.background = 'var(--red)';
+        btn.style.color = '#fff';
+        } else {
+        btn.textContent = '▶';
+        btn.style.background = '';
+        btn.style.color = '';
+        }
+        });
+        }
+
+        /* =========================================================
+        播放核心 — Music
         ========================================================= */
         function playSong(albumIdx, songIdx) {
         const album = ALBUMS[albumIdx];
@@ -1108,20 +1556,32 @@
         currentAlbumIndex = albumIdx;
         currentSongIndex = songIdx;
 
-        // 更新播放器信息
         nowTitle.textContent = song.title;
         nowArtist.textContent = album.artist;
 
-        // 更新封面缩略图
+        const gradients = [
+        'linear-gradient(145deg, #2d1b3d, #1a1a2e)',
+        'linear-gradient(145deg, #0f3443, #1a2a3a)',
+        'linear-gradient(145deg, #3d1c1c, #2a1a1a)',
+        'linear-gradient(145deg, #1b3d2d, #1a2e1a)',
+        'linear-gradient(145deg, #2d2d1b, #3d3d1a)'
+        ];
         const thumbImg = nowThumb.querySelector('img');
-        if (thumbImg) {
-        thumbImg.src = album.cover || '#';
+        if (album.cover && thumbImg) {
+        thumbImg.src = album.cover;
         thumbImg.style.display = 'block';
+        thumbImg.onerror = function() {
+        this.style.display = 'none';
+        nowThumb.style.background = gradients[albumIdx % gradients.length];
+        };
+        nowThumb.style.background = '';
+        } else if (thumbImg) {
+        thumbImg.style.display = 'none';
+        nowThumb.style.background = gradients[albumIdx % gradients.length];
         }
 
-        // 处理音频文件（占位符检查）
         const fileUrl = song.file;
-        if (fileUrl && fileUrl !== '【MUSIC】' && !fileUrl.includes('【MUSIC】')) {
+        if (fileUrl && fileUrl !== '【MUSIC】' && !fileUrl.includes('【MUSIC】') && !fileUrl.includes('【SFX】')) {
         if (audio.src !== fileUrl) {
         audio.src = fileUrl;
         audio.load();
@@ -1136,18 +1596,14 @@
         updateHighlights();
         });
         } else {
-        // 占位符：暂停并提示
         audio.pause();
         audio.src = '';
         isPlaying = false;
         updatePlayButton();
         updateHighlights();
-        console.log(`🎵 [占位] ${album.title} — ${song.title} (${song.duration}) 等待替换真实文件`);
-        // 可以显示一个简单的提示（通过播放器显示）
         nowTitle.textContent = `${song.title} (占位)`;
         }
 
-        // 更新总时长（优先用 duration，否则显示占位时长）
         if (song.duration) {
         totalTimeEl.textContent = song.duration;
         }
@@ -1157,24 +1613,96 @@
         }
 
         /* =========================================================
-        上一首 / 下一首
+        播放核心 — SFX
+        ========================================================= */
+        function playSfx(catIdx, soundIdx) {
+        const cat = SFX_CATEGORIES[catIdx];
+        if (!cat) return;
+        const sound = cat.sounds[soundIdx];
+        if (!sound) return;
+
+        currentSfxCategory = catIdx;
+        currentSfxIndex = soundIdx;
+
+        nowTitle.textContent = sound.label;
+        nowArtist.textContent = cat.title;
+
+        const thumbImg = nowThumb.querySelector('img');
+        if (thumbImg) {
+        thumbImg.src = '#';
+        thumbImg.style.display = 'none';
+        nowThumb.style.background = 'linear-gradient(145deg, #2d1b3d, #1a1a2e)';
+        }
+
+        const fileUrl = sound.file;
+        if (fileUrl && fileUrl !== '【SFX】' && !fileUrl.includes('【SFX】') && !fileUrl.includes('【MUSIC】')) {
+        if (audio.src !== fileUrl) {
+        audio.src = fileUrl;
+        audio.load();
+        }
+        audio.play().then(() => {
+        isPlaying = true;
+        updatePlayButton();
+        updateSfxHighlights();
+        }).catch(() => {
+        isPlaying = false;
+        updatePlayButton();
+        updateSfxHighlights();
+        });
+        } else {
+        audio.pause();
+        audio.src = '';
+        isPlaying = false;
+        updatePlayButton();
+        updateSfxHighlights();
+        nowTitle.textContent = `${sound.label} (占位)`;
+        }
+
+        if (sound.duration) {
+        totalTimeEl.textContent = sound.duration;
+        }
+        progressFill.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+        updateSfxHighlights();
+        }
+
+        /* =========================================================
+        上一首 / 下一首（根据当前 tab）
         ========================================================= */
         function playPrev() {
+        if (activeTab === 'music') {
         const total = getTotalSongs();
         if (total === 0) return;
         let flat = getFlatIndex(currentAlbumIndex, currentSongIndex);
         flat = (flat - 1 + total) % total;
         const result = getSongByFlatIndex(flat);
         if (result) playSong(result.albumIdx, result.songIdx);
+        } else {
+        const total = getTotalSfx();
+        if (total === 0) return;
+        let flat = getSfxFlatIndex(currentSfxCategory, currentSfxIndex);
+        flat = (flat - 1 + total) % total;
+        const result = getSfxByFlatIndex(flat);
+        if (result) playSfx(result.catIdx, result.soundIdx);
+        }
         }
 
         function playNext() {
+        if (activeTab === 'music') {
         const total = getTotalSongs();
         if (total === 0) return;
         let flat = getFlatIndex(currentAlbumIndex, currentSongIndex);
         flat = (flat + 1) % total;
         const result = getSongByFlatIndex(flat);
         if (result) playSong(result.albumIdx, result.songIdx);
+        } else {
+        const total = getTotalSfx();
+        if (total === 0) return;
+        let flat = getSfxFlatIndex(currentSfxCategory, currentSfxIndex);
+        flat = (flat + 1) % total;
+        const result = getSfxByFlatIndex(flat);
+        if (result) playSfx(result.catIdx, result.soundIdx);
+        }
         }
 
         /* =========================================================
@@ -1188,13 +1716,20 @@
         audio.play().catch(() => {});
         }
         } else {
-        // 如果没有加载歌曲，尝试播放当前选中的
+        if (activeTab === 'music') {
         const album = ALBUMS[currentAlbumIndex];
         if (album && album.songs[currentSongIndex]) {
         playSong(currentAlbumIndex, currentSongIndex);
         } else {
-        // 默认播放第一张专辑第一首
         playSong(0, 0);
+        }
+        } else {
+        const cat = SFX_CATEGORIES[currentSfxCategory];
+        if (cat && cat.sounds[currentSfxIndex]) {
+        playSfx(currentSfxCategory, currentSfxIndex);
+        } else {
+        playSfx(0, 0);
+        }
         }
         }
         }
@@ -1223,10 +1758,16 @@
         currentTimeEl.textContent = formatTime(audio.currentTime);
         totalTimeEl.textContent = formatTime(audio.duration);
         } else {
-        // 若是占位符或无时长，保留显示 duration
+        if (activeTab === 'music') {
         const album = ALBUMS[currentAlbumIndex];
         if (album && album.songs[currentSongIndex]) {
         totalTimeEl.textContent = album.songs[currentSongIndex].duration || '0:00';
+        }
+        } else {
+        const cat = SFX_CATEGORIES[currentSfxCategory];
+        if (cat && cat.sounds[currentSfxIndex]) {
+        totalTimeEl.textContent = cat.sounds[currentSfxIndex].duration || '0:00';
+        }
         }
         }
         }
@@ -1266,13 +1807,15 @@
         audio.addEventListener('play', () => {
         isPlaying = true;
         updatePlayButton();
-        updateHighlights();
+        if (activeTab === 'music') updateHighlights();
+        else updateSfxHighlights();
         });
 
         audio.addEventListener('pause', () => {
         isPlaying = false;
         updatePlayButton();
-        updateHighlights();
+        if (activeTab === 'music') updateHighlights();
+        else updateSfxHighlights();
         });
 
         audio.addEventListener('ended', () => {
@@ -1307,6 +1850,8 @@
         初始化
         ========================================================= */
         renderAlbums();
+        renderSfx();
+
         // 默认加载第一张专辑第一首（但不自动播放）
         const firstAlbum = ALBUMS[0];
         if (firstAlbum && firstAlbum.songs.length > 0) {
@@ -1315,17 +1860,22 @@
         nowArtist.textContent = firstAlbum.artist;
         totalTimeEl.textContent = firstSong.duration;
         const thumbImg = nowThumb.querySelector('img');
-        if (thumbImg) thumbImg.src = firstAlbum.cover || '#';
+        if (thumbImg && firstAlbum.cover) {
+        thumbImg.src = firstAlbum.cover;
+        } else if (thumbImg) {
+        thumbImg.style.display = 'none';
+        nowThumb.style.background = 'linear-gradient(145deg, #2d1b3d, #1a1a2e)';
+        }
         currentAlbumIndex = 0;
         currentSongIndex = 0;
         updateHighlights();
         updatePlayButton();
-        // 不自动播放
         }
 
         console.log(`🎵 多专辑播放器已就绪 · 共 ${ALBUMS.length} 张专辑`);
+        console.log(`🔊 SFX 分类已就绪 · 共 ${SFX_CATEGORIES.length} 个分类, ${getTotalSfx()} 个音效`);
         console.log('💡 点击曲目切换 · 空格键播放/暂停');
-        console.log('📌 音乐文件占位符: 【MUSIC】');
+        console.log('📌 占位符: 【MUSIC】 / 【SFX】');
     </script>
 </body>
 </html>

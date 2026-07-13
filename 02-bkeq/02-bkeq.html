@@ -188,19 +188,25 @@
 
         .project-title {
             font-family: var(--serif);
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.4rem, 5vw, 4rem);
             font-weight: 300;
             line-height: 1.1;
             color: var(--ink);
+            margin-bottom: 1.75rem;
             letter-spacing: -0.02em;
         }
 
             .project-title em {
                 font-style: italic;
-                color: var(--ink3);
-                font-size: 0.7em;
-                font-weight: 300;
+                color: var(--red);
             }
+
+        .page-desc {
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 620px;
+            line-height: 1.9;
+        }
 
         /* ── 多媒体容器 ──────────────────────────────────────── */
         .media-block {
@@ -300,7 +306,7 @@
             border: 2px solid var(--ink2);
             background: var(--ink);
             color: var(--paper);
-            font-size: 16px;
+            font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -538,8 +544,9 @@
         <header class="project-header">
             <a href="../index.html#work" class="page-back">← back to work</a>
             <h1 class="project-title">
-                BKEQ Hybrid <em>— 结合 SSL 与 Pultec 声音特点的均衡器</em>
+                <em>[BKEQ Hybrid]</em>
             </h1>
+            <p class="page-desc">结合 SSL 与 Pultec 声音特点的均衡器 · VST3 音频插件</p>
         </header>
 
         <!--
@@ -568,7 +575,7 @@
         <!-- A/B 对比台 -->
         <div class="ab-console">
             <div class="ab-master-col">
-                <span class="ab-play-label">点击开始试听<br>按下 S 键单独播放</span>
+                <span class="ab-play-label">点击开始试听<br>Press to play</span>
                 <button class="ab-play" id="ab-play-btn" title="开始试听">▶</button>
             </div>
             <div class="ab-side" id="ab-original">
@@ -665,16 +672,7 @@
                 Just break the silence.
             </div>
 
-            <!-- 技术标签 -->
-            <div class="tech-tags">
-                <span class="tech-tag highlight">VST3</span>
-                <span class="tech-tag highlight">Pultec</span>
-                <span class="tech-tag highlight">SSL</span>
-                <span class="tech-tag">C++</span>
-                <span class="tech-tag">JUCE</span>
-                <span class="tech-tag">UI/UX</span>
-                <span class="tech-tag">Reaper</span>
-            </div>
+
         </div>
 
         <hr class="divider" />
@@ -692,8 +690,6 @@
         <footer class="footer-sub">
             <span>© EiiChi_2049</span>
             <span>
-                <a href="../index.html#work">← 返回作品列表</a>
-            </span>
         </footer>
     </main>
     <script>
@@ -725,13 +721,13 @@
           playing = true;
           playBtn.classList.add('playing');
           playBtn.textContent = '⏸';
-          if (playLabel) playLabel.textContent = '点击暂停';
+          if (playLabel) playLabel.innerHTML = '点击暂停<br>Press to pause';
         } else {
           audios.forEach(function(a) { a.pause(); });
           playing = false;
           playBtn.classList.remove('playing');
           playBtn.textContent = '▶';
-          if (playLabel) playLabel.textContent = '点击开始试听';
+          if (playLabel) playLabel.innerHTML = '点击开始试听<br>Press to play';
         }
       });
 

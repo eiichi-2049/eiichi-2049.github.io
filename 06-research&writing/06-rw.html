@@ -407,15 +407,13 @@
 
       /* ── PAGE HERO ───────────────────────────────────────── */
       #rw-hero {
-        min-height: 46vh;
+        min-height: 30vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-top: 56px;
+        padding: 80px 3rem 2rem;
         max-width: 1080px;
         margin: 0 auto;
-        padding-left: 3rem;
-        padding-right: 3rem;
       }
       .rw-back {
         font-size: 11px;
@@ -474,13 +472,13 @@
 
       /* ── TWO-COLUMN BODY ─────────────────────────────────── */
       #rw-body {
-        padding: 5rem 3rem 7rem;
+        padding: 2rem 3rem 7rem;
       }
       #rw-body::before {
         content: "";
         display: block;
         height: 6px;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         background:
             linear-gradient(to right, transparent 0%, var(--ink3) 10%, var(--ink3) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
             linear-gradient(to right, transparent 0%, var(--ink3) 15%, var(--ink3) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
@@ -598,6 +596,34 @@
         color: var(--ink3);
         line-height: 1.75;
         max-width: 92%;
+      }
+
+      /* 默认隐藏描述和脚注，hover 显示（编号始终可见） */
+      .rw-col .rw-item .rw-item-desc,
+      .rw-col .rw-item .rw-item-footer {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: opacity 0.3s var(--ease), max-height 0.35s var(--ease);
+      }
+      .rw-col .rw-item:hover .rw-item-desc,
+      .rw-col .rw-item:hover .rw-item-footer {
+        opacity: 1;
+        max-height: 200px;
+      }
+
+      /* 编号和标题始终可见 */
+      .rw-col .rw-item .rw-item-top,
+      .rw-col .rw-item .rw-item-title {
+        opacity: 1;
+        transition: none;
+      }
+
+      /* 标题中的红色强调 */
+      .rw-item-title em {
+        font-style: normal;
+        color: var(--red);
+        font-weight: 600;
       }
       .rw-item-footer {
         display: flex;
@@ -780,7 +806,7 @@
                   <span class="rw-item-num">R.01</span>
                 </div>
                 <div class="rw-item-title">
-                  从《明日方舟：终末地》出发，浅析大型游戏音频系统架构 VOL.00-03
+                  从《<em>明日方舟：终末地</em>》出发，浅析<em>大型游戏音频系统架构</em> VOL.00-03
                 </div>
                 <p class="rw-item-desc">
                   以几款在市面上具有一定知名度的游戏为例，梳理环境声、音乐层与
@@ -804,7 +830,7 @@
                   <span class="rw-item-num">R.02</span>
                 </div>
                 <div class="rw-item-title">
-                  音乐系统笔记——从 Wwise 到实际战斗音乐
+                  音乐系统笔记——从 <em>Wwise</em> 到实际<em>战斗音乐</em>
                 </div>
                 <p class="rw-item-desc">
                   记录用 Wwise 搭建分层 / 过渡式战斗音乐的过程，包括
@@ -828,7 +854,7 @@
                   <span class="rw-item-num">R.03</span>
                 </div>
                 <div class="rw-item-title">
-                  民族乐器的电子化改编——这是三个关键词
+                  <em>民族乐器</em>的电子化改编——这是三个关键词
                 </div>
                 <p class="rw-item-desc">
                   KONTAKT-AMPLE CHINA-THREE BODY TECHNOLOGY
@@ -863,7 +889,7 @@
                   <span class="rw-item-num">W.01</span>
                 </div>
                 <div class="rw-item-title">
-                  为什么我还在做游戏音乐
+                  为什么我还在做<em>游戏音乐</em>
                 </div>
                 <p class="rw-item-desc">
                   从第一次被一段配乐击中的瞬间说起，聊聊坚持做游戏音乐这件事里不那么"浪漫"的部分——以及为什么依然在创作。
@@ -885,7 +911,7 @@
                   <span class="rw-item-num">W.02</span>
                 </div>
                 <div class="rw-item-title">
-                  《我对于AI的看法——扭蛋时代》
+                  《我对于<em>AI</em>的看法——<em>扭蛋时代</em>》
                 </div>
                 <p class="rw-item-desc">
                   我投币，我旋转，我复制，我粘贴，我修改
@@ -907,7 +933,7 @@
                   <span class="rw-item-num">W.03</span>
                 </div>
                 <div class="rw-item-title">
-                  一生悬命，知而即行
+                  <em>一生悬命，知而即行</em>
                 </div>
                 <p class="rw-item-desc">
                   知道了，那就去做吧。哪怕做出来的是一坨。一坨也有它的意义，因为它证明你曾经出发。
@@ -930,7 +956,7 @@
                   <span class="rw-item-num">W.04</span>
                 </div>
                 <div class="rw-item-title">
-                    音频插件开发手记——BK_EQ_Hybrid的诞生
+                    音频插件开发手记——<em>BK_EQ_Hybrid</em>的诞生
                 </div>
                 <p class="rw-item-desc">
                   从概念到实现，记录我在开发一款混合式均衡器插件时的思路、挑战与收获。
@@ -953,7 +979,7 @@
                   <span class="rw-item-num">W.05</span>
                 </div>
                 <div class="rw-item-title">
-                  写在鹰角面试之后——你切不可丢弃那勇敢的心
+                  写在<em>鹰角面试</em>之后——你切不可丢弃那<em>勇敢的心</em>
                 </div>
                 <p class="rw-item-desc">
                   不涉及题库分享，仅记录一些面试后的感受。为什么古希腊人会把勇敢视为四美德之一？
@@ -976,7 +1002,7 @@
                   <span class="rw-item-num">W.06</span>
                 </div>
                 <div class="rw-item-title">
-                  【影评】《挽救计划》回眸——为什么好看？
+                  【影评】<em>《挽救计划》</em>回眸——为什么好看？
                 </div>
                 <p class="rw-item-desc">
                   在太空歌剧题材浩如烟海的当下，这部电影拍出了许多科幻片没有展示的——纯粹的孤独之美。
@@ -999,7 +1025,7 @@
                   <span class="rw-item-num">W.07</span>
                 </div>
                 <div class="rw-item-title">
-                  【浅度思考】Pulling Out All Stops
+                  【浅度思考】<em>Pulling Out All Stops</em>
                 </div>
                 <p class="rw-item-desc">
                   从《星际穿越》配乐幕后谈起，聊聊管风琴与"全力以赴"的声音哲学。
@@ -1022,7 +1048,7 @@
                   <span class="rw-item-num">W.08</span>
                 </div>
                 <div class="rw-item-title">
-                  【浅度思考】Woc，原！
+                  【浅度思考】Woc，<em>原</em>！
                 </div>
                 <p class="rw-item-desc">
                   在如今的互联网语境里，OP早已脱离"原神玩家"的中性指代，转而成为一顶带有浓烈贬义色彩的帽子。
@@ -1045,7 +1071,7 @@
                   <span class="rw-item-num">W.09</span>
                 </div>
                 <div class="rw-item-title">
-                  从《明日方舟：终末地》出发，浅析大型游戏音频系统架构 Vol.0
+                  从《明日方舟：终末地》出发，<em>浅析大型游戏音频系统架构</em> Vol.0
                 </div>
                 <p class="rw-item-desc">
                   结合官方分享的文章和视频，浅谈大型游戏音频系统架构：Wwise、对象、台本、环境与优化。
@@ -1068,7 +1094,7 @@
                   <span class="rw-item-num">W.10</span>
                 </div>
                 <div class="rw-item-title">
-                  （转载）你是隐藏的天才吗？
+                  <em>【转载】</em>你是<em>隐藏的天才</em>吗？
                 </div>
                 <p class="rw-item-desc">
                   任务要求很简单：在你选定的数字音频工作站中拓展你的创作实践，尽全力做到极致。但事情却不太对劲。

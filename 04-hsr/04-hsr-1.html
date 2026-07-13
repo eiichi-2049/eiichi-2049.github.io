@@ -198,19 +198,25 @@
 
         .project-title {
             font-family: var(--serif);
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.4rem, 5vw, 4rem);
             font-weight: 300;
             line-height: 1.1;
             color: var(--ink);
+            margin-bottom: 1.75rem;
             letter-spacing: -0.02em;
         }
 
             .project-title em {
                 font-style: italic;
-                color: var(--ink3);
-                font-size: 0.7em;
-                font-weight: 300;
+                color: var(--red);
             }
+
+        .page-desc {
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 620px;
+            line-height: 1.9;
+        }
 
         .project-meta-row {
             display: flex;
@@ -378,36 +384,6 @@
                         font-style: italic;
                     }
 
-                .analysis-entry .analysis-text .tech-list {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 4px;
-                    margin-top: 0.25rem;
-                }
-
-                    .analysis-entry .analysis-text .tech-list span {
-                        font-size: 9px;
-                        letter-spacing: 0.04em;
-                        padding: 1px 10px;
-                        border-radius: 100px;
-                        border: 1px solid var(--rule-h);
-                        color: var(--ink3);
-                        font-family: var(--mono);
-                        text-transform: uppercase;
-                    }
-
-                    .analysis-entry .analysis-text .tech-list .highlight-tag {
-                        color: var(--red);
-                        border-color: rgba(192, 57, 43, 0.2);
-                        background: var(--red-dim);
-                    }
-
-                    .analysis-entry .analysis-text .tech-list .blue-tag {
-                        color: var(--blue);
-                        border-color: rgba(74, 106, 138, 0.2);
-                        background: var(--blue-dim);
-                    }
-
         /* 条目之间的分隔装饰 */
         .entry-divider {
             text-align: center;
@@ -511,38 +487,6 @@
                 color: var(--blue);
                 font-weight: 400;
                 font-style: italic;
-            }
-
-        /* ── 技术栈标签 ────────────────────────────────────── */
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: 1rem 0 0.5rem;
-        }
-
-        .tech-tag {
-            font-size: 10px;
-            letter-spacing: 0.04em;
-            padding: 2px 12px;
-            border-radius: 100px;
-            border: 1px solid var(--rule-h);
-            color: var(--ink3);
-            background: transparent;
-            font-family: var(--mono);
-            text-transform: uppercase;
-        }
-
-            .tech-tag.highlight {
-                color: var(--red);
-                border-color: rgba(192, 57, 43, 0.25);
-                background: rgba(192, 57, 43, 0.06);
-            }
-
-            .tech-tag.blue {
-                color: var(--blue);
-                border-color: rgba(74, 106, 138, 0.2);
-                background: var(--blue-dim);
             }
 
         /* ── 分隔线 ────────────────────────────────────────── */
@@ -651,15 +595,10 @@
         <!-- 项目标题 -->
         <header class="project-header">
             <a href="../index.html#work" class="page-back">← back to work</a>
-            <div class="project-tag">
-                Analysis · Mock-up
-                <span class="divider-dot">✦</span>
-                Honkai: Star Rail
-            </div>
             <h1 class="project-title">
-                崩铁 PV 音乐复刻与分析
-                <em>— 学习型再创作 · 持续更新</em>
+                <em>[Honkai: Star Rail BGM]</em>
             </h1>
+            <p class="page-desc">崩铁 PV 音乐复刻与分析</p>
         </header>
 
         <!-- ── ✦ 面试故事 ────────────────────────────────────── -->
@@ -719,14 +658,8 @@
                     <strong>混音思路：</strong>
                     30s 之前原声乐器占比多，使用 Delay &amp; Reverb 营造氛围；
                     Trap 段侧链压缩控制 BASS，让低频有呼吸感；
-                    管弦乐部分多次 EQ 让弦乐"透出来"。
+                    管弦乐部分使用 EQ 让弦乐"透出来"。
                 </p>
-                <div class="tech-list">
-                    <span class="highlight-tag">民乐</span>
-                    <span class="blue-tag">Trap</span>
-                    <span class="highlight-tag">管弦</span>
-                    <span class="blue-tag">侧链压缩</span>
-                </div>
             </div>
         </div>
 
@@ -761,12 +694,6 @@
                     民乐之间通过频段错位避免打架（笛子偏高频、弹拨类偏中频）；
                     鼓组 Loop 微调 Velocity/Pitch；高频避免因追求"可爱"导致刺耳。
                 </p>
-                <div class="tech-list">
-                    <span class="blue-tag">电子流行</span>
-                    <span class="highlight-tag">中式融合</span>
-                    <span class="blue-tag">木管</span>
-                    <span class="highlight-tag">频段错位</span>
-                </div>
             </div>
         </div>
 
@@ -803,12 +730,6 @@
                 <p style="font-size: 13px; color: var(--ink3); font-style: italic;">
                     Trance 一直放，观众一直爽 ✦
                 </p>
-                <div class="tech-list">
-                    <span class="highlight-tag">Glitch Hop</span>
-                    <span class="blue-tag">Psy Trance</span>
-                    <span class="highlight-tag">FX</span>
-                    <span class="blue-tag">自动化</span>
-                </div>
             </div>
         </div>
 
@@ -850,18 +771,6 @@
                 </div>
             </div>
 
-            <!-- 技术标签 -->
-            <div class="tech-tags">
-                <span class="tech-tag highlight">Ableton Live</span>
-                <span class="tech-tag highlight">崩坏：星穹铁道</span>
-                <span class="tech-tag blue">PV 配乐</span>
-                <span class="tech-tag blue">中国风 Trap</span>
-                <span class="tech-tag">Glitch Hop</span>
-                <span class="tech-tag">Psy Trance</span>
-                <span class="tech-tag">侧链压缩</span>
-                <span class="tech-tag">频段错位</span>
-            </div>
-
             <!-- 结尾引用 -->
             <div class="quote-block blue" style="margin-top: 0.5rem;">
                 审美或许是未来最稀缺的能力。
@@ -888,7 +797,6 @@
         <footer class="footer-sub">
             <span>© EiiChi_2049</span>
             <span>
-                <a href="../index.html#work">← 返回作品列表</a>
             </span>
         </footer>
     </main>

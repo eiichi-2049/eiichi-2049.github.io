@@ -106,6 +106,7 @@
         height: 56px;
         border-bottom: 1px solid var(--rule);
         background: rgba(245, 240, 232, 0.92);
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         display: flex;
         align-items: center;
@@ -365,6 +366,10 @@
         height: auto;
         opacity: 0.85;
         pointer-events: none;
+      }
+      #logoVideoFwd,
+      #logoVideoRev {
+        display: none;
       }
 
       .status-row {
@@ -708,7 +713,7 @@
       .contact-row {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 2.5rem;
       }
 
       .contact-label {
@@ -840,7 +845,7 @@
           grid-template-columns: 1fr;
           padding-left: 1.5rem;
           padding-right: 1.5rem;
-          min-height: auto;
+          min-height: 0;
           padding-top: calc(56px + 3rem);
           padding-bottom: 4rem;
         }
@@ -921,8 +926,8 @@
         display: none;
         align-items: center;
         justify-content: center;
-        backdrop-filter: blur(6px);
         -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
       }
       .wc-overlay.active {
         display: flex;
@@ -1099,7 +1104,6 @@
              ></canvas>
             <video
              src="00-index_images/LOGO05.mp4"
-             style="display:none"
              playsinline
              muted
              preload="auto"
@@ -1107,7 +1111,6 @@
              ></video>
             <video
              src="00-index_images/LOGO05R.mp4"
-             style="display:none"
              playsinline
              muted
              preload="auto"
@@ -1285,7 +1288,7 @@
                   追求极致<br />
                   <em>"如果不满意，就再来一次"</em><br />
                   乐队的铜管与弦乐平衡我调整了两周，那台均衡器的UI我修改了二十二版，五十八分钟的视频翻译从初稿到最终版经过了反复校对。<br />
-                  因为<em>"知而即行"</em>，我愿意追求一个自己能看见、能确认、能点头说<em>"这版还不错"</em>的满意度。
+                  因为<em>"知而即行"</em>，我愿追求一个自己能看见、能确认、能点头说<em>"这版还不错"</em>的满意度。
               </p>
           </div>
           <div class="about-aside">
