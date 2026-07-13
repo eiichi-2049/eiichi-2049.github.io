@@ -71,6 +71,9 @@
       }
 
       /* ── BASE ────────────────────────────────────────────── */
+      html {
+        height: 100%;
+      }
       body {
         font-family: var(--mono);
         background: var(--paper);
@@ -78,6 +81,14 @@
         font-size: 13px;
         line-height: 1.7;
         overflow-x: hidden;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        min-height: 100dvh;
+        min-height: 100vh;
+      }
+
+      .page-content {
+        flex: 1;
       }
 
       /* subtle paper texture */
@@ -111,6 +122,11 @@
         display: flex;
         align-items: center;
         padding: 0 3rem;
+        transition: transform 0.4s var(--ease);
+        transform: translateY(0);
+      }
+      .nav.nav--hidden {
+        transform: translateY(-100%);
       }
       .nav-inner {
         max-width: 1080px;
@@ -131,32 +147,35 @@
       }
       .nav-links {
         display: flex;
-        gap: 2rem;
+        gap: 2.4rem;
         list-style: none;
       }
       .nav-links a {
-        font-size: 11px;
+        font-size: 10px;
         color: var(--ink3);
         text-decoration: none;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
-        transition: color 0.2s;
+        font-weight: 400;
+        transition: color 0.25s var(--ease), text-shadow 0.25s var(--ease);
         position: relative;
+        padding: 2px 0;
       }
       .nav-links a::after {
         content: "";
         position: absolute;
-        bottom: -2px;
+        bottom: 0;
         left: 0;
         right: 0;
-        height: 1px;
-        background: var(--red);
+        height: 1.5px;
+        background: var(--ink);
         transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.25s var(--ease);
+        transform-origin: center;
+        transition: transform 0.35s var(--ease);
       }
       .nav-links a:hover {
         color: var(--ink);
+        text-shadow: 0 0 0.6px var(--ink), 0 0 1.2px var(--ink);
       }
       .nav-links a:hover::after {
         transform: scaleX(1);
@@ -220,7 +239,8 @@
         letter-spacing: -0.02em;
         opacity: 0;
         display: inline-flex;
-        gap: 0.35em;
+        align-items: flex-start;
+        gap: 0.78em;
       }
       .hero-col {
         display: flex;
@@ -240,55 +260,105 @@
         max-width: 380px;
         line-height: 1.9;
         letter-spacing: 0.04em;
-        margin-bottom: 2.5rem;
+        margin-bottom: 1.5rem;
         opacity: 0;
+      }
+
+      .hero-status-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--zh);
+        font-size: 13px;
+        font-weight: 300;
+        color: var(--ink3);
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        user-select: none;
+        margin-bottom: 1.25rem;
+        opacity: 0;
+        position: relative;
+        transition: color 0.3s var(--ease);
+      }
+      .hero-status-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1.5px;
+        background: var(--ink);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.35s var(--ease);
+      }
+      .hero-status-link:hover {
+        color: var(--ink);
+      }
+      .hero-status-link:hover::after {
+        transform: scaleX(1);
+      }
+      .hero-status-link.open {
+        color: var(--ink);
+      }
+      .hero-status-link.open::after {
+        transform: scaleX(1);
+      }
+      .hero-status-link .status-link-arrow {
+        font-size: 0.85em;
+        display: inline-block;
+        transition: transform 0.25s var(--ease);
+      }
+      .hero-status-link:hover .status-link-arrow {
+        transform: translateX(3px);
       }
       .hero-actions {
         display: flex;
-        gap: 12px;
+        gap: 48px;
         flex-wrap: wrap;
+        max-width: 380px;
         opacity: 0;
       }
 
       .btn-primary {
-        background: var(--ink);
-        color: var(--paper);
-        border: none;
+        background: transparent;
+        color: var(--ink2);
+        border: 1px solid var(--ink4);
         border-radius: 2px;
         font-family: var(--zh);
         font-weight: 300;
         font-size: 11px;
         letter-spacing: 0.08em;
-        padding: 10px 22px;
+        padding: 8px 22px;
         cursor: pointer;
-        transition:
-          background 0.2s,
-          transform 0.1s;
+        transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.1s;
       }
       .btn-primary:hover {
-        background: var(--ink2);
+        border-color: var(--ink);
+        color: var(--ink);
+        background: var(--paper2);
       }
       .btn-primary:active {
         transform: scale(0.97);
       }
       .btn-outline {
         background: transparent;
-        color: var(--ink2);
-        border: 1px solid var(--rule-h);
-        border-radius: 2px;
+        color: var(--ink3);
+        border: none;
         font-family: var(--zh);
         font-weight: 300;
-        font-size: 11px;
+        font-size: 13px;
         letter-spacing: 0.08em;
-        padding: 10px 22px;
+        padding: 0;
         cursor: pointer;
-        transition:
-          border-color 0.2s,
-          color 0.2s;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: var(--ink4);
+        transition: color 0.2s, text-decoration-color 0.2s;
       }
       .btn-outline:hover {
-        border-color: var(--ink3);
         color: var(--ink);
+        text-decoration-color: var(--ink);
       }
 
       /* right side — status card + logo */
@@ -296,33 +366,43 @@
         align-self: stretch;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-end;
         padding: 3rem 0;
         opacity: 0;
       }
       .status-card {
-        border: 1px solid var(--rule);
-        border-radius: 4px;
+        border: 1px solid rgba(26, 23, 20, 0.12);
+        border-radius: 6px;
         background: var(--paper2);
         overflow: hidden;
-        transition: box-shadow 0.25s ease;
+        transition: box-shadow 0.25s ease, opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0.35s;
         flex-shrink: 0;
-        transform: translateY(15%);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(24px);
+      }
+      .status-card.visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(0);
       }
       .status-card:hover {
-        box-shadow: 0 2px 16px rgba(26, 23, 20, 0.06);
+        box-shadow: 0 2px 16px rgba(26, 23, 20, 0.10);
       }
       .status-card-header {
-        padding: 1rem 3.5rem;
+        padding: 2rem 3rem 1.4rem;
         display: flex;
-        justify-content: space-between; /* ← 两端对齐，与下方行布局一致 */
-        align-items: center;
+        justify-content: space-between;
+        align-items: baseline;
       }
       .status-card-title {
         font-size: 10px;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--ink3);
+        color: var(--ink4);
+        font-family: var(--mono);
         white-space: nowrap;
       }
       .status-avail {
@@ -330,15 +410,16 @@
         flex-shrink: 0;
         display: flex;
         align-items: center;
-        gap: 6px;
-        font-size: 10px;
+        gap: 10px;
+        font-size: 13px;
         color: #2d7d46;
         text-shadow: 0 0 12px rgba(45, 125, 70, 0.15);
         justify-content: flex-start;
-        }
+        font-family: var(--mono);
+      }
         .avail-dot {
-            width: 5px;
-            height: 5px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: #2d7d46;
             box-shadow: 0 0 0 3px rgba(45, 125, 70, 0.2);
@@ -355,7 +436,7 @@
         }
       }
       .status-card-body {
-        padding: 2.1rem 3.5rem;
+        padding: 0.6rem 3rem 2.5rem;
       }
       .logo-wrap {
         align-self: flex-end;
@@ -378,43 +459,45 @@
         align-items: baseline;
         padding: 14px 0;
         border-bottom: 1px solid var(--rule);
-        font-size: 15px;
+        line-height: 1;
       }
-
+      .status-row:last-child {
+        border-bottom: none;
+      }
       .status-row-base {
         border-radius: 4px;
         transition: background 0.4s ease;
       }
-
       .status-row-base .status-val {
         filter: blur(3px);
         transition: filter 0.4s ease, color 0.4s ease;
         color: var(--ink2);
       }
-
       .status-row-base:hover .status-val {
         filter: blur(0);
         color: var(--ink);
       }
-
-      .status-row:last-child {
-        border-bottom: none;
-      }
       .status-key {
-        color: var(--ink3);
-        font-style: italic;
-        }
+        color: var(--ink4);
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 300;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
       .status-val {
         color: var(--ink);
         width: 220px;
         flex-shrink: 0;
         text-align: left;
+        font-size: 14px;
+        font-weight: 400;
       }
 
       /* ── WORK ────────────────────────────────────────────── */
       #work {
         border-top: 1px solid var(--rule);
-        padding: 6rem 3rem;
+        padding: 5rem 3rem;
       }
 
       .section-header {
@@ -480,10 +563,6 @@
       .work-card:hover::before {
         transform: scaleX(1);
       }
-      .work-card:hover .work-card-arrow {
-        opacity: 1;
-        transform: translate(0, 0);
-      }
       .work-card-num {
         font-size: 10px;
         color: var(--ink4);
@@ -517,6 +596,13 @@
         font-size: 11px;
         color: var(--ink3);
         font-style: italic;
+        padding: 2px 6px;
+        margin: -2px -6px;
+        border-radius: 3px;
+        transition: background 0.2s var(--ease);
+      }
+      .work-card:hover .work-card-stack {
+        background: var(--rule);
       }
       .work-card-meta {
         display: flex;
@@ -561,13 +647,17 @@
         transform: translate(-4px, 4px);
         transition:
           opacity 0.2s,
-          transform 0.2s;
+          transform 0.3s var(--ease);
+      }
+      .work-card:hover .work-card-arrow {
+        opacity: 1;
+        transform: translate(2px, 0);
       }
 
       /* ── SKILLS ──────────────────────────────────────────── */
       #skills {
         border-top: 1px solid var(--rule);
-        padding: 6rem 3rem;
+        padding: 5rem 3rem;
       }
 
       .skills-two-col {
@@ -624,7 +714,7 @@
       /* ── ABOUT ───────────────────────────────────────────── */
       #about {
         border-top: 1px solid var(--rule);
-        padding: 6rem 3rem;
+        padding: 5rem 3rem;
       }
 
       .about-body {
@@ -686,7 +776,7 @@
       /* ── CONTACT ─────────────────────────────────────────── */
       #contact {
         border-top: 1px solid var(--rule);
-        padding: 7rem 3rem;
+        padding: 5rem 3rem;
       }
 
       .contact-body {
@@ -814,6 +904,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: relative;
       }
       .footer-l {
         font-size: 11px;
@@ -831,6 +922,16 @@
       }
       .footer-r a:hover {
         color: var(--ink);
+      }
+      .footer-logo-wrap {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .footer-logo-wrap .home-logo {
+        width: 216px;
+        height: auto;
+        opacity: 0.5;
       }
 
       /* ── RESPONSIVE ──────────────────────────────────────── */
@@ -854,7 +955,7 @@
           align-self: auto;
           display: flex;
           flex-direction: column;
-          justify-content: flex-start;
+          justify-content: flex-end;
           gap: 2rem;
           padding: 0;
           margin-top: 2rem;
@@ -905,7 +1006,10 @@
         }
 
         .status-card {
-          transform: none !important;
+          transform: translateX(24px);
+        }
+        .status-card.visible {
+          transform: translateX(0);
         }
 
         .logo-wrap {
@@ -1013,15 +1117,16 @@
       <div class="nav-inner">
         <a href="#home" class="nav-logo">EiiChi2049</a>
         <ul class="nav-links">
-          <li><a href="#home">home</a></li>
-          <li><a href="#work">work</a></li>
-          <li><a href="#skills">skills</a></li>
-          <li><a href="#about">about</a></li>
-          <li><a href="#contact">contact</a></li>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
     </nav>
 
+    <main class="page-content">
     <!-- ── HOME ─────────────────────────────────────────────── -->
     <section id="home">
       <div class="home-left">
@@ -1050,25 +1155,30 @@
               Exploring the intersection between music, sound and technology.<br />
               From orchestration to sound design, from composition to audio engineering.
           </p>
+
+          <span class="hero-status-link" id="statusLink">
+            Current Status <span class="status-link-arrow">↗</span>
+          </span>
+
         <div class="hero-actions">
-          <button
-            class="btn-primary"
-            onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
-          >
-            与我联系
-          </button>
           <button
             class="btn-outline"
             onclick="document.getElementById('work').scrollIntoView({ behavior: 'smooth' })"
           >
             浏览作品
           </button>
+          <button
+            class="btn-outline"
+            onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
+          >
+            与我联系
+          </button>
         </div>
       </div>
       <div class="home-right">
         <div class="status-card">
           <div class="status-card-header">
-            <span class="status-card-title">status</span>
+            <span class="status-card-title">STATUS</span>
             <span class="status-avail">
               <div class="avail-dot"></div>
               available
@@ -1097,26 +1207,6 @@
             </div>
           </div>
         </div>
-          <div class="logo-wrap">
-            <canvas
-             class="home-logo"
-             id="logoCanvas"
-             ></canvas>
-            <video
-             src="00-index_images/LOGO05.mp4"
-             playsinline
-             muted
-             preload="auto"
-             id="logoVideoFwd"
-             ></video>
-            <video
-             src="00-index_images/LOGO05R.mp4"
-             playsinline
-             muted
-             preload="auto"
-             id="logoVideoRev"
-             ></video>
-          </div>
       </div>
     </section>
 
@@ -1352,12 +1442,18 @@
             </div>
         </div>
     </section>
+    </main>
 
     <!-- ── FOOTER ─────────────────────────────────────────────── -->
     <footer>
         <div class="footer-inner">
             <div class="footer-l">
                  &copy; EiiChi_2049
+            </div>
+            <div class="footer-logo-wrap">
+                <canvas class="home-logo" id="logoCanvas"></canvas>
+                <video src="00-index_images/LOGO05.mp4" playsinline muted preload="auto" id="logoVideoFwd"></video>
+                <video src="00-index_images/LOGO05R.mp4" playsinline muted preload="auto" id="logoVideoRev"></video>
             </div>
             <div class="footer-r"></div>
         </div>
@@ -1380,6 +1476,28 @@
 
     <!-- ── GSAP ───────────────────────────────────────────────── -->
     <script>
+      /* ── Status Card 展开/收起 ───────────────── */
+      (function () {
+        var link = document.getElementById('statusLink');
+        var card = document.querySelector('.status-card');
+        var arrow = document.querySelector('.status-link-arrow');
+        if (!link || !card || !arrow) return;
+        var isOpen = false;
+
+        link.addEventListener('click', function () {
+          isOpen = !isOpen;
+          if (isOpen) {
+            card.classList.add('visible');
+            link.classList.add('open');
+            arrow.textContent = '→';
+          } else {
+            card.classList.remove('visible');
+            link.classList.remove('open');
+            arrow.textContent = '↗';
+          }
+        });
+      })();
+
       gsap.registerPlugin(ScrollTrigger);
 
       /* 强制加载 LXGW WenKai 字体 */
@@ -1413,7 +1531,7 @@
       }
 
       gsap.set(
-        [".home-eyebrow", ".hero-title", ".hero-desc", ".hero-actions", ".home-right"],
+        [".home-eyebrow", ".hero-title", ".hero-desc", ".hero-status-link", ".hero-actions", ".home-right"],
         { y: 24 }
       );
 
@@ -1421,6 +1539,7 @@
       tl.to(".home-eyebrow", { opacity: 1, y: 0, duration: 0.7 }, 0.25)
         .to(".hero-title", { opacity: 1, y: 0, duration: 0.9 }, 0.4)
         .to(".hero-desc", { opacity: 1, y: 0, duration: 0.7 }, 0.65)
+        .to(".hero-status-link", { opacity: 1, y: 0, duration: 0.6 }, 0.75)
         .to(".hero-actions", { opacity: 1, y: 0, duration: 0.6 }, 0.8)
         .to(".home-right", { opacity: 1, y: 0, duration: 0.8 }, 0.55);
 
@@ -1523,6 +1642,38 @@
         { threshold: 0.35 }
       );
       sections.forEach((s) => navObserver.observe(s));
+
+      /* ── 导航滚动智能显示隐藏 ─────────────────────── */
+      (function () {
+        var nav = document.querySelector('.nav');
+        if (!nav) return;
+
+        var lastScrollY = window.scrollY || window.pageYOffset;
+        var ticking = false;
+        var threshold = 100;
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            requestAnimationFrame(function () {
+              var currentScrollY = window.scrollY || window.pageYOffset;
+
+              if (currentScrollY <= threshold) {
+                nav.classList.remove('nav--hidden');
+              }
+              else if (currentScrollY > lastScrollY && currentScrollY > threshold) {
+                nav.classList.add('nav--hidden');
+              }
+              else if (currentScrollY < lastScrollY) {
+                nav.classList.remove('nav--hidden');
+              }
+
+              lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+      })();
     </script>
   </body>
 </html>

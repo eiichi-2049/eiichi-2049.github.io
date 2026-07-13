@@ -73,10 +73,16 @@
             height: 56px;
             border-bottom: 1px solid var(--rule);
             background: rgba(245, 240, 232, 0.92);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             padding: 0 3rem;
+            transition: transform 0.4s var(--ease);
+            transform: translateY(0);
+        }
+        .nav.nav--hidden {
+            transform: translateY(-100%);
         }
 
         .nav-inner {
@@ -274,6 +280,40 @@
             <span>© EiiChi_2049</span>
         </footer>
     </main>
+
+    <script>
+        /* ── 导航滚动智能显示隐藏 ─────────────────────── */
+        (function () {
+            var nav = document.querySelector('.nav');
+            if (!nav) return;
+
+            var lastScrollY = window.scrollY || window.pageYOffset;
+            var ticking = false;
+            var threshold = 100;
+
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    requestAnimationFrame(function () {
+                        var currentScrollY = window.scrollY || window.pageYOffset;
+
+                        if (currentScrollY <= threshold) {
+                            nav.classList.remove('nav--hidden');
+                        }
+                        else if (currentScrollY > lastScrollY && currentScrollY > threshold) {
+                            nav.classList.add('nav--hidden');
+                        }
+                        else if (currentScrollY < lastScrollY) {
+                            nav.classList.remove('nav--hidden');
+                        }
+
+                        lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        })();
+    </script>
 </body>
 </html>
 
