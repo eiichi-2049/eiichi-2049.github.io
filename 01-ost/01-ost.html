@@ -580,14 +580,6 @@
                 transform: scale(0.98);
             }
 
-            .sfx-card .sfx-icon {
-                font-size: 1.2rem;
-                opacity: 0.5;
-                flex-shrink: 0;
-                width: 28px;
-                text-align: center;
-            }
-
             .sfx-card .sfx-info {
                 flex: 1;
                 min-width: 0;
@@ -1044,8 +1036,8 @@
 
         <!-- ── 选项卡导航 ──────────────────────────────────── -->
         <div class="tab-bar" id="tabBar">
-            <button class="tab-btn active" data-tab="music">🎵 Music</button>
-            <button class="tab-btn" data-tab="sfx">🔊 SFX</button>
+            <button class="tab-btn active" data-tab="music">Music</button>
+            <button class="tab-btn" data-tab="sfx">SFX</button>
         </div>
 
         <!-- ── Music 内容 ───────────────────────────────────── -->
@@ -1470,7 +1462,6 @@
         header.className = 'sfx-header';
         header.innerHTML = `
         <h3 class="sfx-title">${cat.icon} ${cat.title} <small style="font-size:0.7rem;color:var(--ink3);font-style:italic;font-weight:300;margin-left:0.5rem;">${cat.titleEn}</small></h3>
-        <span class="sfx-count">${cat.sounds.length} 个音效</span>
         `;
         section.appendChild(header);
 
@@ -1487,7 +1478,6 @@
         if (isActive) card.classList.add('active');
 
         card.innerHTML = `
-        <span class="sfx-icon">${cat.icon}</span>
         <span class="sfx-info">
         <span class="sfx-label">${sound.label}</span>
         <span class="sfx-tags">${sound.tags}</span>
@@ -1878,8 +1868,6 @@
         updatePlayButton();
         }
 
-        console.log(`🎵 多专辑播放器已就绪 · 共 ${ALBUMS.length} 张专辑`);
-        console.log(`🔊 SFX 分类已就绪 · 共 ${SFX_CATEGORIES.length} 个分类, ${getTotalSfx()} 个音效`);
         console.log('💡 点击曲目切换 · 空格键播放/暂停');
         console.log('📌 占位符: 【MUSIC】 / 【SFX】');
 
