@@ -1126,6 +1126,32 @@
         color: var(--ink3);
         letter-spacing: 0.04em;
       }
+
+      /* ── Résumé 弹窗（宽版 / 可滚动） ──────────────────── */
+      .wc-window--wide {
+        max-width: min(90vw, 700px);
+        max-height: min(90vh, 800px);
+        display: flex;
+        flex-direction: column;
+      }
+      .wc-window--wide .wc-body {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 1.5rem 1.5rem 2rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: var(--ink4) var(--paper2);
+      }
+      .wc-window--wide .wc-body::-webkit-scrollbar { width: 5px; background: transparent; }
+      .wc-window--wide .wc-body::-webkit-scrollbar-track { background: var(--paper2); border-radius: 10px; margin: 0.5rem 0; }
+      .wc-window--wide .wc-body::-webkit-scrollbar-thumb { background: var(--ink4); border-radius: 10px; }
+      .wc-window--wide .wc-body::-webkit-scrollbar-thumb:hover { background: var(--ink3); }
+      .wc-window--wide .wc-body img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -1451,8 +1477,9 @@
                         </div>
                         <div class="social-stack">
                             <a href="javascript:;" class="social-link" id="wechatLink">Wechat</a>
-                            <a href="https://github.com/eiichi-2049" class="social-link">Github</a>
-                            <a href="https://space.bilibili.com/23277208" class="social-link">Bilibili</a>
+                            <a href="https://github.com/eiichi-2049" class="social-link" target="_blank" rel="noopener noreferrer">Github</a>
+                            <a href="https://space.bilibili.com/23277208" class="social-link" target="_blank" rel="noopener noreferrer">Bilibili</a>
+                            <a href="javascript:;" class="social-link" id="resumeLink">Résumé</a>
                         </div>
                     </div>
                 </div>
@@ -1487,6 +1514,21 @@
         <div class="wc-body">
           <img src="00-index_images/wechat-qr.png" alt="WeChat QR Code" id="wcQR" />
           <p>扫描二维码添加微信</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Résumé 弹窗 ──────────────────────────────────────── -->
+    <div class="wc-overlay" id="resumeOverlay">
+      <div class="wc-window wc-window--wide">
+        <div class="wc-titlebar">
+          <div class="wc-dots">
+            <div class="wc-dot" id="resumeClose"></div>
+          </div>
+        </div>
+        <div class="wc-body">
+          <img src="00-index_images/resume.png" alt="Résumé" id="resumeImg" />
+          <p>Résumé / 简历</p>
         </div>
       </div>
     </div>
@@ -1549,6 +1591,28 @@
         document.addEventListener("keydown", function (e) {
           if (e.key === "Escape" && wcOverlay.classList.contains("active")) {
             wcOverlay.classList.remove("active");
+          }
+        });
+      }
+
+      /* ── Résumé 弹窗 ──────────────────────────────────── */
+      var resumeOverlay = document.getElementById("resumeOverlay");
+      var resumeClose  = document.getElementById("resumeClose");
+      var resumeLink   = document.getElementById("resumeLink");
+      if (resumeOverlay && resumeClose && resumeLink) {
+        resumeLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          resumeOverlay.classList.add("active");
+        });
+        resumeClose.addEventListener("click", function () {
+          resumeOverlay.classList.remove("active");
+        });
+        resumeOverlay.addEventListener("click", function (e) {
+          if (e.target === resumeOverlay) resumeOverlay.classList.remove("active");
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && resumeOverlay.classList.contains("active")) {
+            resumeOverlay.classList.remove("active");
           }
         });
       }
