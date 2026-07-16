@@ -1,6 +1,7 @@
 # EiiChi2049
 
 个人作品集站点
+https://eiichi-2049.github.io/
 
 ## 目录
 
