@@ -21,6 +21,7 @@
 
         /* ── 核心变量 ──────────────────────────────────────── */
         :root {
+            color-scheme: light;
             --paper: #f5f0e8;
             --paper2: #ede8df;
             --ink: #1a1714;
@@ -30,12 +31,42 @@
             --rule: rgba(26, 23, 20, 0.1);
             --rule-h: rgba(26, 23, 20, 0.22);
             --red: #c0392b;
+            --red-dim: rgba(192, 57, 43, 0.08);
             --blue: #4a6a8a;
             --blue-dim: rgba(74, 106, 138, 0.06);
+            --nav-bg: rgba(245, 240, 232, 0.92);
+            --texture-line: rgba(26, 23, 20, 0.025);
+            --overlay-bg: rgba(26, 23, 20, 0.28);
+            --wc-shadow: 0 0 0 1px rgba(26, 23, 20, 0.08), 0 25px 80px rgba(26, 23, 20, 0.18);
+            --shadow-card: 0 2px 16px rgba(26, 23, 20, 0.1);
+            --surface: #f8f6f0;
             --serif: "Fraunces", serif;
             --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
             --mono: "DM Mono", monospace;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ── 暗色主题 ─────────────────────────────────────── */
+        [data-theme="dark"] {
+            color-scheme: dark;
+            --paper: #1b1916;
+            --paper2: #242119;
+            --ink: #e7e0d3;
+            --ink2: #c7bfb1;
+            --ink3: #8e8577;
+            --ink4: #5c564a;
+            --rule: rgba(231, 224, 211, 0.1);
+            --rule-h: rgba(231, 224, 211, 0.22);
+            --red: #e0695e;
+            --red-dim: rgba(224, 105, 94, 0.12);
+            --blue: #8fb3d4;
+            --blue-dim: rgba(143, 179, 212, 0.1);
+            --nav-bg: rgba(27, 25, 22, 0.9);
+            --texture-line: rgba(231, 224, 211, 0.035);
+            --overlay-bg: rgba(0, 0, 0, 0.55);
+            --wc-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 25px 80px rgba(0, 0, 0, 0.6);
+            --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.45);
+            --surface: #2a2721;
         }
 
         /* ── 重置 ────────────────────────────────────────────── */
@@ -61,7 +92,7 @@
                 content: "";
                 position: fixed;
                 inset: 0;
-                background-image: repeating-linear-gradient( 0deg, transparent, transparent 27px, rgba(26, 23, 20, 0.025) 27px, rgba(26, 23, 20, 0.025) 28px );
+                background-image: repeating-linear-gradient( 0deg, transparent, transparent 27px, var(--texture-line) 27px, var(--texture-line) 28px );
                 pointer-events: none;
                 z-index: 0;
             }
@@ -75,7 +106,7 @@
             z-index: 100;
             height: 56px;
             border-bottom: 1px solid var(--rule);
-            background: rgba(245, 240, 232, 0.92);
+            background: var(--nav-bg);
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             display: flex;
@@ -142,6 +173,67 @@
 
         .nav-links a:hover::after {
             transform: scaleX(1);
+        }
+
+        /* ── THEME TOGGLE ─────────────────────────────────── */
+        .nav-links .theme-toggle {
+            align-self: center;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            width: 44px;
+            height: 22px;
+            margin: 0;
+            padding: 0;
+            border-radius: 100px;
+            border: 1px solid var(--rule-h);
+            background: var(--paper2);
+            cursor: pointer;
+            flex-shrink: 0;
+            outline: none;
+            vertical-align: middle;
+            transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+        }
+        .theme-toggle:hover { border-color: var(--ink3); }
+        .theme-toggle:focus-visible { outline: 1px solid var(--red); outline-offset: 3px; }
+        .theme-toggle-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink3);
+            pointer-events: none;
+        }
+        .theme-toggle-icon--sun { left: 6px; }
+        .theme-toggle-icon--moon { right: 6px; }
+        .theme-toggle-icon svg { width: 11px; height: 11px; }
+        .theme-toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--ink);
+            transition: transform 0.35s var(--ease), background 0.3s var(--ease);
+            pointer-events: none;
+        }
+        [data-theme="dark"] .theme-toggle-knob { transform: translateX(22px); }
+
+        /* 主题切换时的平滑过渡 */
+        html.theme-transition,
+        html.theme-transition *,
+        html.theme-transition *::before,
+        html.theme-transition *::after {
+            transition:
+                background-color 0.35s var(--ease),
+                color 0.35s var(--ease),
+                border-color 0.35s var(--ease),
+                box-shadow 0.35s var(--ease) !important;
         }
 
         /* ── 页面主体 ────────────────────────────────────────── */
@@ -582,6 +674,15 @@
             }
         }
     </style>
+    <script>
+      /* 尽早设置主题，避免页面闪烁（FOUC）——默认暗色 */
+      (function () {
+        var root = document.documentElement;
+        var stored = null;
+        try { stored = localStorage.getItem("theme"); } catch (e) {}
+        root.setAttribute("data-theme", stored === "light" ? "light" : "dark");
+      })();
+    </script>
 </head>
 <body>
     <!-- ── NAV ──────────────────────────────────────────────── -->
@@ -592,6 +693,28 @@
                 <li><a href="../index.html#skills">skills</a></li>
                 <li><a href="../index.html#about">about</a></li>
                 <li><a href="../index.html#contact">contact</a></li>
+                <li>
+                    <button
+                        class="theme-toggle"
+                        id="themeToggle"
+                        type="button"
+                        aria-label="切换到亮色模式"
+                        aria-pressed="true"
+                    >
+                        <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="4" />
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                            </svg>
+                        </span>
+                        <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                            </svg>
+                        </span>
+                        <span class="theme-toggle-knob" aria-hidden="true"></span>
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
@@ -808,6 +931,44 @@
     </main>
 
     <script>
+      /* ── 主题切换按钮（明/暗） ─────────────────── */
+      (function () {
+        var root = document.documentElement;
+        var toggle = document.getElementById("themeToggle");
+        if (!toggle) return;
+
+        /* 初始同步按钮状态与当前主题一致 */
+        (function () {
+          var cur = root.getAttribute("data-theme");
+          toggle.setAttribute("aria-pressed", cur === "dark" ? "true" : "false");
+          toggle.setAttribute(
+            "aria-label",
+            cur === "dark" ? "切换到亮色模式" : "切换到暗色模式"
+          );
+        })();
+
+        function apply(next) {
+          root.classList.add("theme-transition");
+          clearTimeout(apply._t);
+          apply._t = setTimeout(function () {
+            root.classList.remove("theme-transition");
+          }, 400);
+
+          root.setAttribute("data-theme", next);
+          toggle.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
+          toggle.setAttribute(
+            "aria-label",
+            next === "dark" ? "切换到亮色模式" : "切换到暗色模式"
+          );
+          try { localStorage.setItem("theme", next); } catch (e) {}
+        }
+
+        toggle.addEventListener("click", function () {
+          var current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+          apply(current === "dark" ? "light" : "dark");
+        });
+      })();
+
         /* ── 导航滚动智能显示隐藏 ─────────────────────── */
         (function () {
             var nav = document.querySelector('.nav');
