@@ -1,0 +1,286 @@
+<!doctype html>
+<!-- ════════════════════════════════════════════════════════════════════
+  怎么用：
+    1. 改 <title> 和导航里的 logo 文字
+    2. 找到标着「★ 内容」的地方，替换成你自己的文案
+    3. 颜色不喜欢 → 改 :root 里那几个变量即可
+════════════════════════════════════════════════════════════════════ -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 网页标题（浏览器标签页上显示的） -->
+  <title>ReiVerb Sound Atorie</title>
+
+  <!-- 字体：Fraunces（衬线大标题，免费，风格接近Gambarino） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══ 颜色变量（整套配色）═══ */
+    :root{
+      --paper:#f9f9f9;   /* 米白 · 页面底色 */
+      --card:#ffffff;    /* 纯白 · 卡片/区块底色 */
+      --ink:#010205;     /* 近黑 · 正文/大标题色 */
+      --ink2:#333333;    /* 深灰 · 标题备选色 */
+      --muted:#a1a4a7;   /* 灰 · 次要文字 */
+      --line:rgba(1,2,5,.1);  /* 淡黑 · 分隔线 */
+      --accent:#d0ff71;  /* 青柠绿 · 强调/按钮 */
+      --olive:#b0b748;   /* 橄榄绿 · 小圆点1 */
+      --wine:#4e0115;    /* 酒红 · 小圆点2 */
+      --serif:'Fraunces','Noto Serif SC',serif;   /* 衬线标题字 */
+      --mono:'DM Mono',monospace;                  /* 等宽小字(标签用) */
+      --display-size:clamp(3rem,12vw,9rem);        /* ★ 底部超大品牌字的字号：只改这一处即可 */
+    }
+
+    /* ═══ 基础重置 ═══ */
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--paper);color:var(--ink);font-family:-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    ul{list-style:none}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 40px}   /* 版心，自动居中 */
+
+    /* ═══ 顶部导航（吸顶、毛玻璃；高度）═══ */
+    /* 这里不能用 display:flex 来居中：会把内层 .wrap 缩成“内容宽度”，
+       导致导航黑框比页脚版心窄。用上下 padding 留白即可让 .wrap 整宽居中。 */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:136px;padding:24px 0; /* 上/下留白24px */
+         background:rgba(249,249,249,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+    /* 导航内容框：四周一圈黑色描边、圆角，包住 logo/链接/按钮 */
+    .nav-in{width:100%;height:88px;display:flex;align-items:center;justify-content:space-between;
+            border:1px solid #222;border-radius:16px;padding:0 max(16px, 3vw); }
+    .logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:-.02em}
+    .logo em{font-style:italic;color:var(--olive)}
+    .nav-links{display:flex;gap:32px;font-size:.9rem;letter-spacing:.05em}
+    .nav-links a{opacity:.75;transition:opacity .2s}
+    .nav-links a:hover{opacity:1}
+
+    /* 胶囊按钮：实心青柠 / 描边深色 两种 */
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;
+         font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+         border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-lime{background:var(--accent);color:var(--ink)}
+    .btn-lime:hover{box-shadow:0 10px 24px rgba(208,255,113,.4)}
+    .btn-line{background:transparent;border-color:var(--ink)}
+    .btn-line:hover{background:var(--ink);color:var(--paper)}
+    .btn-dark{background:var(--ink);color:var(--paper)}
+    /* 手机端：隐藏文字链接 + 汉堡按钮 */
+    .burger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer}
+    @media(max-width:760px){
+      .nav-links{display:none;position:absolute;top:136px;left:0;right:0;background:var(--paper);
+                 flex-direction:column;padding:20px 40px;border-bottom:1px solid var(--line)}
+      .nav-links.open{display:flex}
+      .nav .btn-lime{display:none}   /* 小屏：隐藏导航按钮，避免挤爆 */
+      .burger{display:block}
+    }
+
+    /* ═══ 首屏 HERO ═══ */
+    .hero{padding:200px 0 90px}   /* 顶部留白加大，避开变高了的导航 */
+    /* 小标签：两个彩点 + 小号英文(等宽字) */
+    .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+    .eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
+    .eyebrow i:nth-child(1){background:var(--olive)}
+    .eyebrow i:nth-child(2){background:var(--wine)}
+    .eyebrow span{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+    /* 大标题：超大衬线、占满整行宽。
+       字号大一点让文字更“实”，两端对齐把整行拉开铺满宽度 */
+    .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,10vw,7rem);
+             line-height:1.15;letter-spacing:.02em;color:var(--ink2);
+             width:66%;                       /* 宽度 */
+             text-align:justify;               /* 行内两端对齐，自动把字与字之间的空格拉开 */
+             text-align-last:justify}          /* 让最后一行也两端对齐 */
+    .hero h1 em{font-style:italic;color:var(--ink)}
+    .hero p{max-width:44ch;margin:28px 0 40px;color:var(--muted);font-size:1rem}
+    .hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+
+    /* ═══ 品牌/合作条：内容复制两遍、整体平移，形成无缝循环 ═══ */
+    .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0}
+    .marquee-track{display:inline-flex;white-space:nowrap;animation:slide 22s linear infinite}
+    .marquee-track span{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+                        color:var(--muted);padding-right:3.5em}
+    @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ═══ 通用分节 ═══ */
+    section{padding:110px 0}
+    .sec-head{margin-bottom:50px}
+    .sec-head h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,3.6vw,3rem);
+                 letter-spacing:-.02em;color:var(--ink2);line-height:1.15;max-width:20ch}
+    .sec-head h2 em{font-style:italic;color:var(--olive)}
+
+    /* ═══ 深色区块：作品/服务列表（每行一条分隔线）═══ */
+    .dark{background:var(--ink);color:var(--paper)}
+    .dark .eyebrow span{color:rgba(255,255,255,.5)}
+    .dark .sec-head h2{color:var(--paper)}
+    .work-item{display:block;padding:34px 0;border-top:1px solid rgba(255,255,255,.18);
+               display:flex;align-items:baseline;justify-content:space-between;gap:20px;transition:padding .25s}
+    .work-item:last-child{border-bottom:1px solid rgba(255,255,255,.18)}
+    .work-item:hover{padding-left:14px}
+    .work-item h3{font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,3vw,2.4rem);letter-spacing:-.01em}
+    .work-item small{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
+                     text-transform:uppercase;color:rgba(255,255,255,.45);flex-shrink:0}
+    .work-item .arr{opacity:0;transition:opacity .25s}
+    .work-item:hover .arr{opacity:1}
+
+    /* ═══ 引言/金句区块 ═══ */
+    .quote{padding:140px 0}
+    .quote blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,4vw,3rem);
+                      line-height:1.35;letter-spacing:-.015em;color:var(--ink2);max-width:26ch}
+    .quote footer{margin-top:34px;display:flex;align-items:center;gap:10px;
+                  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
+
+    /* ═══ 页脚 ═══ */
+    footer{padding:80px 0 40px;border-top:1px solid var(--line)}
+    .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:80px}
+    .foot-top h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+                 color:var(--muted);margin-bottom:16px}
+    .foot-top li{margin-bottom:8px;opacity:.8}
+    .foot-top li:hover{opacity:1}
+    /* ═══ 底部超大品牌字（专属独立样式，改这里只影响这一处大字）═══
+       想单独调：字号 → 改上面的 --display-size；
+       颜色渐隐 → 改下面的 background:linear-gradient(...)。
+       想复用这组“超大渐变字”效果：把任意标签加上 class="foot-brand" 即可。 */
+    .foot-brand{font-family:var(--serif);font-weight:300;font-size:var(--display-size);
+                letter-spacing:-.03em;line-height:.95;text-align:center;user-select:none;
+                background:linear-gradient(var(--ink),rgba(1,2,5,.15));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .foot-base{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);
+               display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+               font-size:.78rem;color:var(--muted)}
+    .foot-base a{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ 顶部导航 ═══ -->
+  <header class="nav">
+    <div class="wrap">
+      <!-- 黑色描边圆角框：包住导航内容（Our Wave 风格） -->
+      <div class="nav-in">
+        <!-- ★ 内容：你的 logo -->
+        <a class="logo" href="#top">ReiVerb Sound <em>Atorie</em></a>
+
+        <nav class="nav-links" id="menu">
+          <!-- ★ 内容：导航链接 -->
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#now">Now</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <!-- 手机端菜单按钮 -->
+        <button class="burger" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+        <a class="btn btn-lime" href="#contact">Contact Me&nbsp;→</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ 首屏 HERO ═══ -->
+  <section class="hero wrap" id="top">
+    <div class="eyebrow"><i></i><i></i><span>Game Audio Studio</span></div>
+    <!-- ★ 主标语 -->
+    <h1>声起于无，<br>韵留于境。</h1>
+    <!-- ★ 内容：一句话简介 -->
+    <p>为游戏与影像创作原创配乐、声音设计与技术音频的独立工作室</p>
+    <div class="btns">
+      <a class="btn btn-line" href="#work">浏览作品</a>
+      <a class="btn btn-lime" href="#contact">联系我 →</a>
+    </div>
+  </section>
+
+  <!-- ═══ 滚动文字条（装饰用，占位词）═══ -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <!-- 内容复制两遍才能无缝循环；可整行替换成你想要的词 -->
+      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST •  —</span>
+      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST •  —</span>
+    </div>
+  </div>
+
+  <!-- ═══ 作品/服务列表（深色区块）═══ -->
+  <section class="dark" id="now">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow"><i></i><i></i><span>Selected Works</span></div>
+        <!-- ★ 内容：区块标题 -->
+        <h2>近期的一些<br><em>声响。</em></h2>
+      </div>
+      <!-- ★ 内容：每一条 = 一个作品/服务，可复制多行 -->
+      <a class="work-item" href="#">
+        <h3>原创配乐 · Original Score</h3>
+        <small>Compose / 2026 <span class="arr">→</span></small>
+      </a>
+      <a class="work-item" href="#">
+        <h3>声音设计 · Sound Design</h3>
+        <small>Design / 2026 <span class="arr">→</span></small>
+      </a>
+      <a class="work-item" href="#">
+        <h3>音频集成 · Wwise / FMOD</h3>
+        <small>Implement / 2026 <span class="arr">→</span></small>
+      </a>
+      <a class="work-item" href="#">
+        <h3>混音母带 · Mix &amp; Master</h3>
+        <small>Mix / 2026 <span class="arr">→</span></small>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ 关于（浅色 + 一段大文字）═══ -->
+  <section class="wrap" id="about">
+    <div class="sec-head">
+      <div class="eyebrow"><i></i><i></i><span>About</span></div>
+      <!-- ★ 内容：关于你的陈述 -->
+      <h2>声音是记忆的载体。<br>我们只做<em>真诚</em>的声音。</h2>
+    </div>
+    <a class="btn btn-line" href="#contact">关于我 →</a>
+  </section>
+
+  <!-- ═══ 金句/引言（浅色）═══ -->
+  <section class="quote wrap">
+    <!-- ★ 内容：换成你想放的一段话（引用时注意版权） -->
+    <blockquote>好的配乐从不喧宾夺主——它会在故事落幕多年后，仍轻轻敲响你的记忆。</blockquote>
+    <footer><i style="width:9px;height:9px;border-radius:50%;background:var(--wine);display:inline-block"></i>— placeholder · 你的名字</footer>
+  </section>
+
+  <!-- ═══ 页脚 ═══ -->
+  <footer id="contact">
+    <div class="wrap">
+      <div class="foot-top">
+        <!-- ★ 内容：联系方式 -->
+        <div>
+          <h4>Get in Touch</h4>
+          <a class="btn btn-dark" href="mailto:enchitsui@foxmail.com">enchitsui@foxmail.com</a>
+        </div>
+        <div>
+          <h4>Links</h4>
+          <ul>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#top">Back to Top</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Social Media</h4>
+          <ul>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">小黑盒</a></li>
+            <li><a href="#">哔哩哔哩</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 底部超大文字（装饰，可替换成你的品牌） -->
+      <div class="foot-brand">ReiVerb Sound Atorie</div>
+
+      <div class="foot-base">
+        <!-- ★ 内容：版权年份与名字 -->
+        <span>© 2020-2026 ReiVerb Sound Atorie · All Rights Reserved</span>
+        <a class="btn btn-lime" href="#top">回到顶部 ↑</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
