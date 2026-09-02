@@ -1,1282 +1,239 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EiiChi_2049 — Portfolio</title>
-    <meta
-      name="description"
-      content="EiiChi_2049 — Portfolio"
-    />
+    <title>ReiVerb Sound Atorie — Resonance remains.</title>
+    <meta name="description" content="ReiVerb Sound Atorie — a boutique game audio studio. Handcrafted music, sound design and technical audio for interactive experiences." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+SC:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
-      /* ── 本地字体 ──────────────────────────────────────── */
-      @font-face {
-        font-family: "LXGW WenKai";
-        src: url("fronts/LXGWWenKaiLite-Regular.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "OPPO Sans";
-        src: url("fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "OPPO Sans";
-        src: url("fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf") format("truetype");
-        font-weight: 400;
-        font-style: italic;
-        font-display: swap;
-      }
+/* ═══ RESET ═══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-      /* ── RESET ───────────────────────────────────────────── */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
+/* ═══ TOKENS ═══ */
+:root,[data-theme="dark"]{
+  --bg:#0a0a0c;--bg2:#111113;--bg3:#18181b;
+  --ink:#e8e6e2;--ink2:#8a8884;--ink3:#4a4845;
+  --accent:#d4a054;--accent-hover:#e0b06a;
+  --accent-dim:rgba(212,160,84,.12);
+  --line:rgba(232,230,226,.07);--line2:rgba(232,230,226,.14);
+  --nav-bg:rgba(10,10,12,.82);
+  --serif:'Fraunces','Noto Serif SC',serif;
+  --mono:'DM Mono',monospace;
+  --sans:'OPPO Sans',-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;
+  --nav-h:64px;
+  --sec-pad:clamp(80px,12vw,140px);
+}
+[data-theme="light"]{
+  --bg:#f5f3ef;--bg2:#eceae5;--bg3:#e3e1db;
+  --ink:#1a1a1a;--ink2:#5a5855;--ink3:#9a9895;
+  --accent:#a0622d;--accent-hover:#b8743a;
+  --accent-dim:rgba(160,98,45,.1);
+  --line:rgba(26,26,26,.07);--line2:rgba(26,26,26,.14);
+  --nav-bg:rgba(245,243,239,.82);
+}
 
-      /* ── TOKENS ──────────────────────────────────────────── */
-      :root {
-        color-scheme: light;
-        --paper: #fbfbfb;
-        --paper2: #f2f2f2;
-        --ink: #0d0d0d;
-        --ink2: #343434;
-        --ink3: #767676;
-        --ink4: #b6b6b6;
-        --rule: rgba(13, 13, 13, 0.1);
-        --rule-h: rgba(13, 13, 13, 0.2);
-        --red: #c0392b;
-        --red-dim: rgba(192, 57, 43, 0.08);
-        --nav-bg: rgba(251, 251, 251, 0.92);
-        --texture-line: rgba(13, 13, 13, 0.025);
-        --overlay-bg: rgba(13, 13, 13, 0.28);
-        --wc-shadow: 0 0 0 1px rgba(13, 13, 13, 0.08), 0 25px 80px rgba(13, 13, 13, 0.16);
-        --shadow-card: 0 2px 16px rgba(13, 13, 13, 0.08);
-        --serif: "Fraunces", serif;
-        --serif-zh: "Noto Serif SC", "Songti SC", "華康明體", serif;
-        --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
-        --mono: "DM Mono", monospace;
-        --ease: cubic-bezier(0.16, 1, 0.3, 1);
-      }
+/* ═══ BASE ═══ */
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;overflow-x:hidden}
+::selection{background:var(--accent-dim);color:var(--accent)}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--ink3);border-radius:3px}
+a{color:inherit;text-decoration:none;transition:color .2s}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.container{max-width:1200px;margin:0 auto;padding:0 40px}
 
-      /* ── 暗色主题 ─────────────────────────────────────── */
-      [data-theme="dark"] {
-        color-scheme: dark;
-        --paper: #000000;
-        --paper2: #0d0d0d;
-        --ink: #e8e3d8;
-        --ink2: #c5bfb3;
-        --ink3: #8b857a;
-        --ink4: #5a554c;
-        --rule: rgba(232, 227, 216, 0.12);
-        --rule-h: rgba(232, 227, 216, 0.24);
-        --red: #e0695e;
-        --red-dim: rgba(224, 105, 94, 0.14);
-        --nav-bg: rgba(0, 0, 0, 0.88);
-        --texture-line: rgba(232, 227, 216, 0.03);
-        --overlay-bg: rgba(0, 0, 0, 0.6);
-        --wc-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 25px 80px rgba(0, 0, 0, 0.7);
-        --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.5);
-      }
+/* ═══ NAV ═══ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:var(--nav-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);transition:transform .35s,background .4s,border-color .4s}
+.nav--hidden{transform:translateY(-100%)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 40px;height:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--serif);font-size:1.15rem;font-weight:400;letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;color:var(--ink)}
+.nav-logo-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:400}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink2);transition:color .2s;padding:4px 0;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .25s}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
 
-      /* ── BASE ────────────────────────────────────────────── */
-      html {
-        height: 100%;
-      }
-      body {
-        font-family: var(--mono);
-        background: var(--paper);
-        color: var(--ink);
-        font-size: 13px;
-        line-height: 1.7;
-        overflow-x: hidden;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        min-height: 100dvh;
-        min-height: 100vh;
-      }
+/* theme toggle */
+.theme-toggle{position:relative;width:38px;height:20px;border-radius:10px;background:var(--bg3);border:1px solid var(--line2);transition:background .3s,border-color .3s;display:flex;align-items:center;padding:0 2px}
+.theme-toggle:hover{border-color:var(--accent)}
+.theme-toggle-knob{width:14px;height:14px;border-radius:50%;background:var(--accent);transition:transform .3s ease;position:absolute;top:2px;left:2px}
+[data-theme="dark"] .theme-toggle-knob{transform:translateX(18px)}
+.theme-toggle-icon{position:absolute;width:12px;height:12px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;opacity:.4;transition:opacity .3s}
+.theme-toggle-icon svg{width:11px;height:11px}
+.theme-toggle-icon--sun{left:5px}
+.theme-toggle-icon--moon{right:5px}
+[data-theme="dark"] .theme-toggle-icon--sun{opacity:1}
+[data-theme="light"] .theme-toggle-icon--moon{opacity:1}
+.theme-transition *{transition:background .4s ease,color .4s ease,border-color .4s ease !important}
 
-      .page-content {
-        flex: 1;
-      }
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:var(--nav-h) 0 0;overflow:hidden}
+.hero-wave-wrap{position:absolute;bottom:0;left:0;right:0;height:280px;pointer-events:none;z-index:0}
+.hero-wave-wrap canvas{width:100%;height:100%;display:block}
+.hero-content{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 40px;width:100%}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:32px}
+.hero-eyebrow-line{width:40px;height:1px;background:var(--accent)}
+.hero-eyebrow-text{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,8vw,6.5rem);font-weight:300;line-height:1.08;letter-spacing:-.03em;color:var(--ink);margin-bottom:28px}
+.hero-title em{font-style:italic;color:var(--accent);font-weight:400}
+.hero-sub{display:flex;align-items:baseline;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.hero-tagline{font-family:var(--mono);font-size:.85rem;letter-spacing:.08em;color:var(--ink2)}
+.hero-tagline-cn{font-family:var(--serif);font-size:.9rem;color:var(--ink3);font-weight:400}
+.hero-desc{max-width:520px;font-size:.95rem;line-height:1.7;color:var(--ink2);margin-bottom:48px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:14px 32px;border:1px solid var(--line2);transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover);color:var(--bg)}
+.btn-outline{color:var(--ink2);border-color:var(--line2)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.hero-status{display:flex;align-items:center;gap:8px;margin-top:56px;font-family:var(--mono);font-size:.72rem;color:var(--ink3);letter-spacing:.06em}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.65rem;color:var(--ink3);letter-spacing:.2em;text-transform:uppercase;z-index:1}
+.hero-scroll::after{content:'';display:block;width:1px;height:28px;background:var(--ink3);margin:8px auto 0;animation:scrollLine 2s infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-      /* subtle paper texture */
-      body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 27px,
-          var(--texture-line) 27px,
-          var(--texture-line) 28px
-        );
-        pointer-events: none;
-        z-index: 0;
-      }
+/* ═══ SECTIONS ═══ */
+section{padding:var(--sec-pad) 0;position:relative}
+.section-header{margin-bottom:56px}
+.section-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';width:24px;height:1px;background:var(--accent)}
+.section-title{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;letter-spacing:-.02em;color:var(--ink);line-height:1.2}
+.section-title em{font-style:italic;color:var(--accent)}
 
-      /* ── NAV ─────────────────────────────────────────────── */
-      .nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        height: 56px;
-        border-bottom: 1px solid var(--rule);
-        background: var(--nav-bg);
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        display: flex;
-        align-items: center;
-        padding: 0 3rem;
-        transition: transform 0.4s var(--ease);
-        transform: translateY(0);
-      }
-      .nav.nav--hidden {
-        transform: translateY(-100%);
-      }
-      .nav-inner {
-        max-width: 1080px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-      }
-      .nav-logo {
-        font-family: var(--serif);
-        font-size: 17px;
-        font-weight: 300;
-        font-style: italic;
-        color: var(--ink);
-        text-decoration: none;
-        letter-spacing: -0.01em;
-      }
-      .nav-links {
-        display: flex;
-        gap: 2.4rem;
-        list-style: none;
-      }
-      .nav-links a {
-        font-size: 10px;
-        color: var(--ink3);
-        text-decoration: none;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        font-weight: 400;
-        transition: color 0.25s var(--ease), text-shadow 0.25s var(--ease);
-        position: relative;
-        padding: 2px 0;
-      }
-      .nav-links a::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 1.5px;
-        background: var(--ink);
-        transform: scaleX(0);
-        transform-origin: center;
-        transition: transform 0.35s var(--ease);
-      }
-      .nav-links a:hover {
-        color: var(--ink);
-        text-shadow: 0 0 0.6px var(--ink), 0 0 1.2px var(--ink);
-      }
-      .nav-links a:hover::after {
-        transform: scaleX(1);
-      }
+/* ═══ WORK ═══ */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.work-card{background:var(--bg);padding:40px 36px;position:relative;transition:background .25s;display:block;min-height:240px;display:flex;flex-direction:column}
+.work-card:hover{background:var(--bg2)}
+.work-card-num{font-family:var(--mono);font-size:.7rem;color:var(--ink3);letter-spacing:.1em;margin-bottom:24px}
+.work-card-title{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:8px}
+.work-card-title em{display:block;font-family:var(--sans);font-size:.82rem;color:var(--ink2);font-style:normal;font-weight:400;margin-top:6px}
+.work-card-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:24px}
+.work-card-stack{font-family:var(--mono);font-size:.68rem;color:var(--ink3);letter-spacing:.04em}
+.work-card-meta{display:flex;align-items:center;gap:12px}
+.work-card-year{font-family:var(--mono);font-size:.68rem;color:var(--ink3)}
+.work-card-badge{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:2px}
+.work-card-badge.live{color:#4ade80;background:rgba(74,222,128,.1)}
+.work-card-badge.wip{color:var(--accent);background:var(--accent-dim)}
+.work-card-badge.archived{color:var(--ink3);background:var(--bg3)}
+.work-card-arrow{position:absolute;top:36px;right:32px;font-size:1.1rem;color:var(--ink3);transition:all .25s;font-family:var(--mono)}
+.work-card:hover .work-card-arrow{color:var(--accent);transform:translate(3px,-3px)}
 
-      /* ── THEME TOGGLE ───────────────────────────────────── */
-      .nav-links .theme-toggle {
-        align-self: center;
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        width: 44px;
-        height: 22px;
-        margin: 0;
-        padding: 0;
-        border-radius: 100px;
-        border: 1px solid var(--rule-h);
-        background: var(--paper2);
-        cursor: pointer;
-        flex-shrink: 0;
-        outline: none;
-        vertical-align: middle;
-        transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
-      }
-      .theme-toggle:hover { border-color: var(--ink3); }
-      .theme-toggle:focus-visible { outline: 1px solid var(--red); outline-offset: 3px; }
-      .theme-toggle-icon {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 12px;
-        height: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--ink3);
-        pointer-events: none;
-      }
-      .theme-toggle-icon--sun { left: 6px; }
-      .theme-toggle-icon--moon { right: 6px; }
-      .theme-toggle-icon svg { width: 11px; height: 11px; }
-      .theme-toggle-knob {
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: var(--ink);
-        transition: transform 0.35s var(--ease), background 0.3s var(--ease);
-        pointer-events: none;
-      }
-      [data-theme="dark"] .theme-toggle-knob { transform: translateX(22px); }
+/* ═══ SERVICES ═══ */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.service-item{background:var(--bg);padding:36px 28px;transition:background .25s;position:relative}
+.service-item:hover{background:var(--bg2)}
+.service-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.1em;margin-bottom:18px}
+.service-title{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.service-desc{font-size:.82rem;color:var(--ink2);line-height:1.6}
+.service-tools{margin-top:16px;font-family:var(--mono);font-size:.62rem;color:var(--ink3);letter-spacing:.03em}
 
-      /* 主题切换时的平滑过渡 */
-      html.theme-transition,
-      html.theme-transition *,
-      html.theme-transition *::before,
-      html.theme-transition *::after {
-        transition:
-          background-color 0.35s var(--ease),
-          color 0.35s var(--ease),
-          border-color 0.35s var(--ease),
-          box-shadow 0.35s var(--ease) !important;
-      }
+/* ═══ ABOUT ═══ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.about-text{font-size:.95rem;color:var(--ink2);line-height:1.8}
+.about-text p{margin-bottom:20px}
+.about-text strong{color:var(--ink);font-weight:500}
+.about-text em{font-style:italic;color:var(--accent)}
+.about-quote{font-family:var(--serif);font-size:1.3rem;font-weight:300;color:var(--ink);line-height:1.5;margin:32px 0;padding-left:20px;border-left:2px solid var(--accent)}
+.about-aside{display:flex;flex-direction:column;gap:28px}
+.aside-block{border-top:1px solid var(--line);padding-top:16px}
+.aside-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:12px}
+.aside-items{list-style:none}
+.aside-items li{font-size:.82rem;color:var(--ink2);padding:4px 0;line-height:1.5}
+.aside-items li::before{content:'—';color:var(--ink3);margin-right:8px;font-family:var(--mono);font-size:.7rem}
 
-      /* ── LAYOUT ──────────────────────────────────────────── */
-      .container {
-        max-width: 1080px;
-        margin: 0 auto;
-      }
-      section {
-        padding: 6rem 3rem;
-        position: relative;
-        z-index: 2;
-      }
+/* ═══ CONTACT ═══ */
+.contact-big{font-family:var(--serif);font-size:clamp(2.2rem,6vw,4.5rem);font-weight:300;line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin-bottom:48px}
+.contact-big em{font-style:italic;color:var(--accent)}
+.contact-row{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.contact-label{font-size:.9rem;color:var(--ink2);line-height:1.7;max-width:360px}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link{font-family:var(--mono);font-size:.85rem;color:var(--ink2);display:inline-flex;align-items:center;gap:10px;transition:color .2s;letter-spacing:.04em}
+.contact-link:hover{color:var(--accent)}
+.contact-link .arr{font-family:var(--mono);font-size:.7rem;opacity:.5;transition:opacity .2s,transform .2s}
+.contact-link:hover .arr{opacity:1;transform:translate(2px,-2px)}
+.contact-email{font-family:var(--mono);font-size:clamp(1rem,2.5vw,1.5rem);color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--line2);padding-bottom:4px;transition:border-color .2s,color .2s}
+.contact-email:hover{border-color:var(--accent);color:var(--accent)}
 
-      /* ── HOME ────────────────────────────────────────────── */
-      #home {
-        min-height: 100vh;
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        align-items: start;
-        /*让整个 grid 内容垂直居中，消除缩放时底部大片空白*/
-        align-content: center;
-        padding-top: 56px;
-        gap: 3rem;
-        max-width: 1080px;
-        margin: 0 auto;
-        padding-left: 3rem;
-        padding-right: 3rem;
-        position: relative;
-      }
-      .home-left {
-        padding: 3rem 0;
-        position: relative;
-      }
-      /* decorative divider removed per request */
-      .home-eyebrow {
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--ink3);
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        opacity: 0;
-      }
-      .home-eyebrow-line {
-        width: 32px;
-        height: 1px;
-        background: var(--ink4);
-      }
-      .hero-title {
-        font-family: "Noto Serif SC", "Songti SC", "華康明體", serif;
-        font-size: clamp(3.2rem, 5.5vw, 5rem);
-        font-weight: 300;
-        line-height: 1.2;
-        color: var(--ink);
-        margin-bottom: 2rem;
-        letter-spacing: -0.02em;
-        opacity: 0;
-        display: inline-flex;
-        align-items: flex-start;
-        gap: 0.78em;
-      }
-      .hero-col {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.25;
-      }
-      .hero-col .hero-em {
-        font-weight: 500;
-        font-style: normal;
-        color: var(--red);
-      }
-      .hero-desc {
-        font-family: var(--zh);
-        font-weight: 300;
-        font-size: 13px;
-        color: var(--ink3);
-        max-width: 380px;
-        line-height: 1.9;
-        letter-spacing: 0.04em;
-        margin-bottom: 1.5rem;
-        opacity: 0;
-      }
+/* ═══ FOOTER ═══ */
+footer{border-top:1px solid var(--line);padding:48px 0}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between}
+.footer-l,.footer-r{font-family:var(--mono);font-size:.68rem;color:var(--ink3);letter-spacing:.04em}
+.footer-logo-wrap{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}
+.footer-logo-wrap canvas{width:80px;height:80px;display:block}
+.footer-logo-wrap video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
-      .hero-status-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--mono);
-        font-size: 11px;
-        font-weight: 400;
-        letter-spacing: 0.1em;
-        color: var(--ink);
-        background: var(--paper2);
-        border: 1px solid var(--rule-h);
-        border-radius: 4px;
-        padding: 6px 14px;
-        cursor: pointer;
-        user-select: none;
-        margin-bottom: 2rem;
-        opacity: 0;
-        position: relative;
-        box-shadow: 0 1px 3px rgba(26, 23, 20, 0.02);
-        transition:
-          background 0.3s var(--ease),
-          border-color 0.3s var(--ease),
-          box-shadow 0.3s var(--ease),
-          color 0.3s var(--ease);
-      }
+/* ═══ MODALS ═══ */
+.wc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.wc-overlay.active{opacity:1;pointer-events:auto}
+.wc-window{background:var(--bg2);border:1px solid var(--line2);border-radius:8px;width:320px;max-width:90vw;overflow:hidden;transform:scale(.95);transition:transform .3s}
+.wc-overlay.active .wc-window{transform:scale(1)}
+.wc-window--wide{width:480px}
+.wc-titlebar{display:flex;align-items:center;justify-content:flex-end;padding:10px 14px;border-bottom:1px solid var(--line)}
+.wc-dot{width:10px;height:10px;border-radius:50%;background:var(--ink3);cursor:pointer;transition:background .2s}
+.wc-dot:hover{background:var(--accent)}
+.wc-body{padding:24px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.wc-body img{width:200px;height:200px;object-fit:contain}
+.wc-body p{font-family:var(--mono);font-size:.72rem;color:var(--ink2);text-align:center}
 
-      .hero-status-link::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--red);
-        box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15);
-        animation: pulse-red 2s ease-in-out infinite;
-        transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
-      }
+/* ═══ ANIMATIONS ═══ */
+.hero-eyebrow,.hero-title,.hero-sub,.hero-desc,.hero-actions,.hero-status{opacity:0;transform:translateY(24px)}
+.work-card{opacity:0;transform:translateY(24px)}
+.service-item{opacity:0;transform:translateY(20px)}
+.about-grid>.about-text,.about-grid>.about-aside{opacity:0;transform:translateY(24px)}
+.contact-body{opacity:0;transform:translateY(24px)}
 
-      .hero-status-link:hover {
-        background: var(--paper);
-        border-color: var(--ink);
-        box-shadow: 0 2px 8px rgba(26, 23, 20, 0.06);
-      }
-
-      .hero-status-link.open {
-        background: var(--ink);
-        color: var(--paper);
-        border-color: var(--ink);
-      }
-      .hero-status-link.open::before {
-        transform: scale(0);
-        opacity: 0;
-      }
-
-      .hero-status-link .status-link-arrow {
-        font-size: 0.95em;
-        display: inline-block;
-        transition: transform 0.3s var(--ease);
-      }
-
-      .hero-status-link:hover .status-link-arrow {
-        transform: translate(2px, -2px);
-      }
-      .hero-status-link.open .status-link-arrow {
-        transform: rotate(45deg);
-      }
-      .hero-actions {
-        display: flex;
-        gap: 48px;
-        flex-wrap: wrap;
-        max-width: 380px;
-        opacity: 0;
-      }
-
-      .btn-primary {
-        background: transparent;
-        color: var(--ink2);
-        border: 1px solid var(--ink4);
-        border-radius: 2px;
-        font-family: var(--zh);
-        font-weight: 300;
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        padding: 8px 22px;
-        cursor: pointer;
-        transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.1s;
-      }
-      .btn-primary:hover {
-        border-color: var(--ink);
-        color: var(--ink);
-        background: var(--paper2);
-      }
-      .btn-primary:active {
-        transform: scale(0.97);
-      }
-      .btn-outline {
-        background: transparent;
-        color: var(--ink3);
-        border: none;
-        font-family: var(--zh);
-        font-weight: 300;
-        font-size: 13px;
-        letter-spacing: 0.08em;
-        padding: 0;
-        cursor: pointer;
-        text-decoration: underline;
-        text-underline-offset: 4px;
-        text-decoration-color: var(--ink4);
-        transition: color 0.2s, text-decoration-color 0.2s;
-      }
-      .btn-outline:hover {
-        color: var(--ink);
-        text-decoration-color: var(--ink);
-      }
-
-      /* right side — status card + logo */
-      .home-right {
-        align-self: stretch;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 3rem 0;
-        opacity: 0;
-      }
-      .status-card {
-        border: 1px solid var(--rule);
-        border-radius: 6px;
-        background: var(--paper2);
-        overflow: hidden;
-        transition: box-shadow 0.25s ease, opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0.35s;
-        flex-shrink: 0;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transform: translateX(24px);
-      }
-      .status-card.visible {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateX(0);
-      }
-      .status-card:hover {
-        box-shadow: var(--shadow-card);
-      }
-      .status-card-header {
-        padding: 2rem 3rem 1.4rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-      }
-      .status-card-title {
-        font-size: 10px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--ink4);
-        font-family: var(--mono);
-        white-space: nowrap;
-      }
-      .status-avail {
-        width: 220px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 13px;
-        color: #2d7d46;
-        text-shadow: 0 0 12px rgba(45, 125, 70, 0.15);
-        justify-content: flex-start;
-        font-family: var(--mono);
-      }
-        .avail-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #2d7d46;
-            box-shadow: 0 0 0 3px rgba(45, 125, 70, 0.2);
-            animation: pulse-red 2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-      @keyframes pulse-red {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.3;
-        }
-      }
-      .status-card-body {
-        padding: 0.6rem 3rem 2.5rem;
-      }
-      .logo-wrap {
-        align-self: flex-end;
-      }
-      .home-logo {
-        display: block;
-        width: clamp(450px, 8vw, 900px);
-        height: auto;
-        opacity: 0.85;
-        pointer-events: none;
-      }
-      #logoVideoFwd,
-      #logoVideoRev {
-        display: none;
-      }
-
-      .status-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        padding: 14px 0;
-        border-bottom: 1px solid var(--rule);
-        line-height: 1;
-      }
-      .status-row:last-child {
-        border-bottom: none;
-      }
-      .status-row-base {
-        border-radius: 4px;
-        transition: background 0.4s ease;
-      }
-      .status-row-base .status-val {
-        filter: blur(3px);
-        transition: filter 0.4s ease, color 0.4s ease;
-        color: var(--ink2);
-      }
-      .status-row-base:hover .status-val {
-        filter: blur(0);
-        color: var(--ink);
-      }
-      .status-key {
-        color: var(--ink4);
-        font-family: var(--mono);
-        font-size: 10px;
-        font-weight: 300;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-      .status-val {
-        color: var(--ink);
-        width: 220px;
-        flex-shrink: 0;
-        text-align: left;
-        font-size: 14px;
-        font-weight: 400;
-      }
-
-      /* ── WORK ────────────────────────────────────────────── */
-      #work {
-        border-top: 1px solid var(--rule);
-        padding: 5rem 3rem;
-      }
-
-      .section-header {
-        display: flex;
-        align-items: baseline;
-        justify-content: flex-start;
-        margin-bottom: 3rem;
-      }
-      .section-title {
-        font-family: var(--serif);
-        font-size: clamp(1.8rem, 3vw, 2.5rem);
-        font-weight: 300;
-        font-style: italic;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-      }
-      .section-count {
-        font-size: 11px;
-        color: var(--ink4);
-        letter-spacing: 0.06em;
-      }
-
-      /* project grid */
-      .work-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1px;
-        background: var(--rule);
-        border: 1px solid var(--rule);
-        border-radius: 4px;
-        overflow: hidden;
-      }
-      .work-card {
-        background: var(--paper);
-        padding: 2rem;
-        text-decoration: none;
-        color: var(--ink);
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-        min-height: 200px;
-        transition: background 0.2s;
-        opacity: 0;
-        transform: translateY(16px);
-        position: relative;
-        overflow: hidden;
-      }
-      .work-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--red);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.35s var(--ease);
-      }
-      .work-card:hover {
-        background: var(--paper2);
-      }
-      .work-card:hover::before {
-        transform: scaleX(1);
-      }
-      .work-card-num {
-        font-size: 10px;
-        color: var(--ink4);
-        letter-spacing: 0.1em;
-        margin-bottom: 1.25rem;
-      }
-      .work-card-title {
-        font-family: var(--serif);
-        font-size: 1.45rem;
-        font-weight: 300;
-        line-height: 1.2;
-        color: var(--ink);
-        flex: 1;
-        letter-spacing: -0.01em;
-      }
-      .work-card-title em {
-        font-family: var(--zh);
-        font-style: normal;
-        font-weight: 300;
-        font-size: 0.65em;
-        letter-spacing: 0.02em;
-        color: var(--ink3);
-      }
-      .work-card-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 1.5rem;
-      }
-      .work-card-stack {
-        font-size: 11px;
-        color: var(--ink3);
-        font-style: italic;
-        padding: 2px 6px;
-        margin: -2px -6px;
-        border-radius: 3px;
-        transition: background 0.2s var(--ease);
-      }
-      .work-card:hover .work-card-stack {
-        background: var(--rule);
-      }
-      .work-card-meta {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .work-card-year {
-        font-size: 11px;
-        color: var(--ink4);
-      }
-      .work-card-badge {
-        font-size: 10px;
-        letter-spacing: 0.06em;
-        padding: 2px 8px;
-        border-radius: 100px;
-        border: 1px solid var(--rule-h);
-        color: var(--ink3);
-      }
-      .work-card-badge.live {
-        color: #2d7d46;
-        border-color: rgba(45, 125, 70, 0.15);
-        background: rgba(45, 125, 70, 0.08);
-      }
-      .work-card-badge.wip {
-        color: #c0392b;
-        border-color: rgba(192, 57, 43, 0.15);
-        background: rgba(192, 57, 43, 0.08);
-      }
-      .work-card-badge.archived {
-        color: var(--ink3);
-        border-color: rgba(128, 128, 128, 0.25);
-        background: rgba(128, 128, 128, 0.05);
-      }
-
-      .work-card-arrow {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        font-size: 18px;
-        color: var(--ink3);
-        opacity: 0;
-        transform: translate(-4px, 4px);
-        transition:
-          opacity 0.2s,
-          transform 0.3s var(--ease);
-      }
-      .work-card:hover .work-card-arrow {
-        opacity: 1;
-        transform: translate(2px, 0);
-      }
-
-      /* ── SKILLS ──────────────────────────────────────────── */
-      #skills {
-        border-top: 1px solid var(--rule);
-        padding: 5rem 3rem;
-      }
-
-      .skills-two-col {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 4rem;
-        margin-top: 1rem;
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      .skills-intro {
-        font-family: var(--serif);
-        font-size: clamp(1.1rem, 2vw, 1.4rem);
-        font-weight: 300;
-        font-style: italic;
-        color: var(--ink3);
-        line-height: 1.5;
-      }
-      .skills-right {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-      }
-      .skill-group-title {
-        font-size: 10px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--red);
-        margin-bottom: 1rem;
-        font-weight: 500;
-      }
-      .skill-list {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .skill-item {
-        font-family: var(--zh);
-        font-weight: 300;
-        font-size: 12px;
-        color: var(--ink2);
-        letter-spacing: 0.03em;
-        padding: 4px 0;
-        border-bottom: 1px solid var(--rule);
-        transition:
-          color 0.15s,
-          border-color 0.15s;
-      }
-      .skill-item:hover {
-        color: var(--ink);
-        border-color: var(--ink4);
-      }
-
-      /* ── ABOUT ───────────────────────────────────────────── */
-      #about {
-        border-top: 1px solid var(--rule);
-        padding: 5rem 3rem;
-      }
-
-      .about-body {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 5rem;
-        margin-top: 1rem;
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      .about-text {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-      }
-      .about-p {
-        font-size: 14px;
-        color: var(--ink2);
-        line-height: 1.9;
-        font-family: var(--zh);
-        font-weight: 300;
-        letter-spacing: 0.03em;
-      }
-      .about-p em {
-        font-style: normal;
-        color: var(--red);
-        font-weight: 400;
-      }
-
-      .aside-block {
-        border-left: 2px solid var(--rule-h);
-        padding-left: 1.25rem;
-        margin-bottom: 2rem;
-      }
-      .aside-block:last-child {
-        margin-bottom: 0;
-      }
-      .aside-title {
-        font-size: 10px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--ink4);
-        margin-bottom: 0.75rem;
-      }
-      .aside-items {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-      .aside-item {
-        font-family: var(--zh);
-        font-size: 12px;
-        color: var(--ink2);
-        font-style: normal;
-        font-weight: 300;
-        letter-spacing: 0.03em;
-      }
-
-      /* ── CONTACT ─────────────────────────────────────────── */
-      #contact {
-        border-top: 1px solid var(--rule);
-        padding: 5rem 3rem;
-      }
-
-      .contact-body {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-
-      .contact-big {
-        font-family: var(--serif);
-        font-size: clamp(2.5rem, 6vw, 5.5rem);
-        font-weight: 300;
-        line-height: 1.05;
-        color: var(--ink);
-        letter-spacing: -0.03em;
-        margin-bottom: 2.5rem;
-        max-width: 700px;
-      }
-
-      .contact-big em {
-        font-style: italic;
-        color: var(--red);
-      }
-
-      .contact-row {
-        display: flex;
-        flex-direction: column;
-        gap: 2.5rem;
-      }
-
-      .contact-label {
-        font-family: var(--zh);
-        font-weight: 300;
-        font-size: 10px;
-        color: var(--ink4);
-        letter-spacing: 0.08em;
-        line-height: 1.4;
-        margin: 0;
-      }
-
-      .contact-bottom-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 2rem;
-      }
-
-      .contact-email-wrap {
-        flex: 0 1 auto;
-        min-width: 0;
-        display: inline-block;
-        max-width: 100%;
-      }
-
-      .contact-email {
-        font-family: var(--serif);
-        font-size: clamp(1rem, 2vw, 1.5rem);
-        font-weight: 300;
-        font-style: italic;
-        color: var(--ink);
-        text-decoration: none;
-        border-bottom: 1px solid var(--rule-h);
-        padding-bottom: 2px;
-        transition: color 0.2s, border-color 0.2s;
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1.3;
-      }
-
-      .contact-email:hover {
-        color: var(--red);
-        border-color: rgba(192, 57, 43, 0.4);
-      }
-
-      .social-stack {
-        display: flex;
-        gap: 1.5rem;
-        flex: 0 0 auto;
-        align-items: center;
-      }
-
-      .social-link {
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--ink3);
-        text-decoration: none;
-        transition: color 0.15s;
-        position: relative;
-      }
-
-      .social-link::after {
-        content: "\2197";
-        font-size: 9px;
-        margin-left: 3px;
-        opacity: 0;
-        transition: opacity 0.15s;
-      }
-
-      .social-link:hover {
-        color: var(--ink);
-      }
-
-      .social-link:hover::after {
-        opacity: 1;
-      }
-
-      /* ── FOOTER ──────────────────────────────────────────── */
-      footer {
-        border-top: 1px solid var(--rule);
-        padding: 1.25rem 3rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        z-index: 2;
-        background: var(--paper2);
-      }
-      .footer-inner {
-        max-width: 1080px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-      }
-      .footer-l {
-        font-size: 11px;
-        color: var(--ink4);
-      }
-      .footer-l a {
-        color: var(--ink3);
-      }
-      .footer-l a:hover {
-        color: var(--ink);
-      }
-      .footer-r {
-        font-size: 11px;
-        color: var(--ink3);
-      }
-      .footer-r a:hover {
-        color: var(--ink);
-      }
-      .footer-logo-wrap {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      .footer-logo-wrap .home-logo {
-        width: 216px;
-        height: auto;
-        opacity: 0.5;
-      }
-
-      /* ── RESPONSIVE ──────────────────────────────────────── */
-      @media (max-width: 768px) {
-        section,
-        .nav {
-          padding-left: 1.5rem;
-          padding-right: 1.5rem;
-        }
-
-        #home {
-          grid-template-columns: 1fr;
-          padding-left: 1.5rem;
-          padding-right: 1.5rem;
-          min-height: 0;
-          padding-top: calc(56px + 3rem);
-          padding-bottom: 4rem;
-        }
-
-        .home-right {
-          align-self: auto;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          gap: 2rem;
-          padding: 0;
-          margin-top: 2rem;
-          width: 100%;
-        }
-
-        .status-val {
-          width: auto;
-          flex-shrink: 1;
-          text-align: left;
-        }
-
-        .status-avail {
-          width: auto;
-          flex-shrink: 1;
-          justify-content: flex-start;
-        }
-
-        .work-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .skills-two-col {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-
-        .skills-right {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .about-body {
-          grid-template-columns: 1fr;
-          gap: 2.5rem;
-        }
-
-        .contact-row {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .nav-links {
-          display: none;
-        }
-
-        footer {
-          padding: 1rem 1.5rem;
-        }
-
-        .status-card {
-          transform: translateX(24px);
-        }
-        .status-card.visible {
-          transform: translateX(0);
-        }
-
-        .logo-wrap {
-          align-self: center;
-        }
-
-        .home-logo {
-          width: clamp(120px, 25vw, 200px);
-        }
-      }
-
-      /* ── WeChat 弹窗 ──────────────────────────────────── */
-      .wc-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 999;
-        background: var(--overlay-bg);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        -webkit-backdrop-filter: blur(6px);
-        backdrop-filter: blur(6px);
-      }
-      .wc-overlay.active {
-        display: flex;
-      }
-      .wc-window {
-        background: var(--paper);
-        border-radius: 10px;
-        box-shadow: var(--wc-shadow);
-        overflow: hidden;
-        max-width: 360px;
-        width: 90%;
-        animation: wcFadeIn 0.25s ease;
-      }
-      @keyframes wcFadeIn {
-        from { opacity: 0; transform: translateY(12px) scale(0.97); }
-        to   { opacity: 1; transform: translateY(0) scale(1); }
-      }
-      .wc-titlebar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 14px 18px;
-        border-bottom: 1px solid var(--rule);
-        background: var(--paper2);
-      }
-      .wc-dots {
-        display: flex;
-        gap: 7px;
-      }
-      .wc-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        border: 1px solid var(--rule-h);
-        position: relative;
-        cursor: pointer;
-        transition: filter 0.15s;
-        background: #ee5a5a;
-      }
-      .wc-dot:hover { filter: brightness(0.85); }
-      .wc-dot::after {
-        content: "\00D7";
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 8px;
-        font-weight: 700;
-        color: rgba(120,0,0,0.55);
-        opacity: 0;
-        transition: opacity 0.12s;
-      }
-      .wc-dot:hover::after { opacity: 1; }
-      .wc-body {
-        padding: 2rem 2rem 2.5rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-      }
-      .wc-body img {
-        width: 200px;
-        height: 200px;
-        border-radius: 6px;
-        border: 1px solid var(--rule);
-        display: block;
-      }
-      .wc-body p {
-        font-family: var(--zh);
-        font-weight: 300;
-        font-size: 12px;
-        color: var(--ink3);
-        letter-spacing: 0.04em;
-      }
-
-      /* ── Résumé 弹窗（宽版 / 可滚动） ──────────────────── */
-      .wc-window--wide {
-        max-width: min(90vw, 700px);
-        max-height: min(90vh, 800px);
-        display: flex;
-        flex-direction: column;
-      }
-      .wc-window--wide .wc-body {
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        padding: 1.5rem 1.5rem 2rem;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-        scrollbar-color: var(--ink4) var(--paper2);
-      }
-      .wc-window--wide .wc-body::-webkit-scrollbar { width: 5px; background: transparent; }
-      .wc-window--wide .wc-body::-webkit-scrollbar-track { background: var(--paper2); border-radius: 10px; margin: 0.5rem 0; }
-      .wc-window--wide .wc-body::-webkit-scrollbar-thumb { background: var(--ink4); border-radius: 10px; }
-      .wc-window--wide .wc-body::-webkit-scrollbar-thumb:hover { background: var(--ink3); }
-      .wc-window--wide .wc-body img {
-        width: 100%;
-        height: auto;
-        border-radius: 4px;
-        display: block;
-      }
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .work-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+}
+@media(max-width:640px){
+  .container,.nav-inner,.hero-content,.footer-inner{padding-left:24px;padding-right:24px}
+  .services-grid{grid-template-columns:1fr}
+  .nav-links{gap:16px}
+  .nav-links a{font-size:.65rem}
+  .work-card{padding:28px 24px}
+  .hero-actions{flex-direction:column}
+  .btn{width:100%;justify-content:center}
+  .footer-inner{flex-direction:column;gap:20px;text-align:center}
+  .contact-row{flex-direction:column;align-items:flex-start}
+}
     </style>
     <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）——默认暗色 */
-      (function () {
-        var root = document.documentElement;
-        var stored = null;
-        try { stored = localStorage.getItem("theme"); } catch (e) {}
-        root.setAttribute("data-theme", stored === "light" ? "light" : "dark");
+      (function(){
+        var root=document.documentElement,stored=null;
+        try{stored=localStorage.getItem("theme")}catch(e){}
+        root.setAttribute("data-theme",stored==="light"?"light":"dark");
       })();
     </script>
-  </head>
-  <body>
-    <!-- ── NAV ──────────────────────────────────────────────── -->
+</head>
+<body>
+    <!-- NAV -->
     <nav class="nav">
       <div class="nav-inner">
-        <a href="#home" class="nav-logo">EiiChi2049</a>
+        <a href="#home" class="nav-logo">ReiVerb<span class="nav-logo-sub">Sound Atorie</span></a>
         <ul class="nav-links">
-          <li><a href="#home">Home</a></li>
           <li><a href="#work">Work</a></li>
-          <li><a href="#skills">Skills</a></li>
+          <li><a href="#services">Services</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
           <li>
-            <button
-              class="theme-toggle"
-              id="themeToggle"
-              type="button"
-              aria-label="切换到亮色模式"
-              aria-pressed="true"
-            >
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="true">
               <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
               </span>
               <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
               </span>
               <span class="theme-toggle-knob" aria-hidden="true"></span>
             </button>
@@ -1285,348 +242,256 @@
       </div>
     </nav>
 
-    <main class="page-content">
-    <!-- ── HOME ─────────────────────────────────────────────── -->
-    <section id="home">
-      <div class="home-left">
-          <div class="home-eyebrow">
-              <div class="home-eyebrow-line"></div>
-              Beyond notes, into sounds
-          </div>
-          <h1 class="hero-title">
-              <span class="hero-col">
-                <span>一</span>
-                <span>所</span>
-                <span class="hero-em">懸</span>
-                <span>命</span>
-              </span>
-              <span class="hero-col">
-                <span>知</span>
-                <span>而</span>
-                <span>即</span>
-                <span class="hero-em">行</span>
-              </span>
-          </h1>
-          <p class="hero-desc">
-              探索音乐、声音与技术之间的边界。<br />
-              从配器编曲到声音设计，从音乐创作到音频工程。
-              <br />
-              Exploring the intersection between music, sound and technology.<br />
-              From orchestration to sound design, from composition to audio engineering.
-          </p>
-
-          <span class="hero-status-link" id="statusLink">
-            Current Status <span class="status-link-arrow">↗</span>
-          </span>
-
+    <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-wave-wrap"><canvas id="waveCanvas"></canvas></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span class="hero-eyebrow-text">ReiVerb Sound Atorie</span>
+        </div>
+        <h1 class="hero-title">Resonance<br/><em>remains.</em></h1>
+        <div class="hero-sub">
+          <span class="hero-tagline">Handcrafted for Games</span>
+          <span class="hero-tagline-cn">面向游戏的定制声音工作室</span>
+        </div>
+        <p class="hero-desc">
+          从配器编曲到声音设计，从音频中间件到插件开发。<br/>
+          ReiVerb Sound Atorie 为互动娱乐打造有温度的声音。
+        </p>
         <div class="hero-actions">
-          <button
-            class="btn-outline"
-            onclick="document.getElementById('work').scrollIntoView({ behavior: 'smooth' })"
-          >
-            浏览作品
-          </button>
-          <button
-            class="btn-outline"
-            onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
-          >
-            与我联系
-          </button>
+          <a href="#work" class="btn btn-primary">View Work</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        </div>
+        <div class="hero-status">
+          <div class="status-dot"></div>
+          <span>Available for new projects</span>
         </div>
       </div>
-      <div class="home-right">
-        <div class="status-card">
-          <div class="status-card-header">
-            <span class="status-card-title">STATUS</span>
-            <span class="status-avail">
-              <div class="avail-dot"></div>
-              available
-            </span>
-          </div>
-          <div class="status-card-body">
-            <div class="status-row">
-              <span class="status-key">focus</span>
-              <span class="status-val">Sound & Game Audio</span>
-            </div>
-            <div class="status-row">
-              <span class="status-key">role</span>
-              <span class="status-val">Music Creator</span>
-            </div>
-            <div class="status-row">
-                <span class="status-key">intent</span>
-                <span class="status-val">Fulltime / Freelance</span>
-            </div>
-            <div class="status-row status-row-base">
-                <span class="status-key">base</span>
-                <span class="status-val">Earth , Oort Cloud</span>
-            </div>
-            <div class="status-row">
-              <span class="status-key">since</span>
-              <span class="status-val">2021</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="hero-scroll">Scroll</div>
     </section>
 
-    <!-- ── WORK ──────────────────────────────────────────────── -->
+    <!-- WORK -->
     <section id="work">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">selected work</h2>
-            </div>
-            <div class="work-grid">
-                <a href="./01-ost/01-ost.html" class="work-card">
-                    <div class="work-card-num">01 / 06</div>
-                    <div class="work-card-title">
-                        [Original Soundtracks] <em><br />为独立游戏创作音乐与音效</em>
-                    </div>
-                    <div class="work-card-footer">
-                        <span class="work-card-stack">composition / sfx</span>
-                        <div class="work-card-meta">
-                            <span class="work-card-year">2025–present</span>
-                            <span class="work-card-badge live">live</span>
-                        </div>
-                    </div>
-                    <div class="work-card-arrow">↗</div>
-                </a>
-
-                <a href="./02-bkeq/02-bkeq.html" class="work-card">
-                    <div class="work-card-num">02 / 06</div>
-                    <div class="work-card-title">
-                        [BKEQ_Hybrid — Audio Plugin] <em><br />融合Pultec与SSL声音特点的均衡器</em>
-                    </div>
-                    <div class="work-card-footer">
-                        <span class="work-card-stack">vst3 / user interface</span>
-                        <div class="work-card-meta">
-                            <span class="work-card-year">2026</span>
-                            <span class="work-card-badge wip">wip</span>
-                        </div>
-                    </div>
-                    <div class="work-card-arrow">↗</div>
-                </a>
-
-                <a href="./03-wwise/03-wwise.html" class="work-card">
-                    <div class="work-card-num">03 / 06</div>
-                    <div class="work-card-title">
-                        [Wwise_101_非官方汉化文档] <em><br />一份音频中间件初学者的学习笔记</em>
-                    </div>
-                    <div class="work-card-footer">
-                        <span class="work-card-stack">tutorial / user manual</span>
-                        <div class="work-card-meta">
-                            <span class="work-card-year">2026</span>
-                            <span class="work-card-badge live">live</span>
-                        </div>
-                    </div>
-                    <div class="work-card-arrow">↗</div>
-                </a>
-
-                <a href="./04-hsr/04-hsr-1.html" class="work-card">
-                    <div class="work-card-num">04 / 06</div>
-                    <div class="work-card-title">
-                        [Honkai:SR Music Analysis] <em><br />崩铁PV音乐分析与复刻</em>
-                    </div>
-                    <div class="work-card-footer">
-                        <span class="work-card-stack">analysis / mock up</span>
-                        <div class="work-card-meta">
-                            <span class="work-card-year">2024–present</span>
-                            <span class="work-card-badge live">live</span>
-                        </div>
-                    </div>
-                    <div class="work-card-arrow">↗</div>
-                </a>
-
-                <a href="./05/05.html" class="work-card">
-                    <div class="work-card-num">05 / 06</div>
-                    <div class="work-card-title">
-                        [Acoustic Diver] <em><br />探索声音、空间与情绪</em>
-                    </div>
-                    <div class="work-card-footer">
-                        <span class="work-card-stack">soundscape / audio design</span>
-                        <div class="work-card-meta">
-                            <span class="work-card-year">2024</span>
-                            <span class="work-card-badge archived">archived</span>
-                        </div>
-                    </div>
-                    <div class="work-card-arrow">↗</div>
-                </a>
-
-                <a href="./06-research&writing/06-rw.html" class="work-card">
-                    <div class="work-card-num">06 / 06</div>
-                    <div class="work-card-title">
-                        [Research & Writing] <em><br />声音与创作相关研究与思考</em>
-                    </div>
-                    <div class="work-card-footer">
-                        <span class="work-card-stack">random thoughts</span>
-                        <div class="work-card-meta">
-                            <span class="work-card-year">2021–present</span>
-                            <span class="work-card-badge live">live</span>
-                        </div>
-                    </div>
-                    <div class="work-card-arrow">↗</div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ── SKILLS ─────────────────────────────────────────────── -->
-    <section id="skills">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">skills & tools</h2>
+          <div class="section-label">01 — Projects</div>
+          <h2 class="section-title">Selected <em>Work</em></h2>
         </div>
-        <div class="skills-two-col">
-          <p class="skills-intro">
-            我制作时顺手的工具，还有一些我正在学习的工具<br />
-            Tools I use when creating, and a few I'm still learning
-          </p>
-          <div class="skills-right">
-            <div>
-              <div class="skill-group-title">D.A.W / 宿主软件</div>
-              <div class="skill-list">
-                  <div class="skill-item">Ableton</div>
-                  <div class="skill-item">Cubase</div>
-                  <div class="skill-item">Pro Tools</div>
-                  <div class="skill-item">Reaper</div>
-                  <div class="skill-item">Logic Pro</div>
+        <div class="work-grid">
+          <a href="./01-ost/01-ost.html" class="work-card">
+            <div class="work-card-num">01 / 06</div>
+            <div class="work-card-title">Original Soundtracks<em>为独立游戏创作音乐与音效</em></div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">composition / sfx</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2025–present</span>
+                <span class="work-card-badge live">live</span>
               </div>
             </div>
-            <div>
-                <div class="skill-group-title">Production / 制作</div>
-                <div class="skill-list">
-                    <div class="skill-item">UAD Signature Edition V3</div>
-                    <div class="skill-item">Ample China Series</div>
-                    <div class="skill-item">MuseScore</div>
-                    <div class="skill-item">Phase Plant</div>
-                    <div class="skill-item">Kontakt</div>
-                </div>
-                </div>
-            <div>
-                <div class="skill-group-title">Other Tools / 工具</div>
-              <div class="skill-list">
-                <div class="skill-item">Adobe Photoshop</div>
-                <div class="skill-item">DaVinci Resolve 20</div>
-                <div class="skill-item">Wwise 101</div>
-                <div class="skill-item">AI-assisted Soudntrack Draft</div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+          <a href="./02-bkeq/02-bkeq.html" class="work-card">
+            <div class="work-card-num">02 / 06</div>
+            <div class="work-card-title">BKEQ Hybrid — Audio Plugin<em>融合Pultec与SSL声音特点的均衡器</em></div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">vst3 / user interface</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2026</span>
+                <span class="work-card-badge wip">wip</span>
               </div>
             </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+          <a href="./03-wwise/03-wwise.html" class="work-card">
+            <div class="work-card-num">03 / 06</div>
+            <div class="work-card-title">Wwise 101 — Unofficial i18n<em>音频中间件初学者的非官方汉化文档</em></div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">tutorial / manual</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2026</span>
+                <span class="work-card-badge live">live</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+          <a href="./04-hsr/04-hsr-1.html" class="work-card">
+            <div class="work-card-num">04 / 06</div>
+            <div class="work-card-title">Honkai:SR — Music Analysis<em>崩坏：星穹铁道 PV 音乐分析与复刻</em></div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">analysis / mock up</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2024–present</span>
+                <span class="work-card-badge live">live</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+          <a href="./05/05.html" class="work-card">
+            <div class="work-card-num">05 / 06</div>
+            <div class="work-card-title">Acoustic Diver<em>探索声音、空间与情绪</em></div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">soundscape / design</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2024</span>
+                <span class="work-card-badge archived">archived</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+          <a href="./06-research&writing/06-rw.html" class="work-card">
+            <div class="work-card-num">06 / 06</div>
+            <div class="work-card-title">Research &amp; Writing<em>声音与创作相关研究与思考</em></div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">random thoughts</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2021–present</span>
+                <span class="work-card-badge live">live</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">02 — Capabilities</div>
+          <h2 class="section-title">What the Atorie <em>does</em></h2>
+        </div>
+        <div class="services-grid">
+          <div class="service-item">
+            <div class="service-num">S.01</div>
+            <div class="service-title">Composition &amp; Arrangement</div>
+            <div class="service-desc">原创配乐、编曲与管弦编制。从主题动机到完整配乐，为叙事注入情感。</div>
+            <div class="service-tools">Cubase / Ableton / Pro Tools / Kontakt</div>
+          </div>
+          <div class="service-item">
+            <div class="service-num">S.02</div>
+            <div class="service-title">Sound Design</div>
+            <div class="service-desc">UI、环境音、角色与战斗音效。合成、采样与层叠，构建可辨识的声音签名。</div>
+            <div class="service-tools">Phase Plant / Reaper / field recording</div>
+          </div>
+          <div class="service-item">
+            <div class="service-num">S.03</div>
+            <div class="service-title">Audio Middleware</div>
+            <div class="service-desc">Wwise / FMOD 集成与实现。事件总线、RTPC、状态与切换的工程化搭建。</div>
+            <div class="service-tools">Wwise 201 / FMOD Studio</div>
+          </div>
+          <div class="service-item">
+            <div class="service-num">S.04</div>
+            <div class="service-title">Plugin Development</div>
+            <div class="service-desc">VST3 / AU 音频插件开发。DSP 算法设计与用户界面实现。</div>
+            <div class="service-tools">JUCE / C++ / Figma</div>
+          </div>
+          <div class="service-item">
+            <div class="service-num">S.05</div>
+            <div class="service-title">Technical Audio</div>
+            <div class="service-desc">游戏引擎音频管线、性能优化与平台适配。让声音在所有设备上如一呈现。</div>
+            <div class="service-tools">Unity / Unreal / middleware profiling</div>
+          </div>
+          <div class="service-item">
+            <div class="service-num">S.06</div>
+            <div class="service-title">Research &amp; Writing</div>
+            <div class="service-desc">音频系统架构、声音叙事与行业思考。写作也是创作的一部分。</div>
+            <div class="service-tools">essays / analysis / documentation</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── ABOUT ──────────────────────────────────────────────── -->
+    <!-- ABOUT -->
     <section id="about">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">about</h2>
+          <div class="section-label">03 — Philosophy</div>
+          <h2 class="section-title">About the <em>Atorie</em></h2>
         </div>
-        <div class="about-body">
+        <div class="about-grid">
           <div class="about-text">
-              <p class="about-p">
-                  为什么创作音乐<br />
-                  我还记得第一次被旋律彻底击中的震撼——那种心潮翻涌、眼前仿佛天地豁然开朗的感觉，像巨浪一样拍在心上。<br />那一刻我暗想：<em>若有一天，我的音符能成为谁生命里的背景音，</em>陪他跌撞成长，在某个黄昏被忽然哼起——那大概是我能想到的，最浪漫的创作归宿。
-              </p>
-              <p class="about-p">
-                  关于我<br />
-                  <em>对自己严苛，但不断前行。</em><br />
-                  一个正在用<em> "一生悬命" </em>的方式去工作，却还不确定自己已经走了多远的创作者。<br />
-                  愿意承认自己<em>还不够好，</em>但绝不让这份承认变成放弃的理由。
-              </p>
-              <p class="about-p">
-                  追求极致<br />
-                  <em>"如果不满意，就再来一次"</em><br />
-                  乐队的铜管与弦乐平衡我调整了两周，那台均衡器的UI我修改了二十二版，五十八分钟的视频翻译从初稿到最终版经过了反复校对。<br />
-                  因为<em>"知而即行"</em>，我愿追求一个自己能看见、能确认、能点头说<em>"这版还不错"</em>的满意度。
-              </p>
+            <p><strong>ReiVerb Sound Atorie</strong> 是一间面向游戏的定制声音工作室。<em>Resonance remains</em>——好的声音不会随时间消散，它留在玩家的身体里。</p>
+            <div class="about-quote">"如果不满意，就再来一次。"</div>
+            <p>我们相信声音是叙事的隐形骨架。一段配乐能改变玩家对场景的感知，一个音效能定义武器的重量。从概念到实现，每一个细节都值得被认真对待。</p>
+            <p>乐队的铜管与弦乐平衡调整了两周，均衡器的 UI 修改了二十二版，五十八分钟的视频翻译反复校对。因为<em>"知而即行"</em>，我们追求一个自己能确认、能点头说"这版还不错"的满意度。</p>
           </div>
           <div class="about-aside">
             <div class="aside-block">
-              <div class="aside-title">outside the editor</div>
-              <div class="aside-items">
-                <div class="aside-item">写点日记</div>
-                <div class="aside-item">攒钱换电脑 & 买插件</div>
-                <div class="aside-item">正在重温第15遍《新世纪福音战士》TV版</div>
-              </div>
+              <div class="aside-title">Currently exploring</div>
+              <ul class="aside-items">
+                <li>Wwise 201</li>
+                <li>Blender</li>
+                <li>JUCE framework deep-dive</li>
+                <li>《琴语山川》钢琴练习</li>
+              </ul>
             </div>
             <div class="aside-block">
-              <div class="aside-title">currently exploring</div>
-              <div class="aside-items">
-                  <div class="aside-item">Wwise 201</div>
-                  <div class="aside-item">Blender</div>
-                  <div class="aside-item">キャラ配布(コイカツ)</div>
-                  <div class="aside-item">《琴语山川》钢琴练习</div>
-              </div>
+              <div class="aside-title">Reading</div>
+              <ul class="aside-items">
+                <li>《民族乐队乐器法》</li>
+                <li>《创造力的修行》</li>
+                <li>The Pathless Path</li>
+              </ul>
             </div>
             <div class="aside-block">
-              <div class="aside-title">reading</div>
-              <div class="aside-items">
-                  <div class="aside-item">《民族乐队乐器法》</div>
-                  <div class="aside-item">《创造力的修行：打开一切可能》</div>
-                  <div class="aside-item">《無路之路》（The Pathless Path）</div>
-              </div>
+              <div class="aside-title">Outside the studio</div>
+              <ul class="aside-items">
+                <li>写点日记</li>
+                <li>攒钱换电脑 &amp; 买插件</li>
+                <li>重温《新世纪福音战士》</li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── CONTACT ────────────────────────────────────────────── -->
+    <!-- CONTACT -->
     <section id="contact">
-        <div class="container">
-            <div class="contact-body">
-                <h2 class="contact-big">
-                    Create <em>Meaning</em><br />
-                    Craft <em>Beauty.</em>
-                </h2>
-                <div class="contact-row">
-                    <div class="contact-label">
-                        有项目想法？想合作？还是只想打个招呼？联系我吧。<br>
-                        Got a project idea? Wanna collab? <br>
-                        Or just say hi? Drop a line.
-                    </div>
-                    <div class="contact-bottom-row">
-                        <div class="contact-email-wrap">
-                            <a href="mailto:enchitsui@foxmail.com" class="contact-email">
-                                enchitsui@foxmail.com
-                            </a>
-                        </div>
-                        <div class="social-stack">
-                            <a href="javascript:;" class="social-link" id="wechatLink">Wechat</a>
-                            <a href="https://github.com/eiichi-2049" class="social-link" target="_blank" rel="noopener noreferrer">Github</a>
-                            <a href="https://space.bilibili.com/23277208" class="social-link" target="_blank" rel="noopener noreferrer">Bilibili</a>
-                            <a href="javascript:;" class="social-link" id="resumeLink">Résumé</a>
-                        </div>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="contact-body">
+          <div class="section-header">
+            <div class="section-label">04 — Contact</div>
+          </div>
+          <h2 class="contact-big">Let's make something<br/>that <em>resonates.</em></h2>
+          <div class="contact-row">
+            <div class="contact-label">
+              有项目想法？想合作？还是只想打个招呼？<br/>
+              Got a project idea? Wanna collab? Drop a line.
             </div>
+            <div class="contact-links">
+              <a href="mailto:enchitsui@foxmail.com" class="contact-email">enchitsui@foxmail.com</a>
+              <a href="javascript:;" class="contact-link" id="wechatLink">WeChat <span class="arr">↗</span></a>
+              <a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub <span class="arr">↗</span></a>
+              <a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer" class="contact-link">Bilibili <span class="arr">↗</span></a>
+              <a href="javascript:;" class="contact-link" id="resumeLink">Résumé <span class="arr">↗</span></a>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
     </main>
 
-    <!-- ── FOOTER ─────────────────────────────────────────────── -->
+    <!-- FOOTER -->
     <footer>
-        <div class="footer-inner">
-            <div class="footer-l">
-                 &copy; EiiChi_2049
-            </div>
-            <div class="footer-logo-wrap">
-                <canvas class="home-logo" id="logoCanvas"></canvas>
-                <video src="00-index_images/LOGO05.mp4" playsinline muted preload="auto" id="logoVideoFwd"></video>
-                <video src="00-index_images/LOGO05R.mp4" playsinline muted preload="auto" id="logoVideoRev"></video>
-            </div>
-            <div class="footer-r"></div>
+      <div class="footer-inner">
+        <div class="footer-l">&copy; 2026 ReiVerb Sound Atorie</div>
+        <div class="footer-logo-wrap">
+          <canvas class="home-logo" id="logoCanvas"></canvas>
+          <video src="00-index_images/LOGO05.mp4" playsinline muted preload="auto" id="logoVideoFwd"></video>
+          <video src="00-index_images/LOGO05R.mp4" playsinline muted preload="auto" id="logoVideoRev"></video>
         </div>
+        <div class="footer-r">Resonance remains.</div>
+      </div>
     </footer>
 
-    <!-- ── WeChat 弹窗 ──────────────────────────────────────── -->
+    <!-- WeChat modal -->
     <div class="wc-overlay" id="wcOverlay">
       <div class="wc-window">
-        <div class="wc-titlebar">
-          <div class="wc-dots">
-            <div class="wc-dot" id="wcClose"></div>
-          </div>
-        </div>
+        <div class="wc-titlebar"><div class="wc-dot" id="wcClose"></div></div>
         <div class="wc-body">
           <img src="00-index_images/wechat-qr.png" alt="WeChat QR Code" id="wcQR" />
           <p>扫描二维码添加微信</p>
@@ -1634,287 +499,186 @@
       </div>
     </div>
 
-    <!-- ── Résumé 弹窗 ──────────────────────────────────────── -->
+    <!-- Résumé modal -->
     <div class="wc-overlay" id="resumeOverlay">
       <div class="wc-window wc-window--wide">
-        <div class="wc-titlebar">
-          <div class="wc-dots">
-            <div class="wc-dot" id="resumeClose"></div>
-          </div>
-        </div>
+        <div class="wc-titlebar"><div class="wc-dot" id="resumeClose"></div></div>
         <div class="wc-body">
-          <img src="00-index_images/resume.png" alt="Résumé" id="resumeImg" />
+          <img src="00-index_images/resume.png" alt="Résumé" id="resumeImg" style="width:auto;max-height:70vh" />
           <p>Résumé / 简历</p>
         </div>
       </div>
     </div>
-
-    <!-- ── GSAP ───────────────────────────────────────────────── -->
     <script>
-      /* ── 主题切换按钮（明/暗） ─────────────────── */
-      (function () {
-        var root = document.documentElement;
-        var toggle = document.getElementById("themeToggle");
-        if (!toggle) return;
+    /* ── THEME TOGGLE ── */
+    (function(){
+      var root=document.documentElement,toggle=document.getElementById("themeToggle");
+      if(!toggle)return;
+      function sync(){
+        var cur=root.getAttribute("data-theme");
+        toggle.setAttribute("aria-pressed",cur==="dark"?"true":"false");
+        toggle.setAttribute("aria-label",cur==="dark"?"Switch to light":"Switch to dark");
+      }
+      sync();
+      toggle.addEventListener("click",function(){
+        var cur=root.getAttribute("data-theme")==="dark"?"dark":"light";
+        root.classList.add("theme-transition");
+        clearTimeout(toggle._t);
+        toggle._t=setTimeout(function(){root.classList.remove("theme-transition")},450);
+        root.setAttribute("data-theme",cur==="dark"?"light":"dark");
+        sync();
+        try{localStorage.setItem("theme",cur==="dark"?"light":"dark")}catch(e){}
+      });
+    })();
 
-        /* 初始同步按钮状态与当前主题一致 */
-        (function () {
-          var cur = root.getAttribute("data-theme");
-          toggle.setAttribute("aria-pressed", cur === "dark" ? "true" : "false");
-          toggle.setAttribute(
-            "aria-label",
-            cur === "dark" ? "切换到亮色模式" : "切换到暗色模式"
-          );
-        })();
-
-        function apply(next) {
-          root.classList.add("theme-transition");
-          clearTimeout(apply._t);
-          apply._t = setTimeout(function () {
-            root.classList.remove("theme-transition");
-          }, 400);
-
-          root.setAttribute("data-theme", next);
-          toggle.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-          toggle.setAttribute(
-            "aria-label",
-            next === "dark" ? "切换到亮色模式" : "切换到暗色模式"
-          );
-          try { localStorage.setItem("theme", next); } catch (e) {}
+    /* ── WAVEFORM CANVAS ── */
+    (function(){
+      var canvas=document.getElementById("waveCanvas");
+      if(!canvas)return;
+      var ctx=canvas.getContext("2d");
+      var W,H,t=0;
+      function resize(){
+        var rect=canvas.parentElement.getBoundingClientRect();
+        W=rect.width;H=rect.height;
+        canvas.width=W*devicePixelRatio;
+        canvas.height=H*devicePixelRatio;
+        ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+      }
+      resize();
+      window.addEventListener("resize",resize);
+      function getAccent(){
+        return getComputedStyle(document.documentElement).getPropertyValue("--accent").trim()||"#d4a054";
+      }
+      function getOpacity(){
+        return document.documentElement.getAttribute("data-theme")==="dark"?0.18:0.12;
+      }
+      function draw(){
+        ctx.clearRect(0,0,W,H);
+        var accent=getAccent();
+        var baseOp=getOpacity();
+        var midY=H*0.55;
+        for(var layer=0;layer<3;layer++){
+          ctx.beginPath();
+          var amp=(14+layer*10)*Math.sin(t*0.3+layer*1.2);
+          var freq=0.008+layer*0.003;
+          var speed=0.015+layer*0.008;
+          for(var x=0;x<=W;x+=3){
+            var y=midY+Math.sin(x*freq+t*speed+layer*2)*amp
+                       +Math.sin(x*freq*2.7+t*speed*1.5+layer*3.5)*amp*0.3
+                       +Math.sin(x*freq*5.3+t*speed*0.7)*amp*0.12;
+            if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+          }
+          ctx.strokeStyle=accent;
+          ctx.globalAlpha=baseOp*(1-layer*0.25);
+          ctx.lineWidth=1.2-layer*0.2;
+          ctx.stroke();
         }
-
-        toggle.addEventListener("click", function () {
-          var current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-          apply(current === "dark" ? "light" : "dark");
-        });
-      })();
-
-      /* ── Status Card 展开/收起 ───────────────── */
-      (function () {
-        var link = document.getElementById('statusLink');
-        var card = document.querySelector('.status-card');
-        var arrow = document.querySelector('.status-link-arrow');
-        if (!link || !card || !arrow) return;
-        var isOpen = false;
-
-        link.addEventListener('click', function () {
-          isOpen = !isOpen;
-          if (isOpen) {
-            card.classList.add('visible');
-            link.classList.add('open');
-            arrow.textContent = '↗';
-
-            if (window.innerWidth <= 768) {
-              setTimeout(function() {
-                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              }, 150);
-            }
-          } else {
-            card.classList.remove('visible');
-            link.classList.remove('open');
-            arrow.textContent = '↗';
-          }
-        });
-      })();
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      /* 强制加载 LXGW WenKai 字体 */
-      if (document.fonts && document.fonts.load) {
-        document.fonts.load('1em "LXGW WenKai"').catch(function () {});
-        document.fonts.load('1em "OPPO Sans"').catch(function () {});
+        ctx.globalAlpha=1;
+        t+=0.02;
+        requestAnimationFrame(draw);
       }
+      draw();
+    })();
 
-      // Removed alignStatusCard — now handled by CSS Flex + transform
+    /* ── GSAP ANIMATIONS ── */
+    gsap.registerPlugin(ScrollTrigger);
+    var tl=gsap.timeline({ease:"power3.out"});
+    tl.to(".hero-eyebrow",{opacity:1,y:0,duration:.7},.2)
+      .to(".hero-title",{opacity:1,y:0,duration:.9},.35)
+      .to(".hero-sub",{opacity:1,y:0,duration:.7},.55)
+      .to(".hero-desc",{opacity:1,y:0,duration:.7},.65)
+      .to(".hero-actions",{opacity:1,y:0,duration:.6},.78)
+      .to(".hero-status",{opacity:1,y:0,duration:.5},.9);
+    gsap.utils.toArray(".work-card").forEach(function(el,i){
+      gsap.to(el,{opacity:1,y:0,duration:.55,ease:"power2.out",delay:i*.08,scrollTrigger:{trigger:el,start:"top 88%"}});
+    });
+    gsap.utils.toArray(".service-item").forEach(function(el,i){
+      gsap.to(el,{opacity:1,y:0,duration:.5,ease:"power2.out",delay:i*.06,scrollTrigger:{trigger:el,start:"top 90%"}});
+    });
+    gsap.utils.toArray(".about-grid > .about-text, .about-grid > .about-aside").forEach(function(el,i){
+      gsap.to(el,{opacity:1,y:0,duration:.65,ease:"power2.out",delay:i*.12,scrollTrigger:{trigger:el,start:"top 86%"}});
+    });
+    gsap.to(".contact-body",{opacity:1,y:0,duration:.7,ease:"power2.out",scrollTrigger:{trigger:"#contact",start:"top 80%"}});
 
-      /* ── WeChat 弹窗 ───────────────────────────────────── */
-      var wcOverlay = document.getElementById("wcOverlay");
-      var wcClose  = document.getElementById("wcClose");
-      var wcLink   = document.getElementById("wechatLink");
-      if (wcOverlay && wcClose && wcLink) {
-        wcLink.addEventListener("click", function (e) {
-          e.preventDefault();
-          wcOverlay.classList.add("active");
-        });
-        wcClose.addEventListener("click", function () {
-          wcOverlay.classList.remove("active");
-        });
-        wcOverlay.addEventListener("click", function (e) {
-          if (e.target === wcOverlay) wcOverlay.classList.remove("active");
-        });
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && wcOverlay.classList.contains("active")) {
-            wcOverlay.classList.remove("active");
-          }
-        });
+    /* ── LOGO VIDEO CANVAS ── */
+    (function(){
+      var canvas=document.getElementById("logoCanvas");
+      var vFwd=document.getElementById("logoVideoFwd");
+      var vRev=document.getElementById("logoVideoRev");
+      if(!canvas||!vFwd||!vRev)return;
+      var ctx=canvas.getContext("2d",{willReadFrequently:true});
+      var active=vFwd,w=0,h=0,gate=false;
+      function drawFrame(){
+        if(active.paused)return;
+        if(gate){if(active.readyState<2)return;gate=false}
+        if(w===0){w=active.videoWidth;h=active.videoHeight}
+        if(w===0||h===0)return;
+        if(canvas.width!==w){canvas.width=w;canvas.height=h}
+        ctx.drawImage(active,0,0,w,h);
+        var img=ctx.getImageData(0,0,w,h),d=img.data;
+        for(var i=0;i<d.length;i+=4){
+          if(d[i]<35&&d[i+1]<35&&d[i+2]<35){d[i+3]=0}
+        }
+        ctx.putImageData(img,0,0);
       }
+      function loop(){drawFrame();requestAnimationFrame(loop)}
+      function switchTo(v){gate=true;active=v;v.currentTime=0;v.play().catch(function(){gate=false})}
+      vFwd.addEventListener("ended",function(){switchTo(vRev)});
+      vRev.addEventListener("ended",function(){switchTo(vFwd)});
+      function start(){gate=true;vFwd.play().catch(function(){gate=false});loop()}
+      if(vFwd.readyState>=2){start()}else{vFwd.addEventListener("canplay",start,{once:true})}
+    })();
 
-      /* ── Résumé 弹窗 ──────────────────────────────────── */
-      var resumeOverlay = document.getElementById("resumeOverlay");
-      var resumeClose  = document.getElementById("resumeClose");
-      var resumeLink   = document.getElementById("resumeLink");
-      if (resumeOverlay && resumeClose && resumeLink) {
-        resumeLink.addEventListener("click", function (e) {
-          e.preventDefault();
-          resumeOverlay.classList.add("active");
-        });
-        resumeClose.addEventListener("click", function () {
-          resumeOverlay.classList.remove("active");
-        });
-        resumeOverlay.addEventListener("click", function (e) {
-          if (e.target === resumeOverlay) resumeOverlay.classList.remove("active");
-        });
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && resumeOverlay.classList.contains("active")) {
-            resumeOverlay.classList.remove("active");
-          }
-        });
-      }
+    /* ── WECHAT MODAL ── */
+    (function(){
+      var ov=document.getElementById("wcOverlay"),cl=document.getElementById("wcClose"),lk=document.getElementById("wechatLink");
+      if(!ov||!cl||!lk)return;
+      lk.addEventListener("click",function(e){e.preventDefault();ov.classList.add("active")});
+      cl.addEventListener("click",function(){ov.classList.remove("active")});
+      ov.addEventListener("click",function(e){if(e.target===ov)ov.classList.remove("active")});
+      document.addEventListener("keydown",function(e){if(e.key==="Escape"&&ov.classList.contains("active"))ov.classList.remove("active")});
+    })();
 
-      gsap.set(
-        [".home-eyebrow", ".hero-title", ".hero-desc", ".hero-status-link", ".hero-actions", ".home-right"],
-        { y: 24 }
-      );
+    /* ── RESUME MODAL ── */
+    (function(){
+      var ov=document.getElementById("resumeOverlay"),cl=document.getElementById("resumeClose"),lk=document.getElementById("resumeLink");
+      if(!ov||!cl||!lk)return;
+      lk.addEventListener("click",function(e){e.preventDefault();ov.classList.add("active")});
+      cl.addEventListener("click",function(){ov.classList.remove("active")});
+      ov.addEventListener("click",function(e){if(e.target===ov)ov.classList.remove("active")});
+      document.addEventListener("keydown",function(e){if(e.key==="Escape"&&ov.classList.contains("active"))ov.classList.remove("active")});
+    })();
 
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.to(".home-eyebrow", { opacity: 1, y: 0, duration: 0.7 }, 0.25)
-        .to(".hero-title", { opacity: 1, y: 0, duration: 0.9 }, 0.4)
-        .to(".hero-desc", { opacity: 1, y: 0, duration: 0.7 }, 0.65)
-        .to(".hero-status-link", { opacity: 1, y: 0, duration: 0.6 }, 0.75)
-        .to(".hero-actions", { opacity: 1, y: 0, duration: 0.6 }, 0.8)
-        .to(".home-right", { opacity: 1, y: 0, duration: 0.8 }, 0.55);
-
-      gsap.utils.toArray(".work-card").forEach((el, i) => {
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration: 0.55,
-          ease: "power2.out",
-          delay: i * 0.08,
-          scrollTrigger: { trigger: el, start: "top 88%" },
+    /* ── ACTIVE NAV ── */
+    var sections=document.querySelectorAll("section[id]"),links=document.querySelectorAll(".nav-links a");
+    var navObs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting)return;
+        links.forEach(function(a){
+          var target=a.getAttribute("href");
+          a.classList.toggle("active",target==="#"+e.target.id);
         });
       });
+    },{threshold:.35});
+    sections.forEach(function(s){navObs.observe(s)});
 
-      [".skills-two-col", ".about-body", ".contact-body"].forEach((sel) => {
-        const el = document.querySelector(sel);
-        if (!el) return;
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration: 0.65,
-          ease: "power2.out",
-          scrollTrigger: { trigger: el, start: "top 86%" },
+    /* ── NAV SCROLL HIDE ── */
+    (function(){
+      var nav=document.querySelector(".nav");
+      if(!nav)return;
+      var lastY=window.scrollY||window.pageYOffset,tick=false,TH=100;
+      window.addEventListener("scroll",function(){
+        if(tick)return;
+        requestAnimationFrame(function(){
+          var y=window.scrollY||window.pageYOffset;
+          if(y<=TH){nav.classList.remove("nav--hidden")}
+          else if(y>lastY&&y>TH){nav.classList.add("nav--hidden")}
+          else if(y<lastY){nav.classList.remove("nav--hidden")}
+          lastY=Math.max(y,0);tick=false;
         });
-      });
-
-      /* ── LOGO：双视频交替 → 正放·倒放无缝循环 ───── */
-      (function () {
-        var canvas = document.getElementById("logoCanvas");
-        var vFwd   = document.getElementById("logoVideoFwd");
-        var vRev   = document.getElementById("logoVideoRev");
-        if (!canvas || !vFwd || !vRev) return;
-        var ctx = canvas.getContext("2d", { willReadFrequently: true });
-        var active = vFwd;
-        var w = 0, h = 0;
-        var gate = false; /* 切换门控：防止新视频首帧泄漏 */
-
-        /* 逐像素：黑/深色 → 透明 */
-        function drawFrame() {
-          if (active.paused) return;
-          if (gate) {
-            if (active.readyState < 2) return;
-            gate = false;
-          }
-          if (w === 0) { w = active.videoWidth; h = active.videoHeight; }
-          if (w === 0 || h === 0) return;
-          if (canvas.width !== w) { canvas.width = w; canvas.height = h; }
-          ctx.drawImage(active, 0, 0, w, h);
-          var img = ctx.getImageData(0, 0, w, h);
-          var d = img.data;
-          for (var i = 0; i < d.length; i += 4) {
-            if (d[i] < 35 && d[i+1] < 35 && d[i+2] < 35) {
-              d[i+3] = 0;
-            }
-          }
-          ctx.putImageData(img, 0, 0);
-        }
-
-        function renderLoop() {
-          drawFrame();
-          requestAnimationFrame(renderLoop);
-        }
-
-        function switchTo(v) {
-          gate = true;
-          active = v;
-          v.currentTime = 0;
-          v.play().catch(function () { gate = false; });
-        }
-
-        vFwd.addEventListener("ended", function () { switchTo(vRev); });
-        vRev.addEventListener("ended", function () { switchTo(vFwd); });
-
-        /* 启动：等正放视频可播后开始 */
-        function start() {
-          gate = true;
-          vFwd.play().catch(function () { gate = false; });
-          renderLoop();
-        }
-        if (vFwd.readyState >= 2) {
-          start();
-        } else {
-          vFwd.addEventListener("canplay", start, { once: true });
-        }
-      })();
-
-      /* active nav — 只创建一个 observer，观察所有 section */
-      const sections = document.querySelectorAll("section[id]");
-      const links = document.querySelectorAll(".nav-links a");
-      const navObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (!e.isIntersecting) return;
-            links.forEach((a) => {
-              const target = a.getAttribute("href");
-              a.style.color = target === "#" + e.target.id ? "var(--ink)" : "";
-            });
-          });
-        },
-        { threshold: 0.35 }
-      );
-      sections.forEach((s) => navObserver.observe(s));
-
-      /* ── 导航滚动智能显示隐藏 ─────────────────────── */
-      (function () {
-        var nav = document.querySelector('.nav');
-        if (!nav) return;
-
-        var lastScrollY = window.scrollY || window.pageYOffset;
-        var ticking = false;
-        var threshold = 100;
-
-        window.addEventListener('scroll', function () {
-          if (!ticking) {
-            requestAnimationFrame(function () {
-              var currentScrollY = window.scrollY || window.pageYOffset;
-
-              if (currentScrollY <= threshold) {
-                nav.classList.remove('nav--hidden');
-              }
-              else if (currentScrollY > lastScrollY && currentScrollY > threshold) {
-                nav.classList.add('nav--hidden');
-              }
-              else if (currentScrollY < lastScrollY) {
-                nav.classList.remove('nav--hidden');
-              }
-
-              lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }, { passive: true });
-      })();
+        tick=true;
+      },{passive:true});
+    })();
     </script>
-  </body>
+</body>
 </html>

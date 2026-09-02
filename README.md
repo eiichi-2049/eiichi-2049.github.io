@@ -1,24 +1,35 @@
-# EiiChi2049
+# ReiVerb Sound Atorie
 
-个人作品集站点
-https://eiichi-2049.github.io/
+> Resonance remains. — Handcrafted for Games
 
-## 目录
+A boutique game audio studio. Original music, sound design, audio middleware integration and plugin development for interactive entertainment.
 
-- `00-index_images/` — 图片资源
-- `01-ost/` — 原声带 / 音效作品
-- `02-bkeq/` — BK_EQ_Hybrid 音频插件
-- `03-wwise/` — Wwise 音频中间件笔记
-- `04-hsr/` — 崩坏：星穹铁道PV配乐复刻
-- `05/` — 其他项目
-- `06-research&writing/` — 研究与写作
+## Projects
 
-## 技术栈
+| # | Project | Tags | Status |
+|---|---------|------|--------|
+| 01 | Original Soundtracks | composition / sfx | live |
+| 02 | BKEQ Hybrid — Audio Plugin | vst3 / UI | wip |
+| 03 | Wwise 101 — Unofficial i18n | tutorial / manual | live |
+| 04 | Honkai:SR — Music Analysis | analysis / mockup | live |
+| 05 | Acoustic Diver | soundscape / design | archived |
+| 06 | Research & Writing | essays / thoughts | live |
 
-纯静态 HTML / CSS / JS，使用 [marked.js](https://github.com/markedjs/marked) 渲染 Markdown，[GSAP](https://greensock.com/gsap/) 驱动动画。
+## Services
+
+- Composition & Arrangement
+- Sound Design
+- Audio Middleware (Wwise / FMOD)
+- Plugin Development (VST3 / AU)
+- Technical Audio Implementation
+- Research & Writing
+
+## Contact
+
+- Email: enchitsui@foxmail.com
+- GitHub: [eiichi-2049](https://github.com/eiichi-2049)
+- Bilibili: [space 23277208](https://space.bilibili.com/23277208)
 
 ---
 
-> *This website uses OPPO Sans.*  
-> *Copyright © Guangdong OPPO Mobile Telecommunications Corp., Ltd.*  
-> *Used under the OPPO Sans Fonts License Agreement.*
+Built with vanilla HTML / CSS / JS + GSAP. Dark-first design with warm amber accent.
