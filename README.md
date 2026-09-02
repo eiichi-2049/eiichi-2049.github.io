@@ -27,8 +27,6 @@ A boutique game audio studio. Original music, sound design, audio middleware int
 ## Contact
 
 - Email: enchitsui@foxmail.com
-- GitHub: [eiichi-2049](https://github.com/eiichi-2049)
-- Bilibili: [space 23277208](https://space.bilibili.com/23277208)
 
 ---
 

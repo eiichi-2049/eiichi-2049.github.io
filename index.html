@@ -84,9 +84,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero-eyebrow-text{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .hero-title{font-family:var(--serif);font-size:clamp(3rem,8vw,6.5rem);font-weight:300;line-height:1.08;letter-spacing:-.03em;color:var(--ink);margin-bottom:28px}
 .hero-title em{font-style:italic;color:var(--accent);font-weight:400}
-.hero-sub{display:flex;align-items:baseline;gap:16px;margin-bottom:20px;flex-wrap:wrap}
-.hero-tagline{font-family:var(--mono);font-size:.85rem;letter-spacing:.08em;color:var(--ink2)}
-.hero-tagline-cn{font-family:var(--serif);font-size:.9rem;color:var(--ink3);font-weight:400}
 .hero-desc{max-width:520px;font-size:.95rem;line-height:1.7;color:var(--ink2);margin-bottom:48px}
 .hero-actions{display:flex;gap:16px;flex-wrap:wrap}
 .btn{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:14px 32px;border:1px solid var(--line2);transition:all .25s;display:inline-flex;align-items:center;gap:8px}
@@ -95,8 +92,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .btn-outline{color:var(--ink2);border-color:var(--line2)}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
 .hero-status{display:flex;align-items:center;gap:8px;margin-top:56px;font-family:var(--mono);font-size:.72rem;color:var(--ink3);letter-spacing:.06em}
-.status-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.6;box-shadow:0 0 4px var(--accent)}50%{opacity:1;box-shadow:0 0 12px var(--accent)}}
 .hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.65rem;color:var(--ink3);letter-spacing:.2em;text-transform:uppercase;z-index:1}
 .hero-scroll::after{content:'';display:block;width:1px;height:28px;background:var(--ink3);margin:8px auto 0;animation:scrollLine 2s infinite}
 @keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -167,9 +164,6 @@ section{padding:var(--sec-pad) 0;position:relative}
 footer{border-top:1px solid var(--line);padding:48px 0}
 .footer-inner{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between}
 .footer-l,.footer-r{font-family:var(--mono);font-size:.68rem;color:var(--ink3);letter-spacing:.04em}
-.footer-logo-wrap{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}
-.footer-logo-wrap canvas{width:80px;height:80px;display:block}
-.footer-logo-wrap video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
 /* ═══ MODALS ═══ */
 .wc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -185,7 +179,7 @@ footer{border-top:1px solid var(--line);padding:48px 0}
 .wc-body p{font-family:var(--mono);font-size:.72rem;color:var(--ink2);text-align:center}
 
 /* ═══ ANIMATIONS ═══ */
-.hero-eyebrow,.hero-title,.hero-sub,.hero-desc,.hero-actions,.hero-status{opacity:0;transform:translateY(24px)}
+.hero-eyebrow,.hero-title,.hero-desc,.hero-actions,.hero-status{opacity:0;transform:translateY(24px)}
 .work-card{opacity:0;transform:translateY(24px)}
 .service-item{opacity:0;transform:translateY(20px)}
 .about-grid>.about-text,.about-grid>.about-aside{opacity:0;transform:translateY(24px)}
@@ -249,16 +243,11 @@ footer{border-top:1px solid var(--line);padding:48px 0}
       <div class="hero-content">
         <div class="hero-eyebrow">
           <div class="hero-eyebrow-line"></div>
-          <span class="hero-eyebrow-text">ReiVerb Sound Atorie</span>
+          <span class="hero-eyebrow-text">Resonance remains</span>
         </div>
-        <h1 class="hero-title">Resonance<br/><em>remains.</em></h1>
-        <div class="hero-sub">
-          <span class="hero-tagline">Handcrafted for Games</span>
-          <span class="hero-tagline-cn">面向游戏的定制声音工作室</span>
-        </div>
+        <h1 class="hero-title">ReiVerb<br/><em>Sound Atorie</em></h1>
         <p class="hero-desc">
-          从配器编曲到声音设计，从音频中间件到插件开发。<br/>
-          ReiVerb Sound Atorie 为互动娱乐打造有温度的声音。
+          从配器编曲到声音设计，从音频中间件到插件开发<br/>
         </p>
         <div class="hero-actions">
           <a href="#work" class="btn btn-primary">View Work</a>
@@ -266,7 +255,7 @@ footer{border-top:1px solid var(--line);padding:48px 0}
         </div>
         <div class="hero-status">
           <div class="status-dot"></div>
-          <span>Available for new projects</span>
+          <span>Currently Available</span>
         </div>
       </div>
       <div class="hero-scroll">Scroll</div>
@@ -306,7 +295,7 @@ footer{border-top:1px solid var(--line);padding:48px 0}
           </a>
           <a href="./03-wwise/03-wwise.html" class="work-card">
             <div class="work-card-num">03 / 06</div>
-            <div class="work-card-title">Wwise 101 — Unofficial i18n<em>音频中间件初学者的非官方汉化文档</em></div>
+            <div class="work-card-title">Wwise 101 — Unofficial Note<em>音频中间件初学者的非官方汉化文档</em></div>
             <div class="work-card-footer">
               <span class="work-card-stack">tutorial / manual</span>
               <div class="work-card-meta">
@@ -413,10 +402,11 @@ footer{border-top:1px solid var(--line);padding:48px 0}
         </div>
         <div class="about-grid">
           <div class="about-text">
-            <p><strong>ReiVerb Sound Atorie</strong> 是一间面向游戏的定制声音工作室。<em>Resonance remains</em>——好的声音不会随时间消散，它留在玩家的身体里。</p>
+            <p><strong>ReiVerb Sound Atorie</strong> 是一间面向游戏的定制声音工作室。 </br>
+              <em>Resonance remains</em>——好的声音不会随时间消散，它留在玩家的身体里。</p>
             <div class="about-quote">"如果不满意，就再来一次。"</div>
             <p>我们相信声音是叙事的隐形骨架。一段配乐能改变玩家对场景的感知，一个音效能定义武器的重量。从概念到实现，每一个细节都值得被认真对待。</p>
-            <p>乐队的铜管与弦乐平衡调整了两周，均衡器的 UI 修改了二十二版，五十八分钟的视频翻译反复校对。因为<em>"知而即行"</em>，我们追求一个自己能确认、能点头说"这版还不错"的满意度。</p>
+            <em>"知而即行"</em>，我们追求一个自己能确认、能点头说"就用这一版"的满意度。</p>
           </div>
           <div class="about-aside">
             <div class="aside-block">
@@ -479,11 +469,6 @@ footer{border-top:1px solid var(--line);padding:48px 0}
     <footer>
       <div class="footer-inner">
         <div class="footer-l">&copy; 2026 ReiVerb Sound Atorie</div>
-        <div class="footer-logo-wrap">
-          <canvas class="home-logo" id="logoCanvas"></canvas>
-          <video src="00-index_images/LOGO05.mp4" playsinline muted preload="auto" id="logoVideoFwd"></video>
-          <video src="00-index_images/LOGO05R.mp4" playsinline muted preload="auto" id="logoVideoRev"></video>
-        </div>
         <div class="footer-r">Resonance remains.</div>
       </div>
     </footer>
@@ -557,24 +542,37 @@ footer{border-top:1px solid var(--line);padding:48px 0}
         var accent=getAccent();
         var baseOp=getOpacity();
         var midY=H*0.55;
-        for(var layer=0;layer<3;layer++){
+
+        // 🔥 核心改动：缓慢的呼吸节奏（0.8 ~ 1.2 倍幅度变化）
+        var breathe = 0.85 + 0.15 * Math.sin(t * 0.035);
+
+        for(var layer=0; layer<3; layer++){
           ctx.beginPath();
-          var amp=(14+layer*10)*Math.sin(t*0.3+layer*1.2);
-          var freq=0.008+layer*0.003;
-          var speed=0.015+layer*0.008;
-          for(var x=0;x<=W;x+=3){
-            var y=midY+Math.sin(x*freq+t*speed+layer*2)*amp
-                       +Math.sin(x*freq*2.7+t*speed*1.5+layer*3.5)*amp*0.3
-                       +Math.sin(x*freq*5.3+t*speed*0.7)*amp*0.12;
-            if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+          // 振幅乘以 breathe，且每层呼吸相位错开
+          var amp = (14 + layer * 10) * breathe * (0.95 + 0.05 * Math.sin(t * 0.056 + layer * 2));
+          var freq = 0.008 + layer * 0.003;
+          var speed = 0.015 + layer * 0.008;
+
+          for(var x=0; x<=W; x+=3){
+            var y = midY
+              + Math.sin(x * freq + t * speed + layer * 2) * amp
+              + Math.sin(x * freq * 2.7 + t * speed * 1.5 + layer * 3.5) * amp * 0.3
+              + Math.sin(x * freq * 5.3 + t * speed * 0.7) * amp * 0.12;
+
+            // 🔥 新增：极轻微的随机抖动（模拟磁带/模拟电路的温暖毛刺）
+            if (x % 12 === 0) {
+              y += (Math.random() - 0.5) * 0.6;
+            }
+
+            if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
           }
           ctx.strokeStyle=accent;
-          ctx.globalAlpha=baseOp*(1-layer*0.25);
-          ctx.lineWidth=1.2-layer*0.2;
+          ctx.globalAlpha=baseOp * (1 - layer * 0.25) * 1.1;
+          ctx.lineWidth = (1.4 - layer * 0.2) * 1.3;
           ctx.stroke();
         }
         ctx.globalAlpha=1;
-        t+=0.02;
+        t += 0.02;
         requestAnimationFrame(draw);
       }
       draw();
@@ -585,7 +583,6 @@ footer{border-top:1px solid var(--line);padding:48px 0}
     var tl=gsap.timeline({ease:"power3.out"});
     tl.to(".hero-eyebrow",{opacity:1,y:0,duration:.7},.2)
       .to(".hero-title",{opacity:1,y:0,duration:.9},.35)
-      .to(".hero-sub",{opacity:1,y:0,duration:.7},.55)
       .to(".hero-desc",{opacity:1,y:0,duration:.7},.65)
       .to(".hero-actions",{opacity:1,y:0,duration:.6},.78)
       .to(".hero-status",{opacity:1,y:0,duration:.5},.9);
@@ -599,35 +596,6 @@ footer{border-top:1px solid var(--line);padding:48px 0}
       gsap.to(el,{opacity:1,y:0,duration:.65,ease:"power2.out",delay:i*.12,scrollTrigger:{trigger:el,start:"top 86%"}});
     });
     gsap.to(".contact-body",{opacity:1,y:0,duration:.7,ease:"power2.out",scrollTrigger:{trigger:"#contact",start:"top 80%"}});
-
-    /* ── LOGO VIDEO CANVAS ── */
-    (function(){
-      var canvas=document.getElementById("logoCanvas");
-      var vFwd=document.getElementById("logoVideoFwd");
-      var vRev=document.getElementById("logoVideoRev");
-      if(!canvas||!vFwd||!vRev)return;
-      var ctx=canvas.getContext("2d",{willReadFrequently:true});
-      var active=vFwd,w=0,h=0,gate=false;
-      function drawFrame(){
-        if(active.paused)return;
-        if(gate){if(active.readyState<2)return;gate=false}
-        if(w===0){w=active.videoWidth;h=active.videoHeight}
-        if(w===0||h===0)return;
-        if(canvas.width!==w){canvas.width=w;canvas.height=h}
-        ctx.drawImage(active,0,0,w,h);
-        var img=ctx.getImageData(0,0,w,h),d=img.data;
-        for(var i=0;i<d.length;i+=4){
-          if(d[i]<35&&d[i+1]<35&&d[i+2]<35){d[i+3]=0}
-        }
-        ctx.putImageData(img,0,0);
-      }
-      function loop(){drawFrame();requestAnimationFrame(loop)}
-      function switchTo(v){gate=true;active=v;v.currentTime=0;v.play().catch(function(){gate=false})}
-      vFwd.addEventListener("ended",function(){switchTo(vRev)});
-      vRev.addEventListener("ended",function(){switchTo(vFwd)});
-      function start(){gate=true;vFwd.play().catch(function(){gate=false});loop()}
-      if(vFwd.readyState>=2){start()}else{vFwd.addEventListener("canplay",start,{once:true})}
-    })();
 
     /* ── WECHAT MODAL ── */
     (function(){
