@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>黄金比例验证</title>
+  <style>
+    body {
+      font-family: -apple-system, 'Segoe UI', sans-serif;
+      padding: 40px;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1, h2 { font-family: serif; }
+    .info-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border-left: 4px solid #d0ff71;
+    }
+    .ratio-box {
+      width: 100%;
+      aspect-ratio: 1.618 / 1;
+      background: linear-gradient(135deg, #d0ff71, #b0b748);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .old-ratio {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+    }
+    .new-ratio {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #d0ff71;
+    }
+    .old-card {
+      width: 100%;
+      min-height: 400px;
+      background: linear-gradient(135deg, #e0e0e0, #f0f0f0);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 18px;
+    }
+    .new-card {
+      width: 100%;
+      aspect-ratio: 1.618 / 1;
+      min-height: 320px;
+      background: linear-gradient(135deg, #d0ff71, #b0b748);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .calc {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+      margin: 10px 0;
+      border-left: 3px solid #d0ff71;
+    }
+    @media(max-width: 760px) {
+      .comparison { grid-template-columns: 1fr; }
+      .ratio-box { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 黄金比例验证（Golden Ratio: 1.618 : 1）</h1>
+
+    <div class="info-box">
+      <h2>修改内容</h2>
+      <ul>
+        <li><strong>桌面端</strong>：从 <code>min-height: clamp(400px, 50vw, 560px)</code> → <code>aspect-ratio: 1.618 / 1; min-height: 320px</code></li>
+        <li><strong>手机端</strong>：添加 <code>aspect-ratio: none</code> 取消黄金比例约束，卡片按内容自然高度堆叠</li>
+        <li><strong>效果</strong>：卡片宽度 × 1.618 = 卡片高度（黄金矩形）</li>
+      </ul>
+    </div>
+
+    <h2>对比预览</h2>
+    <div class="comparison">
+      <div class="old-ratio">
+        <h3>❌ 旧规则（固定高度）</h3>
+        <p>使用 clamp 固定高度，不同宽度下比例不一致</p>
+        <div class="old-card">min-height: 400-560px</div>
+      </div>
+      <div class="new-ratio">
+        <h3>✅ 新规则（黄金比例）</h3>
+        <p>自适应宽度，始终保持 1.618:1 比例</p>
+        <div class="new-card">1.618 : 1</div>
+      </div>
+    </div>
+
+    <h2>计算验证</h2>
+    <div class="calc">
+假设卡片宽度为 500px：<br>
+高度 = 500px ÷ 1.618 = 309px ✓<br><br>
+假设卡片宽度为 600px：<br>
+高度 = 600px ÷ 1.618 = 370px ✓<br><br>
+<strong>卡片越宽，自动越高</strong>，完全响应式！
+    </div>
+
+    <h2>响应式表现</h2>
+    <div class="info-box">
+      <h3>🖥️ 桌面端（≥1200px）</h3>
+      <p>每行两张卡片并排，各占 50% 宽度，黄金比例约束生效，卡片展现标准黄金矩形。</p>
+    </div>
+    <div class="info-box">
+      <h3>📱 平板/手机端（≤760px）</h3>
+      <p><code>aspect-ratio: none</code> 取消约束，卡片改为单列堆叠，高度由内容决定，不被强制拉伸。</p>
+    </div>
+
+    <h2>测试清单</h2>
+    <div class="info-box">
+      <ul>
+        <li>☐ 打开 <a href="http://localhost:8000/index-V2.html">index-V2.html</a></li>
+        <li>☐ 在 1200+ 宽度下查看：每张文字卡应呈现明显的横版黄金矩形</li>
+        <li>☐ 检查卡片内容：文字/按钮是否舒适排列，无溢出或过度压缩</li>
+        <li>☐ 缩小到手机宽度（≤760px）：卡片应切换为单列竖排，高度恢复自然</li>
+        <li>☐ 验证：图片卡 <code>.b-pic</code> 自动等高，无需额外调整</li>
+      </ul>
+    </div>
+
+    <hr style="margin: 40px 0; border: none; border-top: 1px solid #ddd;">
+    <p style="text-align: center; color: #999;">
+      👉 在浏览器中打开上方链接，实时查看黄金比例的响应式效果
+    </p>
+  </div>
+</body>
+</html>

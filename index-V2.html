@@ -106,10 +106,18 @@
     .hero p{max-width:44ch;margin:28px 0 40px;color:var(--muted);font-size:1rem}
     .hero .btns{display:flex;gap:14px;flex-wrap:wrap}
 
-    /* ═══ 品牌/合作条：内容复制两遍、整体平移，形成无缝循环 ═══ */
-    .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0}
-    .marquee-track{display:inline-flex;white-space:nowrap;animation:slide 18s linear infinite}
-    .marquee-track span{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+    /* ═══ 品牌/合作条：无缝滚动条 ═══
+       原理：.marquee-track 里放两段一模一样的 <span>（=两个“半组”），动画把整条轨道从 0
+             平移到 -50%（正好一整组的宽度）→ 回到起点，视觉上无接缝。
+       一行：white-space:nowrap + inline-flex，永不换行。
+       盖满屏：每段 <span> 内文案重复 3 遍，保证轨道总宽 > 任意屏幕宽（否则宽屏右侧留白）。
+       换文案：只改 <span> 里的文字，两段保持一致即可。 */
+    .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+             overflow:hidden;padding:16px 0}
+    .marquee-track{display:inline-flex;white-space:nowrap;
+                   animation:slide 32s linear infinite;will-change:transform}
+    .marquee-track span{flex:0 0 auto;white-space:nowrap;font-family:var(--mono);
+                        font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
                         color:var(--muted);padding-right:3.5em}
     @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -135,7 +143,8 @@
             width:50%;flex:0 0 50%;min-width:0}    /* 两列各 50%，与内边距无关地均分 */
     /* —— 文字卡（整张可点） —— */
     .b-text{display:flex;flex-direction:column;align-items:flex-start;text-align:left;
-            min-height:clamp(400px,50vw,560px);   /* 决定整行高度，同行图卡靠 stretch 等高 */
+            aspect-ratio: 1.618 / 1;
+            min-height: 320px;
             padding:40px;                          /* 卡内留白，文字不贴边 */
             transition:transform .25s ease,box-shadow .25s ease}
     .b-text:hover{transform:translateY(-3px);box-shadow:0 22px 46px rgba(1,2,5,.09)}
@@ -148,7 +157,7 @@
                     text-transform:uppercase;color:var(--muted)}
     .b-text h3{font-family:var(--serif);font-weight:400;color:var(--ink2);
                font-size:clamp(1.7rem,2.4vw,2.5rem);line-height:1.18;letter-spacing:-.015em;
-               margin-top:clamp(52px,9vh,110px)}   /* 与眉标拉开大片留白（Our Wave 式松排版） */
+               margin-top:clamp(36px,5.5vh,66px)}   /* 与眉标拉开留白（Our Wave 式松排版） */
     .b-text p{color:var(--muted);font-size:1rem;max-width:38ch;
               margin-top:clamp(18px,2.6vh,26px)}
     .b-go{display:inline-flex;align-items:center;gap:10px;margin-top:clamp(30px,5vh,54px);
@@ -159,8 +168,10 @@
     .b-text:hover .b-go{background:var(--ink);color:var(--paper)}
     .b-text:hover .b-go i{transform:translate(3px,-3px)}
     /* —— 图片卡 —— */
-    .b-pic{background:var(--ink)}
-    .b-pic img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+    .b-pic{background:var(--ink);
+           aspect-ratio: 1.618 / 1;   /* 与文字卡同比例 → 整行 1.618:1 横版，不再是正方形 */
+           min-height: 320px}
+    .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
     .b-pic:hover img{transform:scale(1.04)}
     /* —— 兼容：手机上改单列堆叠（保留间距便于阅读）—— */
     @media(max-width:760px){
@@ -168,7 +179,7 @@
       .bento{gap:18px}                 /* 三行之间分开 */
       .b-row{flex-direction:column;gap:18px}
       .b-row .b-card{flex:0 0 auto;width:100%;min-width:0}
-      .b-text{min-height:0;padding:34px 28px}
+      .b-text{aspect-ratio:none;min-height:0;padding:34px 28px}
       .b-pic{height:clamp(240px,68vw,380px)}
     }
 
@@ -176,12 +187,51 @@
     .about-stats{display:flex;gap:24px;margin-top:60px;flex-wrap:wrap}
     .stat-card{flex:1;min-width:220px;padding:28px 24px;background:var(--card);
                border:1px solid var(--line);border-radius:16px;text-align:center;
-               transition:transform .25s ease,box-shadow .25s ease}
-    .stat-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(1,2,5,.08)}
+               transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .stat-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(1,2,5,.08);border-color:var(--olive)}
     .stat-number{font-family:var(--serif);font-weight:300;font-size:2.8rem;
                  color:var(--ink2);line-height:1;margin-bottom:12px;letter-spacing:-.02em}
     .stat-text{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
               text-transform:uppercase;color:var(--muted)}
+
+    /* ═══ 服务专长（深色背景交互列表）═══ */
+    #services{background:var(--ink);color:var(--paper);padding:110px 0;position:relative}
+    #services .sec-head { margin-bottom: 60px; }
+    #services .eyebrow i:nth-child(1){background:#ffffff}
+    #services .eyebrow i:nth-child(2){background:var(--muted)}
+    #services .eyebrow span{color:var(--paper)}
+    .service-list{list-style:none;display:flex;flex-direction:column;gap:32px}
+    .service-row{position:relative;border-bottom:1px solid rgba(249,249,249,.15);
+                 padding-bottom:24px;overflow:hidden}
+    .service-row:last-child{border-bottom:none}
+    .service-content{display:flex;align-items:flex-start;gap:24px;position:relative}
+    .service-number{font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;
+                    color:var(--paper);opacity:.5;min-width:40px;flex-shrink:0}
+    .service-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2vw,1.8rem);
+                   letter-spacing:-.015em;color:var(--paper);opacity:.4;
+                   transition:all .3s ease;line-height:1.2;flex:1}
+    .service-thumb{position:absolute;right:0;top:50%;transform:translateY(-50%);
+                   width:clamp(60px,8vw,100px);height:clamp(60px,8vw,100px);
+                   opacity:0;transition:opacity .3s ease;display:flex;align-items:center;justify-content:center}
+    .service-thumb img{width:100%;height:100%;object-fit:contain;filter:invert(1) brightness(0.9)}
+
+    /* 列表交互：hover 某行时，该行变亮变大，其余变暗 */
+    .service-list:has(.service-row:hover) .service-row:not(:hover) .service-title{
+      opacity:.3;font-size:clamp(1rem,1.8vw,1.5rem)
+    }
+    .service-list:has(.service-row:hover) .service-row:hover .service-title{
+      opacity:1;font-size:clamp(1.4rem,2.2vw,2rem)
+    }
+    .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.8}
+    .service-list:has(.service-row:hover) .service-row:hover .service-thumb{opacity:1}
+
+    /* 手机端：取消 hover 交互，统一显示 */
+    @media(max-width:760px){
+      .service-content{flex-direction:column;gap:12px}
+      .service-title{opacity:1 !important;font-size:1.4rem !important}
+      .service-number{opacity:1 !important;min-width:auto}
+      .service-thumb{display:none}
+    }
 
     /* ═══ 关于（浅色 + 一段大文字）═══ */
     .quote{padding:140px 40px}   /* 左右 40px 与 .wrap 版心对齐 */
@@ -208,6 +258,20 @@
                display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
                font-size:.78rem;color:var(--muted)}
     .foot-base a{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}
+
+    /* ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ */
+    #cta-final{background:var(--ink);
+               background-image:radial-gradient(ellipse at 30% 50%, rgba(208,255,113,.05) 0%, transparent 50%),
+                               radial-gradient(ellipse at 70% 80%, rgba(208,255,113,.03) 0%, transparent 50%);
+               color:var(--paper);padding:110px 40px;text-align:center;position:relative;overflow:hidden}
+    #cta-final .wrap{max-width:800px;margin:0 auto}
+    #cta-final .eyebrow{justify-content:center;margin-bottom:40px}
+    #cta-final .eyebrow i:nth-child(1){background:#ffffff}
+    #cta-final .eyebrow i:nth-child(2){background:var(--muted)}
+    #cta-final .eyebrow span{color:var(--paper)}
+    #cta-final h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,3.5rem);
+                  letter-spacing:-.02em;color:var(--paper);line-height:1.2;margin-bottom:50px}
+    #cta-final .btn-lime{margin-top:32px}
 
     /* ═══ 滚动进场动画 ═══ */
     .b-text,
@@ -260,12 +324,11 @@
     </div>
   </section>
 
-  <!-- ═══ 滚动文字条（装饰用，占位词）═══ -->
+  <!-- ═══ 滚动文字条（装饰用）：两段 <span> 必须完全一致 → 无缝；每段内重复 3 遍以盖满宽屏 ═══ -->
   <div class="marquee">
     <div class="marquee-track">
-      <!-- 内容复制两遍无缝循环；可整行替换 -->
-      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
-      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
+      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
+      <span aria-hidden="true">Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
     </div>
   </div>
 
@@ -331,6 +394,58 @@
     </div>
   </section>
 
+  <!-- ═══ 服务专长（深色背景）═══ -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:60px">
+        <div class="eyebrow">
+          <i></i>
+          <i></i>
+          <span>Our Expertise</span>
+        </div>
+      </div>
+
+      <ul class="service-list">
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">01</span>
+            <h3 class="service-title">原创配乐 · Composing</h3>
+            <div class="service-thumb">
+              <img src="v2-bento/waveform.svg" alt="Composing" />
+            </div>
+          </div>
+        </li>
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">02</span>
+            <h3 class="service-title">声音设计 · Sound Design</h3>
+            <div class="service-thumb">
+              <img src="v2-bento/spiral.svg" alt="Sound Design" />
+            </div>
+          </div>
+        </li>
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">03</span>
+            <h3 class="service-title">音频集成 · Implementation</h3>
+            <div class="service-thumb">
+              <img src="v2-bento/network.svg" alt="Implementation" />
+            </div>
+          </div>
+        </li>
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">04</span>
+            <h3 class="service-title">混音母带 · Mixing & Mastering</h3>
+            <div class="service-thumb">
+              <img src="v2-bento/waveform.svg" alt="Mixing & Mastering" />
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
   <!-- ═══ 关于（浅色 + 一段大文字）═══ -->
   <section class="wrap" id="about">
     <div class="sec-head">
@@ -363,6 +478,15 @@
     <footer><i style="width:15px;height:9px;border-radius:50%;background:var(--wine);display:inline-block"></i>— placeholder · Eiichi_2049</footer>
   </section>
 
+  <!-- ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ -->
+  <section id="cta-final">
+    <div class="wrap">
+      <div class="eyebrow"><i></i><i></i><span>Transform how sound works</span></div>
+      <h2>让声音<br>成为作品的呼吸</h2>
+      <a class="btn btn-lime" href="#contact">预约咨询</a>
+    </div>
+  </section>
+
   <!-- ═══ 页脚 ═══ -->
   <footer id="contact">
     <div class="wrap">
@@ -383,9 +507,9 @@
         <div>
           <h4>Social Media</h4>
           <ul>
-            <li><a href="#">GitHub</a></li>
-            <li><a href="#">小黑盒</a></li>
-            <li><a href="#">哔哩哔哩</a></li>
+            <li><a href="https://github.com/eiichi-2049">GitHub</a></li>
+            <li><a href="https://space.bilibili.com/23277208">哔哩哔哩</a></li>
+            <li><a href="https://www.xiaoheihe.cn/app/bbs/home">小黑盒（即将上线）</a></li>
           </ul>
         </div>
       </div>

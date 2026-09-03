@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服务专长区块 - 实现说明</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, 'Segoe UI', 'Noto Sans SC', sans-serif;
+      line-height: 1.6;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h1 { font-family: serif; font-size: 2.5em; margin-bottom: 20px; color: #010205; }
+    h2 { font-family: serif; font-size: 1.8em; margin: 40px 0 20px; color: #010205; }
+    h3 { font-family: serif; font-size: 1.4em; margin: 25px 0 15px; color: #333; }
+
+    .summary-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border-left: 4px solid #d0ff71;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .code-block {
+      background: #1e1e1e;
+      color: #e0e0e0;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      margin: 15px 0;
+      border-left: 4px solid #d0ff71;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-color: #d0ff71;
+    }
+
+    .feature-card h4 { color: #d0ff71; margin-bottom: 12px; font-family: serif; }
+    .feature-card p { color: #666; font-size: 0.95em; }
+
+    .dark-section {
+      background: #010205;
+      color: #f9f9f9;
+      padding: 40px;
+      border-radius: 12px;
+      margin: 30px 0;
+    }
+
+    .dark-section h3 { color: #d0ff71; }
+    .dark-section p { color: #a1a4a7; }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 15px 20px;
+      text-align: left;
+    }
+
+    .comparison-table th {
+      background: #f0f0f0;
+      font-weight: 600;
+      color: #010205;
+      font-family: serif;
+    }
+
+    .comparison-table tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .status-ok { color: #4CAF50; font-weight: bold; }
+    .status-wip { color: #FF9800; font-weight: bold; }
+
+    .checklist {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #d0ff71;
+    }
+
+    .checklist ul { list-style: none; padding: 0; }
+    .checklist li { padding: 10px 0; padding-left: 30px; position: relative; }
+    .checklist li:before { content: "✓"; position: absolute; left: 0; color: #d0ff71; font-weight: bold; }
+
+    .preview-link {
+      display: inline-block;
+      background: #d0ff71;
+      color: #010205;
+      padding: 12px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 20px 0;
+      transition: all 0.3s ease;
+    }
+
+    .preview-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(208, 255, 113, 0.4);
+    }
+
+    @media(max-width: 760px) {
+      h1 { font-size: 1.8em; }
+      h2 { font-size: 1.3em; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎵 服务专长区块实现</h1>
+
+    <div class="summary-box">
+      <h3>✨ 在 #work 和 #about 之间新增深色区块</h3>
+      <p>
+        一个交互式服务列表，展示工作室的4大核心专长。
+        采用<strong>暗黑风格</strong>（背景：--ink，文字：--paper）与
+        <strong>智能 hover 交互</strong>（选中行放大变亮，其他行变暗）。
+        手机端自动禁用 hover，改为统一显示。
+      </p>
+    </div>
+
+    <h2>📋 结构概览</h2>
+
+    <div class="dark-section">
+      <h3>HTML 结构</h3>
+      <div class="code-block">
+&lt;section id="services"&gt;
+  &lt;div class="wrap"&gt;
+    &lt;div class="sec-head"&gt;
+      &lt;div class="eyebrow"&gt;
+        &lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;
+        &lt;span&gt;Our Expertise&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;ul class="service-list"&gt;
+      &lt;li class="service-row"&gt;
+        &lt;div class="service-content"&gt;
+          &lt;span class="service-number"&gt;01&lt;/span&gt;
+          &lt;h3 class="service-title"&gt;原创配乐 · Composing&lt;/h3&gt;
+          &lt;div class="service-thumb"&gt;
+            &lt;img src="v2-bento/waveform.svg" /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      ...
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+      </div>
+    </div>
+
+    <h2>🎨 核心特性</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>深色设计系统</h4>
+        <p>
+          背景 <code>var(--ink)</code>，文字 <code>var(--paper)</code>。
+          eyebrow 的两个点自动适配为<strong>白色 + 灰色</strong>，
+          确保在深色背景下的可读性。
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h4>智能 Hover 交互</h4>
+        <p>
+          用 CSS <code>:has()</code> 选择器实现兄弟元素联动。
+          Hover 时，选中行放大（1.2rem → 1.8rem）&nbsp;变亮（opacity: 0.4 → 1），
+          其余行变暗（opacity: 0.3）。所有变化<strong>过渡 0.3s</strong>。
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h4>缩略图淡入</h4>
+        <p>
+          Hover 时，右侧缩略图淡入（opacity: 0 → 1）。
+          使用 SVG（v2-bento 目录），<code>filter: invert(1)</code>
+          反色显示，适配深色背景。
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h4>完全响应式</h4>
+        <p>
+          编号/标题/缩略图大小均用 <code>clamp()</code> 随屏宽自适应。
+          手机端（≤760px）禁用所有 hover，改为统一显示。
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h4>无需 JS</h4>
+        <p>
+          完全用 CSS <code>:has()</code> 和 <code>transition</code> 实现。
+          没有 JavaScript，性能最优，兼容性好（现代浏览器）。
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <h4>易于定制</h4>
+        <p>
+          服务行数、文案、SVG 图片都可直接修改 HTML。
+          颜色、间距、字号全在 CSS 变量或 <code>clamp()</code> 中管理。
+        </p>
+      </div>
+    </div>
+
+    <h2>💻 CSS 核心代码</h2>
+
+    <div class="code-block">
+/* 列表容器 */
+.service-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* 每行容器 */
+.service-row {
+  position: relative;
+  border-bottom: 1px solid rgba(249, 249, 249, 0.15);
+  padding-bottom: 24px;
+}
+
+/* 标题默认状态：较小、较暗 */
+.service-title {
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 核心交互：hover 时放大变亮，其余变暗 */
+.service-list:has(.service-row:hover) .service-row:not(:hover) .service-title {
+  opacity: 0.3;
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+}
+
+.service-list:has(.service-row:hover) .service-row:hover .service-title {
+  opacity: 1;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+}
+
+/* 缩略图淡入 */
+.service-list:has(.service-row:hover) .service-row:hover .service-thumb {
+  opacity: 1;
+}
+
+/* 手机端：禁用 hover，统一显示 */
+@media(max-width: 760px) {
+  .service-title {
+    opacity: 1 !important;
+    font-size: 1.4rem !important;
+  }
+  .service-thumb {
+    display: none;
+  }
+}
+    </div>
+
+    <h2>📱 响应式表现</h2>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th>桌面 (≥1200px)</th>
+          <th>平板 (760-1200px)</th>
+          <th>手机 (≤760px)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>列表方向</strong></td>
+          <td>纵向堆叠</td>
+          <td>纵向堆叠</td>
+          <td>纵向堆叠</td>
+        </tr>
+        <tr>
+          <td><strong>标题字号</strong></td>
+          <td>1.2-1.8rem（默认）<br>1.4-2rem（hover）</td>
+          <td>1.2-1.8rem（默认）<br>1.4-2rem（hover）</td>
+          <td>1.4rem（固定）</td>
+        </tr>
+        <tr>
+          <td><strong>缩略图</strong></td>
+          <td>右侧淡入（hover）</td>
+          <td>右侧淡入（hover）</td>
+          <td>隐藏</td>
+        </tr>
+        <tr>
+          <td><strong>Hover 效果</strong></td>
+          <td class="status-ok">✓ 启用</td>
+          <td class="status-ok">✓ 启用</td>
+          <td class="status-ok">✗ 禁用</td>
+        </tr>
+        <tr>
+          <td><strong>间距排列</strong></td>
+          <td>编号 / 标题 / 缩图 水平排列</td>
+          <td>编号 / 标题 / 缩图 水平排列</td>
+          <td>编号 / 标题 纵向堆叠</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>🧪 验证清单</h2>
+
+    <div class="checklist">
+      <ul>
+        <li>打开 <a href="http://localhost:8000/index-V2.html#services" class="preview-link">本地预览</a> 或查看完整页面</li>
+        <li>在桌面宽度（≥1200px）下，鼠标 hover 任意一行</li>
+        <li>验证：该行标题放大（1.8rem → 2rem）、变亮（0.4 → 1）</li>
+        <li>验证：其他行变暗（0.4 → 0.3）、文字缩小（1.8rem → 1.5rem）</li>
+        <li>验证：右侧缩略图淡入（SVG 反色显示）</li>
+        <li>验证：所有变化用 0.3s ease 过渡，流畅无卡顿</li>
+        <li>缩小窗口到手机宽度（≤760px）</li>
+        <li>验证：所有行恢复统一大小、opacity 1、不响应 hover</li>
+        <li>验证：缩略图隐藏，编号和标题纵向堆叠</li>
+        <li>验证：深色背景（--ink）和浅色文字（--paper）正常显示</li>
+      </ul>
+    </div>
+
+    <h2>📝 可定制项</h2>
+
+    <div class="summary-box">
+      <h3>轻松修改这些内容：</h3>
+      <ul style="list-style: disc; padding-left: 20px; margin-top: 15px;">
+        <li><strong>服务项数</strong>：在 HTML 中复制/删除 <code>&lt;li class="service-row"&gt;</code></li>
+        <li><strong>服务名称和编号</strong>：直接改 <code>.service-number</code> 和 <code>.service-title</code></li>
+        <li><strong>缩略图</strong>：改 <code>&lt;img src="v2-bento/..."&gt;</code>，复用其他 SVG 或上传新图</li>
+        <li><strong>颜色</strong>：改 CSS 中的 <code>var(--ink) / var(--paper)</code> 或直接改值</li>
+        <li><strong>间距和字号</strong>：调整 <code>clamp()</code> 中的数值</li>
+        <li><strong>动画时间</strong>：改 <code>transition: all 0.3s ease</code> 中的 <code>0.3s</code></li>
+        <li><strong>Hover 时的变化幅度</strong>：改 opacity 值（0.3/0.4/1）或 font-size 范围</li>
+      </ul>
+    </div>
+
+    <h2>🔗 位置说明</h2>
+
+    <div class="summary-box">
+      <p><strong>新增区块位置在页面结构中：</strong></p>
+      <ul style="list-style: disc; padding-left: 20px; margin-top: 15px;">
+        <li>导航栏 <code>#nav</code></li>
+        <li>首屏 <code>.hero</code></li>
+        <li>品牌条 <code>.marquee</code></li>
+        <li>作品卡片 <code>#work</code></li>
+        <li><strong class="status-ok">🆕 服务专长 <code>#services</code></strong> ← 新增</li>
+        <li>关于 <code>#about</code></li>
+        <li>引言 <code>.quote</code></li>
+        <li>页脚 <code>&lt;footer&gt;</code></li>
+      </ul>
+    </div>
+
+    <hr style="margin: 40px 0; border: none; border-top: 2px solid #d0ff71;">
+
+    <div style="text-align: center; padding: 40px 0; color: #666;">
+      <p style="margin-bottom: 15px;">👉 现在打开浏览器实时查看效果，感受 hover 交互的魔力！</p>
+      <a href="http://localhost:8000/index-V2.html" class="preview-link">📱 打开完整页面</a>
+    </div>
+  </div>
+</body>
+</html>
