@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>空山漪韵 · 3D 涟漪</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background-color: #0b0b10; 
+            width: 100vw;
+            height: 100vh;
+        }
+        canvas { 
+            display: block; 
+            width: 100vw;
+            height: 100vh;
+        }
+        #ui-text {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.08);
+            font-family: 'Times New Roman', serif;
+            font-size: 14px;
+            letter-spacing: 8px;
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="ui-text">· 空 山 漪 韵 ·</div>
+    <canvas id="waveCanvas"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('waveCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        initCanvas();
+        window.addEventListener('resize', initCanvas);
+
+        // ===== 3D 透视相机设置 =====
+        const focalLength = 650; 
+        const zOffset = 600;     
+        const theta = 1.15;      
+        const cosT = Math.cos(theta);
+        const sinT = Math.sin(theta);
+
+        // ===== 生成 3D 空间内的无限矩阵点 =====
+        const dots = [];
+        const rangeX = 4000; 
+        const rangeZFront = 5000; 
+        const rangeZBack = -1500; 
+        const spacing = 50;       
+
+        for (let x = -rangeX; x <= rangeX; x += spacing) {
+            for (let z = rangeZBack; z <= rangeZFront; z += spacing) {
+                dots.push({ x: x, y: 0, z: z }); 
+            }
+        }
+
+        const drops = [];   
+        const ripples = []; 
+
+        function project(x, y, z) {
+            let yRot = y * cosT - z * sinT;
+            let zRot = y * sinT + z * cosT;
+            let scale = focalLength / (focalLength + zRot + zOffset);
+            
+            return {
+                screenX: canvas.width / 2 + x * scale,
+                screenY: canvas.height / 2 + yRot * scale,
+                scale: scale,
+                zRot: zRot
+            };
+        }
+
+        // ===== 生成水滴（随机落点） =====
+        function spawnDrop() {
+            drops.push({
+                x: (Math.random() - 0.5) * 500,      
+                y: -1500,
+                z: 400 + (Math.random() - 0.5) * 400,
+                speed: 35 + Math.random() * 20,
+                radius: 3.5 + Math.random() * 1.5,
+                active: true
+            });
+        }
+
+        setInterval(spawnDrop, 2000);
+        spawnDrop();
+
+        // ===== 动画主循环 =====
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. 处理水滴
+            for (let i = drops.length - 1; i >= 0; i--) {
+                let drop = drops[i];
+                drop.y += drop.speed; 
+
+                let proj = project(drop.x, drop.y, drop.z);
+
+                if (proj.scale > 0) {
+                    ctx.beginPath();
+                    ctx.arc(proj.screenX, proj.screenY, drop.radius * proj.scale, 0, Math.PI * 2);
+                    ctx.fillStyle = '#ffffff'; 
+                    ctx.shadowColor = 'rgba(255,255,255,0.3)';
+                    ctx.shadowBlur = 12;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+
+                if (drop.y >= 0) {
+                    ripples.push({ x: drop.x, z: drop.z, time: 0 });
+                    drops.splice(i, 1); 
+                }
+            }
+
+            // ★★★ 修改1：涟漪生命周期从 180 缩短到 70（更快消失）★★★
+            const MAX_TIME = 190;  
+            // ★★★ 修改2：时间增量从 0.3 提高到 0.6（速度翻倍）★★★
+            for (let i = ripples.length - 1; i >= 0; i--) {
+                ripples[i].time += 0.6; 
+                if (ripples[i].time > MAX_TIME) {
+                    ripples.splice(i, 1);
+                }
+            }
+
+            // 3. 渲染矩阵
+            dots.forEach(dot => {
+                let currentY = dot.y;
+
+                ripples.forEach(ripple => {
+                    let dx = dot.x - ripple.x;
+                    let dz = dot.z - ripple.z;
+                    let distance = Math.sqrt(dx * dx + dz * dz);
+                    let wave = distance * 0.045 - ripple.time;
+
+                    // ★★★ 修改3：渐出指数从 1.2 改为 2.0（更快衰减）★★★
+                    let fade = 1 - Math.pow(ripple.time / MAX_TIME, 2.0);
+                    // 确保 fade 不为负
+                    if (fade < 0) fade = 0;
+
+                    if (wave < 0 && wave > -28) {
+                        let damping = Math.max(0, 1 - distance / 2200);
+                        currentY += Math.sin(wave) * 65 * damping * fade;
+                    }
+                });
+
+                let proj = project(dot.x, currentY, dot.z);
+
+                if (proj.scale > 0 && proj.scale < 6) {
+                    let distFromCenter = Math.sqrt(dot.x * dot.x + dot.z * dot.z);
+                    let edgeFade = Math.max(0, 1 - distFromCenter / 3500); 
+                    
+                    let alpha = Math.max(0, Math.min(1, proj.scale * 1.5)) * edgeFade;
+
+                    if (alpha > 0.01) {
+                        ctx.beginPath();
+                        if (currentY > 10) {
+                            ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                        } else {
+                            ctx.fillStyle = `rgba(160, 160, 170, ${alpha * 0.35})`;
+                        }
+                        
+                        ctx.arc(proj.screenX, proj.screenY, 1.8 * proj.scale, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

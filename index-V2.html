@@ -54,7 +54,7 @@
     .logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:-.02em;white-space:nowrap}
     .logo em{font-style:italic;color:var(--olive)}
     .nav-links{display:flex;align-items:center;justify-content:center;gap:34px;
-               font-size:.8rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+               font-size:.9rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
     .nav-links a{opacity:.72;transition:opacity .2s}
     .nav-links a:hover{opacity:1}
     /* 导航 CTA 按钮：改成参考的橄榄绿（而非青柠） */
@@ -114,19 +114,49 @@
                  letter-spacing:-.02em;color:var(--ink2);line-height:1.15;max-width:20ch}
     .sec-head h2 em{font-style:italic;color:var(--olive)}
 
-    /* ═══ 深色区块：作品/服务列表（每行一条分隔线）═══ */
-    .dark{background:var(--ink);color:var(--paper)}
-    .dark .eyebrow span{color:rgba(255,255,255,.5)}
-    .dark .sec-head h2{color:var(--paper)}
-    .work-item{display:block;padding:34px 0;border-top:1px solid rgba(255,255,255,.18);
-               display:flex;align-items:baseline;justify-content:space-between;gap:20px;transition:padding .25s}
-    .work-item:last-child{border-bottom:1px solid rgba(255,255,255,.18)}
-    .work-item:hover{padding-left:14px}
-    .work-item h3{font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,3vw,2.4rem);letter-spacing:-.01em}
-    .work-item small{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
-                     text-transform:uppercase;color:rgba(255,255,255,.45);flex-shrink:0}
-    .work-item .arr{opacity:0;transition:opacity .25s}
-    .work-item:hover .arr{opacity:1}
+    /* ═══ 作品/服务：交错圆角卡片拼贴（每行 2 张 · 文字与图片交错）
+       6 张卡 = 3 行 × 2 列；每张卡独立圆角 + 1px 描边，排列后四个外角
+       与中缝接合处会自然形成“圆角缺口”的拼贴感（参考 Our Wave 首页卡片区）。
+       增删卡：复制/删除 HTML 里的 .b-card；图卡换图：改 <img src>。 */
+    #work{scroll-margin-top:170px}
+    .bento{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .b-card{position:relative;display:block;overflow:hidden;background:var(--card);
+            border:1px solid #222;border-radius:24px}
+    /* —— 文字卡（整张可点） —— */
+    .b-text{display:flex;flex-direction:column;align-items:flex-start;text-align:left;
+            min-height:clamp(400px,54vw,560px);   /* 决定所在整行高度，同行的图卡自动等高 */
+            padding:clamp(30px,3.4vw,46px);
+            transition:transform .25s ease,box-shadow .25s ease}
+    .b-text:hover{transform:translateY(-3px);box-shadow:0 22px 46px rgba(1,2,5,.09)}
+    .b-text:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+    .b-eyebrow{display:flex;align-items:center;gap:10px}
+    .b-eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
+    .b-eyebrow i:nth-child(1){background:var(--olive)}
+    .b-eyebrow i:nth-child(2){background:var(--wine)}
+    .b-eyebrow span{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
+                    text-transform:uppercase;color:var(--muted)}
+    .b-text h3{font-family:var(--serif);font-weight:400;color:var(--ink2);
+               font-size:clamp(1.7rem,2.4vw,2.5rem);line-height:1.18;letter-spacing:-.015em;
+               margin-top:clamp(52px,9vh,110px)}   /* 与眉标拉开大片留白（Our Wave 式松排版） */
+    .b-text p{color:var(--muted);font-size:1rem;max-width:38ch;
+              margin-top:clamp(18px,2.6vh,26px)}
+    .b-go{display:inline-flex;align-items:center;gap:10px;margin-top:clamp(30px,5vh,54px);
+          padding:11px 18px 11px 20px;border:1px solid var(--ink);border-radius:999px;
+          font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+          transition:background .25s ease,color .25s ease}
+    .b-go i{font-style:normal;transition:transform .25s ease}
+    .b-text:hover .b-go{background:var(--ink);color:var(--paper)}
+    .b-text:hover .b-go i{transform:translate(3px,-3px)}
+    /* —— 图片卡 —— */
+    .b-pic{background:var(--ink)}
+    .b-pic img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+    .b-pic:hover img{transform:scale(1.04)}
+    /* —— 兼容：中屏以下改单列堆叠 —— */
+    @media(max-width:860px){
+      .bento{grid-template-columns:1fr;gap:18px}
+      .b-text{min-height:clamp(320px,82vw,430px)}
+      .b-pic{height:clamp(240px,72vw,380px)}
+    }
 
     /* ═══ 引言/金句区块 ═══ */
     .quote{padding:140px 40px}   /* 左右 40px 与 .wrap 版心对齐 */
@@ -192,37 +222,62 @@
   <!-- ═══ 滚动文字条（装饰用，占位词）═══ -->
   <div class="marquee">
     <div class="marquee-track">
-      <!-- 内容复制两遍才能无缝循环；可整行替换成你想要的词 -->
-      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST •  —</span>
-      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST •  —</span>
+      <!-- 内容复制两遍无缝循环；可整行替换 -->
+      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
+      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
     </div>
   </div>
 
-  <!-- ═══ 作品/服务列表（深色区块）═══ -->
-  <section class="dark" id="now">
+  <!-- ═══ 作品/服务：交错圆角卡片（每行 2 张 · 文字与图片交错）
+       6 张卡 = 3 行 × 2 列；行序 = 文字|图 → 图|文字 → 文字|图。
+       文字卡整张可点；图卡是占位（v2-bento/*.svg），可换成你自己的作品图。 -->
+  <section id="work">
     <div class="wrap">
       <div class="sec-head">
         <div class="eyebrow"><i></i><i></i><span>Selected Works</span></div>
         <!-- ★ 内容：区块标题 -->
-        <h2>近期的一些<br><em>声响。</em></h2>
+        <h2>近期<br><em>作品</em></h2>
       </div>
-      <!-- ★ 内容：每一条 = 一个作品/服务，可复制多行 -->
-      <a class="work-item" href="#">
-        <h3>原创配乐 · Original Score</h3>
-        <small>Compose / 2026 <span class="arr">→</span></small>
-      </a>
-      <a class="work-item" href="#">
-        <h3>声音设计 · Sound Design</h3>
-        <small>Design / 2026 <span class="arr">→</span></small>
-      </a>
-      <a class="work-item" href="#">
-        <h3>音频集成 · Wwise / FMOD</h3>
-        <small>Implement / 2026 <span class="arr">→</span></small>
-      </a>
-      <a class="work-item" href="#">
-        <h3>混音母带 · Mix &amp; Master</h3>
-        <small>Mix / 2026 <span class="arr">→</span></small>
-      </a>
+
+      <div class="bento">
+
+        <!-- ① 文字卡 · 原创配乐 -->
+        <a class="b-card b-text" href="./01-ost/01-ost.html">
+          <div class="b-eyebrow"><i></i><i></i><span>Compose</span></div>
+          <h3>原创配乐 · Original Score</h3>
+          <p>原创配乐、编曲与管弦编制。从主题动机到完整配乐，为叙事注入情感。</p>
+          <span class="b-go">试听 OST <i>↗</i></span>
+        </a>
+        <!-- ② 图片卡 · 波形（原创配乐意象） -->
+        <div class="b-card b-pic">
+          <img src="v2-bento/waveform.svg" alt="Original Score — 声波意象" loading="lazy"/>
+        </div>
+
+        <!-- ③ 图片卡 · 星点漩涡（声音设计意象，参考页同款） -->
+        <div class="b-card b-pic">
+          <img src="v2-bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
+        </div>
+        <!-- ④ 文字卡 · 声音设计 -->
+        <a class="b-card b-text" href="./05/05.html">
+          <div class="b-eyebrow"><i></i><i></i><span>Design</span></div>
+          <h3>声音设计 · Sound Design</h3>
+          <p>UI、环境音、角色与战斗音效。合成、采样与层叠，构建可辨识的声音签名。</p>
+          <span class="b-go">Acoustic Diver <i>↗</i></span>
+        </a>
+
+        <!-- ⑤ 文字卡 · 音频集成 -->
+        <a class="b-card b-text" href="./03-wwise/03-wwise.html">
+          <div class="b-eyebrow"><i></i><i></i><span>Implement</span></div>
+          <h3>音频集成 · Wwise / FMOD</h3>
+          <p>Wwise / FMOD 集成与实现。事件总线、RTPC、状态与切换的工程化搭建。</p>
+          <span class="b-go">Wwise 笔记 <i>↗</i></span>
+        </a>
+        <!-- ⑥ 图片卡 · 节点网络（中间件集成意象） -->
+        <div class="b-card b-pic">
+          <img src="v2-bento/network.svg" alt="Audio Middleware — 节点网络意象" loading="lazy"/>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -239,8 +294,8 @@
   <!-- ═══ 金句/引言（浅色）═══ -->
   <section class="quote wrap">
     <!-- ★ 内容：换成你想放的一段话（引用时注意版权） -->
-    <blockquote>好的配乐从不喧宾夺主</br>但它会在故事落幕后，仍敲响你的记忆。</blockquote>
-    <footer><i style="width:15px;height:9px;border-radius:50%;background:var(--wine);display:inline-block"></i>— placeholder · 你的名字</footer>
+    <blockquote>好的配乐从不喧宾夺主<br>但它会在故事落幕后，仍敲响你的记忆。</blockquote>
+    <footer><i style="width:15px;height:9px;border-radius:50%;background:var(--wine);display:inline-block"></i>— placeholder · Eiichi_2049</footer>
   </section>
 
   <!-- ═══ 页脚 ═══ -->
@@ -249,7 +304,7 @@
       <div class="foot-top">
         <!-- ★ 内容：联系方式 -->
         <div>
-          <h4>Get in Touch</h4>
+          <h4>Create What's Possible</h4>
           <a class="btn btn-dark" href="mailto:enchitsui@foxmail.com">enchitsui@foxmail.com</a>
         </div>
         <div>
