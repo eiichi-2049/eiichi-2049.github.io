@@ -12,11 +12,11 @@
   <!-- 网页标题（浏览器标签页上显示的） -->
   <title>ReiVerb Sound Atorie</title>
   <!-- 网页简介 -->
-  <meta name="description" content="空山漪韵 - 为游戏与影像创作原创配乐、声音设计的独立工作室。拥有5年游戏音频经验，已交付20+项目，Wwise/FMOD集成专家。" />
+  <meta name="description" content="空山漪韵 - 为游戏与影像创作原创配乐、声音设计的独立工作室。" />
 
   <!-- Open Graph 标签（社交媒体分享） -->
   <meta property="og:title" content="ReiVerb Sound Atorie - 原创配乐与声音设计工作室" />
-  <meta property="og:description" content="为游戏与影像创作原创配乐、声音设计的独立工作室。" />
+  <meta property="og:description" content="为游戏与影像创作原创配乐与声音设计的独立工作室。" />
   <meta property="og:image" content="v2-bento/spiral.svg" />
   <meta property="og:type" content="website" />
 
@@ -29,6 +29,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
 
   <style>
+    /* ═══ OPPO Sans 正文字体（fonts 目录：fronts/OPPO_Sans_4.0）═══ */
+    @font-face{
+      font-family:'OPPO Sans';
+      src:url('fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf') format('truetype');
+      font-weight:100 900;
+      font-display:swap;
+    }
+
     /* ═══ 颜色变量（整套配色）═══ */
     :root{
       --nav-h:136px;                 /* 导航栏高度 */
@@ -49,7 +57,7 @@
     /* ═══ 基础重置 ═══ */
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{background:var(--paper);color:var(--ink);font-family:-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+    body{background:var(--paper);color:var(--ink);font-family:'OPPO Sans',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
     ul{list-style:none}
@@ -115,7 +123,7 @@
     .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
              overflow:hidden;padding:16px 0}
     .marquee-track{display:inline-flex;white-space:nowrap;
-                   animation:slide 32s linear infinite;will-change:transform}
+                   animation:slide 50s linear infinite;will-change:transform}
     .marquee-track span{flex:0 0 auto;white-space:nowrap;font-family:var(--mono);
                         font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
                         color:var(--muted);padding-right:3.5em}
@@ -134,8 +142,7 @@
        Flexbox：.b-row 一行两张（各 flex:1、align-items:stretch 等高）；.b-card = 子项。
        增删卡：复制/删除 HTML 里的 .b-card；图卡换图：改 <img src>。 */
     #work{scroll-margin-top:170px}
-    #work .wrap{max-width:none}                       /* 卡片区占满 section 整行宽 */
-    .bento{display:flex;flex-direction:column;gap:0;width:100%}
+    .bento{display:flex;flex-direction:column;gap:0;width:100%;padding:0 40px}
     .b-row{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;
            gap:0;margin:0}
     .b-card{position:relative;display:block;overflow:hidden;box-sizing:border-box;
@@ -171,12 +178,10 @@
     .b-pic{background:var(--ink);
            aspect-ratio: 1.618 / 1;   /* 与文字卡同比例 → 整行 1.618:1 横版，不再是正方形 */
            min-height: 320px}
-    .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
-    .b-pic:hover img{transform:scale(1.04)}
+    .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     /* —— 兼容：手机上改单列堆叠（保留间距便于阅读）—— */
     @media(max-width:760px){
-      #work .wrap{padding:0 20px}
-      .bento{gap:18px}                 /* 三行之间分开 */
+      .bento{padding:0 20px;gap:18px}                 /* 三行之间分开 */
       .b-row{flex-direction:column;gap:18px}
       .b-row .b-card{flex:0 0 auto;width:100%;min-width:0}
       .b-text{aspect-ratio:none;min-height:0;padding:34px 28px}
@@ -209,18 +214,18 @@
                     color:var(--paper);opacity:.5;min-width:40px;flex-shrink:0}
     .service-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2vw,1.8rem);
                    letter-spacing:-.015em;color:var(--paper);opacity:.4;
-                   transition:all .3s ease;line-height:1.2;flex:1}
+                   transition:opacity .6s ease;line-height:1.2;flex:1}
     .service-thumb{position:absolute;right:0;top:50%;transform:translateY(-50%);
                    width:clamp(60px,8vw,100px);height:clamp(60px,8vw,100px);
                    opacity:0;transition:opacity .3s ease;display:flex;align-items:center;justify-content:center}
     .service-thumb img{width:100%;height:100%;object-fit:contain;filter:invert(1) brightness(0.9)}
 
-    /* 列表交互：hover 某行时，该行变亮变大，其余变暗 */
+    /* 列表交互：hover 某行时该行全亮，其余变暗——仅透明度反馈，字号不变 */
     .service-list:has(.service-row:hover) .service-row:not(:hover) .service-title{
-      opacity:.3;font-size:clamp(1rem,1.8vw,1.5rem)
+      opacity:.2
     }
     .service-list:has(.service-row:hover) .service-row:hover .service-title{
-      opacity:1;font-size:clamp(1.4rem,2.2vw,2rem)
+      opacity:1
     }
     .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.8}
     .service-list:has(.service-row:hover) .service-row:hover .service-thumb{opacity:1}
@@ -228,8 +233,8 @@
     /* 手机端：取消 hover 交互，统一显示 */
     @media(max-width:760px){
       .service-content{flex-direction:column;gap:12px}
-      .service-title{opacity:1 !important;font-size:1.4rem !important}
-      .service-number{opacity:1 !important;min-width:auto}
+      .service-title{opacity:1;font-size:1.4rem}
+      .service-number{opacity:1;min-width:auto}
       .service-thumb{display:none}
     }
 
@@ -273,6 +278,33 @@
                   letter-spacing:-.02em;color:var(--paper);line-height:1.2;margin-bottom:50px}
     #cta-final .btn-lime{margin-top:32px}
 
+    /* ═══ 客户评价轮播 ═══ */
+    #testimonials{padding:110px 40px;scroll-margin-top:170px}
+    .testi-card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+                padding:60px;max-width:900px;margin:0 auto;transition:all .3s ease}
+    .testi-card blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.4rem,3vw,2rem);
+                           color:var(--ink2);line-height:1.4;margin-bottom:40px;
+                           opacity:1;transform:translateY(0);transition:opacity .5s ease,transform .5s ease}
+    .testi-card blockquote.transitioning{opacity:0;transform:translateY(8px)}
+    .testi-meta{display:flex;justify-content:space-between;align-items:center;gap:30px}
+    .testi-info{display:flex;align-items:center;gap:14px}
+    .testi-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--line)}
+    .testi-name{font-weight:600;color:var(--ink);font-size:.95rem}
+    .testi-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--muted);margin-top:3px;text-transform:uppercase}
+    .testi-controls{display:flex;align-items:center;gap:14px}
+    .testi-btn{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--paper);
+               border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;
+               transition:transform .2s ease,box-shadow .2s ease;font-weight:bold}
+    .testi-btn:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(1,2,5,.15)}
+    .testi-counter{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--muted);
+                   min-width:55px;text-align:center;text-transform:uppercase}
+    @media(max-width:760px){
+      .testi-card{padding:40px 28px}
+      .testi-meta{flex-direction:column;gap:24px;text-align:center}
+      .testi-info{justify-content:center;width:100%}
+      .testi-controls{width:100%;justify-content:center}
+    }
+
     /* ═══ 滚动进场动画 ═══ */
     .b-text,
     .sec-head h2,
@@ -282,9 +314,33 @@
     .sec-head h2.visible,
     #about.visible,
     .quote blockquote.visible{opacity:1;transform:translateY(0)}
+
+    /* ═══ 自定义粘滞光标（暖灰褐 #93856d）═══
+       仅限支持 hover 的设备（有鼠标）；触屏设备上元素默认隐藏 */
+#custom-cursor{display:none}
+@media (hover: hover) {
+  * {
+      cursor: none !important;  /* 强制隐藏系统光标 */
+  }
+  #custom-cursor {
+      display: block;
+      position: fixed;
+      pointer-events: none;      /* 点击穿透 */
+      z-index: 9999;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #93856d;       /* 暖灰褐 */
+      transform: translate(-50%, -50%);
+      transition: left 0.08s ease-out, top 0.08s ease-out;
+      will-change: left, top;
+      /* macOS 式双描边：白圈贴圆点、黑圈在外——浅色背景上黑圈显形，深色背景上白圈显形 */
+      box-shadow: 0 0 0 1.5px rgba(255,255,255,.65),
+                  0 0 0 3px rgba(0,0,0,.4);
+  }
+}
   </style>
 </head>
-
 <body>
 
   <!-- ═══ 顶部导航 ═══ -->
@@ -316,7 +372,7 @@
     <!-- ★ 主标语 -->
     <h1>空山漪韵</h1>
     <!-- ★ 内容：一句话简介 -->
-    <p>为游戏与影像创作原创配乐、声音设计的独立工作室</p>
+    <p>为游戏与影像创作原创配乐与声音设计的独立工作室</p>
     <!-- 按钮组 -->
     <div class="btns">
       <a class="btn btn-lime" href="#work">查看作品</a>
@@ -342,8 +398,9 @@
         <!-- ★ 内容：区块标题 -->
         <h2>近期<br><em>作品</em></h2>
       </div>
+    </div>
 
-      <div class="bento">
+    <div class="bento">
 
         <!-- 第 1 行：文字 | 图 -->
         <div class="b-row">
@@ -352,7 +409,7 @@
             <div class="b-eyebrow"><i></i><i></i><span>Compose</span></div>
             <h3>原创配乐 · Original Score</h3>
             <p>原创配乐、编曲与管弦编制。从主题动机到完整配乐，为叙事注入情感。</p>
-            <span class="b-go">试听 OST <i>↗</i></span>
+            <span class="b-go">了解更多 <i>↗</i></span>
           </a>
           <!-- ② 图片卡 · 波形（原创配乐意象） -->
           <div class="b-card b-pic">
@@ -370,8 +427,8 @@
           <a class="b-card b-text" href="./05/05.html">
             <div class="b-eyebrow"><i></i><i></i><span>Design</span></div>
             <h3>声音设计 · Sound Design</h3>
-            <p>UI、环境音、角色与战斗音效。合成与采样，构建可辨识的声音签名。</p>
-            <span class="b-go">Acoustic Diver <i>↗</i></span>
+            <p>UI、环境音、角色与战斗音效。合成与采样。</p>
+            <span class="b-go">了解更多 <i>↗</i></span>
           </a>
         </div>
 
@@ -382,7 +439,7 @@
             <div class="b-eyebrow"><i></i><i></i><span>Implement</span></div>
             <h3>音频集成 · Wwise / FMOD</h3>
             <p>Wwise / FMOD 集成与实现。事件总线、RTPC、状态与切换的工程化搭建。</p>
-            <span class="b-go">Wwise 笔记 <i>↗</i></span>
+            <span class="b-go">了解更多 <i>↗</i></span>
           </a>
           <!-- ⑥ 图片卡 · 节点网络（中间件集成意象） -->
           <div class="b-card b-pic">
@@ -391,7 +448,6 @@
         </div>
 
       </div>
-    </div>
   </section>
 
   <!-- ═══ 服务专长（深色背景）═══ -->
@@ -411,7 +467,6 @@
             <span class="service-number">01</span>
             <h3 class="service-title">原创配乐 · Composing</h3>
             <div class="service-thumb">
-              <img src="v2-bento/waveform.svg" alt="Composing" />
             </div>
           </div>
         </li>
@@ -420,7 +475,6 @@
             <span class="service-number">02</span>
             <h3 class="service-title">声音设计 · Sound Design</h3>
             <div class="service-thumb">
-              <img src="v2-bento/spiral.svg" alt="Sound Design" />
             </div>
           </div>
         </li>
@@ -429,7 +483,6 @@
             <span class="service-number">03</span>
             <h3 class="service-title">音频集成 · Implementation</h3>
             <div class="service-thumb">
-              <img src="v2-bento/network.svg" alt="Implementation" />
             </div>
           </div>
         </li>
@@ -438,7 +491,6 @@
             <span class="service-number">04</span>
             <h3 class="service-title">混音母带 · Mixing & Mastering</h3>
             <div class="service-thumb">
-              <img src="v2-bento/waveform.svg" alt="Mixing & Mastering" />
             </div>
           </div>
         </li>
@@ -450,14 +502,14 @@
   <section class="wrap" id="about">
     <div class="sec-head">
       <div class="eyebrow"><i></i><i></i><span>About</span></div>
-      <!-- ★ 内容：关于你的陈述 -->
+      <!-- 内容：关于你的陈述 -->
       <h2>声音是记忆的载体。<br>我们只做<em>真诚</em>的声音。</h2>
     </div>
 
     <!-- 统计卡片 -->
     <div class="about-stats">
       <div class="stat-card">
-        <div class="stat-number">20+</div>
+        <div class="stat-number">数字+</div>
         <div class="stat-text">已交付项目</div>
       </div>
       <div class="stat-card">
@@ -465,8 +517,36 @@
         <div class="stat-text">游戏音频经验</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">3款</div>
-        <div class="stat-text">已上线 Wwise 项目</div>
+        <div class="stat-number">数字款</div>
+        <div class="stat-text">已上线项目</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 客户评价轮播 ═══ -->
+  <section id="testimonials" class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><i></i><i></i><span>Client Voices</span></div>
+      <h2>客户评价</h2>
+    </div>
+
+    <div class="testi-card">
+      <blockquote>客户评价1</blockquote>
+
+      <div class="testi-meta">
+        <div class="testi-info">
+          <img class="testi-avatar" src="v2-bento/waveform.svg" alt="client" />
+          <div>
+            <div class="testi-name">张三</div>
+            <div class="testi-title">游戏制作人 · 知名工作室</div>
+          </div>
+        </div>
+
+        <div class="testi-controls">
+          <button class="testi-btn testi-prev" aria-label="previous">←</button>
+          <span class="testi-counter">01 / 03</span>
+          <button class="testi-btn testi-next" aria-label="next">→</button>
+        </div>
       </div>
     </div>
   </section>
@@ -491,7 +571,7 @@
   <footer id="contact">
     <div class="wrap">
       <div class="foot-top">
-        <!-- ★ 内容：联系方式 -->
+        <!-- 内容：联系方式 -->
         <div>
           <h4>Create What's Possible</h4>
           <a class="btn btn-dark" href="mailto:enchitsui@foxmail.com">enchitsui@foxmail.com</a>
@@ -514,17 +594,74 @@
         </div>
       </div>
 
-      <!-- 底部超大文字（装饰，可替换成你的品牌） -->
+      <!-- 底部超大文字 -->
       <div class="foot-brand">ReiVerb Sound Atorie</div>
 
       <div class="foot-base">
-        <!-- ★ 内容：版权年份与名字 -->
+        <!-- 内容：版权年份与名字 -->
         <span>© 2020-2026 ReiVerb Sound Atorie · All Rights Reserved</span>
       </div>
     </div>
   </footer>
 
+  <!-- 自定义粘滞光标（放在 body 最底部） -->
+  <div id="custom-cursor"></div>
+
   <script>
+    // 客户评价轮播
+    const testimonials = [
+      {
+        quote: '客户评价1',
+        name: '张三',
+        title: '游戏制作人 · 工作室',
+        avatar: 'v2-bento/waveform.svg'
+      },
+      {
+        quote: '客户评价2',
+        name: '李四',
+        title: '音频总监 · 独立开发团队',
+        avatar: 'v2-bento/spiral.svg'
+      },
+      {
+        quote: '客户评价3',
+        name: '王五',
+        title: '项目经理 · 工作室',
+        avatar: 'v2-bento/network.svg'
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function updateTestimonial() {
+      const blockquote = document.querySelector('.testi-card blockquote');
+      blockquote.classList.add('transitioning');
+
+      setTimeout(() => {
+        const testi = testimonials[currentIndex];
+        blockquote.textContent = testi.quote;
+        document.querySelector('.testi-name').textContent = testi.name;
+        document.querySelector('.testi-title').textContent = testi.title;
+        document.querySelector('.testi-avatar').src = testi.avatar;
+
+        const total = testimonials.length;
+        const current = currentIndex + 1;
+        document.querySelector('.testi-counter').textContent =
+          `${String(current).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+
+        blockquote.classList.remove('transitioning');
+      }, 250);
+    }
+
+    document.querySelector('.testi-prev').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+      updateTestimonial();
+    });
+
+    document.querySelector('.testi-next').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % testimonials.length;
+      updateTestimonial();
+    });
+
     // IntersectionObserver 滚动进场动画
     const observerOptions = {
       threshold: 0.1,
@@ -544,6 +681,28 @@
     document.querySelectorAll(
       '.b-text, .sec-head h2, #about, .quote blockquote'
     ).forEach(el => observer.observe(el));
+
+    // ═══ 自定义粘滞光标控制 ═══
+    (function() {
+      const cursor = document.getElementById('custom-cursor');
+      if (!cursor) return;
+
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+      });
+    })();
+
+    // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
+    document.querySelector('.foot-base span').textContent =
+      `© 2020-${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
   </script>
 
 </body>
