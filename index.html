@@ -1,652 +1,863 @@
 <!doctype html>
+<!-- ════════════════════════════════════════════════════════════════════
+  怎么用：
+    1. 改 <title> 和导航里的 logo 文字
+    2. 找到标着「★ 内容」的地方，替换成你自己的文案
+    3. 颜色不喜欢 → 改 :root 里那几个变量即可
+════════════════════════════════════════════════════════════════════ -->
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ReiVerb Sound Atorie — Resonance remains.</title>
-    <meta name="description" content="ReiVerb Sound Atorie — a boutique game audio studio. Handcrafted music, sound design and technical audio for interactive experiences." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <style>
-/* ═══ RESET ═══ */
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 网页标题（浏览器标签页上显示的） -->
+  <title>ReiVerb Sound Atorie</title>
+  <!-- 网页简介 -->
+  <meta name="description" content="空山漪韵 - 为游戏与影像创作原创配乐、声音设计的独立工作室。" />
 
-/* ═══ TOKENS ═══ */
-:root,[data-theme="dark"]{
-  --bg:#0a0a0c;--bg2:#111113;--bg3:#18181b;
-  --ink:#e8e6e2;--ink2:#8a8884;--ink3:#4a4845;
-  --accent:#d4a054;--accent-hover:#e0b06a;
-  --accent-dim:rgba(212,160,84,.12);
-  --line:rgba(232,230,226,.07);--line2:rgba(232,230,226,.14);
-  --nav-bg:rgba(10,10,12,.82);
-  --serif:'Fraunces','Noto Serif SC',serif;
-  --mono:'DM Mono',monospace;
-  --sans:'OPPO Sans',-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;
-  --nav-h:64px;
-  --sec-pad:clamp(80px,12vw,140px);
+  <!-- Open Graph 标签（社交媒体分享） -->
+  <meta property="og:title" content="ReiVerb Sound Atorie - 原创配乐与声音设计工作室" />
+  <meta property="og:description" content="为游戏与影像创作原创配乐与声音设计的独立工作室。" />
+  <meta property="og:image" content="v2-bento/spiral.svg" />
+  <meta property="og:type" content="website" />
+
+  <!-- 网站图标 -->
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- 字体：Fraunces（衬线大标题，免费，风格接近Gambarino） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══ OPPO Sans 正文字体（fonts 目录：fronts/OPPO_Sans_4.0）═══ */
+    @font-face{
+      font-family:'OPPO Sans';
+      src:url('fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf') format('truetype');
+      font-weight:100 900;
+      font-display:swap;
+    }
+
+    /* ═══ 颜色变量（整套配色）═══ */
+    :root{
+      --nav-h:136px;                 /* 导航栏高度 */
+      --paper:#f9f9f9;   /* 米白 · 页面底色 */
+      --card:#ffffff;    /* 纯白 · 卡片/区块底色 */
+      --ink:#010205;     /* 近黑 · 正文/大标题色 */
+      --ink2:#333333;    /* 深灰 · 标题备选色 */
+      --muted:#a1a4a7;   /* 灰 · 次要文字 */
+      --line:rgba(1,2,5,.1);  /* 淡黑 · 分隔线 */
+      --accent:#d0ff71;  /* 青柠绿 · 强调/按钮 */
+      --olive:#b0b748;   /* 橄榄绿 · 小圆点1 */
+      --wine:#4e0115;    /* 酒红 · 小圆点2 */
+      --serif:'Fraunces','Noto Serif SC',serif;   /* 衬线标题字 */
+      --mono:'DM Mono',monospace;                  /* 等宽小字(标签用) */
+      --display-size:clamp(3rem,12vw,9rem);        /* ★ 底部超大品牌字的字号：只改这一处即可 */
+    }
+
+    /* ═══ 深色模式（跟随系统设置自动切换）═══ */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --paper:#121212;             /* 页面底色反转 */
+        --card:#1e1e1e;              /* 卡片底色 */
+        --ink:#f5f5f5;               /* 正文/大标题反转 */
+        --ink2:#cccccc;
+        --muted:#9a9c9e;
+        --line:rgba(255,255,255,0.1);
+      }
+      .nav{background:rgba(18,18,18,0.85)}
+      .foot-brand{background:linear-gradient(var(--ink),rgba(255,255,255,0.15))}
+    }
+
+    /* ═══ 基础重置 ═══ */
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--paper);color:var(--ink);font-family:'OPPO Sans',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    ul{list-style:none}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 40px}   /* 版心，自动居中 */
+
+    /* ═══ 顶部导航（吸顶、毛玻璃；高度）═══ */
+    /* 这里不能用 display:flex 来居中：会把内层 .wrap 缩成”内容宽度”，
+       导致导航黑框比页脚版心窄。用上下 padding 留白即可让 .wrap 整宽居中。 */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);padding:24px 0; /* 上/下留白24px */
+         background:rgba(249,249,249,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+    /* 导航内容框：浅灰半透明胶囊 + 一圈描边 + 圆角，包住 logo/链接/按钮（Our Wave 参考样式） */
+    .nav-in{width:100%;height:88px;display:flex;align-items:center;justify-content:space-between;gap:28px;
+            background:rgba(1,2,5,.06);border:1px solid #222;border-radius:16px;padding:0 max(18px, 2.5vw); }
+    .logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:-.02em;white-space:nowrap}
+    .logo em{font-style:italic;color:var(--olive)}
+    .nav-links{display:flex;align-items:center;justify-content:center;gap:34px;
+               font-size:1.0rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+    .nav-links a{opacity:.72;transition:opacity .2s}
+    .nav-links a:hover{opacity:1}
+    /* 胶囊按钮：实心青柠 / 描边深色 两种 */
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;
+         font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+         border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-lime{background:var(--accent);color:var(--ink)}
+    .btn-lime:hover{box-shadow:0 10px 24px rgba(208,255,113,.4)}
+    .btn-line{background:transparent;border-color:var(--ink)}
+    .btn-line:hover{background:var(--ink);color:var(--paper)}
+    .btn-dark{background:var(--ink);color:var(--paper)}
+    /* 手机端：隐藏文字链接 + 汉堡按钮 */
+    .burger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer}
+    @media(max-width:760px){
+      .nav-links{position:absolute;top:var(--nav-h);left:0;right:0;background:var(--paper);
+                 flex-direction:column;padding:20px 40px;border-bottom:1px solid var(--line);
+                opacity:0;pointer-events:none;transition:opacity .3s ease;
+                display:flex;align-items:center;justify-content:center;gap:20px}
+      .nav-links.open{opacity:1;pointer-events:auto}
+      .burger{display:block}
+    }
+
+    /* ═══ 首屏 HERO ═══ */
+    .hero{padding:calc(var(--nav-h) + 64px) 40px 90px}   /* 顶部留白加大，避开导航；左右 40px 与 .wrap 版心对齐 */
+    /* 小标签：两个彩点 + 小号英文(等宽字) */
+    .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+    .eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
+    .eyebrow i:nth-child(1){background:var(--olive)}
+    .eyebrow i:nth-child(2){background:var(--wine)}
+    .eyebrow span{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+    /* 大标题：超大衬线。四个字紧凑排布（去掉两端对齐拉开的间距）。
+       想再紧/再松一点：改下面 letter-spacing（0 = 自然；负数更紧，如 -0.02em） */
+    .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,10vw,7rem);
+             line-height:1.15;letter-spacing:0;color:var(--ink2)}
+    .hero h1 em{font-style:italic;color:var(--ink)}
+    .hero p{max-width:44ch;margin:28px 0 40px;color:var(--muted);font-size:1rem}
+    .hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+
+    /* ═══ 品牌/合作条：无缝滚动条 ═══
+       原理：.marquee-track 里放两段一模一样的 <span>（=两个“半组”），动画把整条轨道从 0
+             平移到 -50%（正好一整组的宽度）→ 回到起点，视觉上无接缝。
+       一行：white-space:nowrap + inline-flex，永不换行。
+       盖满屏：每段 <span> 内文案重复 3 遍，保证轨道总宽 > 任意屏幕宽（否则宽屏右侧留白）。
+       换文案：只改 <span> 里的文字，两段保持一致即可。 */
+    .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+             overflow:hidden;padding:16px 0}
+    .marquee-track{display:inline-flex;white-space:nowrap;
+                   animation:slide 50s linear infinite;will-change:transform}
+    .marquee-track span{flex:0 0 auto;white-space:nowrap;font-family:var(--mono);
+                        font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+                        color:var(--muted);padding-right:3.5em}
+    @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ═══ 通用分节 ═══ */
+    section{padding:110px 0}
+    .sec-head{margin-bottom:50px}
+    .sec-head h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,3.6vw,3rem);
+                 letter-spacing:-.02em;color:var(--ink2);line-height:1.15;max-width:20ch}
+    .sec-head h2 em{font-style:italic;color:var(--olive)}
+
+    /* ═══ 作品/服务：交错圆角卡片整幅拼贴（每行 2 张 · 文字与图片交错）
+       6 张卡 = 3 行 × 2 列，行内 / 行间一律 0 间距（gap:0、margin:0），
+       等高 + 圆角 + 1px 描边，在中缝与四角交界处拼出“圆角缺口”（参考 Our Wave）。
+       Flexbox：.b-row 一行两张（各 flex:1、align-items:stretch 等高）；.b-card = 子项。
+       增删卡：复制/删除 HTML 里的 .b-card；图卡换图：改 <img src>。 */
+    #work{scroll-margin-top:170px}
+    .bento{display:flex;flex-direction:column;gap:0;width:100%;padding:0 40px}
+    .b-row{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;
+           gap:0;margin:0}
+    .b-card{position:relative;display:block;overflow:hidden;box-sizing:border-box;
+            background:var(--card);border:1px solid #222;border-radius:20px;
+            width:50%;flex:0 0 50%;min-width:0}    /* 两列各 50%，与内边距无关地均分 */
+    /* —— 文字卡（整张可点） —— */
+    .b-text{display:flex;flex-direction:column;align-items:flex-start;text-align:left;
+            aspect-ratio: 1.618 / 1;
+            min-height: 320px;
+            padding:40px;                          /* 卡内留白，文字不贴边 */
+            transition:transform .25s ease,box-shadow .25s ease}
+    .b-text:hover{transform:translateY(-3px);box-shadow:0 22px 46px rgba(1,2,5,.09)}
+    .b-text:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+    .b-eyebrow{display:flex;align-items:center;gap:10px}
+    .b-eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
+    .b-eyebrow i:nth-child(1){background:var(--olive)}
+    .b-eyebrow i:nth-child(2){background:var(--wine)}
+    .b-eyebrow span{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
+                    text-transform:uppercase;color:var(--muted)}
+    .b-text h3{font-family:var(--serif);font-weight:400;color:var(--ink2);
+               font-size:clamp(1.7rem,2.4vw,2.5rem);line-height:1.18;letter-spacing:-.015em;
+               margin-top:clamp(36px,5.5vh,66px)}   /* 与眉标拉开留白（Our Wave 式松排版） */
+    .b-text p{color:var(--muted);font-size:1rem;max-width:38ch;
+              margin-top:clamp(18px,2.6vh,26px)}
+    .b-go{display:inline-flex;align-items:center;gap:10px;margin-top:clamp(30px,5vh,54px);
+          padding:11px 18px 11px 20px;border:1px solid var(--ink);border-radius:999px;
+          font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+          transition:background .25s ease,color .25s ease}
+    .b-go i{font-style:normal;transition:transform .25s ease}
+    .b-text:hover .b-go{background:var(--ink);color:var(--paper)}
+    .b-text:hover .b-go i{transform:translate(3px,-3px)}
+    /* —— 图片卡 —— */
+    .b-pic{background:var(--ink);
+           aspect-ratio: 1.618 / 1;   /* 与文字卡同比例 → 整行 1.618:1 横版，不再是正方形 */
+           min-height: 320px}
+    .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    /* —— 兼容：手机上改单列堆叠（保留间距便于阅读）—— */
+    @media(max-width:760px){
+      .bento{padding:0 20px;gap:18px}                 /* 三行之间分开 */
+      .b-row{flex-direction:column;gap:18px}
+      .b-row .b-card{flex:0 0 auto;width:100%;min-width:0}
+      .b-text{aspect-ratio:none;min-height:0;padding:34px 28px}
+      .b-pic{height:clamp(240px,68vw,380px)}
+    }
+
+    /* ═══ 关于区块统计卡片 ═══ */
+    .about-stats{display:flex;gap:24px;margin-top:60px;flex-wrap:wrap}
+    .stat-card{flex:1;min-width:220px;padding:28px 24px;background:var(--card);
+               border:1px solid var(--line);border-radius:16px;text-align:center;
+               transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .stat-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(1,2,5,.08);border-color:var(--olive)}
+    .stat-number{font-family:var(--serif);font-weight:300;font-size:2.8rem;
+                 color:var(--ink2);line-height:1;margin-bottom:12px;letter-spacing:-.02em}
+    .stat-text{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
+              text-transform:uppercase;color:var(--muted)}
+
+    /* ═══ 服务专长（深色背景交互列表）═══ */
+    #services{background:var(--ink);color:var(--paper);padding:110px 0;position:relative}
+    #services .sec-head { margin-bottom: 60px; }
+    #services .eyebrow i:nth-child(1){background:#ffffff}
+    #services .eyebrow i:nth-child(2){background:var(--muted)}
+    #services .eyebrow span{color:var(--paper)}
+    .service-list{list-style:none;display:flex;flex-direction:column;gap:32px}
+    .service-row{position:relative;border-bottom:1px solid rgba(249,249,249,.15);
+                 padding-bottom:24px;overflow:hidden}
+    .service-row:last-child{border-bottom:none}
+    .service-content{display:flex;align-items:flex-start;gap:24px;position:relative}
+    .service-number{font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;
+                    color:var(--paper);opacity:.5;min-width:40px;flex-shrink:0;
+                    transition:opacity .6s ease}
+    .service-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2vw,1.8rem);
+                   letter-spacing:-.015em;color:var(--paper);opacity:.4;
+                   transition:opacity .6s ease;line-height:1.2;flex:1}
+    .service-thumb{position:absolute;right:0;top:50%;transform:translateY(-50%);
+                   width:clamp(60px,8vw,100px);height:clamp(60px,8vw,100px);
+                   opacity:0;transition:opacity .3s ease;display:flex;align-items:center;justify-content:center}
+    .service-thumb img{width:100%;height:100%;object-fit:contain;filter:invert(1) brightness(0.9)}
+
+    /* 列表交互：hover 某行时该行全亮，其余变暗——仅透明度反馈，字号不变 */
+    .service-list:has(.service-row:hover) .service-row:not(:hover) .service-title{
+      opacity:.2
+    }
+    .service-list:has(.service-row:hover) .service-row:hover .service-title{
+      opacity:1
+    }
+    .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.6}
+    .service-list:has(.service-row:hover) .service-row:hover .service-thumb{opacity:1}
+
+    /* 手机端：取消 hover 交互，统一显示 */
+    @media(max-width:760px){
+      .service-content{flex-direction:column;gap:12px}
+      .service-title{opacity:1;font-size:1.4rem}
+      .service-number{opacity:1;min-width:auto}
+      .service-thumb{display:none}
+    }
+
+    /* ═══ 关于（浅色 + 一段大文字）═══ */
+    .quote{padding:140px 40px}   /* 左右 40px 与 .wrap 版心对齐 */
+    .quote blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,4vw,3rem);
+                      line-height:1.35;letter-spacing:-.015em;color:var(--ink2);max-width:26ch}
+    .quote footer{margin-top:34px;display:flex;align-items:center;gap:10px;
+                  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
+
+    /* ═══ 页脚 ═══ */
+    footer{padding:80px 0 40px;border-top:1px solid var(--line)}
+    .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:80px}
+    .foot-top h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+                 color:var(--muted);margin-bottom:16px}
+    .foot-top li{margin-bottom:8px;opacity:.8}
+    .foot-top li:hover{opacity:1}
+    /* ═══ 底部超大品牌字（专属独立样式，改这里只影响这一处大字）═══
+       想单独调：字号 → 改上面的 --display-size；
+       颜色渐隐 → 改下面的 background:linear-gradient(...)。
+       想复用这组“超大渐变字”效果：把任意标签加上 class="foot-brand" 即可。 */
+    .foot-brand{font-family:var(--serif);font-weight:300;font-size:var(--display-size);
+                letter-spacing:-.03em;line-height:.95;text-align:center;user-select:none;
+                background:linear-gradient(var(--ink),rgba(1,2,5,.15));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .foot-base{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);
+               display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+               font-size:.78rem;color:var(--muted)}
+    .foot-base a{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}
+
+    /* ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ */
+    #cta-final{background:var(--ink);
+               background-image:radial-gradient(ellipse at 30% 50%, rgba(208,255,113,.05) 0%, transparent 50%),
+                               radial-gradient(ellipse at 70% 80%, rgba(208,255,113,.03) 0%, transparent 50%);
+               color:var(--paper);padding:110px 40px;text-align:center;position:relative;overflow:hidden}
+    #cta-final .wrap{max-width:800px;margin:0 auto}
+    #cta-final .eyebrow{justify-content:center;margin-bottom:40px}
+    #cta-final .eyebrow i:nth-child(1){background:#ffffff}
+    #cta-final .eyebrow i:nth-child(2){background:var(--muted)}
+    #cta-final .eyebrow span{color:var(--paper)}
+    #cta-final h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,3.5rem);
+                  letter-spacing:-.02em;color:var(--paper);line-height:1.2;margin-bottom:50px}
+    #cta-final .btn-lime{margin-top:32px}
+
+    /* ═══ 二维码弹窗（点击"预约咨询"打开）═══ */
+    .qr-modal{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
+              opacity:0;pointer-events:none;transition:opacity .25s ease}
+    .qr-modal.open{opacity:1;pointer-events:auto}
+    .qr-modal-backdrop{position:absolute;inset:0;background:rgba(1,2,5,.55)}
+    .qr-modal-card{position:relative;background:var(--card);border:1px solid var(--line);
+                   border-radius:20px;padding:40px 48px;display:flex;flex-direction:column;
+                   align-items:center;gap:16px;box-shadow:0 24px 64px rgba(1,2,5,.3);
+                   transform:translateY(16px) scale(.96);transition:transform .25s ease}
+    .qr-modal.open .qr-modal-card{transform:translateY(0) scale(1)}
+    /* 装饰框架：二维码外一圈描边框；底色固定白色，保证深色模式下二维码仍可识别 */
+    .qr-modal-frame{padding:12px;border:1.5px solid var(--line);border-radius:12px;background:#ffffff}
+    .qr-modal-frame img{width:220px;height:auto;display:block}
+    .qr-modal-tip{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;color:var(--muted)}
+    .qr-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;
+                    border:1px solid var(--line);background:transparent;color:var(--ink);
+                    font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+                    transition:background .25s ease,color .25s ease}
+    .qr-modal-close:hover{background:var(--ink);color:var(--paper)}
+
+    /* ═══ 近况（浅色 · 状态点列表）═══ */
+    #now{scroll-margin-top:170px}
+    .now-list{display:flex;flex-direction:column;gap:28px;margin-top:20px}
+    .now-item{display:flex;align-items:flex-start;gap:16px;
+              padding-bottom:24px;border-bottom:1px solid var(--line)}
+    .now-item:last-child{border-bottom:none}
+    .now-dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex-shrink:0}
+    .now-dot-active{background:var(--olive)}   /* 进行中 */
+    .now-dot-planned{background:var(--muted)}  /* 计划中 */
+    .now-dot-done{background:var(--wine)}      /* 已完成 */
+    .now-text{font-size:1.05rem;color:var(--ink2);line-height:1.5}
+    .now-date{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
+             text-transform:uppercase;color:var(--muted);margin-top:8px;display:block}
+
+    /* ═══ 客户评价轮播 ═══ */
+    #testimonials{padding:110px 40px;scroll-margin-top:170px}
+    .testi-card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+                padding:60px;max-width:900px;margin:0 auto;transition:all .3s ease}
+    .testi-card blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.4rem,3vw,2rem);
+                           color:var(--ink2);line-height:1.4;margin-bottom:40px;
+                           opacity:1;transform:translateY(0);transition:opacity .5s ease,transform .5s ease}
+    .testi-card blockquote.transitioning{opacity:0;transform:translateY(8px)}
+    .testi-meta{display:flex;justify-content:space-between;align-items:center;gap:30px}
+    .testi-info{display:flex;align-items:center;gap:14px}
+    .testi-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--line)}
+    .testi-name{font-weight:600;color:var(--ink);font-size:.95rem}
+    .testi-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--muted);margin-top:3px;text-transform:uppercase}
+    .testi-controls{display:flex;align-items:center;gap:14px}
+    .testi-btn{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--paper);
+               border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;
+               transition:transform .2s ease,box-shadow .2s ease;font-weight:bold}
+    .testi-btn:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(1,2,5,.15)}
+    .testi-counter{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--muted);
+                   min-width:55px;text-align:center;text-transform:uppercase}
+    @media(max-width:760px){
+      .testi-card{padding:40px 28px}
+      .testi-meta{flex-direction:column;gap:24px;text-align:center}
+      .testi-info{justify-content:center;width:100%}
+      .testi-controls{width:100%;justify-content:center}
+    }
+
+    /* ═══ 滚动进场动画 ═══ */
+    .b-text,
+    .sec-head h2,
+    #about,
+    .now-item,
+    .quote blockquote{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .b-text.visible,
+    .sec-head h2.visible,
+    #about.visible,
+    .now-item.visible,
+    .quote blockquote.visible{opacity:1;transform:translateY(0)}
+
+    /* ═══ 自定义粘滞光标（暖灰褐 #93856d）═══
+       仅限支持 hover 的设备（有鼠标）；触屏设备上元素默认隐藏 */
+#custom-cursor{display:none}
+@media (hover: hover) {
+  * {
+      cursor: none !important;  /* 强制隐藏系统光标 */
+  }
+  #custom-cursor {
+      display: block;
+      position: fixed;
+      pointer-events: none;      /* 点击穿透 */
+      z-index: 9999;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #93856d;       /* 暖灰褐 */
+      transform: translate(-50%, -50%);
+      /* left/top 粘滞跟随 + 尺寸/背景（进 .b-text 变"查看按钮"）共用一套双向过渡 */
+      transition: left .08s ease-out, top .08s ease-out,
+                  width .25s ease, height .25s ease, background-color .25s ease;
+      will-change: left, top;
+      /* macOS 式双描边：白圈贴圆点、黑圈在外——浅色背景上黑圈显形，深色背景上白圈显形 */
+      box-shadow: 0 0 0 1.5px rgba(255,255,255,.65),
+                  0 0 0 3px rgba(0,0,0,.4);
+  }
+  /* hover 文字卡（可点击）时：光标变成青柠"查看按钮" */
+  .cursor-arrow{
+      position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%) scale(0);
+      font-size:14px;color:var(--ink);
+      opacity:0;transition:transform .25s ease,opacity .25s ease;
+  }
+  #custom-cursor.cursor-view{
+      background:var(--accent);
+      width:44px;height:44px;   /* 比默认圆点(28px)更大，做成"按钮感" */
+  }
+  #custom-cursor.cursor-view .cursor-arrow{
+      opacity:1;transform:translate(-50%,-50%) scale(1);
+  }
 }
-[data-theme="light"]{
-  --bg:#f5f3ef;--bg2:#eceae5;--bg3:#e3e1db;
-  --ink:#1a1a1a;--ink2:#5a5855;--ink3:#9a9895;
-  --accent:#a0622d;--accent-hover:#b8743a;
-  --accent-dim:rgba(160,98,45,.1);
-  --line:rgba(26,26,26,.07);--line2:rgba(26,26,26,.14);
-  --nav-bg:rgba(245,243,239,.82);
-}
-
-/* ═══ BASE ═══ */
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;overflow-x:hidden}
-::selection{background:var(--accent-dim);color:var(--accent)}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--ink3);border-radius:3px}
-a{color:inherit;text-decoration:none;transition:color .2s}
-img{max-width:100%;display:block}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-.container{max-width:1200px;margin:0 auto;padding:0 40px}
-
-/* ═══ NAV ═══ */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:var(--nav-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);transition:transform .35s,background .4s,border-color .4s}
-.nav--hidden{transform:translateY(-100%)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 40px;height:100%;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:var(--serif);font-size:1.15rem;font-weight:400;letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;color:var(--ink)}
-.nav-logo-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:400}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
-.nav-links a{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink2);transition:color .2s;padding:4px 0;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .25s}
-.nav-links a:hover,.nav-links a.active{color:var(--ink)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
-
-/* theme toggle */
-.theme-toggle{position:relative;width:38px;height:20px;border-radius:10px;background:var(--bg3);border:1px solid var(--line2);transition:background .3s,border-color .3s;display:flex;align-items:center;padding:0 2px}
-.theme-toggle:hover{border-color:var(--accent)}
-.theme-toggle-knob{width:14px;height:14px;border-radius:50%;background:var(--accent);transition:transform .3s ease;position:absolute;top:2px;left:2px}
-[data-theme="dark"] .theme-toggle-knob{transform:translateX(18px)}
-.theme-toggle-icon{position:absolute;width:12px;height:12px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;opacity:.4;transition:opacity .3s}
-.theme-toggle-icon svg{width:11px;height:11px}
-.theme-toggle-icon--sun{left:5px}
-.theme-toggle-icon--moon{right:5px}
-[data-theme="dark"] .theme-toggle-icon--sun{opacity:1}
-[data-theme="light"] .theme-toggle-icon--moon{opacity:1}
-.theme-transition *{transition:background .4s ease,color .4s ease,border-color .4s ease !important}
-
-/* ═══ HERO ═══ */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:var(--nav-h) 0 0;overflow:hidden}
-.hero-wave-wrap{position:absolute;bottom:0;left:0;right:0;height:280px;pointer-events:none;z-index:0}
-.hero-wave-wrap canvas{width:100%;height:100%;display:block}
-.hero-content{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 40px;width:100%}
-.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:32px}
-.hero-eyebrow-line{width:40px;height:1px;background:var(--accent)}
-.hero-eyebrow-text{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.hero-title{font-family:var(--serif);font-size:clamp(3rem,8vw,6.5rem);font-weight:300;line-height:1.08;letter-spacing:-.03em;color:var(--ink);margin-bottom:28px}
-.hero-title em{font-style:italic;color:var(--accent);font-weight:400}
-.hero-desc{max-width:520px;font-size:.95rem;line-height:1.7;color:var(--ink2);margin-bottom:48px}
-.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
-.btn{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:14px 32px;border:1px solid var(--line2);transition:all .25s;display:inline-flex;align-items:center;gap:8px}
-.btn-primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover);color:var(--bg)}
-.btn-outline{color:var(--ink2);border-color:var(--line2)}
-.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
-.hero-status{display:flex;align-items:center;gap:8px;margin-top:56px;font-family:var(--mono);font-size:.72rem;color:var(--ink3);letter-spacing:.06em}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);animation:pulse 2.5s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:.6;box-shadow:0 0 4px var(--accent)}50%{opacity:1;box-shadow:0 0 12px var(--accent)}}
-.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.65rem;color:var(--ink3);letter-spacing:.2em;text-transform:uppercase;z-index:1}
-.hero-scroll::after{content:'';display:block;width:1px;height:28px;background:var(--ink3);margin:8px auto 0;animation:scrollLine 2s infinite}
-@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-
-/* ═══ SECTIONS ═══ */
-section{padding:var(--sec-pad) 0;position:relative}
-.section-header{margin-bottom:56px}
-.section-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:12px}
-.section-label::before{content:'';width:24px;height:1px;background:var(--accent)}
-.section-title{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;letter-spacing:-.02em;color:var(--ink);line-height:1.2}
-.section-title em{font-style:italic;color:var(--accent)}
-
-/* ═══ WORK ═══ */
-.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.work-card{background:var(--bg);padding:40px 36px;position:relative;transition:background .25s;display:block;min-height:240px;display:flex;flex-direction:column}
-.work-card:hover{background:var(--bg2)}
-.work-card-num{font-family:var(--mono);font-size:.7rem;color:var(--ink3);letter-spacing:.1em;margin-bottom:24px}
-.work-card-title{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:8px}
-.work-card-title em{display:block;font-family:var(--sans);font-size:.82rem;color:var(--ink2);font-style:normal;font-weight:400;margin-top:6px}
-.work-card-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:24px}
-.work-card-stack{font-family:var(--mono);font-size:.68rem;color:var(--ink3);letter-spacing:.04em}
-.work-card-meta{display:flex;align-items:center;gap:12px}
-.work-card-year{font-family:var(--mono);font-size:.68rem;color:var(--ink3)}
-.work-card-badge{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:2px}
-.work-card-badge.live{color:#4ade80;background:rgba(74,222,128,.1)}
-.work-card-badge.wip{color:var(--accent);background:var(--accent-dim)}
-.work-card-badge.archived{color:var(--ink3);background:var(--bg3)}
-.work-card-arrow{position:absolute;top:36px;right:32px;font-size:1.1rem;color:var(--ink3);transition:all .25s;font-family:var(--mono)}
-.work-card:hover .work-card-arrow{color:var(--accent);transform:translate(3px,-3px)}
-
-/* ═══ SERVICES ═══ */
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.service-item{background:var(--bg);padding:36px 28px;transition:background .25s;position:relative}
-.service-item:hover{background:var(--bg2)}
-.service-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.1em;margin-bottom:18px}
-.service-title{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.3}
-.service-desc{font-size:.82rem;color:var(--ink2);line-height:1.6}
-.service-tools{margin-top:16px;font-family:var(--mono);font-size:.62rem;color:var(--ink3);letter-spacing:.03em}
-
-/* ═══ ABOUT ═══ */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
-.about-text{font-size:.95rem;color:var(--ink2);line-height:1.8}
-.about-text p{margin-bottom:20px}
-.about-text strong{color:var(--ink);font-weight:500}
-.about-text em{font-style:italic;color:var(--accent)}
-.about-quote{font-family:var(--serif);font-size:1.3rem;font-weight:300;color:var(--ink);line-height:1.5;margin:32px 0;padding-left:20px;border-left:2px solid var(--accent)}
-.about-aside{display:flex;flex-direction:column;gap:28px}
-.aside-block{border-top:1px solid var(--line);padding-top:16px}
-.aside-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:12px}
-.aside-items{list-style:none}
-.aside-items li{font-size:.82rem;color:var(--ink2);padding:4px 0;line-height:1.5}
-.aside-items li::before{content:'—';color:var(--ink3);margin-right:8px;font-family:var(--mono);font-size:.7rem}
-
-/* ═══ CONTACT ═══ */
-.contact-big{font-family:var(--serif);font-size:clamp(2.2rem,6vw,4.5rem);font-weight:300;line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin-bottom:48px}
-.contact-big em{font-style:italic;color:var(--accent)}
-.contact-row{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
-.contact-label{font-size:.9rem;color:var(--ink2);line-height:1.7;max-width:360px}
-.contact-links{display:flex;flex-direction:column;gap:12px}
-.contact-link{font-family:var(--mono);font-size:.85rem;color:var(--ink2);display:inline-flex;align-items:center;gap:10px;transition:color .2s;letter-spacing:.04em}
-.contact-link:hover{color:var(--accent)}
-.contact-link .arr{font-family:var(--mono);font-size:.7rem;opacity:.5;transition:opacity .2s,transform .2s}
-.contact-link:hover .arr{opacity:1;transform:translate(2px,-2px)}
-.contact-email{font-family:var(--mono);font-size:clamp(1rem,2.5vw,1.5rem);color:var(--ink);letter-spacing:-.01em;border-bottom:1px solid var(--line2);padding-bottom:4px;transition:border-color .2s,color .2s}
-.contact-email:hover{border-color:var(--accent);color:var(--accent)}
-
-/* ═══ FOOTER ═══ */
-footer{border-top:1px solid var(--line);padding:48px 0}
-.footer-inner{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between}
-.footer-l,.footer-r{font-family:var(--mono);font-size:.68rem;color:var(--ink3);letter-spacing:.04em}
-
-/* ═══ MODALS ═══ */
-.wc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.wc-overlay.active{opacity:1;pointer-events:auto}
-.wc-window{background:var(--bg2);border:1px solid var(--line2);border-radius:8px;width:320px;max-width:90vw;overflow:hidden;transform:scale(.95);transition:transform .3s}
-.wc-overlay.active .wc-window{transform:scale(1)}
-.wc-window--wide{width:480px}
-.wc-titlebar{display:flex;align-items:center;justify-content:flex-end;padding:10px 14px;border-bottom:1px solid var(--line)}
-.wc-dot{width:10px;height:10px;border-radius:50%;background:var(--ink3);cursor:pointer;transition:background .2s}
-.wc-dot:hover{background:var(--accent)}
-.wc-body{padding:24px;display:flex;flex-direction:column;align-items:center;gap:12px}
-.wc-body img{width:200px;height:200px;object-fit:contain}
-.wc-body p{font-family:var(--mono);font-size:.72rem;color:var(--ink2);text-align:center}
-
-/* ═══ ANIMATIONS ═══ */
-.hero-eyebrow,.hero-title,.hero-desc,.hero-actions,.hero-status{opacity:0;transform:translateY(24px)}
-.work-card{opacity:0;transform:translateY(24px)}
-.service-item{opacity:0;transform:translateY(20px)}
-.about-grid>.about-text,.about-grid>.about-aside{opacity:0;transform:translateY(24px)}
-.contact-body{opacity:0;transform:translateY(24px)}
-
-/* ═══ RESPONSIVE ═══ */
-@media(max-width:900px){
-  .work-grid{grid-template-columns:1fr}
-  .services-grid{grid-template-columns:1fr 1fr}
-  .about-grid{grid-template-columns:1fr;gap:40px}
-}
-@media(max-width:640px){
-  .container,.nav-inner,.hero-content,.footer-inner{padding-left:24px;padding-right:24px}
-  .services-grid{grid-template-columns:1fr}
-  .nav-links{gap:16px}
-  .nav-links a{font-size:.65rem}
-  .work-card{padding:28px 24px}
-  .hero-actions{flex-direction:column}
-  .btn{width:100%;justify-content:center}
-  .footer-inner{flex-direction:column;gap:20px;text-align:center}
-  .contact-row{flex-direction:column;align-items:flex-start}
-}
-    </style>
-    <script>
-      (function(){
-        var root=document.documentElement,stored=null;
-        try{stored=localStorage.getItem("theme")}catch(e){}
-        root.setAttribute("data-theme",stored==="light"?"light":"dark");
-      })();
-    </script>
+  </style>
 </head>
 <body>
-    <!-- NAV -->
-    <nav class="nav">
-      <div class="nav-inner">
-        <a href="#home" class="nav-logo">ReiVerb<span class="nav-logo-sub">Sound Atorie</span></a>
-        <ul class="nav-links">
-          <li><a href="#work">Work</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li>
-            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="true">
-              <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-              </span>
-              <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              </span>
-              <span class="theme-toggle-knob" aria-hidden="true"></span>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </nav>
 
-    <main>
-    <!-- HERO -->
-    <section id="home" class="hero">
-      <div class="hero-wave-wrap"><canvas id="waveCanvas"></canvas></div>
-      <div class="hero-content">
-        <div class="hero-eyebrow">
-          <div class="hero-eyebrow-line"></div>
-          <span class="hero-eyebrow-text">Resonance remains</span>
-        </div>
-        <h1 class="hero-title">ReiVerb<br/><em>Sound Atorie</em></h1>
-        <p class="hero-desc">
-          从配器编曲到声音设计，从音频中间件到插件开发<br/>
-        </p>
-        <div class="hero-actions">
-          <a href="#work" class="btn btn-primary">View Work</a>
-          <a href="#contact" class="btn btn-outline">Get in Touch</a>
-        </div>
-        <div class="hero-status">
-          <div class="status-dot"></div>
-          <span>Currently Available</span>
-        </div>
-      </div>
-      <div class="hero-scroll">Scroll</div>
-    </section>
+  <!-- ═══ 顶部导航 ═══ -->
+  <header class="nav">
+    <div class="wrap">
+      <!-- 黑色描边圆角框：包住导航内容（Our Wave 风格） -->
+      <div class="nav-in">
+        <!-- ★ 内容：logo -->
+        <a class="logo" href="#top">ReiVerb Sound <em>Atorie</em></a>
 
-    <!-- WORK -->
-    <section id="work">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">01 — Projects</div>
-          <h2 class="section-title">Selected <em>Work</em></h2>
-        </div>
-        <div class="work-grid">
-          <a href="./01-ost/01-ost.html" class="work-card">
-            <div class="work-card-num">01 / 06</div>
-            <div class="work-card-title">Original Soundtracks<em>为独立游戏创作音乐与音效</em></div>
-            <div class="work-card-footer">
-              <span class="work-card-stack">composition / sfx</span>
-              <div class="work-card-meta">
-                <span class="work-card-year">2025–present</span>
-                <span class="work-card-badge live">live</span>
-              </div>
-            </div>
-            <div class="work-card-arrow">↗</div>
-          </a>
-          <a href="./02-bkeq/02-bkeq.html" class="work-card">
-            <div class="work-card-num">02 / 06</div>
-            <div class="work-card-title">BKEQ Hybrid — Audio Plugin<em>融合Pultec与SSL声音特点的均衡器</em></div>
-            <div class="work-card-footer">
-              <span class="work-card-stack">vst3 / user interface</span>
-              <div class="work-card-meta">
-                <span class="work-card-year">2026</span>
-                <span class="work-card-badge wip">wip</span>
-              </div>
-            </div>
-            <div class="work-card-arrow">↗</div>
-          </a>
-          <a href="./03-wwise/03-wwise.html" class="work-card">
-            <div class="work-card-num">03 / 06</div>
-            <div class="work-card-title">Wwise 101 — Unofficial Note<em>音频中间件初学者的非官方汉化文档</em></div>
-            <div class="work-card-footer">
-              <span class="work-card-stack">tutorial / manual</span>
-              <div class="work-card-meta">
-                <span class="work-card-year">2026</span>
-                <span class="work-card-badge live">live</span>
-              </div>
-            </div>
-            <div class="work-card-arrow">↗</div>
-          </a>
-          <a href="./04-hsr/04-hsr-1.html" class="work-card">
-            <div class="work-card-num">04 / 06</div>
-            <div class="work-card-title">Honkai:SR — Music Analysis<em>崩坏：星穹铁道 PV 音乐分析与复刻</em></div>
-            <div class="work-card-footer">
-              <span class="work-card-stack">analysis / mock up</span>
-              <div class="work-card-meta">
-                <span class="work-card-year">2024–present</span>
-                <span class="work-card-badge live">live</span>
-              </div>
-            </div>
-            <div class="work-card-arrow">↗</div>
-          </a>
-          <a href="./05/05.html" class="work-card">
-            <div class="work-card-num">05 / 06</div>
-            <div class="work-card-title">Acoustic Diver<em>探索声音、空间与情绪</em></div>
-            <div class="work-card-footer">
-              <span class="work-card-stack">soundscape / design</span>
-              <div class="work-card-meta">
-                <span class="work-card-year">2024</span>
-                <span class="work-card-badge archived">archived</span>
-              </div>
-            </div>
-            <div class="work-card-arrow">↗</div>
-          </a>
-          <a href="./06-research&writing/06-rw.html" class="work-card">
-            <div class="work-card-num">06 / 06</div>
-            <div class="work-card-title">Research &amp; Writing<em>声音与创作相关研究与思考</em></div>
-            <div class="work-card-footer">
-              <span class="work-card-stack">random thoughts</span>
-              <div class="work-card-meta">
-                <span class="work-card-year">2021–present</span>
-                <span class="work-card-badge live">live</span>
-              </div>
-            </div>
-            <div class="work-card-arrow">↗</div>
-          </a>
-        </div>
-      </div>
-    </section>
+        <nav class="nav-links" id="menu">
+          <!-- ★ 内容：导航链接 -->
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#now">Now</a>
+          <a href="#contact">Contact</a>
+        </nav>
 
-    <!-- SERVICES -->
-    <section id="services">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">02 — Capabilities</div>
-          <h2 class="section-title">What the Atorie <em>does</em></h2>
-        </div>
-        <div class="services-grid">
-          <div class="service-item">
-            <div class="service-num">S.01</div>
-            <div class="service-title">Composition &amp; Arrangement</div>
-            <div class="service-desc">原创配乐、编曲与管弦编制。从主题动机到完整配乐，为叙事注入情感。</div>
-            <div class="service-tools">Cubase / Ableton / Pro Tools / Kontakt</div>
-          </div>
-          <div class="service-item">
-            <div class="service-num">S.02</div>
-            <div class="service-title">Sound Design</div>
-            <div class="service-desc">UI、环境音、角色与战斗音效。合成、采样与层叠，构建可辨识的声音签名。</div>
-            <div class="service-tools">Phase Plant / Reaper / field recording</div>
-          </div>
-          <div class="service-item">
-            <div class="service-num">S.03</div>
-            <div class="service-title">Audio Middleware</div>
-            <div class="service-desc">Wwise / FMOD 集成与实现。事件总线、RTPC、状态与切换的工程化搭建。</div>
-            <div class="service-tools">Wwise 201 / FMOD Studio</div>
-          </div>
-          <div class="service-item">
-            <div class="service-num">S.04</div>
-            <div class="service-title">Plugin Development</div>
-            <div class="service-desc">VST3 / AU 音频插件开发。DSP 算法设计与用户界面实现。</div>
-            <div class="service-tools">JUCE / C++ / Figma</div>
-          </div>
-          <div class="service-item">
-            <div class="service-num">S.05</div>
-            <div class="service-title">Technical Audio</div>
-            <div class="service-desc">游戏引擎音频管线、性能优化与平台适配。让声音在所有设备上如一呈现。</div>
-            <div class="service-tools">Unity / Unreal / middleware profiling</div>
-          </div>
-          <div class="service-item">
-            <div class="service-num">S.06</div>
-            <div class="service-title">Research &amp; Writing</div>
-            <div class="service-desc">音频系统架构、声音叙事与行业思考。写作也是创作的一部分。</div>
-            <div class="service-tools">essays / analysis / documentation</div>
-          </div>
-        </div>
+        <!-- 手机端菜单按钮 -->
+        <button class="burger" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
       </div>
-    </section>
+    </div>
+  </header>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">03 — Philosophy</div>
-          <h2 class="section-title">About the <em>Atorie</em></h2>
-        </div>
-        <div class="about-grid">
-          <div class="about-text">
-            <p><strong>ReiVerb Sound Atorie</strong> 是一间面向游戏的定制声音工作室。 </br>
-              <em>Resonance remains</em>——好的声音不会随时间消散，它留在玩家的身体里。</p>
-            <div class="about-quote">"如果不满意，就再来一次。"</div>
-            <p>我们相信声音是叙事的隐形骨架。一段配乐能改变玩家对场景的感知，一个音效能定义武器的重量。从概念到实现，每一个细节都值得被认真对待。</p>
-            <em>"知而即行"</em>，我们追求一个自己能确认、能点头说"就用这一版"的满意度。</p>
-          </div>
-          <div class="about-aside">
-            <div class="aside-block">
-              <div class="aside-title">Currently exploring</div>
-              <ul class="aside-items">
-                <li>Wwise 201</li>
-                <li>Blender</li>
-                <li>JUCE framework deep-dive</li>
-                <li>《琴语山川》钢琴练习</li>
-              </ul>
-            </div>
-            <div class="aside-block">
-              <div class="aside-title">Reading</div>
-              <ul class="aside-items">
-                <li>《民族乐队乐器法》</li>
-                <li>《创造力的修行》</li>
-                <li>The Pathless Path</li>
-              </ul>
-            </div>
-            <div class="aside-block">
-              <div class="aside-title">Outside the studio</div>
-              <ul class="aside-items">
-                <li>写点日记</li>
-                <li>攒钱换电脑 &amp; 买插件</li>
-                <li>重温《新世纪福音战士》</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- ═══ 首屏 HERO ═══ -->
+  <section class="hero wrap" id="top">
+    <!-- 小标签：两个彩点 + 小号英文 -->
+    <div class="eyebrow"><i></i><i></i><span>Original Score Studio</span></div>
+    <!-- ★ 主标语 -->
+    <h1>空山漪韵</h1>
+    <!-- ★ 内容：一句话简介 -->
+    <p>为游戏与影像创作原创配乐与声音设计的独立工作室</p>
+    <!-- 按钮组 -->
+    <div class="btns">
+      <a class="btn btn-lime" href="#work">查看作品</a>
+      <a class="btn btn-line" href="#contact">联系我</a>
+    </div>
+  </section>
 
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="container">
-        <div class="contact-body">
-          <div class="section-header">
-            <div class="section-label">04 — Contact</div>
-          </div>
-          <h2 class="contact-big">Let's make something<br/>that <em>resonates.</em></h2>
-          <div class="contact-row">
-            <div class="contact-label">
-              有项目想法？想合作？还是只想打个招呼？<br/>
-              Got a project idea? Wanna collab? Drop a line.
-            </div>
-            <div class="contact-links">
-              <a href="mailto:enchitsui@foxmail.com" class="contact-email">enchitsui@foxmail.com</a>
-              <a href="javascript:;" class="contact-link" id="wechatLink">WeChat <span class="arr">↗</span></a>
-              <a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub <span class="arr">↗</span></a>
-              <a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer" class="contact-link">Bilibili <span class="arr">↗</span></a>
-              <a href="javascript:;" class="contact-link" id="resumeLink">Résumé <span class="arr">↗</span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    </main>
+  <!-- ═══ 滚动文字条（装饰用）：两段 <span> 必须完全一致 → 无缝；每段内重复 3 遍以盖满宽屏 ═══ -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
+      <span aria-hidden="true">Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
+    </div>
+  </div>
 
-    <!-- FOOTER -->
-    <footer>
-      <div class="footer-inner">
-        <div class="footer-l">&copy; 2026 ReiVerb Sound Atorie</div>
-        <div class="footer-r">Resonance remains.</div>
-      </div>
-    </footer>
-
-    <!-- WeChat modal -->
-    <div class="wc-overlay" id="wcOverlay">
-      <div class="wc-window">
-        <div class="wc-titlebar"><div class="wc-dot" id="wcClose"></div></div>
-        <div class="wc-body">
-          <img src="00-index_images/wechat-qr.png" alt="WeChat QR Code" id="wcQR" />
-          <p>扫描二维码添加微信</p>
-        </div>
+  <!-- ═══ 作品/服务：交错圆角卡片（每行 2 张 · 文字与图片交错）
+       6 张卡 = 3 行 × 2 列；行序 = 文字|图 → 图|文字 → 文字|图。
+       文字卡整张可点；图卡是占位（v2-bento/*.svg），可换成你自己的作品图。 -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow"><i></i><i></i><span>Selected Works</span></div>
+        <!-- ★ 内容：区块标题 -->
+        <h2>近期<br><em>作品</em></h2>
       </div>
     </div>
 
-    <!-- Résumé modal -->
-    <div class="wc-overlay" id="resumeOverlay">
-      <div class="wc-window wc-window--wide">
-        <div class="wc-titlebar"><div class="wc-dot" id="resumeClose"></div></div>
-        <div class="wc-body">
-          <img src="00-index_images/resume.png" alt="Résumé" id="resumeImg" style="width:auto;max-height:70vh" />
-          <p>Résumé / 简历</p>
+    <div class="bento">
+
+        <!-- 第 1 行：文字 | 图 -->
+        <div class="b-row">
+          <!-- ① 文字卡 · 原创配乐 -->
+          <a class="b-card b-text" href="./01-ost/01-ost.html">
+            <div class="b-eyebrow"><i></i><i></i><span>Compose</span></div>
+            <h3>原创配乐 · Original Score</h3>
+            <p>原创配乐、编曲与管弦编制。从主题动机到完整配乐，为叙事注入情感。</p>
+            <span class="b-go">了解更多 <i>↗</i></span>
+          </a>
+          <!-- ② 图片卡 · 波形（原创配乐意象） -->
+          <div class="b-card b-pic">
+            <img src="v2-bento/waveform.svg" alt="Original Score — 声波意象" loading="lazy"/>
+          </div>
+        </div>
+
+        <!-- 第 2 行：图 | 文字 -->
+        <div class="b-row">
+          <!-- ③ 图片卡 · 星点漩涡（声音设计意象，参考页同款） -->
+          <div class="b-card b-pic">
+            <img src="v2-bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
+          </div>
+          <!-- ④ 文字卡 · 声音设计 -->
+          <a class="b-card b-text" href="./05/05.html">
+            <div class="b-eyebrow"><i></i><i></i><span>Design</span></div>
+            <h3>声音设计 · Sound Design</h3>
+            <p>UI、环境音、角色与战斗音效。合成与采样。</p>
+            <span class="b-go">了解更多 <i>↗</i></span>
+          </a>
+        </div>
+
+        <!-- 第 3 行：文字 | 图 -->
+        <div class="b-row">
+          <!-- ⑤ 文字卡 · 音频集成 -->
+          <a class="b-card b-text" href="./03-wwise/03-wwise.html">
+            <div class="b-eyebrow"><i></i><i></i><span>Implement</span></div>
+            <h3>音频集成 · Wwise / FMOD</h3>
+            <p>Wwise / FMOD 集成与实现。事件总线、RTPC、状态与切换的工程化搭建。</p>
+            <span class="b-go">了解更多 <i>↗</i></span>
+          </a>
+          <!-- ⑥ 图片卡 · 节点网络（中间件集成意象） -->
+          <div class="b-card b-pic">
+            <img src="v2-bento/network.svg" alt="Audio Middleware — 节点网络意象" loading="lazy"/>
+          </div>
+        </div>
+
+      </div>
+  </section>
+
+  <!-- ═══ 服务专长（深色背景）═══ -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:60px">
+        <div class="eyebrow">
+          <i></i>
+          <i></i>
+          <span>Our Expertise</span>
+        </div>
+      </div>
+
+      <ul class="service-list">
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">01</span>
+            <h3 class="service-title">原创配乐 · Composing</h3>
+            <div class="service-thumb">
+            </div>
+          </div>
+        </li>
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">02</span>
+            <h3 class="service-title">声音设计 · Sound Design</h3>
+            <div class="service-thumb">
+            </div>
+          </div>
+        </li>
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">03</span>
+            <h3 class="service-title">音频集成 · Implementation</h3>
+            <div class="service-thumb">
+            </div>
+          </div>
+        </li>
+        <li class="service-row">
+          <div class="service-content">
+            <span class="service-number">04</span>
+            <h3 class="service-title">混音母带 · Mixing & Mastering</h3>
+            <div class="service-thumb">
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ 关于（浅色 + 一段大文字）═══ -->
+  <section class="wrap" id="about">
+    <div class="sec-head">
+      <div class="eyebrow"><i></i><i></i><span>About</span></div>
+      <!-- 内容：关于你的陈述 -->
+      <h2>声音是记忆的载体。<br>我们只做<em>真诚</em>的声音。</h2>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">数字+</div>
+        <div class="stat-text">已交付项目</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5年</div>
+        <div class="stat-text">游戏音频经验</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">数字款</div>
+        <div class="stat-text">已上线项目</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 近况（浅色）═══
+       状态点颜色对照：olive=进行中，muted=计划中，wine=已完成 -->
+  <section class="wrap" id="now">
+    <div class="sec-head">
+      <div class="eyebrow"><i></i><i></i><span>Currently</span></div>
+      <h2>近况</h2>
+    </div>
+
+    <ul class="now-list">
+      <!-- ★ 内容：近况条目。增减条目 = 复制/删除 .now-item；
+           状态点类名：now-dot-active(进行中) / now-dot-planned(计划中) / now-dot-done(已完成) -->
+      <li class="now-item">
+        <span class="now-dot now-dot-active"></span>
+        <div>
+          <p class="now-text">★ 正在为《XX游戏》创作原创配乐，进入编曲阶段</p>
+          <span class="now-date">2026年9月</span>
+        </div>
+      </li>
+      <li class="now-item">
+        <span class="now-dot now-dot-planned"></span>
+        <div>
+          <p class="now-text">★ 计划中的条目占位——写你接下来要做的事</p>
+          <span class="now-date">2026年10月</span>
+        </div>
+      </li>
+      <li class="now-item">
+        <span class="now-dot now-dot-done"></span>
+        <div>
+          <p class="now-text">★ 已完成的条目占位——写最近做完的事</p>
+          <span class="now-date">2026年8月</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ═══ 客户评价轮播 ═══ -->
+  <section id="testimonials" class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><i></i><i></i><span>Client Voices</span></div>
+      <h2>客户评价</h2>
+    </div>
+
+    <div class="testi-card">
+      <blockquote>客户评价1</blockquote>
+
+      <div class="testi-meta">
+        <div class="testi-info">
+          <img class="testi-avatar" src="v2-bento/waveform.svg" alt="client" />
+          <div>
+            <div class="testi-name">张三</div>
+            <div class="testi-title">游戏制作人 · 知名工作室</div>
+          </div>
+        </div>
+
+        <div class="testi-controls">
+          <button class="testi-btn testi-prev" aria-label="previous">←</button>
+          <span class="testi-counter">01 / 03</span>
+          <button class="testi-btn testi-next" aria-label="next">→</button>
         </div>
       </div>
     </div>
-    <script>
-    /* ── THEME TOGGLE ── */
-    (function(){
-      var root=document.documentElement,toggle=document.getElementById("themeToggle");
-      if(!toggle)return;
-      function sync(){
-        var cur=root.getAttribute("data-theme");
-        toggle.setAttribute("aria-pressed",cur==="dark"?"true":"false");
-        toggle.setAttribute("aria-label",cur==="dark"?"Switch to light":"Switch to dark");
+  </section>
+
+  <!-- ═══ 金句/引言（浅色）═══ -->
+  <section class="quote wrap">
+    <!-- ★ 内容：换成你想放的一段话（引用时注意版权） -->
+    <blockquote>好的配乐从不喧宾夺主<br>但故事落幕，它仍会敲响你的记忆。</blockquote>
+    <footer><i style="width:15px;height:9px;border-radius:50%;background:var(--wine);display:inline-block"></i>— placeholder · Eiichi_2049</footer>
+  </section>
+
+  <!-- ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ -->
+  <section id="cta-final">
+    <div class="wrap">
+      <div class="eyebrow"><i></i><i></i><span>Transform how sound works</span></div>
+      <h2>让声音<br>成为作品的呼吸</h2>
+      <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png">预约咨询</a>
+    </div>
+  </section>
+
+  <!-- ═══ 页脚 ═══ -->
+  <footer id="contact">
+    <div class="wrap">
+      <div class="foot-top">
+        <!-- 内容：联系方式 -->
+        <div>
+          <h4>Create What's Possible</h4>
+          <a class="btn btn-dark" href="mailto:enchitsui@foxmail.com">enchitsui@foxmail.com</a>
+        </div>
+        <div>
+          <h4>Links</h4>
+          <ul>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#top">Back to Top</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Social Media</h4>
+          <ul>
+            <li><a href="https://github.com/eiichi-2049">GitHub</a></li>
+            <li><a href="https://space.bilibili.com/23277208">哔哩哔哩</a></li>
+            <li><a href="https://www.xiaoheihe.cn/app/bbs/home">小黑盒（即将上线）</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 底部超大文字 -->
+      <div class="foot-brand">ReiVerb Sound Atorie</div>
+
+      <div class="foot-base">
+        <!-- 内容：版权年份与名字 -->
+        <span>© 2020-2026 ReiVerb Sound Atorie · All Rights Reserved</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 二维码弹窗（点击"预约咨询"打开；href 保留作无 JS 兜底） -->
+  <div class="qr-modal" id="qr-modal" aria-hidden="true">
+    <div class="qr-modal-backdrop"></div>
+    <div class="qr-modal-card" role="dialog" aria-label="项目需求表单二维码">
+      <button class="qr-modal-close" aria-label="关闭">×</button>
+      <div class="qr-modal-frame">
+        <img src="./00-index_images/RVB_Questionnaire.png" alt="飞书项目需求表单二维码" />
+      </div>
+      <span class="qr-modal-tip">扫码提交项目需求 · 无需登录</span>
+    </div>
+  </div>
+
+  <!-- 自定义粘滞光标（放在 body 最底部） -->
+  <div id="custom-cursor">
+    <span class="cursor-arrow">↗</span>
+  </div>
+
+  <script>
+    // 客户评价轮播
+    const testimonials = [
+      {
+        quote: '客户评价1',
+        name: '张三',
+        title: '游戏制作人 · 工作室',
+        avatar: 'v2-bento/waveform.svg'
+      },
+      {
+        quote: '客户评价2',
+        name: '李四',
+        title: '音频总监 · 独立开发团队',
+        avatar: 'v2-bento/spiral.svg'
+      },
+      {
+        quote: '客户评价3',
+        name: '王五',
+        title: '项目经理 · 工作室',
+        avatar: 'v2-bento/network.svg'
       }
-      sync();
-      toggle.addEventListener("click",function(){
-        var cur=root.getAttribute("data-theme")==="dark"?"dark":"light";
-        root.classList.add("theme-transition");
-        clearTimeout(toggle._t);
-        toggle._t=setTimeout(function(){root.classList.remove("theme-transition")},450);
-        root.setAttribute("data-theme",cur==="dark"?"light":"dark");
-        sync();
-        try{localStorage.setItem("theme",cur==="dark"?"light":"dark")}catch(e){}
-      });
-    })();
+    ];
 
-    /* ── WAVEFORM CANVAS ── */
-    (function(){
-      var canvas=document.getElementById("waveCanvas");
-      if(!canvas)return;
-      var ctx=canvas.getContext("2d");
-      var W,H,t=0;
-      function resize(){
-        var rect=canvas.parentElement.getBoundingClientRect();
-        W=rect.width;H=rect.height;
-        canvas.width=W*devicePixelRatio;
-        canvas.height=H*devicePixelRatio;
-        ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-      }
-      resize();
-      window.addEventListener("resize",resize);
-      function getAccent(){
-        return getComputedStyle(document.documentElement).getPropertyValue("--accent").trim()||"#d4a054";
-      }
-      function getOpacity(){
-        return document.documentElement.getAttribute("data-theme")==="dark"?0.18:0.12;
-      }
-      function draw(){
-        ctx.clearRect(0,0,W,H);
-        var accent=getAccent();
-        var baseOp=getOpacity();
-        var midY=H*0.55;
+    let currentIndex = 0;
 
-        // 🔥 核心改动：缓慢的呼吸节奏（0.8 ~ 1.2 倍幅度变化）
-        var breathe = 0.85 + 0.15 * Math.sin(t * 0.035);
+    function updateTestimonial() {
+      const blockquote = document.querySelector('.testi-card blockquote');
+      blockquote.classList.add('transitioning');
 
-        for(var layer=0; layer<3; layer++){
-          ctx.beginPath();
-          // 振幅乘以 breathe，且每层呼吸相位错开
-          var amp = (14 + layer * 10) * breathe * (0.95 + 0.05 * Math.sin(t * 0.056 + layer * 2));
-          var freq = 0.008 + layer * 0.003;
-          var speed = 0.015 + layer * 0.008;
+      setTimeout(() => {
+        const testi = testimonials[currentIndex];
+        blockquote.textContent = testi.quote;
+        document.querySelector('.testi-name').textContent = testi.name;
+        document.querySelector('.testi-title').textContent = testi.title;
+        document.querySelector('.testi-avatar').src = testi.avatar;
 
-          for(var x=0; x<=W; x+=3){
-            var y = midY
-              + Math.sin(x * freq + t * speed + layer * 2) * amp
-              + Math.sin(x * freq * 2.7 + t * speed * 1.5 + layer * 3.5) * amp * 0.3
-              + Math.sin(x * freq * 5.3 + t * speed * 0.7) * amp * 0.12;
+        const total = testimonials.length;
+        const current = currentIndex + 1;
+        document.querySelector('.testi-counter').textContent =
+          `${String(current).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
 
-            // 🔥 新增：极轻微的随机抖动（模拟磁带/模拟电路的温暖毛刺）
-            if (x % 12 === 0) {
-              y += (Math.random() - 0.5) * 0.6;
-            }
+        blockquote.classList.remove('transitioning');
+      }, 250);
+    }
 
-            if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-          }
-          ctx.strokeStyle=accent;
-          ctx.globalAlpha=baseOp * (1 - layer * 0.25) * 1.1;
-          ctx.lineWidth = (1.4 - layer * 0.2) * 1.3;
-          ctx.stroke();
+    document.querySelector('.testi-prev').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+      updateTestimonial();
+    });
+
+    document.querySelector('.testi-next').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % testimonials.length;
+      updateTestimonial();
+    });
+
+    // IntersectionObserver 滚动进场动画
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
-        ctx.globalAlpha=1;
-        t += 0.02;
-        requestAnimationFrame(draw);
-      }
-      draw();
-    })();
+      });
+    }, observerOptions);
 
-    /* ── GSAP ANIMATIONS ── */
-    gsap.registerPlugin(ScrollTrigger);
-    var tl=gsap.timeline({ease:"power3.out"});
-    tl.to(".hero-eyebrow",{opacity:1,y:0,duration:.7},.2)
-      .to(".hero-title",{opacity:1,y:0,duration:.9},.35)
-      .to(".hero-desc",{opacity:1,y:0,duration:.7},.65)
-      .to(".hero-actions",{opacity:1,y:0,duration:.6},.78)
-      .to(".hero-status",{opacity:1,y:0,duration:.5},.9);
-    gsap.utils.toArray(".work-card").forEach(function(el,i){
-      gsap.to(el,{opacity:1,y:0,duration:.55,ease:"power2.out",delay:i*.08,scrollTrigger:{trigger:el,start:"top 88%"}});
-    });
-    gsap.utils.toArray(".service-item").forEach(function(el,i){
-      gsap.to(el,{opacity:1,y:0,duration:.5,ease:"power2.out",delay:i*.06,scrollTrigger:{trigger:el,start:"top 90%"}});
-    });
-    gsap.utils.toArray(".about-grid > .about-text, .about-grid > .about-aside").forEach(function(el,i){
-      gsap.to(el,{opacity:1,y:0,duration:.65,ease:"power2.out",delay:i*.12,scrollTrigger:{trigger:el,start:"top 86%"}});
-    });
-    gsap.to(".contact-body",{opacity:1,y:0,duration:.7,ease:"power2.out",scrollTrigger:{trigger:"#contact",start:"top 80%"}});
+    // 观察所有需要动画的元素
+    document.querySelectorAll(
+      '.b-text, .sec-head h2, #about, .quote blockquote, .now-item'
+    ).forEach(el => observer.observe(el));
 
-    /* ── WECHAT MODAL ── */
-    (function(){
-      var ov=document.getElementById("wcOverlay"),cl=document.getElementById("wcClose"),lk=document.getElementById("wechatLink");
-      if(!ov||!cl||!lk)return;
-      lk.addEventListener("click",function(e){e.preventDefault();ov.classList.add("active")});
-      cl.addEventListener("click",function(){ov.classList.remove("active")});
-      ov.addEventListener("click",function(e){if(e.target===ov)ov.classList.remove("active")});
-      document.addEventListener("keydown",function(e){if(e.key==="Escape"&&ov.classList.contains("active"))ov.classList.remove("active")});
-    })();
+    // ═══ 自定义粘滞光标控制 ═══
+    (function() {
+      const cursor = document.getElementById('custom-cursor');
+      if (!cursor) return;
 
-    /* ── RESUME MODAL ── */
-    (function(){
-      var ov=document.getElementById("resumeOverlay"),cl=document.getElementById("resumeClose"),lk=document.getElementById("resumeLink");
-      if(!ov||!cl||!lk)return;
-      lk.addEventListener("click",function(e){e.preventDefault();ov.classList.add("active")});
-      cl.addEventListener("click",function(){ov.classList.remove("active")});
-      ov.addEventListener("click",function(e){if(e.target===ov)ov.classList.remove("active")});
-      document.addEventListener("keydown",function(e){if(e.key==="Escape"&&ov.classList.contains("active"))ov.classList.remove("active")});
-    })();
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
 
-    /* ── ACTIVE NAV ── */
-    var sections=document.querySelectorAll("section[id]"),links=document.querySelectorAll(".nav-links a");
-    var navObs=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(!e.isIntersecting)return;
-        links.forEach(function(a){
-          var target=a.getAttribute("href");
-          a.classList.toggle("active",target==="#"+e.target.id);
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+      });
+
+      // hover 可点击目标（work 文字卡、CTA"预约咨询"）时，光标切换为"查看按钮"形态
+      document.querySelectorAll('.b-text, #cta-final .btn-lime').forEach(card=>{
+        card.addEventListener('mouseenter', ()=>{
+          cursor.classList.add('cursor-view');
+        });
+        card.addEventListener('mouseleave', ()=>{
+          cursor.classList.remove('cursor-view');
         });
       });
-    },{threshold:.35});
-    sections.forEach(function(s){navObs.observe(s)});
-
-    /* ── NAV SCROLL HIDE ── */
-    (function(){
-      var nav=document.querySelector(".nav");
-      if(!nav)return;
-      var lastY=window.scrollY||window.pageYOffset,tick=false,TH=100;
-      window.addEventListener("scroll",function(){
-        if(tick)return;
-        requestAnimationFrame(function(){
-          var y=window.scrollY||window.pageYOffset;
-          if(y<=TH){nav.classList.remove("nav--hidden")}
-          else if(y>lastY&&y>TH){nav.classList.add("nav--hidden")}
-          else if(y<lastY){nav.classList.remove("nav--hidden")}
-          lastY=Math.max(y,0);tick=false;
-        });
-        tick=true;
-      },{passive:true});
     })();
-    </script>
+
+    // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
+    document.querySelector('.foot-base span').textContent =
+      `© 2020-${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
+
+    // ═══ 二维码弹窗：点"预约咨询"原地弹出；遮罩/×/ESC 均可关闭 ═══
+    (function() {
+      const modal = document.getElementById('qr-modal');
+      const ctaBtn = document.querySelector('#cta-final .btn-lime');
+      if (!modal || !ctaBtn) return;
+
+      const open = () => {
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';   // 弹窗打开时锁定背景滚动
+      };
+      const close = () => {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      ctaBtn.addEventListener('click', (e) => {
+        e.preventDefault();   // 拦截默认跳转（href 保留给无 JS 环境）
+        open();
+      });
+      modal.querySelector('.qr-modal-backdrop').addEventListener('click', close);
+      modal.querySelector('.qr-modal-close').addEventListener('click', close);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) close();
+      });
+    })();
+  </script>
+
 </body>
 </html>
