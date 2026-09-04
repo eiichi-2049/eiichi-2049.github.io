@@ -17,7 +17,7 @@ A boutique game audio studio. Original music, sound design, audio middleware int
 
 ## Contact
 
-- Email: enchitsui@foxmail.com
+- Email: reiverb-sound-atorie@outlook.com
 
 ---
 
