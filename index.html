@@ -198,8 +198,8 @@
       .bento{padding:0 20px;gap:18px}                 /* 三行之间分开 */
       .b-row{flex-direction:column;gap:18px}
       .b-row .b-card{flex:0 0 auto;width:100%;min-width:0}
-      .b-text{aspect-ratio:none;min-height:0;padding:34px 28px}
-      .b-pic{height:clamp(240px,68vw,380px)}
+      .b-text{aspect-ratio:none;min-height:0;padding:34px 28px;order:1}   /* 文字卡固定在上 */
+      .b-pic{height:clamp(240px,68vw,380px);order:2}                     /* 图片卡固定在下 */
     }
 
     /* ═══ 关于区块统计卡片 ═══ */
