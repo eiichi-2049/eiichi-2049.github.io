@@ -54,6 +54,20 @@
       --display-size:clamp(3rem,12vw,9rem);        /* ★ 底部超大品牌字的字号：只改这一处即可 */
     }
 
+    /* ═══ 深色模式（跟随系统设置自动切换）═══ */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --paper:#121212;             /* 页面底色反转 */
+        --card:#1e1e1e;              /* 卡片底色 */
+        --ink:#f5f5f5;               /* 正文/大标题反转 */
+        --ink2:#cccccc;
+        --muted:#9a9c9e;
+        --line:rgba(255,255,255,0.1);
+      }
+      .nav{background:rgba(18,18,18,0.85)}
+      .foot-brand{background:linear-gradient(var(--ink),rgba(255,255,255,0.15))}
+    }
+
     /* ═══ 基础重置 ═══ */
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -211,7 +225,8 @@
     .service-row:last-child{border-bottom:none}
     .service-content{display:flex;align-items:flex-start;gap:24px;position:relative}
     .service-number{font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;
-                    color:var(--paper);opacity:.5;min-width:40px;flex-shrink:0}
+                    color:var(--paper);opacity:.5;min-width:40px;flex-shrink:0;
+                    transition:opacity .6s ease}
     .service-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2vw,1.8rem);
                    letter-spacing:-.015em;color:var(--paper);opacity:.4;
                    transition:opacity .6s ease;line-height:1.2;flex:1}
@@ -227,7 +242,7 @@
     .service-list:has(.service-row:hover) .service-row:hover .service-title{
       opacity:1
     }
-    .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.8}
+    .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.6}
     .service-list:has(.service-row:hover) .service-row:hover .service-thumb{opacity:1}
 
     /* 手机端：取消 hover 交互，统一显示 */
@@ -278,6 +293,40 @@
                   letter-spacing:-.02em;color:var(--paper);line-height:1.2;margin-bottom:50px}
     #cta-final .btn-lime{margin-top:32px}
 
+    /* ═══ 二维码弹窗（点击"预约咨询"打开）═══ */
+    .qr-modal{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
+              opacity:0;pointer-events:none;transition:opacity .25s ease}
+    .qr-modal.open{opacity:1;pointer-events:auto}
+    .qr-modal-backdrop{position:absolute;inset:0;background:rgba(1,2,5,.55)}
+    .qr-modal-card{position:relative;background:var(--card);border:1px solid var(--line);
+                   border-radius:20px;padding:40px 48px;display:flex;flex-direction:column;
+                   align-items:center;gap:16px;box-shadow:0 24px 64px rgba(1,2,5,.3);
+                   transform:translateY(16px) scale(.96);transition:transform .25s ease}
+    .qr-modal.open .qr-modal-card{transform:translateY(0) scale(1)}
+    /* 装饰框架：二维码外一圈描边框；底色固定白色，保证深色模式下二维码仍可识别 */
+    .qr-modal-frame{padding:12px;border:1.5px solid var(--line);border-radius:12px;background:#ffffff}
+    .qr-modal-frame img{width:220px;height:auto;display:block}
+    .qr-modal-tip{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;color:var(--muted)}
+    .qr-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;
+                    border:1px solid var(--line);background:transparent;color:var(--ink);
+                    font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+                    transition:background .25s ease,color .25s ease}
+    .qr-modal-close:hover{background:var(--ink);color:var(--paper)}
+
+    /* ═══ 近况（浅色 · 状态点列表）═══ */
+    #now{scroll-margin-top:170px}
+    .now-list{display:flex;flex-direction:column;gap:28px;margin-top:20px}
+    .now-item{display:flex;align-items:flex-start;gap:16px;
+              padding-bottom:24px;border-bottom:1px solid var(--line)}
+    .now-item:last-child{border-bottom:none}
+    .now-dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex-shrink:0}
+    .now-dot-active{background:var(--olive)}   /* 进行中 */
+    .now-dot-planned{background:var(--muted)}  /* 计划中 */
+    .now-dot-done{background:var(--wine)}      /* 已完成 */
+    .now-text{font-size:1.05rem;color:var(--ink2);line-height:1.5}
+    .now-date{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
+             text-transform:uppercase;color:var(--muted);margin-top:8px;display:block}
+
     /* ═══ 客户评价轮播 ═══ */
     #testimonials{padding:110px 40px;scroll-margin-top:170px}
     .testi-card{background:var(--card);border:1px solid var(--line);border-radius:20px;
@@ -309,10 +358,12 @@
     .b-text,
     .sec-head h2,
     #about,
+    .now-item,
     .quote blockquote{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
     .b-text.visible,
     .sec-head h2.visible,
     #about.visible,
+    .now-item.visible,
     .quote blockquote.visible{opacity:1;transform:translateY(0)}
 
     /* ═══ 自定义粘滞光标（暖灰褐 #93856d）═══
@@ -332,11 +383,27 @@
       border-radius: 50%;
       background: #93856d;       /* 暖灰褐 */
       transform: translate(-50%, -50%);
-      transition: left 0.08s ease-out, top 0.08s ease-out;
+      /* left/top 粘滞跟随 + 尺寸/背景（进 .b-text 变"查看按钮"）共用一套双向过渡 */
+      transition: left .08s ease-out, top .08s ease-out,
+                  width .25s ease, height .25s ease, background-color .25s ease;
       will-change: left, top;
       /* macOS 式双描边：白圈贴圆点、黑圈在外——浅色背景上黑圈显形，深色背景上白圈显形 */
       box-shadow: 0 0 0 1.5px rgba(255,255,255,.65),
                   0 0 0 3px rgba(0,0,0,.4);
+  }
+  /* hover 文字卡（可点击）时：光标变成青柠"查看按钮" */
+  .cursor-arrow{
+      position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%) scale(0);
+      font-size:14px;color:var(--ink);
+      opacity:0;transition:transform .25s ease,opacity .25s ease;
+  }
+  #custom-cursor.cursor-view{
+      background:var(--accent);
+      width:44px;height:44px;   /* 比默认圆点(28px)更大，做成"按钮感" */
+  }
+  #custom-cursor.cursor-view .cursor-arrow{
+      opacity:1;transform:translate(-50%,-50%) scale(1);
   }
 }
   </style>
@@ -523,6 +590,41 @@
     </div>
   </section>
 
+  <!-- ═══ 近况（浅色）═══
+       状态点颜色对照：olive=进行中，muted=计划中，wine=已完成 -->
+  <section class="wrap" id="now">
+    <div class="sec-head">
+      <div class="eyebrow"><i></i><i></i><span>Currently</span></div>
+      <h2>近况</h2>
+    </div>
+
+    <ul class="now-list">
+      <!-- ★ 内容：近况条目。增减条目 = 复制/删除 .now-item；
+           状态点类名：now-dot-active(进行中) / now-dot-planned(计划中) / now-dot-done(已完成) -->
+      <li class="now-item">
+        <span class="now-dot now-dot-active"></span>
+        <div>
+          <p class="now-text">★ 正在为《XX游戏》创作原创配乐，进入编曲阶段</p>
+          <span class="now-date">2026年9月</span>
+        </div>
+      </li>
+      <li class="now-item">
+        <span class="now-dot now-dot-planned"></span>
+        <div>
+          <p class="now-text">★ 计划中的条目占位——写你接下来要做的事</p>
+          <span class="now-date">2026年10月</span>
+        </div>
+      </li>
+      <li class="now-item">
+        <span class="now-dot now-dot-done"></span>
+        <div>
+          <p class="now-text">★ 已完成的条目占位——写最近做完的事</p>
+          <span class="now-date">2026年8月</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
   <!-- ═══ 客户评价轮播 ═══ -->
   <section id="testimonials" class="wrap">
     <div class="sec-head">
@@ -554,7 +656,7 @@
   <!-- ═══ 金句/引言（浅色）═══ -->
   <section class="quote wrap">
     <!-- ★ 内容：换成你想放的一段话（引用时注意版权） -->
-    <blockquote>好的配乐从不喧宾夺主<br>但它会在故事落幕后，仍敲响你的记忆。</blockquote>
+    <blockquote>好的配乐从不喧宾夺主<br>但故事落幕，它仍会敲响你的记忆。</blockquote>
     <footer><i style="width:15px;height:9px;border-radius:50%;background:var(--wine);display:inline-block"></i>— placeholder · Eiichi_2049</footer>
   </section>
 
@@ -563,7 +665,7 @@
     <div class="wrap">
       <div class="eyebrow"><i></i><i></i><span>Transform how sound works</span></div>
       <h2>让声音<br>成为作品的呼吸</h2>
-      <a class="btn btn-lime" href="#contact">预约咨询</a>
+      <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png">预约咨询</a>
     </div>
   </section>
 
@@ -604,8 +706,22 @@
     </div>
   </footer>
 
+  <!-- 二维码弹窗（点击"预约咨询"打开；href 保留作无 JS 兜底） -->
+  <div class="qr-modal" id="qr-modal" aria-hidden="true">
+    <div class="qr-modal-backdrop"></div>
+    <div class="qr-modal-card" role="dialog" aria-label="项目需求表单二维码">
+      <button class="qr-modal-close" aria-label="关闭">×</button>
+      <div class="qr-modal-frame">
+        <img src="./00-index_images/RVB_Questionnaire.png" alt="飞书项目需求表单二维码" />
+      </div>
+      <span class="qr-modal-tip">扫码提交项目需求 · 无需登录</span>
+    </div>
+  </div>
+
   <!-- 自定义粘滞光标（放在 body 最底部） -->
-  <div id="custom-cursor"></div>
+  <div id="custom-cursor">
+    <span class="cursor-arrow">↗</span>
+  </div>
 
   <script>
     // 客户评价轮播
@@ -679,7 +795,7 @@
 
     // 观察所有需要动画的元素
     document.querySelectorAll(
-      '.b-text, .sec-head h2, #about, .quote blockquote'
+      '.b-text, .sec-head h2, #about, .quote blockquote, .now-item'
     ).forEach(el => observer.observe(el));
 
     // ═══ 自定义粘滞光标控制 ═══
@@ -698,11 +814,49 @@
       document.addEventListener('mouseenter', () => {
         cursor.style.opacity = '1';
       });
+
+      // hover 可点击目标（work 文字卡、CTA"预约咨询"）时，光标切换为"查看按钮"形态
+      document.querySelectorAll('.b-text, #cta-final .btn-lime').forEach(card=>{
+        card.addEventListener('mouseenter', ()=>{
+          cursor.classList.add('cursor-view');
+        });
+        card.addEventListener('mouseleave', ()=>{
+          cursor.classList.remove('cursor-view');
+        });
+      });
     })();
 
     // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
     document.querySelector('.foot-base span').textContent =
       `© 2020-${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
+
+    // ═══ 二维码弹窗：点"预约咨询"原地弹出；遮罩/×/ESC 均可关闭 ═══
+    (function() {
+      const modal = document.getElementById('qr-modal');
+      const ctaBtn = document.querySelector('#cta-final .btn-lime');
+      if (!modal || !ctaBtn) return;
+
+      const open = () => {
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';   // 弹窗打开时锁定背景滚动
+      };
+      const close = () => {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      ctaBtn.addEventListener('click', (e) => {
+        e.preventDefault();   // 拦截默认跳转（href 保留给无 JS 环境）
+        open();
+      });
+      modal.querySelector('.qr-modal-backdrop').addEventListener('click', close);
+      modal.querySelector('.qr-modal-close').addEventListener('click', close);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) close();
+      });
+    })();
   </script>
 
 </body>
