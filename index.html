@@ -250,6 +250,9 @@
     .service-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2vw,1.8rem);
                    letter-spacing:-.015em;color:var(--paper);opacity:.4;
                    transition:opacity .6s ease;line-height:1.2;flex:1}
+    .service-desc{font-family:var(--mono);font-size:.65rem;color:var(--muted);
+                  opacity:.65;margin-top:8px;line-height:1.6;max-width:52ch;
+                  transition:opacity .6s ease}
     .service-thumb{position:absolute;right:0;top:50%;transform:translateY(-50%);
                    width:clamp(60px,8vw,100px);height:clamp(60px,8vw,100px);
                    opacity:0;transition:opacity .3s ease;display:flex;align-items:center;justify-content:center}
@@ -259,8 +262,14 @@
     .service-list:has(.service-row:hover) .service-row:not(:hover) .service-title{
       opacity:.2
     }
+    .service-list:has(.service-row:hover) .service-row:not(:hover) .service-desc{
+      opacity:.25
+    }
     .service-list:has(.service-row:hover) .service-row:hover .service-title{
       opacity:1
+    }
+    .service-list:has(.service-row:hover) .service-row:hover .service-desc{
+      opacity:.85
     }
     .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.6}
     .service-list:has(.service-row:hover) .service-row:hover .service-thumb{opacity:1}
@@ -455,15 +464,15 @@
       border-radius: 50%;
       background: #93856d;       /* 暖灰褐 */
       transform: translate(-50%, -50%);
-      /* left/top 粘滞跟随 + 尺寸/背景（进 .b-text 变"查看按钮"）共用一套双向过渡 */
-      transition: left .08s ease-out, top .08s ease-out,
-                  width .25s ease, height .25s ease, background-color .25s ease;
+      /* left/top 只保留极轻微粘滞；尺寸/背景（进 .b-text 变"查看按钮"）共用一套双向过渡 */
+      transition: left .035s ease-out, top .035s ease-out,
+                  width .25s ease, height .25s ease, background-color .25s ease, opacity .25s ease;
       will-change: left, top;
       /* macOS 式双描边：白圈贴圆点、黑圈在外——浅色背景上黑圈显形，深色背景上白圈显形 */
       box-shadow: 0 0 0 1.5px rgba(255,255,255,.65),
                   0 0 0 3px rgba(0,0,0,.4);
   }
-  /* hover 文字卡（可点击）时：光标变成青柠"查看按钮" */
+  /* hover 文字卡（可点击）时：光标变成半透明"查看按钮"，不再使用青柠色块 */
   .cursor-arrow{
       position:absolute;top:50%;left:50%;
       transform:translate(-50%,-50%) scale(0);
@@ -471,7 +480,7 @@
       opacity:0;transition:transform .25s ease,opacity .25s ease;
   }
   #custom-cursor.cursor-view{
-      background:var(--accent);
+      background:rgba(147,133,109,.38);
       width:44px;height:44px;   /* 比默认圆点(28px)更大，做成"按钮感" */
   }
   #custom-cursor.cursor-view .cursor-arrow{
@@ -538,9 +547,9 @@
   <section id="work">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow"><i></i><i></i><span>Recent Works</span></div>
+        <div class="eyebrow"><i></i><i></i><span>Selected Works</span></div>
         <!-- ★ 内容：区块标题 -->
-        <h2>近期<br><em>作品</em></h2>
+        <h2><em>作品</em></h2>
       </div>
     </div>
 
@@ -605,7 +614,6 @@
             <span class="b-go">了解更多 <i>↗</i></span>
           </a>
         </div>
-      </div>
 
         <!-- 第 5 行：文字 | 图 -->
           <div class="b-row">
@@ -620,7 +628,6 @@
           <div class="b-card b-pic">
             <img src="v2-bento/waveform.svg" alt="Original Score — 声波意象" loading="lazy"/>
           </div>
-        </div>
       </div>
 
         <!-- 第 6 行：图 | 文字 -->
@@ -636,7 +643,9 @@
             <p>声音与创作相关研究与思考</p>
             <span class="b-go">了解更多 <i>↗</i></span>
           </a>
-    </div>
+        </div>
+      </div>
+
   </section>
 
   <!-- ═══ 服务专长（深色背景）═══ -->
@@ -655,6 +664,7 @@
           <div class="service-content">
             <span class="service-number">01</span>
             <h3 class="service-title">原创配乐 · Original Music</h3>
+            <p class="service-desc">不为炫技，只为给玩家的每一次操作留下频段空隙</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -663,6 +673,7 @@
           <div class="service-content">
             <span class="service-number">02</span>
             <h3 class="service-title">声音设计 · Sound Design</h3>
+            <p class="service-desc">UI 音效的第一原则是"听不见"——玩家不察觉时才说明它正确</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -671,6 +682,7 @@
           <div class="service-content">
             <span class="service-number">03</span>
             <h3 class="service-title">音频集成 · Implementation</h3>
+            <p class="service-desc">中间件不是黑盒，是给程序员和策划的第二份设计文档</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -679,12 +691,22 @@
           <div class="service-content">
             <span class="service-number">04</span>
             <h3 class="service-title">混音母带 · Mixing & Mastering</h3>
+            <p class="service-desc">混音的终点不是响度达标，是让玩家戴耳机两小时后耳朵不累</p>
             <div class="service-thumb">
             </div>
           </div>
         </li>
       </ul>
     </div>
+  </section>
+
+  <!-- ═══ 观点引言（浅色 · 固定文案）═══ -->
+  <section class="quote wrap">
+    <blockquote>我从不信玩家问卷里"音乐很好听"的评价。我只盯着他们的手指——重击前摇时那 0.3 秒的停顿，才是我该塞进低频"呼吸感"的地方。音频不是背景，是玩家无意识行为的"回声"。</blockquote>
+    <footer>
+      <i></i><i></i>
+      <span>— ReiVerb，基于用户行为观察的音频设计观</span>
+    </footer>
   </section>
 
   <!-- ═══ 近况（浅色）═══
@@ -696,26 +718,24 @@
     </div>
 
     <ul class="now-list">
-      <!-- ★ 内容：近况条目。增减条目 = 复制/删除 .now-item；
-           状态点类名：now-dot-active(进行中) / now-dot-planned(计划中) / now-dot-done(已完成) -->
       <li class="now-item">
         <span class="now-dot now-dot-active"></span>
         <div>
-          <p class="now-text">为游戏创作配乐，进入编曲阶段；准备参加GameJam </p>
+          <p class="now-text"><strong>[复盘]</strong> 上次 GameJam 项目中，主动整理了音效命名规范（v1.0），让程序对接时间缩短了 2 小时；目前正将这份规范迭代为团队共享的音频资产管理模板</p>
           <span class="now-date">2026年9月</span>
         </div>
       </li>
       <li class="now-item">
         <span class="now-dot now-dot-planned"></span>
         <div>
-          <p class="now-text">阅读《民族乐队乐器法》《创造力的修行》，观看《EVA》</p>
+          <p class="now-text"><strong>[计划]</strong> 为下个项目建立“音频设计评审”流程：在 Wwise 工程提交前，用 15 分钟走一遍事件树，提前暴露集成层的命名冲突和缺失回调</p>
           <span class="now-date">2026年10月</span>
         </div>
       </li>
       <li class="now-item">
         <span class="now-dot now-dot-done"></span>
         <div>
-          <p class="now-text">利用Hise 和Adobe Illustrator 初步搭建自己的VST插件框架</p>
+          <p class="now-text"><strong>[完成]</strong> 利用 Hise 和 Adobe Illustrator 搭建 VST 插件框架；额外产出了一份给美术同事的 UI 规范文档，减少后续音效图标返工</p>
           <span class="now-date">2026年8月</span>
         </div>
       </li>
@@ -756,7 +776,7 @@
     <div class="eyebrow"><i></i><i></i><span>Sound that speaks for your story</span></div>
     <div class="wrap">
       <h2>Compose with breath</h2>
-      <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png">Scan QR Code</a>
+      <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png">View Resume · Submit Brief</a>
     </div>
   </section>
 
@@ -793,7 +813,7 @@
 
       <div class="foot-base">
         <!-- 内容：版权年份与名字 -->
-        <span>© 2020-2026 ReiVerb Sound Atorie · All Rights Reserved</span>
+        <span>© 2026 ReiVerb Sound Atorie · All Rights Reserved</span>
       </div>
     </div>
   </footer>
@@ -801,7 +821,7 @@
   <!-- 二维码弹窗（点击"scan QR code"打开；href 保留作无 JS 兜底） -->
   <div class="qr-modal" id="qr-modal" aria-hidden="true">
     <div class="qr-modal-backdrop"></div>
-    <div class="qr-modal-card" role="dialog" aria-label="项目需求表单二维码">
+    <div class="qr-modal-card" role="dialog" aria-label="飞书项目需求表单二维码">
       <button class="qr-modal-close" aria-label="关闭">×</button>
       <div class="qr-modal-frame">
         <img src="./00-index_images/RVB_Questionnaire.png" alt="飞书项目需求表单二维码" />
@@ -821,19 +841,16 @@
         quote: '暂无评价，请在此处添加客户评价内容。',
         name: '张三',
         title: 'XX游戏制作人',
-        avatar: 'v2-bento/waveform.svg'
       },
       {
         quote: '暂无评价，请在此处添加客户评价内容。',
         name: '李四',
         title: 'XX独立开发团队,负责XX游戏项目',
-        avatar: 'v2-bento/spiral.svg'
       },
       {
         quote: '暂无评价，请在此处添加客户评价内容。',
         name: '王五',
         title: '客户职位介绍',
-        avatar: 'v2-bento/network.svg'
       }
     ];
 
@@ -927,7 +944,7 @@
 
     // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
     document.querySelector('.foot-base span').textContent =
-      `© 2020-${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
+      `© ${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
 
     // ═══ 二维码弹窗：点"预约咨询"原地弹出；遮罩/×/ESC 均可关闭 ═══
     (function() {
