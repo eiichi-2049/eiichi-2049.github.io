@@ -120,13 +120,23 @@
     .eyebrow i:nth-child(1){background:var(--olive)}
     .eyebrow i:nth-child(2){background:var(--wine)}
     .eyebrow span{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-    /* 大标题：超大衬线。四个字紧凑排布（去掉两端对齐拉开的间距）。
-       想再紧/再松一点：改下面 letter-spacing（0 = 自然；负数更紧，如 -0.02em） */
-    .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,10vw,7rem);
-             line-height:1.15;letter-spacing:0;color:var(--ink2)}
-    .hero h1 em{font-style:italic;color:var(--ink)}
-    .hero p{max-width:44ch;margin:28px 0 40px;color:var(--muted);font-size:1rem}
-    .hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+    /* 大标题：超大衬线。四个字紧凑排布（去掉两端对齐拉开的间距）。*/
+    .hero h1{font-family:var(--serif);
+            font-weight:300;
+            font-size:clamp(3rem,10vw,7rem);
+            line-height:1.15;
+            letter-spacing: 0.5em;
+            text-align: left;
+            color:var(--ink2)}
+    .hero h1 em{font-style:italic;
+                color:var(--ink)}
+    .hero p{max-width:44ch;
+            margin:28px 0 40px;
+            color:var(--muted);
+            font-size:1rem}
+    .hero .btns{display:flex;
+                gap:14px;
+                flex-wrap:wrap}
 
     /* ═══ 品牌/合作条：无缝滚动条 ═══
        原理：.marquee-track 里放两段一模一样的 <span>（=两个“半组”），动画把整条轨道从 0
@@ -489,11 +499,13 @@
   <!-- ═══ 首屏 HERO ═══ -->
   <section class="hero wrap" id="top">
     <!-- 小标签：两个彩点 + 小号英文 -->
-    <div class="eyebrow"><i></i><i></i><span>Original Score Studio</span></div>
+    <div class="eyebrow"><i></i><i></i><span>
+      ReiVerb Sound Atorie<br>
+      /ˈreɪ.vɜːrb ˈsaʊnd əˈtɔːri/</span></div>
     <!-- ★ 主标语 -->
     <h1>空山漪韵</h1>
     <!-- ★ 内容：一句话简介 -->
-    <p>为游戏与影像创作原创配乐与声音设计的独立工作室</p>
+    <p>Composer · Sound Designer · Audio Implementer<br>为游戏创造音乐、声音设计与互动音频体验</p>
     </div>
   </section>
 
@@ -703,7 +715,7 @@
     </div>
 
     <div class="testi-card">
-      <blockquote>【写了一些夸赞的话】【为什么要写这个呢我也不知道】</blockquote>
+      <blockquote>暂无评价，请在此处添加客户评价内容。</blockquote>
 
       <div class="testi-meta">
         <div class="testi-info">
@@ -723,20 +735,13 @@
     </div>
   </section>
 
-  <!-- ═══ 金句/引言（浅色）═══ -->
-  <section class="quote wrap">
-    <!-- ★ 内容：换成你想放的一段话（引用时注意版权） -->
-    <blockquote>好的配乐从不喧宾夺主<br>但故事落幕，它仍会敲响你的记忆。</blockquote>
-    <footer><i style="width:15px;height:15px;border-radius:50%;background:var(--wine);display:inline-block"></i>— Eiichi_2049</footer>
-  </section>
-
   <!-- ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ -->
   <section id="cta-final">
     <div class="cta-fog" aria-hidden="true"></div>
     <div class="eyebrow"><i></i><i></i><span>Sound that speaks for your story</span></div>
     <div class="wrap">
-      <h2>让声音替作品呼吸</h2>
-      <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png">扫码预约咨询</a>
+      <h2>Compose with breath</h2>
+      <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png">Scan QR Code</a>
     </div>
   </section>
 
@@ -746,7 +751,7 @@
       <div class="foot-top">
         <!-- 内容：联系方式 -->
         <div>
-          <h4>Create What's Possible</h4>
+          <h4>Start a Conversation</h4>
           <a class="btn btn-dark" href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a>
         </div>
         <div>
@@ -754,12 +759,14 @@
           <ul>
             <li><a href="#work">Work</a></li>
             <li><a href="#about">About</a></li>
+            <li><a href="#now">Now</a></li>
             <li><a href="#top">Back to Top</a></li>
           </ul>
         </div>
         <div>
           <h4>Social Media</h4>
           <ul>
+            <li><a href="https://wechat.com">Wechat</a></li>
             <li><a href="https://github.com/eiichi-2049">GitHub</a></li>
             <li><a href="https://space.bilibili.com/23277208">哔哩哔哩</a></li>
             <li><a href="https://www.xiaoheihe.cn/app/bbs/home">小黑盒（即将上线）</a></li>
@@ -767,7 +774,7 @@
         </div>
       </div>
 
-      <!-- 底部超大文字 -->
+      <!-- 底部大文字 -->
       <div class="foot-brand">ReiVerb Sound Atorie</div>
 
       <div class="foot-base">
@@ -777,7 +784,7 @@
     </div>
   </footer>
 
-  <!-- 二维码弹窗（点击"预约咨询"打开；href 保留作无 JS 兜底） -->
+  <!-- 二维码弹窗（点击"scan QR code"打开；href 保留作无 JS 兜底） -->
   <div class="qr-modal" id="qr-modal" aria-hidden="true">
     <div class="qr-modal-backdrop"></div>
     <div class="qr-modal-card" role="dialog" aria-label="项目需求表单二维码">
@@ -785,7 +792,6 @@
       <div class="qr-modal-frame">
         <img src="./00-index_images/RVB_Questionnaire.png" alt="飞书项目需求表单二维码" />
       </div>
-      <span class="qr-modal-tip">扫码提交项目需求 · 无需登录</span>
     </div>
   </div>
 
@@ -798,21 +804,21 @@
     // 客户评价轮播
     const testimonials = [
       {
-        quote: '【写了一些夸赞的话】',
+        quote: '暂无评价，请在此处添加客户评价内容。',
         name: '张三',
-        title: '游戏制作人',
+        title: 'XX游戏制作人',
         avatar: 'v2-bento/waveform.svg'
       },
       {
-        quote: '【写了二些夸赞的话】',
+        quote: '暂无评价，请在此处添加客户评价内容。',
         name: '李四',
-        title: '独立开发团队',
+        title: 'XX独立开发团队,负责XX游戏项目',
         avatar: 'v2-bento/spiral.svg'
       },
       {
-        quote: '【写了三些夸赞的话】',
+        quote: '暂无评价，请在此处添加客户评价内容。',
         name: '王五',
-        title: '卧槽编不下去了来个人评价一下',
+        title: '客户职位介绍',
         avatar: 'v2-bento/network.svg'
       }
     ];
