@@ -189,8 +189,8 @@
     .b-text h3{font-family:var(--serif);font-weight:400;color:var(--ink2);
                font-size:clamp(1.7rem,2.4vw,2.5rem);line-height:1.18;letter-spacing:-.015em;
                margin-top:clamp(36px,5.5vh,66px)}   /* 与眉标拉开留白（Our Wave 式松排版） */
-    .b-text p{color:var(--muted);font-size:1rem;max-width:38ch;
-              margin-top:clamp(18px,2.6vh,26px)}
+    .b-text p{color:var(--muted);font-size:.92rem;letter-spacing:.015em;line-height:1.75;
+              max-width:38ch;margin-top:clamp(18px,2.6vh,26px)}
     .b-go{display:inline-flex;align-items:center;gap:10px;margin-top:clamp(30px,5vh,54px);
           padding:11px 18px 11px 20px;border:1px solid var(--ink);border-radius:999px;
           font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
@@ -202,7 +202,17 @@
     .b-pic{background:var(--ink);
            aspect-ratio: 1.618 / 1;   /* 与文字卡同比例 → 整行 1.618:1 横版，不再是正方形 */
            min-height: 320px}
-    .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+               filter:opacity(.93);transition:filter .8s ease}   /* 常态微沉入卡片 · hover 时浮起呼吸 */
+    /* 呼吸晕染：hover 时让 SVG 的亮色线条悄悄染上橄榄/青柠。
+       用 mix-blend-mode:overlay 而非整图 drop-shadow —— 它按"亮度"混合，
+       黑底几乎不动、亮线（波形/漩涡/节点笔画）被染上 var(--olive)/var(--accent)，
+       结构性"只染线条不染底"，也不会产生霓虹辉光。 */
+    .b-pic::after{content:"";position:absolute;inset:0;pointer-events:none;
+                  background:linear-gradient(135deg,var(--olive),var(--accent));
+                  mix-blend-mode:overlay;opacity:.08;transition:opacity .8s ease}
+    .b-pic:hover::after{opacity:.4}
+    .b-pic:hover img{filter:opacity(1)}
     /* —— 兼容：手机上改单列堆叠（保留间距便于阅读）—— */
     @media(max-width:760px){
       .bento{padding:0 20px;gap:18px}                 /* 三行之间分开 */
@@ -421,12 +431,10 @@
     /* ═══ 滚动进场动画 ═══ */
     .b-text,
     .sec-head h2,
-    #about,
     .now-item,
     .quote blockquote{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
     .b-text.visible,
     .sec-head h2.visible,
-    #about.visible,
     .now-item.visible,
     .quote blockquote.visible{opacity:1;transform:translateY(0)}
 
@@ -469,6 +477,14 @@
   #custom-cursor.cursor-view .cursor-arrow{
       opacity:1;transform:translate(-50%,-50%) scale(1);
   }
+  /* 长按左键：持续变小 */
+  #custom-cursor.cursor-click{
+      width:20px;height:20px;
+      background:#7a6d5a;
+  }
+  #custom-cursor.cursor-click .cursor-arrow{
+      opacity:0;
+  }
 }
   </style>
 </head>
@@ -485,7 +501,6 @@
         <nav class="nav-links" id="menu">
           <!-- ★ 内容：导航链接 -->
           <a href="#work">Work</a>
-          <a href="#about">About</a>
           <a href="#now">Now</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -758,7 +773,6 @@
           <h4>Links</h4>
           <ul>
             <li><a href="#work">Work</a></li>
-            <li><a href="#about">About</a></li>
             <li><a href="#now">Now</a></li>
             <li><a href="#top">Back to Top</a></li>
           </ul>
@@ -872,7 +886,7 @@
 
     // 观察所有需要动画的元素
     document.querySelectorAll(
-      '.b-text, .sec-head h2, #about, .quote blockquote, .now-item'
+      '.b-text, .sec-head h2, .quote blockquote, .now-item'
     ).forEach(el => observer.observe(el));
 
     // ═══ 自定义粘滞光标控制 ═══
@@ -890,6 +904,14 @@
       });
       document.addEventListener('mouseenter', () => {
         cursor.style.opacity = '1';
+      });
+
+      // 长按左键：持续变小
+      document.addEventListener('mousedown', () => {
+        cursor.classList.add('cursor-click');
+      });
+      document.addEventListener('mouseup', () => {
+        cursor.classList.remove('cursor-click');
       });
 
       // hover 可点击目标（work 文字卡、CTA"预约咨询"）时，光标切换为"查看按钮"形态
