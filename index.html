@@ -129,12 +129,12 @@
     .eyebrow i:nth-child(1){background:var(--olive)}
     .eyebrow i:nth-child(2){background:var(--wine)}
     .eyebrow span{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-    /* 大标题：超大衬线。四个字紧凑排布（去掉两端对齐拉开的间距）。*/
+    /* 大标题：超大衬线。四个字比较宽松排布（去掉两端对齐拉开的间距）。*/
     .hero h1{font-family:var(--serif);
             font-weight:300;
             font-size:clamp(3rem,10vw,7rem);
             line-height:1.15;
-            letter-spacing: 0.5em;
+            letter-spacing: 0.2em;
             text-align: left;
             color:var(--ink2)}
     .hero h1 em{font-style:italic;
@@ -230,17 +230,6 @@
       .b-text{aspect-ratio:none;min-height:0;padding:34px 28px;order:1}   /* 文字卡固定在上 */
       .b-pic{height:clamp(240px,68vw,380px);order:2}                     /* 图片卡固定在下 */
     }
-
-    /* ═══ 关于区块统计卡片 ═══ */
-    .about-stats{display:flex;gap:24px;margin-top:60px;flex-wrap:wrap}
-    .stat-card{flex:1;min-width:220px;padding:28px 24px;background:var(--card);
-               border:1px solid var(--line);border-radius:16px;text-align:center;
-               transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
-    .stat-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(1,2,5,.08);border-color:var(--olive)}
-    .stat-number{font-family:var(--serif);font-weight:300;font-size:2.8rem;
-                 color:var(--ink2);line-height:1;margin-bottom:12px;letter-spacing:-.02em}
-    .stat-text{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
-              text-transform:uppercase;color:var(--muted)}
 
     /* ═══ 服务专长（深色背景交互列表）═══ */
     #services{background:var(--ink);color:var(--paper);padding:110px 0;position:relative}
@@ -540,10 +529,10 @@
     <div class="hero-content wrap">
       <!-- 小标签：两个彩点 + 小号英文 -->
       <div class="eyebrow"><i></i><i></i><span>
-        ReiVerb Sound Atorie<br>
+        空山漪韵<br>
         /ˈreɪ.vɜːrb ˈsaʊnd əˈtɔːri/</span></div>
       <!-- ★ 主标语 -->
-      <h1>空山漪韵</h1>
+      <h1>ReiVerb<br>Sound<br>Atorie</h1>
       <!-- ★ 内容：一句话简介 -->
       <p>Composer · Sound Designer · Audio Implementer<br>为游戏创造音乐、声音设计与互动音频体验</p>
     </div>
@@ -719,13 +708,12 @@
   <!-- ═══ 观点引言（浅色 · 固定文案）═══ -->
   <section class="quote wrap">
     <blockquote>
-      <span class="quote-line quote-line-keep">我从不信玩家问卷里“音乐很好听”的评价。</span>
-      <span class="quote-line">我只盯着他们的手指——重击前摇时那 0.3 秒的停顿，那才是我该塞进低频“呼吸感”的地方。</span>
-      <span class="quote-line quote-line-final quote-line-keep">声音，是玩家行为的呼吸。</span>
+      <span class="quote-line quote-line-keep">“我从不信玩家问卷里“音乐很好听”的评价。”</span>
+      <span class="quote-line">“重击前摇时那 0.3 秒的停顿，那才是该塞进低频“呼吸感”的地方。”</span>
+      <span class="quote-line quote-line-final quote-line-keep">“声音是玩家行为的延申。”</span>
     </blockquote>
     <footer>
       <i></i><i></i>
-      <span>— 基于用户行为观察的音频设计观</span>
     </footer>
   </section>
 
@@ -741,21 +729,21 @@
       <li class="now-item">
         <span class="now-dot now-dot-active"></span>
         <div>
-          <p class="now-text"><strong>[复盘]</strong> 上次 GameJam 项目中，主动整理了音效命名规范（v1.0），让程序对接时间缩短了 2 小时；目前正将这份规范迭代为团队共享的音频资产管理模板</p>
+          <p class="now-text"><strong>[复盘]</strong> 在Taptap 2026 GameJam 项目中，主动整理了音效命名规范，程序对接时间缩短了 2 小时；目前正将这份规范迭代为共享的音频资产管理模板</p>
           <span class="now-date">2026年9月</span>
         </div>
       </li>
       <li class="now-item">
         <span class="now-dot now-dot-planned"></span>
         <div>
-          <p class="now-text"><strong>[计划]</strong> 为下个项目建立“音频设计评审”流程：在 Wwise 工程提交前，用 15 分钟走一遍事件树，提前暴露集成层的命名冲突和缺失回调</p>
+          <p class="now-text"><strong>[计划]</strong> 为下个项目建立“音频设计评审”标准化流程：在 Wwise 工程提交前，用 15 分钟走一遍事件树，提前暴露集成层的命名冲突和缺失回调</p>
           <span class="now-date">2026年10月</span>
         </div>
       </li>
       <li class="now-item">
         <span class="now-dot now-dot-done"></span>
         <div>
-          <p class="now-text"><strong>[完成]</strong> 利用 Hise 和 Adobe Illustrator 搭建 VST 插件框架；额外产出了一份给美术同事的 UI 规范文档，减少后续音效图标返工</p>
+          <p class="now-text"><strong>[完成]</strong> 利用 Hise 和 Adobe Illustrator 搭建 VST 插件框架；额外产出了一份设计规范文档，减少后续图标返工</p>
           <span class="now-date">2026年8月</span>
         </div>
       </li>
@@ -947,12 +935,17 @@
 
       function spawnDrop() {
         const mobile = isMobile();
+        // 30% 概率落在文字区域附近，70% 保持随机分布。
+        const x = Math.random() < 0.3
+          ? (Math.random() - 0.5) * 360
+          : (Math.random() - 0.5) * (mobile ? 420 : 560);
+
         drops.push({
-          x: (Math.random() - 0.5) * (mobile ? 360 : 500),
-          y: -1500,
+          x,
+          y: -1800 - Math.random() * 600,
           z: 400 + (Math.random() - 0.5) * 400,
-          speed: 35 + Math.random() * 20,
-          radius: 3.5 + Math.random() * 1.5
+          speed: 22 + Math.random() * 18,
+          radius: 6 + Math.random() * 2.5
         });
       }
 
