@@ -46,7 +46,7 @@
         --sans: "OPPO Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
         --mono: "DM Mono", monospace;
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
-        --nav-h: 64px;
+        --nav-h: 136px;
         --sec-pad: clamp(80px, 12vw, 140px);
         --paper: var(--bg);
         --paper2: var(--bg2);
@@ -372,141 +372,114 @@
         z-index: 0;
       }
 
-      /* ── NAV ─────────────────────────────────────────────── */
-      .nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        height: 56px;
-        border-bottom: 1px solid var(--rule);
-        background: var(--nav-bg);
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        display: flex;
-        align-items: center;
-        padding: 0 3rem;
-        transition: transform 0.4s var(--ease);
-        transform: translateY(0);
-      }
-      .nav.nav--hidden {
-        transform: translateY(-100%);
-      }
-      .nav-inner {
-        max-width: 1080px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-      }
-      .nav-logo {
-        font-family: var(--serif);
-        font-size: 1.15rem;
-        font-weight: 400;
-        letter-spacing: -0.02em;
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-        color: var(--ink);
-        text-decoration: none;
-      }
-      .nav-logo-sub {
-        font-family: var(--mono);
-        font-size: 0.6rem;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--ink3);
-        font-weight: 400;
-      }
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-        list-style: none;
-      }
-      .nav-links a {
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        color: var(--ink2);
-        text-decoration: none;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        transition: color 0.2s;
-        position: relative;
-        padding: 4px 0;
-      }
-      .nav-links a::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: var(--red);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.25s var(--ease);
-      }
-      .nav-links a:hover {
-        color: var(--ink);
-      }
-      .nav-links a:hover::after {
-        transform: scaleX(1);
-      }
+      /* ── 顶部导航（与首页统一：吸顶毛玻璃 + 内层圆角胶囊） ───────────────────── */
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
 
-      /* ── THEME TOGGLE ─────────────────────────────────── */
-      .nav-links .theme-toggle {
-        align-self: center;
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        width: 38px;
-        height: 20px;
-        margin: 0;
-        padding: 0 2px;
-        border-radius: 10px;
-        border: 1px solid var(--line2);
-        background: var(--bg3);
-        cursor: pointer;
-        flex-shrink: 0;
-        outline: none;
-        vertical-align: middle;
-        transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
-      }
-      .theme-toggle:hover { border-color: var(--accent); }
-      .theme-toggle:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
-      .theme-toggle-icon {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 12px;
-        height: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--ink2);
-        opacity: 0.5;
-        pointer-events: none;
-        transition: opacity 0.3s;
-      }
-      .theme-toggle-icon--sun { left: 5px; }
-      .theme-toggle-icon--moon { right: 5px; }
-      .theme-toggle-icon svg { width: 11px; height: 11px; }
-      .theme-toggle-knob {
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: var(--accent);
-        transition: transform 0.3s ease, background 0.3s ease;
-        pointer-events: none;
-      }
-      [data-theme="dark"] .theme-toggle-knob { transform: translateX(18px); }
-      [data-theme="dark"] .theme-toggle-icon--sun { opacity: 1; }
-      [data-theme="light"] .theme-toggle-icon--moon { opacity: 1; }
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: var(--nav-h);
+            padding: 24px 0;
+            background: var(--nav-bg);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+        }
+
+        .nav-in {
+            width: 100%;
+            height: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            background: rgba(1, 2, 5, 0.06);
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 0 max(18px, 2.5vw);
+        }
+
+        .logo {
+            font-family: var(--serif);
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 34px;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--ink);
+            text-decoration: none;
+            opacity: 0.72;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .burger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--ink);
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 760px) {
+            .wrap {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: var(--nav-h);
+                left: 0;
+                right: 0;
+                background: var(--paper);
+                flex-direction: column;
+                padding: 20px 40px;
+                border-bottom: 1px solid var(--line);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+                gap: 20px;
+            }
+
+            .nav-links.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .burger {
+                display: block;
+            }
+        }
+
 
       /* 主题切换时的平滑过渡 */
       html.theme-transition,
@@ -537,7 +510,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 80px 3rem 2rem;
+        padding: calc(var(--nav-h) + 32px) 3rem 2rem;
         max-width: 1080px;
         margin: 0 auto;
       }
@@ -858,8 +831,7 @@
 
       /* ── RESPONSIVE ──────────────────────────────────────── */
       @media (max-width: 768px) {
-        section,
-        .nav {
+        section {
           padding-left: 1.5rem;
           padding-right: 1.5rem;
         }
@@ -867,7 +839,7 @@
           padding-left: 1.5rem;
           padding-right: 1.5rem;
           min-height: auto;
-          padding-top: calc(56px + 3rem);
+          padding-top: calc(var(--nav-h) + 2rem);
           padding-bottom: 2rem;
         }
         #rw-body {
@@ -889,50 +861,32 @@
       }
     </style>
     <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）——默认暗色 */
+      /* 尽早设置主题，避免页面闪烁（FOUC）——固定亮色 */
       (function () {
         var root = document.documentElement;
         var stored = null;
         try { stored = localStorage.getItem("theme"); } catch (e) {}
-        root.setAttribute("data-theme", stored === "light" ? "light" : "dark");
+        root.setAttribute("data-theme", "light");
       })();
     </script>
   </head>
   <body>
-    <!-- ── NAV ──────────────────────────────────────────────── -->
-    <nav class="nav">
-      <div class="nav-inner">
-        <a href="../index.html" class="nav-logo">ReiVerb<span class="nav-logo-sub">Sound Atorie</span></a>
-        <ul class="nav-links">
-          <li><a href="../index.html#work">Work</a></li>
-          <li><a href="../index.html#services">Services</a></li>
-          <li><a href="../index.html#about">About</a></li>
-          <li><a href="../index.html#contact">Contact</a></li>
-          <li>
-            <button
-              class="theme-toggle"
-              id="themeToggle"
-              type="button"
-              aria-label="切换到亮色模式"
-              aria-pressed="true"
-            >
-              <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-                </svg>
-              </span>
-              <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
-              </span>
-              <span class="theme-toggle-knob" aria-hidden="true"></span>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <!-- ═══ 顶部导航 ═══ -->
+    <header class="nav">
+        <div class="wrap">
+            <div class="nav-in">
+                <a class="logo" href="../index.html#top">ReiVerb Sound <em>Atorie</em></a>
+
+                <nav class="nav-links" id="menu">
+                    <a href="../index.html#work">Work</a>
+                    <a href="../index.html#now">Now</a>
+                    <a href="../index.html#contact">Contact</a>
+                </nav>
+
+                <button class="burger" type="button" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+            </div>
+        </div>
+    </header>
 
     <!-- ── HERO ─────────────────────────────────────────────── -->
     <section id="rw-hero">
@@ -1290,44 +1244,6 @@
 
     <!-- ── GSAP ───────────────────────────────────────────────── -->
     <script>
-      /* ── 主题切换按钮（明/暗） ─────────────────── */
-      (function () {
-        var root = document.documentElement;
-        var toggle = document.getElementById("themeToggle");
-        if (!toggle) return;
-
-        /* 初始同步按钮状态与当前主题一致 */
-        (function () {
-          var cur = root.getAttribute("data-theme");
-          toggle.setAttribute("aria-pressed", cur === "dark" ? "true" : "false");
-          toggle.setAttribute(
-            "aria-label",
-            cur === "dark" ? "切换到亮色模式" : "切换到暗色模式"
-          );
-        })();
-
-        function apply(next) {
-          root.classList.add("theme-transition");
-          clearTimeout(apply._t);
-          apply._t = setTimeout(function () {
-            root.classList.remove("theme-transition");
-          }, 400);
-
-          root.setAttribute("data-theme", next);
-          toggle.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-          toggle.setAttribute(
-            "aria-label",
-            next === "dark" ? "切换到亮色模式" : "切换到暗色模式"
-          );
-          try { localStorage.setItem("theme", next); } catch (e) {}
-        }
-
-        toggle.addEventListener("click", function () {
-          var current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-          apply(current === "dark" ? "light" : "dark");
-        });
-      })();
-
       gsap.registerPlugin(ScrollTrigger);
 
       gsap.set([".rw-back", ".rw-eyebrow", ".rw-title", ".rw-desc"], {
@@ -1600,38 +1516,6 @@
           if (front) closeWindow(front);
         });
       });
-
-      /* ── 导航滚动智能显示隐藏 ─────────────────────── */
-      (function () {
-        var nav = document.querySelector('.nav');
-        if (!nav) return;
-
-        var lastScrollY = window.scrollY || window.pageYOffset;
-        var ticking = false;
-        var threshold = 100;
-
-        window.addEventListener('scroll', function () {
-          if (!ticking) {
-            requestAnimationFrame(function () {
-              var currentScrollY = window.scrollY || window.pageYOffset;
-
-              if (currentScrollY <= threshold) {
-                nav.classList.remove('nav--hidden');
-              }
-              else if (currentScrollY > lastScrollY && currentScrollY > threshold) {
-                nav.classList.add('nav--hidden');
-              }
-              else if (currentScrollY < lastScrollY) {
-                nav.classList.remove('nav--hidden');
-              }
-
-              lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }, { passive: true });
-      })();
     </script>
   </body>
 </html>

@@ -23,17 +23,21 @@
   <!-- 网站图标 -->
   <link rel="icon" href="favicon.ico" />
 
+  <!-- 首屏正文字体：子集化 WOFF2，避免加载 22MB 原始 TTF -->
+  <link rel="preload" href="fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2" as="font" type="font/woff2" crossorigin />
+
   <!-- 字体：Fraunces（衬线大标题，免费，风格接近Gambarino） -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
 
   <style>
-    /* ═══ OPPO Sans 正文字体（fonts 目录：fronts/OPPO_Sans_4.0）═══ */
+    /* ═══ OPPO Sans 正文字体（子集化 WOFF2；原始 TTF 保留在 fronts/OPPO_Sans_4.0）═══ */
     @font-face{
       font-family:'OPPO Sans';
-      src:url('fronts/OPPO_Sans_4.0/OPPO Sans 4.0.ttf') format('truetype');
+      src:url('fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2') format('woff2');
       font-weight:100 900;
+      font-style:normal;
       font-display:swap;
     }
 
@@ -71,7 +75,7 @@
     /* ═══ 基础重置 ═══ */
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{background:var(--paper);color:var(--ink);font-family:'OPPO Sans',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+    body{background:var(--paper);color:var(--ink);font-family:'OPPO Sans','Microsoft YaHei UI','Microsoft YaHei','PingFang SC',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
     ul{list-style:none}
@@ -113,7 +117,12 @@
     }
 
     /* ═══ 首屏 HERO ═══ */
-    .hero{padding:calc(var(--nav-h) + 64px) 40px 90px}   /* 顶部留白加大，避开导航；左右 40px 与 .wrap 版心对齐 */
+    .hero{position:relative;min-height:90vh;padding:calc(var(--nav-h) + 64px) 0 90px;overflow:hidden;background:var(--paper)}
+    .hero-wave-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+    .hero-content{position:relative;z-index:1;padding-top:0;padding-bottom:0}
+    @media(max-width:760px){
+      .hero{min-height:82vh;padding-top:calc(var(--nav-h) + 44px)}
+    }
     /* 小标签：两个彩点 + 小号英文(等宽字) */
     .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:26px}
     .eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
@@ -284,9 +293,14 @@
 
     /* ═══ 关于（浅色 + 一段大文字）═══ */
     .quote{padding:140px 40px}   /* 左右 40px 与 .wrap 版心对齐 */
-    .quote blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,4vw,3rem);
-                      line-height:1.35;letter-spacing:-.015em;color:var(--ink2);max-width:26ch}
-    .quote footer{margin-top:34px;display:flex;align-items:center;gap:10px;
+    .quote blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.55rem,3.8vw,2.85rem);
+                      line-height:1.52;letter-spacing:.025em;color:var(--ink2);max-width:48ch}
+    .quote-line{display:block;margin:0 0 .78em}
+    .quote-line-keep{white-space:nowrap}
+    @media(max-width:760px){.quote blockquote{max-width:100%}.quote-line-keep{white-space:normal}}
+    .quote-line-final{position:relative;margin-top:1.38em;padding-top:.92em;font-weight:400;color:var(--ink);letter-spacing:.035em}
+    .quote-line-final::before{content:"";position:absolute;top:0;left:0;width:clamp(64px,12vw,128px);height:1px;background:var(--line)}
+    .quote footer{margin-top:42px;display:flex;align-items:center;gap:10px;
                   font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
 
     /* ═══ 页脚 ═══ */
@@ -521,15 +535,17 @@
   </header>
 
   <!-- ═══ 首屏 HERO ═══ -->
-  <section class="hero wrap" id="top">
-    <!-- 小标签：两个彩点 + 小号英文 -->
-    <div class="eyebrow"><i></i><i></i><span>
-      ReiVerb Sound Atorie<br>
-      /ˈreɪ.vɜːrb ˈsaʊnd əˈtɔːri/</span></div>
-    <!-- ★ 主标语 -->
-    <h1>空山漪韵</h1>
-    <!-- ★ 内容：一句话简介 -->
-    <p>Composer · Sound Designer · Audio Implementer<br>为游戏创造音乐、声音设计与互动音频体验</p>
+  <section class="hero" id="top">
+    <canvas class="hero-wave-canvas" id="heroWaveCanvas" aria-hidden="true"></canvas>
+    <div class="hero-content wrap">
+      <!-- 小标签：两个彩点 + 小号英文 -->
+      <div class="eyebrow"><i></i><i></i><span>
+        ReiVerb Sound Atorie<br>
+        /ˈreɪ.vɜːrb ˈsaʊnd əˈtɔːri/</span></div>
+      <!-- ★ 主标语 -->
+      <h1>空山漪韵</h1>
+      <!-- ★ 内容：一句话简介 -->
+      <p>Composer · Sound Designer · Audio Implementer<br>为游戏创造音乐、声音设计与互动音频体验</p>
     </div>
   </section>
 
@@ -655,7 +671,7 @@
         <div class="eyebrow">
           <i></i>
           <i></i>
-          <span>Our Expertise</span></div>
+          <span>Expertise</span></div>
           <h2><em>专长</em></h2>
       </div>
 
@@ -673,7 +689,7 @@
           <div class="service-content">
             <span class="service-number">02</span>
             <h3 class="service-title">声音设计 · Sound Design</h3>
-            <p class="service-desc">UI 音效的第一原则是"听不见"——玩家不察觉时才说明它正确</p>
+            <p class="service-desc">UI 音效的第一原则是"听不见"——不被察觉才正确</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -682,7 +698,7 @@
           <div class="service-content">
             <span class="service-number">03</span>
             <h3 class="service-title">音频集成 · Implementation</h3>
-            <p class="service-desc">中间件不是黑盒，是给程序员和策划的第二份设计文档</p>
+            <p class="service-desc">第二份设计文档</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -691,7 +707,7 @@
           <div class="service-content">
             <span class="service-number">04</span>
             <h3 class="service-title">混音母带 · Mixing & Mastering</h3>
-            <p class="service-desc">混音的终点不是响度达标，是让玩家戴耳机两小时后耳朵不累</p>
+            <p class="service-desc">Master the Master</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -702,10 +718,14 @@
 
   <!-- ═══ 观点引言（浅色 · 固定文案）═══ -->
   <section class="quote wrap">
-    <blockquote>我从不信玩家问卷里"音乐很好听"的评价。我只盯着他们的手指——重击前摇时那 0.3 秒的停顿，才是我该塞进低频"呼吸感"的地方。音频不是背景，是玩家无意识行为的"回声"。</blockquote>
+    <blockquote>
+      <span class="quote-line quote-line-keep">我从不信玩家问卷里“音乐很好听”的评价。</span>
+      <span class="quote-line">我只盯着他们的手指——重击前摇时那 0.3 秒的停顿，那才是我该塞进低频“呼吸感”的地方。</span>
+      <span class="quote-line quote-line-final quote-line-keep">声音，是玩家行为的呼吸。</span>
+    </blockquote>
     <footer>
       <i></i><i></i>
-      <span>— ReiVerb，基于用户行为观察的音频设计观</span>
+      <span>— 基于用户行为观察的音频设计观</span>
     </footer>
   </section>
 
@@ -835,6 +855,252 @@
   </div>
 
   <script>
+    // Hero 3D point-grid droplet ripple animation (from animation test 2, inverted for light hero)
+    (function() {
+      const hero = document.querySelector('.hero');
+      const canvas = document.getElementById('heroWaveCanvas');
+      if (!hero || !canvas) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+      let width = 0;
+      let height = 0;
+      let dpr = 1;
+      let dots = [];
+      let frameMs = 22;
+      let lastFrameAt = 0;
+      let lastDropAt = 0;
+      let rafId = 0;
+      let resizeRaf = 0;
+      let isHeroVisible = true;
+      let isPageVisible = !document.hidden;
+      let isRunning = false;
+
+      // Keep the original perspective camera setup.
+      const focalLength = 650;
+      const zOffset = 600;
+      const theta = 1.15;
+      const cosT = Math.cos(theta);
+      const sinT = Math.sin(theta);
+      const WAVE_BAND = 28;
+      const WAVE_RADIUS = WAVE_BAND / 0.045;
+      const WAVE_RADIUS_SQ = WAVE_RADIUS * WAVE_RADIUS;
+      const MAX_TIME = 190;
+      const DOT_PI = Math.PI * 2;
+
+      const drops = [];
+      const ripples = [];
+
+      function getSpacing() {
+        if (isMobile()) return width > 420 ? 112 : 128;
+        if (width >= 1800) return 96;
+        if (width >= 1280) return 86;
+        return 76;
+      }
+
+      function initCanvas() {
+        const rect = hero.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, isMobile() ? 1.15 : 1.5);
+        width = Math.max(1, Math.floor(rect.width));
+        height = Math.max(1, Math.floor(rect.height));
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        frameMs = isMobile() ? 33 : 22;
+        buildDots();
+      }
+
+      // Same 3D matrix concept; density and depth are capped to what the hero can show.
+      function buildDots() {
+        dots = [];
+        const mobile = isMobile();
+        const spacing = getSpacing();
+        const rangeX = Math.min(mobile ? 2200 : 3600, width * (mobile ? 3.4 : 3.1));
+        const rangeZFront = Math.min(mobile ? 3200 : 4600, Math.max(2600, height * (mobile ? 3.8 : 4.6)));
+        const rangeZBack = -1400;
+
+        for (let x = -rangeX; x <= rangeX; x += spacing) {
+          for (let z = rangeZBack; z <= rangeZFront; z += spacing) {
+            const distFromCenter = Math.sqrt(x * x + z * z);
+            dots.push({
+              x,
+              y: 0,
+              z,
+              edgeFade: Math.max(0, 1 - distFromCenter / 3500)
+            });
+          }
+        }
+      }
+
+      function projectInto(out, x, y, z) {
+        const yRot = y * cosT - z * sinT;
+        const zRot = y * sinT + z * cosT;
+        const scale = focalLength / (focalLength + zRot + zOffset);
+        out.x = width * (isMobile() ? 0.55 : 0.68) + x * scale;
+        out.y = height * 0.58 + yRot * scale;
+        out.scale = scale;
+        return out;
+      }
+
+      function spawnDrop() {
+        const mobile = isMobile();
+        drops.push({
+          x: (Math.random() - 0.5) * (mobile ? 360 : 500),
+          y: -1500,
+          z: 400 + (Math.random() - 0.5) * 400,
+          speed: 35 + Math.random() * 20,
+          radius: 3.5 + Math.random() * 1.5
+        });
+      }
+
+      function draw(now) {
+        ctx.clearRect(0, 0, width, height);
+
+        if (!reduceMotion && now - lastDropAt > (isMobile() ? 3600 : 2800)) {
+          spawnDrop();
+          lastDropAt = now;
+        }
+
+        const proj = { x: 0, y: 0, scale: 0 };
+
+        ctx.fillStyle = 'rgba(1, 2, 5, 0.62)';
+        ctx.shadowColor = 'rgba(1, 2, 5, 0.14)';
+        ctx.shadowBlur = 8;
+        for (let i = drops.length - 1; i >= 0; i--) {
+          const drop = drops[i];
+          drop.y += drop.speed;
+          projectInto(proj, drop.x, drop.y, drop.z);
+
+          if (proj.scale > 0) {
+            ctx.beginPath();
+            ctx.arc(proj.x, proj.y, drop.radius * proj.scale, 0, DOT_PI);
+            ctx.fill();
+          }
+
+          if (drop.y >= 0) {
+            ripples.push({ x: drop.x, z: drop.z, time: 0, fade: 1, maxSq: WAVE_RADIUS_SQ });
+            drops.splice(i, 1);
+          }
+        }
+        ctx.shadowBlur = 0;
+
+        for (let i = ripples.length - 1; i >= 0; i--) {
+          const ripple = ripples[i];
+          ripple.time += 0.6;
+          if (ripple.time > MAX_TIME) {
+            ripples.splice(i, 1);
+          } else {
+            const t = ripple.time / MAX_TIME;
+            ripple.fade = 1 - t * t;
+          }
+        }
+
+        ctx.fillStyle = 'rgba(72, 74, 78, 0.18)';
+        ctx.beginPath();
+        let pending = 0;
+
+        for (let i = 0; i < dots.length; i++) {
+          const dot = dots[i];
+          let currentY = 0;
+          let isRipplePoint = false;
+
+          for (let r = 0; r < ripples.length; r++) {
+            const ripple = ripples[r];
+            const dx = dot.x - ripple.x;
+            const dz = dot.z - ripple.z;
+            const distSq = dx * dx + dz * dz;
+            if (distSq > ripple.maxSq) continue;
+
+            const distance = Math.sqrt(distSq);
+            const wave = distance * 0.045 - ripple.time;
+            if (wave < 0 && wave > -WAVE_BAND) {
+              const damping = Math.max(0, 1 - distance / 2200);
+              currentY += Math.sin(wave) * 65 * damping * ripple.fade;
+              isRipplePoint = true;
+            }
+          }
+
+          projectInto(proj, dot.x, currentY, dot.z);
+          if (proj.scale <= 0 || proj.scale >= 6) continue;
+
+          const alpha = Math.max(0, Math.min(1, proj.scale * 1.5)) * dot.edgeFade;
+          if (alpha <= 0.01) continue;
+
+          if (isRipplePoint || currentY > 10) {
+            if (pending) {
+              ctx.fill();
+              ctx.beginPath();
+              pending = 0;
+            }
+            ctx.fillStyle = `rgba(1, 2, 5, ${alpha * 0.58})`;
+            ctx.beginPath();
+            ctx.arc(proj.x, proj.y, 1.8 * proj.scale, 0, DOT_PI);
+            ctx.fill();
+            ctx.fillStyle = 'rgba(72, 74, 78, 0.18)';
+            ctx.beginPath();
+          } else {
+            ctx.moveTo(proj.x + 1.8 * proj.scale, proj.y);
+            ctx.arc(proj.x, proj.y, 1.8 * proj.scale, 0, DOT_PI);
+            pending++;
+          }
+        }
+
+        if (pending) ctx.fill();
+      }
+
+      function animate(now) {
+        if (!isRunning) return;
+        rafId = requestAnimationFrame(animate);
+        if (now - lastFrameAt < frameMs) return;
+        lastFrameAt = now;
+        draw(now);
+      }
+
+      function start() {
+        if (isRunning || !isHeroVisible || !isPageVisible) return;
+        isRunning = true;
+        lastFrameAt = 0;
+        lastDropAt = performance.now();
+        rafId = requestAnimationFrame(animate);
+      }
+
+      function stop() {
+        isRunning = false;
+        cancelAnimationFrame(rafId);
+      }
+
+      function scheduleResize() {
+        cancelAnimationFrame(resizeRaf);
+        resizeRaf = requestAnimationFrame(() => {
+          initCanvas();
+          if (!isRunning) draw(performance.now());
+        });
+      }
+
+      initCanvas();
+      spawnDrop();
+      draw(performance.now());
+
+      const visibilityObserver = new IntersectionObserver((entries) => {
+        isHeroVisible = entries[0].isIntersecting;
+        if (isHeroVisible) start();
+        else stop();
+      }, { threshold: 0.05 });
+      visibilityObserver.observe(hero);
+
+      document.addEventListener('visibilitychange', () => {
+        isPageVisible = !document.hidden;
+        if (isPageVisible) start();
+        else stop();
+      });
+
+      window.addEventListener('resize', scheduleResize, { passive: true });
+      window.addEventListener('pagehide', stop);
+    })();
+
     // 客户评价轮播
     const testimonials = [
       {
