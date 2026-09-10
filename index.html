@@ -17,8 +17,20 @@
   <!-- Open Graph 标签（社交媒体分享） -->
   <meta property="og:title" content="ReiVerb Sound Atorie - 原创配乐与声音设计工作室" />
   <meta property="og:description" content="为游戏与影像创作原创配乐与声音设计的独立工作室。" />
-  <meta property="og:image" content="v2-bento/spiral.svg" />
+  <!-- [深化] P2-1 SVG 不被多数平台收录，改用 1200×630 PNG -->
+  <meta property="og:image" content="https://eiichi-2049.github.io/00-index_images/og-cover.png" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://eiichi-2049.github.io/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://eiichi-2049.github.io/00-index_images/og-cover.png" />
+
+  <!-- [深化] P2-6 结构化数据 -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ProfessionalService",
+   "name":"ReiVerb Sound Atorie","description":"为游戏与影像创作原创配乐与声音设计",
+   "email":"reiverb-sound-atorie@outlook.com","url":"https://eiichi-2049.github.io/",
+   "knowsAbout":["Original Score","Sound Design","Wwise","FMOD","Mixing & Mastering"]}
+  </script>
 
   <!-- 网站图标 -->
   <link rel="icon" href="favicon.ico" />
@@ -31,12 +43,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
 
+  <script>document.documentElement.classList.add('js')</script>
   <style>
     /* ═══ OPPO Sans 正文字体（子集化 WOFF2；原始 TTF 保留在 fronts/OPPO_Sans_4.0）═══ */
     @font-face{
       font-family:'OPPO Sans';
       src:url('fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2') format('woff2');
-      font-weight:100 900;
+      font-weight:100 700;   /* [深化] P2-7 子集可变轴实际范围 wght 100–700 */
       font-style:normal;
       font-display:swap;
     }
@@ -50,6 +63,8 @@
       --ink2:#333333;    /* 深灰 · 标题备选色 */
       --muted:#a1a4a7;   /* 灰 · 次要文字 */
       --line:rgba(1,2,5,.1);  /* 淡黑 · 分隔线 */
+      --stroke:#222;     /* 卡片/导航描边（深浅模式各自覆盖） */
+      --glass:rgba(1,2,5,.06);
       --accent:#d0ff71;  /* 青柠绿 · 强调/按钮 */
       --olive:#b0b748;   /* 橄榄绿 · 小圆点1 */
       --wine:#4e0115;    /* 酒红 · 小圆点2 */
@@ -67,6 +82,8 @@
         --ink2:#cccccc;
         --muted:#9a9c9e;
         --line:rgba(255,255,255,0.1);
+        --stroke:rgba(255,255,255,.18);
+        --glass:rgba(255,255,255,.06);
       }
       .nav{background:rgba(18,18,18,0.85)}
       .foot-brand{background:linear-gradient(var(--ink),rgba(255,255,255,0.15))}
@@ -75,7 +92,7 @@
     /* ═══ 基础重置 ═══ */
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{background:var(--paper);color:var(--ink);font-family:'OPPO Sans','Microsoft YaHei UI','Microsoft YaHei','PingFang SC',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+    body{background:var(--paper);color:var(--ink);font-family:'OPPO Sans','Microsoft YaHei UI','Microsoft YaHei','PingFang SC',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
     ul{list-style:none}
@@ -88,13 +105,16 @@
          background:rgba(249,249,249,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
     /* 导航内容框：浅灰半透明胶囊 + 一圈描边 + 圆角，包住 logo/链接/按钮（Our Wave 参考样式） */
     .nav-in{width:100%;height:88px;display:flex;align-items:center;justify-content:space-between;gap:28px;
-            background:rgba(1,2,5,.06);border:1px solid #222;border-radius:16px;padding:0 max(18px, 2.5vw); }
-    .logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:-.02em;white-space:nowrap}
+            background:var(--glass);border:1px solid var(--stroke);border-radius:16px;padding:0 max(18px, 2.5vw); }
+    .logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:-.02em;white-space:nowrap;transition:opacity .2s}
+    .logo:hover{opacity:.8}
+    .logo:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:4px}
     .logo em{font-style:italic;color:var(--olive)}
     .nav-links{display:flex;align-items:center;justify-content:center;gap:34px;
                font-size:1.0rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
-    .nav-links a{opacity:.72;transition:opacity .2s}
+    .nav-links a{opacity:.72;transition:opacity .2s,color .2s}
     .nav-links a:hover{opacity:1}
+    .nav-links a:focus-visible{opacity:1;outline:2px solid var(--olive);outline-offset:4px;border-radius:4px}
     /* 胶囊按钮：实心青柠 / 描边深色 两种 */
     .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;
          font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
@@ -105,8 +125,15 @@
     .btn-line{background:transparent;border-color:var(--ink)}
     .btn-line:hover{background:var(--ink);color:var(--paper)}
     .btn-dark{background:var(--ink);color:var(--paper)}
+    .btn:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
+    /* 深色 CTA 区：描边按钮需用浅色，避免深底上看不见 */
+    #cta-final .btn-line{border-color:rgba(245,245,245,.55);color:var(--paper)}
+    #cta-final .btn-line:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+    #cta-final .wrap .btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:32px}
+    #cta-final .wrap .btns .btn{margin-top:0}
     /* 手机端：隐藏文字链接 + 汉堡按钮 */
-    .burger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer}
+    .burger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink);line-height:1;padding:4px 8px}
+    .burger:focus-visible{outline:2px solid var(--olive);outline-offset:2px;border-radius:8px}
     @media(max-width:760px){
       .nav-links{position:absolute;top:var(--nav-h);left:0;right:0;background:var(--paper);
                  flex-direction:column;padding:20px 40px;border-bottom:1px solid var(--line);
@@ -161,6 +188,9 @@
                         font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
                         color:var(--muted);padding-right:3.5em}
     @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @media (prefers-reduced-motion: reduce){
+      .marquee-track{animation:none}
+    }
 
     /* ═══ 通用分节 ═══ */
     section{padding:110px 0}
@@ -175,19 +205,22 @@
        Flexbox：.b-row 一行两张（各 flex:1、align-items:stretch 等高）；.b-card = 子项。
        增删卡：复制/删除 HTML 里的 .b-card；图卡换图：改 <img src>。 */
     #work{scroll-margin-top:170px}
+    #contact{scroll-margin-top:170px}
     .bento{display:flex;flex-direction:column;gap:0;width:100%;padding:0 40px}
     .b-row{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;
            gap:0;margin:0}
+    /* [深化] P2-5 描边用 box-shadow，去掉负 margin 拼缝补丁 */
     .b-card{position:relative;display:block;overflow:hidden;box-sizing:border-box;
-            background:var(--card);border:1px solid #222;border-radius:20px;
-            width:50%;flex:0 0 50%;min-width:0}    /* 两列各 50%，与内边距无关地均分 */
+            background:var(--card);border:none;box-shadow:0 0 0 1px var(--stroke);border-radius:20px;
+            width:50%;flex:0 0 50%;min-width:0}
     /* —— 文字卡（整张可点） —— */
     .b-text{display:flex;flex-direction:column;align-items:flex-start;text-align:left;
             aspect-ratio: 1.618 / 1;
             min-height: 320px;
             padding:40px;                          /* 卡内留白，文字不贴边 */
             transition:transform .25s ease,box-shadow .25s ease}
-    .b-text:hover{transform:translateY(-3px);box-shadow:0 22px 46px rgba(1,2,5,.09)}
+    .b-text:hover{transform:translateY(-3px);
+                  box-shadow:0 0 0 1px var(--stroke),0 22px 46px rgba(1,2,5,.09);z-index:2}
     .b-text:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
     .b-eyebrow{display:flex;align-items:center;gap:10px}
     .b-eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
@@ -208,7 +241,7 @@
     .b-text:hover .b-go{background:var(--ink);color:var(--paper)}
     .b-text:hover .b-go i{transform:translate(3px,-3px)}
     /* —— 图片卡 —— */
-    .b-pic{background:var(--ink);
+    .b-pic{background:#0a0a0c;
            aspect-ratio: 1.618 / 1;   /* 与文字卡同比例 → 整行 1.618:1 横版，不再是正方形 */
            min-height: 320px}
     .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
@@ -233,20 +266,21 @@
 
     /* ═══ 服务专长（深色背景交互列表）═══ */
     #services{background:var(--ink);color:var(--paper);padding:110px 0;position:relative}
+    #services .sec-head h2{color:var(--paper)}
     #services .sec-head { margin-bottom: 60px; }
     #services .eyebrow i:nth-child(1){background:#ffffff}
     #services .eyebrow i:nth-child(2){background:var(--muted)}
     #services .eyebrow span{color:var(--paper)}
     .service-list{list-style:none;display:flex;flex-direction:column;gap:32px}
     .service-row{position:relative;border-bottom:1px solid rgba(249,249,249,.15);
-                 padding-bottom:24px;overflow:hidden}
+                 padding-bottom:24px;overflow:hidden;cursor:default}
     .service-row:last-child{border-bottom:none}
     .service-content{display:flex;align-items:flex-start;gap:24px;position:relative}
     .service-number{font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;
                     color:var(--paper);opacity:.5;min-width:40px;flex-shrink:0;
                     transition:opacity .6s ease}
     .service-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2vw,1.8rem);
-                   letter-spacing:-.015em;color:var(--paper);opacity:.4;
+                   letter-spacing:-.015em;color:var(--paper);opacity:.55;
                    transition:opacity .6s ease;line-height:1.2;flex:1}
     .service-desc{font-family:var(--mono);font-size:.65rem;color:var(--muted);
                   opacity:.65;margin-top:8px;line-height:1.6;max-width:52ch;
@@ -258,7 +292,7 @@
 
     /* 列表交互：hover 某行时该行全亮，其余变暗——仅透明度反馈，字号不变 */
     .service-list:has(.service-row:hover) .service-row:not(:hover) .service-title{
-      opacity:.2
+      opacity:.28
     }
     .service-list:has(.service-row:hover) .service-row:not(:hover) .service-desc{
       opacity:.25
@@ -271,6 +305,13 @@
     }
     .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.6}
     .service-list:has(.service-row:hover) .service-row:hover .service-thumb{opacity:1}
+
+    /* [深化] P2-3 :has() 不可用时的可读性降级 */
+    @supports not selector(:has(*)) {
+      .service-title{opacity:.85}
+      .service-row:hover .service-title,
+      .service-row:hover .service-desc{opacity:1}
+    }
 
     /* 手机端：取消 hover 交互，统一显示 */
     @media(max-width:760px){
@@ -291,14 +332,18 @@
     .quote-line-final::before{content:"";position:absolute;top:0;left:0;width:clamp(64px,12vw,128px);height:1px;background:var(--line)}
     .quote footer{margin-top:42px;display:flex;align-items:center;gap:10px;
                   font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
+    .quote footer i{width:9px;height:9px;border-radius:50%;display:inline-block}
+    .quote footer i:nth-child(1){background:var(--olive)}
+    .quote footer i:nth-child(2){background:var(--wine)}
 
     /* ═══ 页脚 ═══ */
     footer{padding:80px 0 40px;border-top:1px solid var(--line)}
     .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:80px}
     .foot-top h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
                  color:var(--muted);margin-bottom:16px}
-    .foot-top li{margin-bottom:8px;opacity:.8}
+    .foot-top li{margin-bottom:8px;opacity:.8;transition:opacity .2s}
     .foot-top li:hover{opacity:1}
+    .foot-top a:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
     /* ═══ 底部超大品牌字（专属独立样式，改这里只影响这一处大字）═══
        想单独调：字号 → 改上面的 --display-size；
        颜色渐隐 → 改下面的 background:linear-gradient(...)。
@@ -345,6 +390,7 @@
                   letter-spacing:-.02em;color:var(--paper);line-height:1.2;margin-bottom:50px;
                   animation:cta-title 8s ease-in-out infinite;will-change:opacity}
     #cta-final .btn-lime{margin-top:32px}
+    #cta-final .btns .btn-lime{margin-top:0}
 
     @keyframes cta-mid{
       0%  {transform:scale(.8);opacity:.35}
@@ -397,6 +443,7 @@
                     font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
                     transition:background .25s ease,color .25s ease}
     .qr-modal-close:hover{background:var(--ink);color:var(--paper)}
+    .qr-modal-close:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
 
     /* ═══ 近况（浅色 · 状态点列表）═══ */
     #now{scroll-margin-top:170px}
@@ -431,6 +478,7 @@
                border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;
                transition:transform .2s ease,box-shadow .2s ease;font-weight:bold}
     .testi-btn:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(1,2,5,.15)}
+    .testi-btn:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
     .testi-counter{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--muted);
                    min-width:55px;text-align:center;text-transform:uppercase}
     @media(max-width:760px){
@@ -440,37 +488,47 @@
       .testi-controls{width:100%;justify-content:center}
     }
 
-    /* ═══ 滚动进场动画 ═══ */
-    .b-text,
-    .sec-head h2,
-    .now-item,
-    .quote blockquote{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
-    .b-text.visible,
-    .sec-head h2.visible,
-    .now-item.visible,
-    .quote blockquote.visible{opacity:1;transform:translateY(0)}
+    /* ═══ 滚动进场动画（仅在启用 JS 时隐藏初态，避免无 JS 时内容不可见）═══ */
+    /* [深化] P1-1 进场用 translate；.b-text 额外保留 hover 的 transform/box-shadow 过渡 */
+    .js .sec-head h2,
+    .js .now-item,
+    .js .quote blockquote{opacity:0;translate:0 24px;transition:opacity .6s ease,translate .6s ease}
+    .js .b-text{opacity:0;translate:0 24px;
+                transition:opacity .6s ease,translate .6s ease,
+                           transform .25s ease,box-shadow .25s ease}
+    .js .b-text.visible,
+    .js .sec-head h2.visible,
+    .js .now-item.visible,
+    .js .quote blockquote.visible{opacity:1;translate:0 0}
+    @media (prefers-reduced-motion: reduce){
+      .js .b-text,
+      .js .sec-head h2,
+      .js .now-item,
+      .js .quote blockquote{opacity:1;translate:none;transition:none}
+    }
 
     /* ═══ 自定义粘滞光标（暖灰褐 #93856d）═══
-       仅限支持 hover 的设备（有鼠标）；触屏设备上元素默认隐藏 */
+       仅限支持 hover 的设备；由 JS 添加 html.has-custom-cursor 后才隐藏系统光标
+       [深化] P0-2 / P2-2 */
 #custom-cursor{display:none}
+/* [深化] P0-2：cursor:none 只在 JS 成功初始化后生效，失败时自动恢复系统光标 */
+html.has-custom-cursor,
+html.has-custom-cursor * { cursor: none !important; }
 @media (hover: hover) {
-  * {
-      cursor: none !important;  /* 强制隐藏系统光标 */
-  }
   #custom-cursor {
       display: block;
       position: fixed;
       pointer-events: none;      /* 点击穿透 */
       z-index: 9999;
+      left: 0; top: 0;
       width: 28px;
       height: 28px;
       border-radius: 50%;
       background: #93856d;       /* 暖灰褐 */
-      transform: translate(-50%, -50%);
-      /* left/top 只保留极轻微粘滞；尺寸/背景（进 .b-text 变"查看按钮"）共用一套双向过渡 */
-      transition: left .035s ease-out, top .035s ease-out,
-                  width .25s ease, height .25s ease, background-color .25s ease, opacity .25s ease;
-      will-change: left, top;
+      /* [深化] P2-2 用 transform 跟随；初始在视口中心，避免系统光标隐藏后短暂“无光标” */
+      transform: translate3d(50vw,50vh,0) translate(-50%,-50%);
+      transition: width .25s ease, height .25s ease, background-color .25s ease, opacity .25s ease;
+      will-change: transform;
       /* macOS 式双描边：白圈贴圆点、黑圈在外——浅色背景上黑圈显形，深色背景上白圈显形 */
       box-shadow: 0 0 0 1.5px rgba(255,255,255,.65),
                   0 0 0 3px rgba(0,0,0,.4);
@@ -518,7 +576,7 @@
         </nav>
 
         <!-- 手机端菜单按钮 -->
-        <button class="burger" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+        <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false" onclick="document.getElementById('menu').classList.toggle('open');this.setAttribute('aria-expanded',document.getElementById('menu').classList.contains('open'))">☰</button>
       </div>
     </div>
   </header>
@@ -612,7 +670,7 @@
             <img src="v2-bento/mixing.svg" alt="Mixing & Mastering — 混音母带意象" loading="lazy"/>
           </div>
           <!-- ⑧ 文字卡 · 混音母带 -->
-          <a class="b-card b-text" href="./04-mixing/04-mixing.html">
+          <a class="b-card b-text" href="./02-bkeq/02-bkeq.html">
             <div class="b-eyebrow"><i></i><i></i><span>Plugin</span></div>
             <h3>插件开发 · VST Plugin Development</h3>
             <p>设计与数字信号处理</p>
@@ -629,17 +687,17 @@
             <p>对HSR等音乐作品进行分析和复刻</p>
             <span class="b-go">了解更多 <i>↗</i></span>
           </a>
-          <!-- ② 图片卡 · 波形（原创配乐意象） -->
+          <!-- ⑨ 图片卡 · 乐谱分析（音乐分析复刻意象） -->
           <div class="b-card b-pic">
-            <img src="v2-bento/waveform.svg" alt="Original Score — 声波意象" loading="lazy"/>
+            <img src="v2-bento/remake.svg" alt="Music Analysis Remake — 乐谱分析意象" loading="lazy"/>
           </div>
       </div>
 
         <!-- 第 6 行：图 | 文字 -->
           <div class="b-row">
-          <!-- ⑩ 图片卡 · 星点漩涡（声音设计意象，参考页同款） -->
+          <!-- ⑩ 图片卡 · 研究手稿（想法/写作意象） -->
           <div class="b-card b-pic">
-            <img src="v2-bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
+            <img src="v2-bento/research.svg" alt="Research & Writing — 研究手稿意象" loading="lazy"/>
           </div>
           <!-- ⑪ 文字卡 · 声音设计 -->
           <a class="b-card b-text" href="./06-research&writing/06-rw.html">
@@ -708,9 +766,9 @@
   <!-- ═══ 观点引言（浅色 · 固定文案）═══ -->
   <section class="quote wrap">
     <blockquote>
-      <span class="quote-line quote-line-keep">“我从不信玩家问卷里“音乐很好听”的评价。”</span>
-      <span class="quote-line">“重击前摇时那 0.3 秒的停顿，那才是该塞进低频“呼吸感”的地方。”</span>
-      <span class="quote-line quote-line-final quote-line-keep">“声音是玩家行为的延申。”</span>
+      <span class="quote-line quote-line-keep">“我从不信玩家问卷里「音乐很好听」的评价。”</span>
+      <span class="quote-line">“重击前摇时那 0.3 秒的停顿，那才是该塞进低频「呼吸感」的地方。”</span>
+      <span class="quote-line quote-line-final quote-line-keep">“声音是玩家行为的延伸。”</span>
     </blockquote>
     <footer>
       <i></i><i></i>
@@ -784,7 +842,10 @@
     <div class="eyebrow"><i></i><i></i><span>Sound that speaks for your story</span></div>
     <div class="wrap">
       <h2>Compose with breath</h2>
-      <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png">View Resume · Submit Brief</a>
+      <div class="btns">
+        <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png" id="cta-brief">View Resume · Submit Brief</a>
+        <a class="btn btn-line" href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener" id="cta-resume-pdf">Resume PDF</a>
+      </div>
     </div>
   </section>
 
@@ -808,10 +869,11 @@
         <div>
           <h4>Social Media</h4>
           <ul>
-            <li><a href="https://wechat.com">Wechat</a></li>
-            <li><a href="https://github.com/eiichi-2049">GitHub</a></li>
-            <li><a href="https://space.bilibili.com/23277208">哔哩哔哩</a></li>
-            <li><a href="https://www.xiaoheihe.cn/app/bbs/home">小黑盒（即将上线）</a></li>
+            <!-- [深化] P1-3 无 JS 时打开微信二维码图片；有 JS 时弹出模态框 -->
+            <li><a href="./00-index_images/Wechat_QR_Code.jpg" id="wechat-link" target="_blank" rel="noopener">Wechat</a></li>
+            <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
+            <li><a href="https://www.xiaoheihe.cn/app/bbs/home" target="_blank" rel="noopener noreferrer">小黑盒（即将上线）</a></li>
           </ul>
         </div>
       </div>
@@ -826,13 +888,13 @@
     </div>
   </footer>
 
-  <!-- 二维码弹窗（点击"scan QR code"打开；href 保留作无 JS 兜底） -->
+  <!-- 二维码弹窗：CTA 打开飞书需求表单；页脚 Wechat 打开微信码 -->
   <div class="qr-modal" id="qr-modal" aria-hidden="true">
     <div class="qr-modal-backdrop"></div>
-    <div class="qr-modal-card" role="dialog" aria-label="飞书项目需求表单二维码">
+    <div class="qr-modal-card" role="dialog" aria-modal="true" aria-label="二维码">
       <button class="qr-modal-close" aria-label="关闭">×</button>
       <div class="qr-modal-frame">
-        <img src="./00-index_images/RVB_Questionnaire.png" alt="飞书项目需求表单二维码" />
+        <img id="qr-modal-img" src="./00-index_images/RVB_Questionnaire.png" alt="飞书项目需求表单二维码" />
       </div>
     </div>
   </div>
@@ -851,6 +913,24 @@
 
       const ctx = canvas.getContext('2d', { alpha: true });
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // [深化] P0-1 深色模式下点阵颜色跟随系统主题
+      const darkMQ = window.matchMedia('(prefers-color-scheme: dark)');
+      let isDark = darkMQ.matches;
+      let dropFill, dropShadow, gridFill, rippleFill;
+      function syncThemeColors() {
+        dropFill = isDark ? 'rgba(245,245,245,.5)' : 'rgba(1, 2, 5, 0.62)';
+        dropShadow = isDark ? 'rgba(245,245,245,.12)' : 'rgba(1, 2, 5, 0.14)';
+        gridFill = isDark ? 'rgba(245,245,245,.16)' : 'rgba(72, 74, 78, 0.18)';
+        rippleFill = isDark
+          ? (a) => `rgba(245,245,245,${a * 0.5})`
+          : (a) => `rgba(1, 2, 5, ${a * 0.58})`;
+      }
+      syncThemeColors();
+      darkMQ.addEventListener('change', e => {
+        isDark = e.matches;
+        syncThemeColors();
+        if (!isRunning) draw(performance.now());
+      });
       const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
       let width = 0;
       let height = 0;
@@ -959,8 +1039,8 @@
 
         const proj = { x: 0, y: 0, scale: 0 };
 
-        ctx.fillStyle = 'rgba(1, 2, 5, 0.62)';
-        ctx.shadowColor = 'rgba(1, 2, 5, 0.14)';
+        ctx.fillStyle = dropFill;
+        ctx.shadowColor = dropShadow;
         ctx.shadowBlur = 8;
         for (let i = drops.length - 1; i >= 0; i--) {
           const drop = drops[i];
@@ -991,7 +1071,7 @@
           }
         }
 
-        ctx.fillStyle = 'rgba(72, 74, 78, 0.18)';
+        ctx.fillStyle = gridFill;
         ctx.beginPath();
         let pending = 0;
 
@@ -1028,11 +1108,11 @@
               ctx.beginPath();
               pending = 0;
             }
-            ctx.fillStyle = `rgba(1, 2, 5, ${alpha * 0.58})`;
+            ctx.fillStyle = rippleFill(alpha);
             ctx.beginPath();
             ctx.arc(proj.x, proj.y, 1.8 * proj.scale, 0, DOT_PI);
             ctx.fill();
-            ctx.fillStyle = 'rgba(72, 74, 78, 0.18)';
+            ctx.fillStyle = gridFill;
             ctx.beginPath();
           } else {
             ctx.moveTo(proj.x + 1.8 * proj.scale, proj.y);
@@ -1077,6 +1157,12 @@
       spawnDrop();
       draw(performance.now());
 
+      // [深化] P2-4 减少动画时只静态绘制一帧，不进入 rAF 循环
+      if (reduceMotion) {
+        window.addEventListener('resize', scheduleResize, { passive: true });
+        return;
+      }
+
       const visibilityObserver = new IntersectionObserver((entries) => {
         isHeroVisible = entries[0].isIntersecting;
         if (isHeroVisible) start();
@@ -1100,16 +1186,19 @@
         quote: '暂无评价，请在此处添加客户评价内容。',
         name: '张三',
         title: 'XX游戏制作人',
+        avatar: 'v2-bento/waveform.svg',
       },
       {
         quote: '暂无评价，请在此处添加客户评价内容。',
         name: '李四',
         title: 'XX独立开发团队,负责XX游戏项目',
+        avatar: 'v2-bento/spiral.svg',
       },
       {
         quote: '暂无评价，请在此处添加客户评价内容。',
         name: '王五',
         title: '客户职位介绍',
+        avatar: 'v2-bento/network.svg',
       }
     ];
 
@@ -1117,30 +1206,38 @@
 
     function updateTestimonial() {
       const blockquote = document.querySelector('.testi-card blockquote');
+      if (!blockquote) return;
       blockquote.classList.add('transitioning');
 
       setTimeout(() => {
         const testi = testimonials[currentIndex];
         blockquote.textContent = testi.quote;
-        document.querySelector('.testi-name').textContent = testi.name;
-        document.querySelector('.testi-title').textContent = testi.title;
-        document.querySelector('.testi-avatar').src = testi.avatar;
+        const nameEl = document.querySelector('.testi-name');
+        const titleEl = document.querySelector('.testi-title');
+        const avatarEl = document.querySelector('.testi-avatar');
+        const counterEl = document.querySelector('.testi-counter');
+        if (nameEl) nameEl.textContent = testi.name;
+        if (titleEl) titleEl.textContent = testi.title;
+        if (avatarEl) avatarEl.src = testi.avatar || 'v2-bento/waveform.svg';
 
         const total = testimonials.length;
         const current = currentIndex + 1;
-        document.querySelector('.testi-counter').textContent =
-          `${String(current).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+        if (counterEl) {
+          counterEl.textContent =
+            `${String(current).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+        }
 
         blockquote.classList.remove('transitioning');
       }, 250);
     }
 
-    document.querySelector('.testi-prev').addEventListener('click', () => {
+    const prevBtn = document.querySelector('.testi-prev');
+    const nextBtn = document.querySelector('.testi-next');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
       currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
       updateTestimonial();
     });
-
-    document.querySelector('.testi-next').addEventListener('click', () => {
+    if (nextBtn) nextBtn.addEventListener('click', () => {
       currentIndex = (currentIndex + 1) % testimonials.length;
       updateTestimonial();
     });
@@ -1165,71 +1262,142 @@
       '.b-text, .sec-head h2, .quote blockquote, .now-item'
     ).forEach(el => observer.observe(el));
 
+    // 兜底：2.5s 后强制显示仍未进场的内容，避免观察器异常时卡死
+    setTimeout(() => {
+      document.querySelectorAll(
+        '.b-text, .sec-head h2, .quote blockquote, .now-item'
+      ).forEach(el => el.classList.add('visible'));
+    }, 2500);
+
     // ═══ 自定义粘滞光标控制 ═══
     (function() {
       const cursor = document.getElementById('custom-cursor');
       if (!cursor) return;
+      // [深化] P0-2 仅在支持 hover 的设备启用；失败时恢复系统光标
+      if (!window.matchMedia('(hover: hover)').matches) return;
 
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-      });
+      try {
+        document.documentElement.classList.add('has-custom-cursor');
 
-      document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
-      });
-      document.addEventListener('mouseenter', () => {
-        cursor.style.opacity = '1';
-      });
+        // [深化] P2-2 rAF 节流 + transform；初始居中，避免系统光标已隐藏时“无光标”
+        let mx = Math.round(window.innerWidth / 2);
+        let my = Math.round(window.innerHeight / 2);
+        let queued = false;
+        const paint = () => {
+          queued = false;
+          cursor.style.transform = `translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;
+        };
+        paint();
+        document.addEventListener('mousemove', (e) => {
+          mx = e.clientX;
+          my = e.clientY;
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(paint);
+        }, { passive: true });
 
-      // 长按左键：持续变小
-      document.addEventListener('mousedown', () => {
-        cursor.classList.add('cursor-click');
-      });
-      document.addEventListener('mouseup', () => {
-        cursor.classList.remove('cursor-click');
-      });
-
-      // hover 可点击目标（work 文字卡、CTA"预约咨询"）时，光标切换为"查看按钮"形态
-      document.querySelectorAll('.b-text, #cta-final .btn-lime').forEach(card=>{
-        card.addEventListener('mouseenter', ()=>{
-          cursor.classList.add('cursor-view');
+        document.addEventListener('mouseleave', () => {
+          cursor.style.opacity = '0';
         });
-        card.addEventListener('mouseleave', ()=>{
-          cursor.classList.remove('cursor-view');
+        document.addEventListener('mouseenter', () => {
+          cursor.style.opacity = '1';
+        });
+
+        // 长按左键：持续变小
+        document.addEventListener('mousedown', () => {
+          cursor.classList.add('cursor-click');
+        });
+        document.addEventListener('mouseup', () => {
+          cursor.classList.remove('cursor-click');
+        });
+
+        // hover 可点击目标（work 文字卡、CTA 按钮）时，光标切换为"查看按钮"形态
+        document.querySelectorAll('.b-text, #cta-final .btn-lime, #cta-resume-pdf').forEach(card=>{
+          card.addEventListener('mouseenter', ()=>{
+            cursor.classList.add('cursor-view');
+          });
+          card.addEventListener('mouseleave', ()=>{
+            cursor.classList.remove('cursor-view');
+          });
+        });
+      } catch (err) {
+        document.documentElement.classList.remove('has-custom-cursor');
+      }
+    })();
+
+    // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
+    (function() {
+      const yearEl = document.querySelector('.foot-base span');
+      if (yearEl) {
+        yearEl.textContent = `© ${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
+      }
+    })();
+
+    // ═══ 手机端：点导航链接后自动收起菜单 ═══
+    (function() {
+      const menu = document.getElementById('menu');
+      const burger = document.querySelector('.burger');
+      if (!menu || !burger) return;
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('open');
+          burger.setAttribute('aria-expanded', 'false');
         });
       });
     })();
 
-    // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
-    document.querySelector('.foot-base span').textContent =
-      `© ${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
-
-    // ═══ 二维码弹窗：点"预约咨询"原地弹出；遮罩/×/ESC 均可关闭 ═══
+    // ═══ 二维码弹窗：CTA「Submit Brief」→ 飞书表单；页脚 Wechat → 微信码 ═══
     (function() {
       const modal = document.getElementById('qr-modal');
-      const ctaBtn = document.querySelector('#cta-final .btn-lime');
-      if (!modal || !ctaBtn) return;
+      const modalImg = document.getElementById('qr-modal-img');
+      const ctaBrief = document.getElementById('cta-brief');
+      const wechatLink = document.getElementById('wechat-link');
+      if (!modal || !modalImg) return;
 
-      const open = () => {
+      // [深化] P1-2 焦点管理
+      let lastFocus = null;
+
+      const open = (src, alt) => {
+        lastFocus = document.activeElement;
+        if (src) modalImg.src = src;
+        if (alt) modalImg.alt = alt;
         modal.classList.add('open');
         modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';   // 弹窗打开时锁定背景滚动
+        document.body.style.overflow = 'hidden';
+        const closeBtn = modal.querySelector('.qr-modal-close');
+        if (closeBtn) closeBtn.focus();
       };
       const close = () => {
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
       };
 
-      ctaBtn.addEventListener('click', (e) => {
-        e.preventDefault();   // 拦截默认跳转（href 保留给无 JS 环境）
-        open();
-      });
+      if (ctaBrief) {
+        ctaBrief.addEventListener('click', (e) => {
+          e.preventDefault();   // 弹出飞书二维码（href 保留给无 JS 兜底）
+          open('./00-index_images/RVB_Questionnaire.png', '飞书项目需求表单二维码');
+        });
+      }
+      if (wechatLink) {
+        wechatLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          open('./00-index_images/Wechat_QR_Code.jpg', '微信二维码');
+        });
+      }
       modal.querySelector('.qr-modal-backdrop').addEventListener('click', close);
       modal.querySelector('.qr-modal-close').addEventListener('click', close);
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('open')) close();
+      });
+      // [深化] P1-2 Tab 陷阱：弹窗打开时焦点不跑到背景
+      modal.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab' && modal.classList.contains('open')) {
+          e.preventDefault();
+          const closeBtn = modal.querySelector('.qr-modal-close');
+          if (closeBtn) closeBtn.focus();
+        }
       });
     })();
   </script>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <pattern id="rwg" width="36" height="36" patternUnits="userSpaceOnUse">
+      <circle cx="18" cy="18" r="1.2" fill="#e8e6e2" opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="1000" height="1000" fill="#0a0a0c"/>
+  <rect width="1000" height="1000" fill="url(#rwg)"/>
+  <circle cx="200" cy="240" r="140" fill="#b0b748" opacity="0.05"/>
+  <circle cx="820" cy="760" r="160" fill="#d0ff71" opacity="0.04"/>
+
+  <!-- notebook / manuscript pages -->
+  <rect x="180" y="180" width="320" height="420" rx="10" fill="none" stroke="#e8e6e2" stroke-width="2" opacity="0.45"/>
+  <rect x="210" y="210" width="320" height="420" rx="10" fill="#121214" stroke="#e8e6e2" stroke-width="2" opacity="0.85"/>
+
+  <!-- text lines on page -->
+  <g stroke="#e8e6e2" stroke-width="6" stroke-linecap="round" opacity="0.35">
+    <line x1="240" y1="260" x2="490" y2="260"/>
+    <line x1="240" y1="300" x2="460" y2="300"/>
+    <line x1="240" y1="340" x2="480" y2="340"/>
+    <line x1="240" y1="380" x2="400" y2="380"/>
+    <line x1="240" y1="440" x2="490" y2="440"/>
+    <line x1="240" y1="480" x2="430" y2="480"/>
+    <line x1="240" y1="520" x2="470" y2="520"/>
+    <line x1="240" y1="560" x2="360" y2="560"/>
+  </g>
+  <!-- highlighted thought -->
+  <line x1="240" y1="300" x2="380" y2="300" stroke="#b0b748" stroke-width="6" stroke-linecap="round" opacity="0.75"/>
+  <line x1="240" y1="440" x2="350" y2="440" stroke="#d0ff71" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- waveform / sound thought coming off the page -->
+  <path d="M540 340 C580 340,600 280,640 300 S700 400,740 360 S800 280,840 320 S900 400,940 360"
+        fill="none" stroke="#e8e6e2" stroke-width="3.5" opacity="0.5"/>
+  <path d="M540 420 C590 420,620 360,670 380 S750 480,800 440 S880 360,940 400"
+        fill="none" stroke="#b0b748" stroke-width="2.5" opacity="0.55"/>
+  <path d="M540 500 C600 500,630 560,690 530 S790 450,850 490 S910 540,940 520"
+        fill="none" stroke="#d0ff71" stroke-width="2" opacity="0.45"/>
+
+  <!-- small nodes as idea markers -->
+  <circle cx="640" cy="300" r="7" fill="#d0ff71" opacity="0.85"/>
+  <circle cx="740" cy="360" r="6" fill="#e8e6e2" opacity="0.7"/>
+  <circle cx="670" cy="380" r="6" fill="#b0b748" opacity="0.85"/>
+  <circle cx="800" cy="440" r="6" fill="#e8e6e2" opacity="0.65"/>
+
+  <!-- pen tip -->
+  <path d="M470 620 L520 560 L540 580 L490 640 Z" fill="#e8e6e2" opacity="0.55"/>
+  <circle cx="470" cy="640" r="5" fill="#d0ff71" opacity="0.8"/>
+</svg>
