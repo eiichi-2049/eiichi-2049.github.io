@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>06 · Research & Writing — EiiChi2049</title>
+    <title>06 · Research & Writing — ReiVerb Sound Atorie</title>
     <meta
       name="description"
-      content="EiiChi_2049 — Research & Writing · 关于声音、游戏与创作的思考"
+      content="ReiVerb Sound Atorie — Research & Writing · 关于声音、游戏与创作的思考"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -21,7 +21,7 @@
       @font-face {
         font-family: "OPPO Sans";
         src: url("../fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2") format("woff2");
-        font-weight: 100 900;
+        font-weight: 100 700;
         font-style: normal;
         font-display: swap;
       }
@@ -89,9 +89,9 @@
         --ink: #010205;
         --ink2: #333333;
         --ink3: #a1a4a7;
-        --accent: #b0b748;
-        --accent-hover: #c3ca5e;
-        --accent-dim: rgba(176, 183, 72, 0.1);
+        --accent: #d0ff71;
+        --accent-hover: #e2ff9c;
+        --accent-dim: rgba(208, 255, 113, 0.12);
         --line: rgba(1, 2, 5, 0.07);
         --line2: rgba(1, 2, 5, 0.14);
         --nav-bg: rgba(249, 249, 249, 0.82);
@@ -860,13 +860,16 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="../shared/subpage.css" />
     <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）——固定亮色 */
+      /* 尽早设置主题，避免页面闪烁（FOUC）——默认跟随系统，可被 localStorage 覆盖 */
       (function () {
         var root = document.documentElement;
         var stored = null;
         try { stored = localStorage.getItem("theme"); } catch (e) {}
-        root.setAttribute("data-theme", "light");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = stored || (prefersDark ? "dark" : "light");
+        root.setAttribute("data-theme", theme);
       })();
     </script>
   </head>
@@ -888,16 +891,15 @@
         </div>
     </header>
 
-    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <!-- ── HERO（统一子页语言） ── -->
     <section id="rw-hero">
-      <a href="../index.html#work" class="rw-back">← back to work</a>
+      <a href="../index.html#work" class="page-back">← back to work</a>
+      <div class="project-eyebrow"><i></i><i></i><span>Research & Writing</span></div>
       <h1 class="rw-title">
-        <em>Research</em>  &amp; <em> Writing</em>
+        <em>Research</em> &amp; <em>Writing</em>
       </h1>
       <p class="rw-desc">
-          从技术研究到随笔写作，记录那些在创作途中闪过的念头与沉淀下来的笔记
-          <br />
-          Notes on sound, games, and the act of making things.
+          从技术研究到随笔写作，记录创作途中闪过的念头与沉淀下来的笔记<br />Notes on sound, games, and the act of making things.
       </p>
     </section>
 
@@ -1232,11 +1234,10 @@
     </section>
 
     <!-- ── FOOTER ─────────────────────────────────────────────── -->
-    <footer>
-      <div class="footer-inner">
-        <div class="footer-l">© 2026 ReiVerb Sound Atorie</div>
-      </div>
-    </footer>
+    <footer class="footer-sub">
+            <span>© 2026 ReiVerb Sound Atorie</span>
+            <span class="footer-tag">Composer · Sound Designer · Audio Implementer</span>
+        </footer>
 
     <!-- ── 桌面 ─────────────────────────────────────────────── -->
     <div class="rw-desktop" id="rw-desktop"></div>

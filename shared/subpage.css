@@ -1,0 +1,194 @@
+/* ═══ 子页公共版式（与首页导航/标题语言统一）═══
+   引用方式：在各子页 </style> 之前或之后
+   <link rel="stylesheet" href="../shared/subpage.css" /> */
+
+:root {
+  --olive: #b0b748;
+  --wine: #4e0115;
+}
+
+/* logo 强调色与首页一致（橄榄斜体 Atorie） */
+.logo em {
+  color: var(--olive) !important;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+/* ── 项目页头（统一结构：返回 · 眉标 · 标题 · 描述） ── */
+.project-header {
+  margin-bottom: 2.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.project-header::after {
+  content: "";
+  display: block;
+  height: 6px;
+  margin-top: 0.75rem;
+  background:
+    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 10%, var(--ink3, #9a9c9e) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
+    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 15%, var(--ink3, #9a9c9e) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
+  opacity: 0.45;
+}
+
+.page-back {
+  font-size: 11px;
+  color: var(--ink3, #9a9c9e);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+
+.page-back:hover {
+  color: var(--olive);
+}
+
+/* 首页同款双彩点眉标 */
+.project-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.85rem;
+}
+
+.project-eyebrow i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.project-eyebrow i:nth-child(1) { background: var(--olive); }
+.project-eyebrow i:nth-child(2) { background: var(--wine, #4e0115); }
+
+.project-eyebrow span {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink3, #9a9c9e);
+}
+
+.project-title,
+.page-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 300;
+  line-height: 1.12;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+  letter-spacing: -0.02em;
+}
+
+.project-title em,
+.page-title em,
+.rw-title em {
+  font-style: italic;
+  color: var(--olive);
+}
+
+.page-desc,
+.rw-desc {
+  font-size: 0.95rem;
+  color: var(--ink3, #9a9c9e);
+  max-width: 640px;
+  line-height: 1.85;
+}
+
+/* ── 内容区版心（与项目页一致） ── */
+.page-wrap,
+#rw-hero,
+#rw-body .container {
+  max-width: 1080px;
+}
+
+/* ── 统一页脚 ── */
+.footer-sub {
+  border-top: 1px solid var(--rule, var(--line, rgba(1, 2, 5, 0.07)));
+  padding: 1.25rem 0 0.5rem;
+  margin-top: 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--ink3, #9a9c9e);
+  position: relative;
+  z-index: 2;
+}
+
+.footer-sub a {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-sub a:hover {
+  color: var(--olive);
+}
+
+.footer-tag {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+/* ── 06：研究页 hero 映射到同一语言 ── */
+.rw-back {
+  font-size: 11px;
+  color: var(--ink3, #9a9c9e);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+
+.rw-back:hover {
+  color: var(--olive);
+}
+
+#rw-hero {
+  position: relative;
+  z-index: 2;
+}
+
+#rw-hero::after {
+  content: "";
+  display: block;
+  height: 6px;
+  margin-top: 0.75rem;
+  max-width: min(100%, 42rem);
+  background:
+    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 10%, var(--ink3, #9a9c9e) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
+    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 15%, var(--ink3, #9a9c9e) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
+  opacity: 0.45;
+}
+
+/* 06 双栏区也跟上衬线标题节奏 */
+.rw-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.1rem;
+}

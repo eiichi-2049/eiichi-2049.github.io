@@ -156,18 +156,21 @@
     .eyebrow i:nth-child(1){background:var(--olive)}
     .eyebrow i:nth-child(2){background:var(--wine)}
     .eyebrow span{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-    /* 大标题：超大衬线。四个字比较宽松排布（去掉两端对齐拉开的间距）。*/
+    /* 大标题：超大衬线。收紧字距、略压行高，避免三行英文在桌面端发散过空 */
     .hero h1{font-family:var(--serif);
             font-weight:300;
-            font-size:clamp(3rem,10vw,7rem);
-            line-height:1.15;
-            letter-spacing: 0.2em;
+            font-size:clamp(3.2rem,9vw,6.5rem);
+            line-height:1.08;
+            letter-spacing: 0.04em;
             text-align: left;
             color:var(--ink2)}
     .hero h1 em{font-style:italic;
                 color:var(--ink)}
+    /* 末行 Atorie 用橄榄斜体高光，呼应导航 logo 的 em */
+    .hero h1 .hero-accent{font-style:italic;
+                color:var(--olive)}
     .hero p{max-width:44ch;
-            margin:28px 0 40px;
+            margin:32px 0 48px;
             color:var(--muted);
             font-size:1rem}
     .hero .btns{display:flex;
@@ -199,13 +202,39 @@
                  letter-spacing:-.02em;color:var(--ink2);line-height:1.15;max-width:20ch}
     .sec-head h2 em{font-style:italic;color:var(--olive)}
 
-    /* ═══ 作品/服务：交错圆角卡片整幅拼贴（每行 2 张 · 文字与图片交错）
-       6 张卡 = 3 行 × 2 列，行内 / 行间一律 0 间距（gap:0、margin:0），
-       等高 + 圆角 + 1px 描边，在中缝与四角交界处拼出“圆角缺口”（参考 Our Wave）。
-       Flexbox：.b-row 一行两张（各 flex:1、align-items:stretch 等高）；.b-card = 子项。
-       增删卡：复制/删除 HTML 里的 .b-card；图卡换图：改 <img src>。 */
+    /* ═══ Selected Work：项目证据层（沿用 bento 视觉，强化编号 / 标签 / CTA）═══
+       01–03 为「真实交付证据」，其后 Experiments 为实验与研究，层次：证据 > 实验 > 思考 */
     #work{scroll-margin-top:170px}
     #contact{scroll-margin-top:170px}
+    #experiments{scroll-margin-top:170px;padding-top:0}
+    .work-num{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
+              color:var(--olive);font-weight:500;text-transform:uppercase}
+    .work-role{color:var(--muted);font-size:.95rem;margin-top:clamp(12px,1.8vh,18px)}
+    .work-tags{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
+               text-transform:uppercase;color:var(--muted);margin-top:10px;line-height:1.7}
+    .b-text .b-go{margin-top:auto}
+    /* 证据卡：编号已占上部，标题不必再拉很大留白 */
+    .work-evidence .b-text h3{margin-top:clamp(24px,3.5vh,42px)}
+    .exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 40px}
+    .exp-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;
+              text-align:left;box-sizing:border-box;background:var(--card);
+              box-shadow:0 0 0 1px var(--stroke);border-radius:16px;
+              padding:28px 26px 24px;min-height:200px;color:inherit;text-decoration:none;
+              transition:transform .25s ease,box-shadow .25s ease}
+    .exp-card:hover{transform:translateY(-3px);
+                    box-shadow:0 0 0 1px var(--stroke),0 18px 36px rgba(1,2,5,.08);z-index:2}
+    .exp-card:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+    .exp-kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;
+                text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+    .exp-card h3{font-family:var(--serif);font-weight:400;color:var(--ink2);
+                 font-size:clamp(1.25rem,1.6vw,1.55rem);line-height:1.2;letter-spacing:-.015em}
+    .exp-card p{color:var(--muted);font-size:.88rem;line-height:1.65;margin-top:12px;max-width:36ch}
+    .exp-go{margin-top:auto;padding-top:22px;font-family:var(--mono);font-size:.66rem;
+            letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.75}
+    .exp-card:hover .exp-go{opacity:1;color:var(--olive)}
+    @media(max-width:960px){
+      .exp-grid{grid-template-columns:1fr;padding:0 20px}
+    }
     .bento{display:flex;flex-direction:column;gap:0;width:100%;padding:0 40px}
     .b-row{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;
            gap:0;margin:0}
@@ -514,6 +543,11 @@
 /* [深化] P0-2：cursor:none 只在 JS 成功初始化后生效，失败时自动恢复系统光标 */
 html.has-custom-cursor,
 html.has-custom-cursor * { cursor: none !important; }
+/* 长文本阅读区：保留系统光标（I-beam），便于跟读与划选 */
+html.has-custom-cursor .quote,
+html.has-custom-cursor .quote *,
+html.has-custom-cursor .now-list,
+html.has-custom-cursor .now-list * { cursor: text !important; }
 @media (hover: hover) {
   #custom-cursor {
       display: block;
@@ -544,6 +578,8 @@ html.has-custom-cursor * { cursor: none !important; }
       background:rgba(147,133,109,.38);
       width:44px;height:44px;   /* 比默认圆点(28px)更大，做成"按钮感" */
   }
+  /* 阅读区：隐藏自定义圆点，交给系统 I-beam（!important 以压过 document mouseenter 的 inline opacity） */
+  #custom-cursor.cursor-system{opacity:0 !important;}
   #custom-cursor.cursor-view .cursor-arrow{
       opacity:1;transform:translate(-50%,-50%) scale(1);
   }
@@ -590,7 +626,7 @@ html.has-custom-cursor * { cursor: none !important; }
         空山漪韵<br>
         /ˈreɪ.vɜːrb ˈsaʊnd əˈtɔːri/</span></div>
       <!-- ★ 主标语 -->
-      <h1>ReiVerb<br>Sound<br>Atorie</h1>
+      <h1>ReiVerb<br>Sound<br><span class="hero-accent">Atorie</span></h1>
       <!-- ★ 内容：一句话简介 -->
       <p>Composer · Sound Designer · Audio Implementer<br>为游戏创造音乐、声音设计与互动音频体验</p>
     </div>
@@ -604,111 +640,88 @@ html.has-custom-cursor * { cursor: none !important; }
     </div>
   </div>
 
-  <!-- ═══ 作品/服务：交错圆角卡片（每行 2 张 · 文字与图片交错）
-       6 张卡 = 3 行 × 2 列；行序 = 文字|图 → 图|文字 → 文字|图。
-       文字卡整张可点；图卡是占位（v2-bento/*.svg），可换成你自己的作品图。 -->
+  <!-- ═══ Selected Work：项目证据（真实交付 > 实验 > 思考）═══ -->
   <section id="work">
     <div class="wrap">
       <div class="sec-head">
-        <div class="eyebrow"><i></i><i></i><span>Selected Works</span></div>
-        <!-- ★ 内容：区块标题 -->
-        <h2><em>作品</em></h2>
+        <div class="eyebrow"><i></i><i></i><span>Selected Work</span></div>
+        <h2><em>项目</em></h2>
       </div>
     </div>
 
-    <div class="bento">
-
-        <!-- 第 1 行：文字 | 图 -->
-        <div class="b-row">
-          <!-- ① 文字卡 · 原创配乐 -->
-          <a class="b-card b-text" href="./01-ost/01-ost.html">
-            <div class="b-eyebrow"><i></i><i></i><span>Compose</span></div>
-            <h3>原创配乐 · Original Score</h3>
-            <p>原创配乐、编曲</p>
-            <span class="b-go">了解更多 <i>↗</i></span>
-          </a>
-          <!-- ② 图片卡 · 波形（原创配乐意象） -->
-          <div class="b-card b-pic">
-            <img src="v2-bento/waveform.svg" alt="Original Score — 声波意象" loading="lazy"/>
-          </div>
-        </div>
-
-        <!-- 第 2 行：图 | 文字 -->
-        <div class="b-row">
-          <!-- ③ 图片卡 · 星点漩涡（声音设计意象，参考页同款） -->
-          <div class="b-card b-pic">
-            <img src="v2-bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
-          </div>
-          <!-- ④ 文字卡 · 声音设计 -->
-          <a class="b-card b-text" href="./05/05.html">
-            <div class="b-eyebrow"><i></i><i></i><span>Design</span></div>
-            <h3>声音设计 · Sound Design</h3>
-            <p>UI、环境音、角色与战斗音效</p>
-            <span class="b-go">了解更多 <i>↗</i></span>
-          </a>
-        </div>
-
-        <!-- 第 3 行：文字 | 图 -->
-        <div class="b-row">
-          <!-- ⑤ 文字卡 · 音频集成 -->
-          <a class="b-card b-text" href="./03-wwise/03-wwise.html">
-            <div class="b-eyebrow"><i></i><i></i><span>Implement</span></div>
-            <h3>音频集成 · Wwise / FMOD</h3>
-            <p>Wwise / FMOD 集成与实现</p>
-            <span class="b-go">了解更多 <i>↗</i></span>
-          </a>
-          <!-- ⑥ 图片卡 · 节点网络（中间件集成意象） -->
-          <div class="b-card b-pic">
-            <img src="v2-bento/network.svg" alt="Audio Middleware — 节点网络意象" loading="lazy"/>
-          </div>
-        </div>
-
-        <!-- 第 4 行：图 | 文字 -->
-          <div class="b-row">
-          <!-- ⑦ 图片卡 · BKEQ HYBRID（） -->
-          <div class="b-card b-pic">
-            <img src="v2-bento/mixing.svg" alt="Mixing & Mastering — 混音母带意象" loading="lazy"/>
-          </div>
-          <!-- ⑧ 文字卡 · 混音母带 -->
-          <a class="b-card b-text" href="./02-bkeq/02-bkeq.html">
-            <div class="b-eyebrow"><i></i><i></i><span>Plugin</span></div>
-            <h3>插件开发 · VST Plugin Development</h3>
-            <p>设计与数字信号处理</p>
-            <span class="b-go">了解更多 <i>↗</i></span>
-          </a>
-        </div>
-
-        <!-- 第 5 行：文字 | 图 -->
-          <div class="b-row">
-          <!-- ⑨ 文字卡 · 音乐分析复刻 -->
-          <a class="b-card b-text" href="./04-hsr/04-hsr-1.html">
-            <div class="b-eyebrow"><i></i><i></i><span>Remake</span></div>
-            <h3>Honkai:SR音乐分析复刻 · Music Analysis Remake</h3>
-            <p>对HSR等音乐作品进行分析和复刻</p>
-            <span class="b-go">了解更多 <i>↗</i></span>
-          </a>
-          <!-- ⑨ 图片卡 · 乐谱分析（音乐分析复刻意象） -->
-          <div class="b-card b-pic">
-            <img src="v2-bento/remake.svg" alt="Music Analysis Remake — 乐谱分析意象" loading="lazy"/>
-          </div>
-      </div>
-
-        <!-- 第 6 行：图 | 文字 -->
-          <div class="b-row">
-          <!-- ⑩ 图片卡 · 研究手稿（想法/写作意象） -->
-          <div class="b-card b-pic">
-            <img src="v2-bento/research.svg" alt="Research & Writing — 研究手稿意象" loading="lazy"/>
-          </div>
-          <!-- ⑪ 文字卡 · 声音设计 -->
-          <a class="b-card b-text" href="./06-research&writing/06-rw.html">
-            <div class="b-eyebrow"><i></i><i></i><span>Research & Writing</span></div>
-            <h3>想法 · Random Thoughts</h3>
-            <p>声音与创作相关研究与思考</p>
-            <span class="b-go">了解更多 <i>↗</i></span>
-          </a>
+    <div class="bento work-evidence">
+      <!-- 01 · 原创配乐交付 -->
+      <div class="b-row">
+        <a class="b-card b-text" href="./01-ost/01-ost.html">
+          <div class="b-eyebrow"><span class="work-num">01</span></div>
+          <h3>Game Music Package</h3>
+          <p class="work-role">Original Music · Games</p>
+          <p class="work-tags">Battle / Exploration / Character / UI</p>
+          <span class="b-go">Listen <i>↗</i></span>
+        </a>
+        <div class="b-card b-pic">
+          <img src="v2-bento/waveform.svg" alt="Original Music — 声波意象" loading="lazy"/>
         </div>
       </div>
 
+      <!-- 02 · 声音设计交付 -->
+      <div class="b-row">
+        <div class="b-card b-pic">
+          <img src="v2-bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
+        </div>
+        <a class="b-card b-text" href="./05/05.html">
+          <div class="b-eyebrow"><span class="work-num">02</span></div>
+          <h3>Combat &amp; UI Sound Design</h3>
+          <p class="work-role">Sound Design · Games</p>
+          <p class="work-tags">Combat / Character / UI / Ambience</p>
+          <span class="b-go">Case Study <i>↗</i></span>
+        </a>
+      </div>
+
+      <!-- 03 · 互动音频集成 -->
+      <div class="b-row">
+        <a class="b-card b-text" href="./03-wwise/03-wwise.html">
+          <div class="b-eyebrow"><span class="work-num">03</span></div>
+          <h3>Interactive Audio Pipeline</h3>
+          <p class="work-role">Implementation · Wwise / FMOD</p>
+          <p class="work-tags">Event Hierarchy / RTPC / Profiling / Docs</p>
+          <span class="b-go">Case Study <i>↗</i></span>
+        </a>
+        <div class="b-card b-pic">
+          <img src="v2-bento/network.svg" alt="Interactive Audio — 节点网络意象" loading="lazy"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Experiments：实验 / 研究 / 思考（证据之下的第二层）═══ -->
+  <section id="experiments">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow"><i></i><i></i><span>Experiments</span></div>
+        <h2><em>实验</em></h2>
+      </div>
+    </div>
+    <div class="exp-grid">
+      <a class="exp-card" href="./02-bkeq/02-bkeq.html">
+        <span class="exp-kicker">Plugin</span>
+        <h3>VST Plugin</h3>
+        <p>均衡器设计与数字信号处理实验，从电路想法到可听结果</p>
+        <span class="exp-go">Case Study ↗</span>
+      </a>
+      <a class="exp-card" href="./04-hsr/04-hsr-1.html">
+        <span class="exp-kicker">Analysis</span>
+        <h3>Music Analysis</h3>
+        <p>以公开 PV 配乐为研究样本，拆解配器、结构与叙事功能</p>
+        <span class="exp-go">Read Study ↗</span>
+      </a>
+      <a class="exp-card" href="./06-research&writing/06-rw.html">
+        <span class="exp-kicker">Research &amp; Writing</span>
+        <h3>Notes &amp; Thoughts</h3>
+        <p>声音、游戏与创作的笔记——方法、失败与尚未想清楚的部分</p>
+        <span class="exp-go">Open Notes ↗</span>
+      </a>
+    </div>
   </section>
 
   <!-- ═══ 服务专长（深色背景）═══ -->
@@ -1303,6 +1316,16 @@ html.has-custom-cursor * { cursor: none !important; }
           cursor.style.opacity = '1';
         });
 
+        // 长文本阅读区：显示系统光标，隐藏自定义圆点
+        document.querySelectorAll('.quote, .now-list').forEach(zone => {
+          zone.addEventListener('mouseenter', () => {
+            cursor.classList.add('cursor-system');
+          });
+          zone.addEventListener('mouseleave', () => {
+            cursor.classList.remove('cursor-system');
+          });
+        });
+
         // 长按左键：持续变小
         document.addEventListener('mousedown', () => {
           cursor.classList.add('cursor-click');
@@ -1312,7 +1335,7 @@ html.has-custom-cursor * { cursor: none !important; }
         });
 
         // hover 可点击目标（work 文字卡、CTA 按钮）时，光标切换为"查看按钮"形态
-        document.querySelectorAll('.b-text, #cta-final .btn-lime, #cta-resume-pdf').forEach(card=>{
+        document.querySelectorAll('.b-text, .exp-card, #cta-final .btn-lime, #cta-resume-pdf').forEach(card=>{
           card.addEventListener('mouseenter', ()=>{
             cursor.classList.add('cursor-view');
           });

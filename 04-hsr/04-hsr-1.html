@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Honkai:SR Music Analysis — EiiChi_2049</title>
+    <title>Game Music Analysis — ReiVerb Sound Atorie</title>
     <meta name="description"
-          content="崩坏：星穹铁道 PV 音乐复刻与分析 — EiiChi_2049" />
+          content="以商业游戏 PV 配乐为研究样本的音乐分析方法论 — ReiVerb Sound Atorie" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600&display=swap"
           rel="stylesheet" />
@@ -14,7 +14,7 @@
         @font-face {
             font-family: "OPPO Sans";
             src: url("../fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2") format("woff2");
-            font-weight: 100 900;
+            font-weight: 100 700;
             font-style: normal;
             font-display: swap;
         }
@@ -72,9 +72,9 @@
             --ink: #010205;
             --ink2: #333333;
             --ink3: #a1a4a7;
-            --accent: #b0b748;
-            --accent-hover: #c3ca5e;
-            --accent-dim: rgba(176, 183, 72, 0.1);
+            --accent: #d0ff71;
+            --accent-hover: #e2ff9c;
+            --accent-dim: rgba(208, 255, 113, 0.12);
             --line: rgba(1, 2, 5, 0.07);
             --line2: rgba(1, 2, 5, 0.14);
             --nav-bg: rgba(249, 249, 249, 0.82);
@@ -669,13 +669,16 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../shared/subpage.css" />
     <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）——固定亮色 */
+      /* 尽早设置主题，避免页面闪烁（FOUC）——默认跟随系统，可被 localStorage 覆盖 */
       (function () {
         var root = document.documentElement;
         var stored = null;
         try { stored = localStorage.getItem("theme"); } catch (e) {}
-        root.setAttribute("data-theme", "light");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = stored || (prefersDark ? "dark" : "light");
+        root.setAttribute("data-theme", theme);
       })();
     </script>
 </head>
@@ -702,10 +705,11 @@
         <!-- 项目标题 -->
         <header class="project-header">
             <a href="../index.html#work" class="page-back">← back to work</a>
+            <div class="project-eyebrow"><i></i><i></i><span>Analysis</span></div>
             <h1 class="project-title">
-                <em>[Honkai: Star Rail BGM]</em>
+                <em>[Music Analysis]</em>
             </h1>
-            <p class="page-desc">崩铁 PV 音乐复刻与分析</p>
+            <p class="page-desc">游戏配乐分析研究 · 以公开 PV 配乐为样本，拆解配器、结构与叙事功能 · 不用于商业再发行</p>
         </header>
 
         <!-- ── ✦ 面试故事 ────────────────────────────────────── -->
@@ -724,7 +728,7 @@
         <div class="project-description" style="margin-top: 0;">
             <p>
                 <strong>选曲原因</strong><br />
-                选择《崩坏：星穹铁道》的 PV 配乐作为学习型再创作对象，主要有三点考量：
+                选取业界高水准的商业游戏 PV 配乐作为分析与研究样本（作品版权归原作方所有，本项目仅作学习型拆解与教学演示），主要基于以下三点：
             </p>
 
             <ul style="font-family: var(--zh); font-size: 14px; color: var(--ink2); line-height: 2.2; padding-left: 1.25rem; margin: 0.25rem 0;">
@@ -745,7 +749,7 @@
         <div class="analysis-entry">
             <div class="video-wrap">
                 <iframe src="https://www.youtube.com/embed/你的视频ID"
-                        title="阮梅 PV 音乐复刻"
+                        title="阮梅 PV · 配乐分析"
                         allowfullscreen></iframe>
             </div>
             <div class="video-meta">
@@ -776,7 +780,7 @@
         <div class="analysis-entry">
             <div class="video-wrap">
                 <iframe src="https://www.youtube.com/embed/你的视频ID"
-                        title="云璃 PV 音乐复刻"
+                        title="云璃 PV · 配乐分析"
                         allowfullscreen></iframe>
             </div>
             <div class="video-meta">
@@ -810,7 +814,7 @@
         <div class="analysis-entry">
             <div class="video-wrap">
                 <iframe src="https://www.youtube.com/embed/你的视频ID"
-                        title="花火 PV 音乐复刻"
+                        title="花火 PV · 配乐分析"
                         allowfullscreen></iframe>
             </div>
             <div class="video-meta">
@@ -849,11 +853,11 @@
 
             <div class="qa-section">
                 <div class="qa-item">
-                    <div class="qa-q">Q：为什么选择做"学习型复刻"？</div>
+                    <div class="qa-q">Q：为什么做「学习型音乐分析」？</div>
                     <div class="qa-a">
-                        每个创作者都想尽力做到最好。而向大师们学习是不可或缺的步骤。
-                        崩铁的音乐将中国民乐和现代电子乐、西方交响乐和民族调式互相融合，
-                        只有弄清了音乐背后的文化逻辑，它才能落地生根，
+                        每个创作者都想尽力做到最好，而系统拆解优秀作品是不可或缺的一步。
+                        本系列聚焦跨媒介商业配乐中「民乐 × 电子 × 交响」的融合逻辑：
+                        只有弄清风格背后的文化结构与工程取舍，方法才能迁移到自己的创作里，
                         让听众通过音乐感受到故事的深度。
                     </div>
                 </div>
@@ -881,7 +885,7 @@
             <!-- 结尾引用 -->
             <div class="quote-block blue" style="margin-top: 0.5rem;">
                 审美或许是未来最稀缺的能力。
-                <cite>—— EiiChi_2049</cite>
+                <cite>—— ReiVerb Sound Atorie</cite>
             </div>
         </div>
 
@@ -903,8 +907,7 @@
         <!-- ── 页脚 ──────────────────────────────────────────── -->
         <footer class="footer-sub">
             <span>© 2026 ReiVerb Sound Atorie</span>
-            <span>
-            </span>
+            <span class="footer-tag">Composer · Sound Designer · Audio Implementer</span>
         </footer>
     </main>
 

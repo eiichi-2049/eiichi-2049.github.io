@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BKEQ Hybrid — EiiChi_2049</title>
+    <title>BKEQ Hybrid — ReiVerb Sound Atorie</title>
     <meta name="description"
-          content="一款结合了SSL与Pultec声音特点的均衡器 — EiiChi_2049" />
+          content="一款结合了SSL与Pultec声音特点的均衡器 — ReiVerb Sound Atorie" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600&display=swap"
           rel="stylesheet" />
@@ -14,7 +14,7 @@
         @font-face {
             font-family: "OPPO Sans";
             src: url("../fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2") format("woff2");
-            font-weight: 100 900;
+            font-weight: 100 700;
             font-style: normal;
             font-display: swap;
         }
@@ -70,9 +70,9 @@
             --ink: #010205;
             --ink2: #333333;
             --ink3: #a1a4a7;
-            --accent: #b0b748;
-            --accent-hover: #c3ca5e;
-            --accent-dim: rgba(176, 183, 72, 0.1);
+            --accent: #d0ff71;
+            --accent-hover: #e2ff9c;
+            --accent-dim: rgba(208, 255, 113, 0.12);
             --line: rgba(1, 2, 5, 0.07);
             --line2: rgba(1, 2, 5, 0.14);
             --nav-bg: rgba(249, 249, 249, 0.82);
@@ -615,13 +615,16 @@
         @media (max-width: 420px) {
         }
     </style>
+    <link rel="stylesheet" href="../shared/subpage.css" />
     <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）——固定亮色 */
+      /* 尽早设置主题，避免页面闪烁（FOUC）——默认跟随系统，可被 localStorage 覆盖 */
       (function () {
         var root = document.documentElement;
         var stored = null;
         try { stored = localStorage.getItem("theme"); } catch (e) {}
-        root.setAttribute("data-theme", "light");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = stored || (prefersDark ? "dark" : "light");
+        root.setAttribute("data-theme", theme);
       })();
     </script>
 </head>
@@ -648,6 +651,7 @@
         <!-- 项目标题 -->
         <header class="project-header">
             <a href="../index.html#work" class="page-back">← back to work</a>
+            <div class="project-eyebrow"><i></i><i></i><span>Plugin</span></div>
             <h1 class="project-title">
                 <em>[BKEQ Hybrid]</em>
             </h1>
@@ -794,7 +798,7 @@
         <!-- ── 页脚 ──────────────────────────────────────────── -->
         <footer class="footer-sub">
             <span>© 2026 ReiVerb Sound Atorie</span>
-            <span>
+            <span class="footer-tag">Composer · Sound Designer · Audio Implementer</span>
         </footer>
     </main>
     <script>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>音乐作品 · EiiChi_2049</title>
-    <meta name="description" content="EiiChi 音乐作品集" />
+    <title>音乐作品 · ReiVerb Sound Atorie</title>
+    <meta name="description" content="ReiVerb Sound Atorie · 原创配乐与声音设计" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600&display=swap"
           rel="stylesheet" />
@@ -13,7 +13,7 @@
         @font-face {
             font-family: "OPPO Sans";
             src: url("../fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2") format("woff2");
-            font-weight: 100 900;
+            font-weight: 100 700;
             font-style: normal;
             font-display: swap;
         }
@@ -70,9 +70,9 @@
             --ink: #010205;
             --ink2: #333333;
             --ink3: #a1a4a7;
-            --accent: #b0b748;
-            --accent-hover: #c3ca5e;
-            --accent-dim: rgba(176, 183, 72, 0.1);
+            --accent: #d0ff71;
+            --accent-hover: #e2ff9c;
+            --accent-dim: rgba(208, 255, 113, 0.12);
             --line: rgba(1, 2, 5, 0.07);
             --line2: rgba(1, 2, 5, 0.14);
             --nav-bg: rgba(249, 249, 249, 0.82);
@@ -1092,13 +1092,16 @@
                 }
         }
     </style>
+    <link rel="stylesheet" href="../shared/subpage.css" />
     <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）——固定亮色 */
+      /* 尽早设置主题，避免页面闪烁（FOUC）——默认跟随系统，可被 localStorage 覆盖 */
       (function () {
         var root = document.documentElement;
         var stored = null;
         try { stored = localStorage.getItem("theme"); } catch (e) {}
-        root.setAttribute("data-theme", "light");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = stored || (prefersDark ? "dark" : "light");
+        root.setAttribute("data-theme", theme);
       })();
     </script>
 </head>
@@ -1124,12 +1127,13 @@
     <main class="page-wrap">
 
         <!-- 页面 Hero -->
-        <header class="page-header">
+        <header class="project-header">
             <a href="../index.html#work" class="page-back">← back to work</a>
-            <h1 class="page-title">
+            <div class="project-eyebrow"><i></i><i></i><span>Compose</span></div>
+            <h1 class="project-title">
                 <em>[Original Soundtracks]</em>
             </h1>
-            <p class="page-desc">为独立游戏创作的音乐作品集</p>
+            <p class="page-desc">为独立游戏创作的音乐作品集 · Original Score for Games</p>
         </header>
 
 
@@ -1152,8 +1156,7 @@
         <!-- ── 页脚 ──────────────────────────────────────────── -->
         <footer class="footer-sub">
             <span>© 2026 ReiVerb Sound Atorie</span>
-            <span>
-                           </span>
+            <span class="footer-tag">Composer · Sound Designer · Audio Implementer</span>
         </footer>
 
     </main>
@@ -1167,7 +1170,7 @@
                 </div>
                 <div class="now-meta">
                     <div class="now-title" id="nowTitle">—</div>
-                    <div class="now-artist" id="nowArtist">EiiChi</div>
+                    <div class="now-artist" id="nowArtist">ReiVerb Sound Atorie</div>
                 </div>
             </div>
             <div class="player-controls">
@@ -1198,7 +1201,7 @@
         title: '开拓芯大学生游戏创作大赛',
         titleEn: 'Coreblazer',
         year: '2025',
-        artist: 'EiiChi',
+        artist: 'ReiVerb Sound Atorie',
         cover: '',
         songs: [
         { title: '_BANJO_90_', duration: '1:22', file: './audio/BANJO_90.mp3' },
@@ -1212,7 +1215,7 @@
         title: '星穹之下',
         titleEn: 'Under the Starry Sky',
         year: '2026',
-        artist: 'EiiChi',
+        artist: 'ReiVerb Sound Atorie',
         cover: '',
         songs: [
         { title: '星穹序曲', duration: '3:42', file: '【MUSIC】' },
@@ -1229,7 +1232,7 @@
         title: '机械之梦',
         titleEn: 'Dreams of Machinery',
         year: '2026',
-        artist: 'EiiChi',
+        artist: 'ReiVerb Sound Atorie',
         cover: '',
         songs: [
         { title: '觉醒', duration: '4:02', file: '【MUSIC】' },
@@ -1247,7 +1250,7 @@
         title: '雨林漫游者',
         titleEn: 'Rainforest Rambler',
         year: '2026',
-        artist: 'EiiChi',
+        artist: 'ReiVerb Sound Atorie',
         cover: '',
         songs: [
         { title: '晨雾', duration: '3:50', file: '【MUSIC】' },
@@ -1264,7 +1267,7 @@
         title: '像素往事',
         titleEn: 'Pixelated Past',
         year: '2026',
-        artist: 'EiiChi',
+        artist: 'ReiVerb Sound Atorie',
         cover: '',
         songs: [
         { title: '8bit 启程', duration: '2:10', file: '【MUSIC】' },
