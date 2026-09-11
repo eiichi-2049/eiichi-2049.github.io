@@ -207,10 +207,11 @@
     #work{scroll-margin-top:170px}
     #contact{scroll-margin-top:170px}
     #experiments{scroll-margin-top:170px;padding-top:0}
-    .work-num{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
+    /* 特异性提到 (0,2,0)：压过 .b-eyebrow span / .b-text p，否则编号变灰、标签丢等宽字 */
+    .b-eyebrow .work-num{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
               color:var(--olive);font-weight:500;text-transform:uppercase}
-    .work-role{color:var(--muted);font-size:.95rem;margin-top:clamp(12px,1.8vh,18px)}
-    .work-tags{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
+    .b-text .work-role{color:var(--muted);font-size:.95rem;margin-top:clamp(12px,1.8vh,18px)}
+    .b-text .work-tags{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
                text-transform:uppercase;color:var(--muted);margin-top:10px;line-height:1.7}
     .b-text .b-go{margin-top:auto}
     /* 证据卡：编号已占上部，标题不必再拉很大留白 */
