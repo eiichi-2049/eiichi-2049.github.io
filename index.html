@@ -234,7 +234,7 @@
             letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.75}
     .exp-card:hover .exp-go{opacity:1;color:var(--olive)}
     @media(max-width:960px){
-      .exp-grid{grid-template-columns:1fr;padding:0 20px}
+      .exp-grid{grid-template-columns:1fr;padding:0 40px}
     }
     .bento{display:flex;flex-direction:column;gap:0;width:100%;padding:0 40px}
     .b-row{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;
@@ -526,12 +526,17 @@
     .js .b-text{opacity:0;translate:0 24px;
                 transition:opacity .6s ease,translate .6s ease,
                            transform .25s ease,box-shadow .25s ease}
+    .js .exp-card{opacity:0;translate:0 24px;
+                  transition:opacity .6s ease,translate .6s ease,
+                             transform .25s ease,box-shadow .25s ease}
     .js .b-text.visible,
+    .js .exp-card.visible,
     .js .sec-head h2.visible,
     .js .now-item.visible,
     .js .quote blockquote.visible{opacity:1;translate:0 0}
     @media (prefers-reduced-motion: reduce){
       .js .b-text,
+      .js .exp-card,
       .js .sec-head h2,
       .js .now-item,
       .js .quote blockquote{opacity:1;translate:none;transition:none}
@@ -594,6 +599,8 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
   }
 }
   </style>
+  <!-- 首页钩子：Showreel / 迷你播放器 / 三层体验 -->
+  <link rel="stylesheet" href="shared/home-hooks.css" />
 </head>
 <body>
 
@@ -640,6 +647,107 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
       <span aria-hidden="true">Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
     </div>
   </div>
+
+  <!-- ═══ 首页钩子：Showreel · 迷你播放 · 三层体验（Sprint B）═══ -->
+  <section id="home-hooks">
+    <div class="wrap" style="margin-bottom:28px">
+      <div class="eyebrow"><i></i><i></i><span>Listen &amp; Demo</span></div>
+      <h2 style="font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,3.6vw,3rem);letter-spacing:-.02em;color:var(--ink2);margin:0">
+        <em style="font-style:italic;color:var(--olive)">先听</em>
+      </h2>
+    </div>
+
+    <div class="hooks-grid">
+      <article class="hook-card" data-hook="reel">
+        <div class="hook-kicker"><i></i><i></i><span>Demo Reel</span></div>
+        <h2>Showreel</h2>
+        <p>30–90 秒最强内容：画面 → 声音 → 结果。母版就绪后填入 video 路径。</p>
+        <div class="reel-frame">
+          <video class="reel-video" controls playsinline preload="none"
+                 poster="00-index_images/og-cover.png"></video>
+          <div class="reel-poster" aria-hidden="true">
+            <div class="reel-hint">Reel 母版待挂载<br>默认静音策略 · 点击后播放</div>
+          </div>
+        </div>
+        <div class="reel-actions">
+          <button type="button" class="hook-btn" data-reel-play>Play Reel</button>
+        </div>
+        <p class="hook-note" data-reel-status>成片完成后：mp4/webm 放入站点并在 video 上加 src。</p>
+      </article>
+
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <article class="hook-card mini-player"
+                 data-hook="mini-player"
+                 data-tracks='[
+                   {"title":"Choices","src":"01-ost/audio/Choices_.mp3","tag":"Original Music"},
+                   {"title":"Music Box","src":"01-ost/audio/music_box_2025_.mp3","tag":"Original Music"},
+                   {"title":"KB280","src":"01-ost/audio/KB280_121_DM_.mp3","tag":"Original Music"}
+                 ]'>
+          <div class="hook-kicker"><i></i><i></i><span>Mini Player</span></div>
+          <h2>精选试听</h2>
+          <p>点击才出声。从已有 Original Music 中抽 3 条作为第一屏证据。</p>
+          <div class="mp-row">
+            <button type="button" class="mp-play" aria-label="播放">▶</button>
+            <div class="mp-meta">
+              <div class="mp-title">—</div>
+              <div class="mp-sub">Original Music · click to play</div>
+            </div>
+          </div>
+          <div class="mp-bar" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+          <audio class="mp-audio" preload="none"></audio>
+          <ul class="mp-list">
+            <li><button type="button">Choices<span>Original Music</span></button></li>
+            <li><button type="button">Music Box<span>Original Music</span></button></li>
+            <li><button type="button">KB280<span>Original Music</span></button></li>
+          </ul>
+        </article>
+
+        <article class="hook-card" data-hook="stage">
+          <div class="hook-kicker"><i></i><i></i><span>Interactive Audio</span></div>
+          <h2>三层音频体验</h2>
+          <p>点击三个点，逐层叠加：环境 → 交互 → 音乐。UI 与状态机已可用；正式分层轨待替换 data-layer 音频。</p>
+          <div class="stage-video">
+            <div class="stage-ph">15s 静音画面位<br>WebM + MP4 · &lt;3MB</div>
+          </div>
+          <div class="stage-dots" role="group" aria-label="音频分层">
+            <button type="button" class="stage-dot" data-layer="ambience" aria-pressed="false">
+              <span class="dot-core" aria-hidden="true"></span>
+              <span class="dot-label">01 环境层</span>
+              <span class="dot-tag">Ambience Bus · RTPC Distance</span>
+            </button>
+            <button type="button" class="stage-dot" data-layer="sfx" aria-pressed="false">
+              <span class="dot-core" aria-hidden="true"></span>
+              <span class="dot-label">02 交互层</span>
+              <span class="dot-tag">SFX · Ducking · Priority</span>
+            </button>
+            <button type="button" class="stage-dot" data-layer="music" aria-pressed="false">
+              <span class="dot-core" aria-hidden="true"></span>
+              <span class="dot-label">03 音乐层</span>
+              <span class="dot-tag">Music Bus · RTPC Combat</span>
+            </button>
+          </div>
+          <p class="stage-status"></p>
+          <div class="stage-actions">
+            <button type="button" class="stage-reset">重新体验</button>
+          </div>
+          <audio data-layer="ambience" preload="none" src=""></audio>
+          <audio data-layer="sfx" preload="none" src=""></audio>
+          <audio data-layer="music" preload="none" src=""></audio>
+          <details class="stage-details">
+            <summary>技术说明（Wwise 总线示意）</summary>
+            <div class="tech-note">
+              <strong>总线草图</strong>
+              <ul>
+                <li>Main Mix → Ambience / SFX / Music</li>
+                <li>SFX：战斗峰值触发 Music 侧 Ducking</li>
+                <li>Music：Combat Intensity → Layer RTPC（待工程截图）</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <!-- ═══ Selected Work：项目证据（真实交付 > 实验 > 思考）═══ -->
   <section id="work">
@@ -1273,13 +1381,13 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
 
     // 观察所有需要动画的元素
     document.querySelectorAll(
-      '.b-text, .sec-head h2, .quote blockquote, .now-item'
+      '.b-text, .exp-card, .sec-head h2, .quote blockquote, .now-item'
     ).forEach(el => observer.observe(el));
 
     // 兜底：2.5s 后强制显示仍未进场的内容，避免观察器异常时卡死
     setTimeout(() => {
       document.querySelectorAll(
-        '.b-text, .sec-head h2, .quote blockquote, .now-item'
+        '.b-text, .exp-card, .sec-head h2, .quote blockquote, .now-item'
       ).forEach(el => el.classList.add('visible'));
     }, 2500);
 
@@ -1425,6 +1533,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
       });
     })();
   </script>
-
+  <script src="shared/home-hooks.js" defer></script>
 </body>
 </html>
