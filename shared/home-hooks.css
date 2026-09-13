@@ -1,12 +1,15 @@
 /* ═══ 首页钩子：Showreel / 迷你播放器 / 三层体验（Sprint B）═══
    仅增强 #home-hooks 区；不改动原 bento 视觉 */
 #home-hooks{scroll-margin-top:170px;padding-top:40px}
+/* 与 .wrap 同宽：1200 版心居中；通栏最宽留给 #work 的 bento */
 .hooks-grid{
   display:grid;
   grid-template-columns:1fr;
   gap:16px;
-  padding:0 40px;
   width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 40px;
 }
 @media(min-width:960px){
   /* Showreel 收窄：右侧试听/三层才是主交互 */
