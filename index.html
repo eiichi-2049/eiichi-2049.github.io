@@ -419,6 +419,14 @@
     #cta-final h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,3.5rem);
                   letter-spacing:-.02em;color:var(--paper);line-height:1.2;margin-bottom:50px;
                   animation:cta-title 8s ease-in-out infinite;will-change:opacity}
+    /* “Compose” 中的 P：横向拉长作装饰性排印 */
+    #cta-final h2 .cta-p{
+      display:inline-block;
+      transform:scaleX(1.72);
+      transform-origin:left center;
+      margin-right:.14em;
+      will-change:transform;
+    }
     #cta-final .btn-lime{margin-top:32px}
     #cta-final .btns .btn-lime{margin-top:0}
 
@@ -964,7 +972,7 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
     <div class="cta-fog" aria-hidden="true"></div>
     <div class="eyebrow"><i></i><i></i><span>Sound that speaks for your story</span></div>
     <div class="wrap">
-      <h2>Compose with breath</h2>
+      <h2>Com<span class="cta-p">p</span>ose with breath</h2>
       <div class="btns">
         <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png" id="cta-brief">Submit Brief</a>
         <a class="btn btn-line" href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener" id="cta-resume-pdf">Resume PDF</a>
