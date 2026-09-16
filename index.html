@@ -427,6 +427,7 @@
       width:100%;
       height:auto;
       max-width:100%;
+      opacity:.78;
       animation:cta-title 8s ease-in-out infinite;
       will-change:opacity;
     }
@@ -445,8 +446,8 @@
     }
     /* 标题亮度呼吸：仅 opacity，位置与字号不动 */
     @keyframes cta-title{
-      0%,100%{opacity:.88}
-      50%{opacity:1}
+      0%,100%{opacity:.68}
+      50%{opacity:.78}
     }
 
     /* 手机端：光场横向拉宽、纵向压扁——呼吸依旧明显，但窄屏上不会聚成"绿色圆圈" */
@@ -462,7 +463,7 @@
       #cta-final::after,.cta-fog,#cta-final .cta-title-wrap img{animation:none}
       #cta-final::after{opacity:.35;transform:scale(1)}
       .cta-fog{opacity:.5;transform:scale(1)}
-      #cta-final .cta-title-wrap img{opacity:1}
+      #cta-final .cta-title-wrap img{opacity:.72}
     }
 
     /* ═══ 二维码弹窗（点击"扫码预约咨询"打开）═══ */
