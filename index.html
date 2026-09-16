@@ -416,9 +416,20 @@
     #cta-final .eyebrow i:nth-child(1){background:#ffffff}
     #cta-final .eyebrow i:nth-child(2){background:var(--muted)}
     #cta-final .eyebrow span{color:var(--paper)}
-    #cta-final h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,3.5rem);
-                  letter-spacing:-.02em;color:var(--paper);line-height:1.2;margin-bottom:50px;
-                  animation:cta-title 8s ease-in-out infinite;will-change:opacity}
+    /* 标题改为预渲染透明图（2400×331），省去为这行标题加载/排版衬线整字重 */
+    #cta-final .cta-title-wrap{
+      display:block;
+      margin:0 auto 50px;
+      max-width:min(100%,860px);
+    }
+    #cta-final .cta-title-wrap img{
+      display:block;
+      width:100%;
+      height:auto;
+      max-width:100%;
+      animation:cta-title 8s ease-in-out infinite;
+      will-change:opacity;
+    }
     #cta-final .btn-lime{margin-top:32px}
     #cta-final .btns .btn-lime{margin-top:0}
 
@@ -448,10 +459,10 @@
 
     /* 减少动画：停掉全部呼吸，只保留一层极淡的静态环境光 */
     @media (prefers-reduced-motion: reduce){
-      #cta-final::after,.cta-fog,#cta-final h2{animation:none}
+      #cta-final::after,.cta-fog,#cta-final .cta-title-wrap img{animation:none}
       #cta-final::after{opacity:.35;transform:scale(1)}
       .cta-fog{opacity:.5;transform:scale(1)}
-      #cta-final h2{opacity:1}
+      #cta-final .cta-title-wrap img{opacity:1}
     }
 
     /* ═══ 二维码弹窗（点击"扫码预约咨询"打开）═══ */
@@ -964,7 +975,13 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
     <div class="cta-fog" aria-hidden="true"></div>
     <div class="eyebrow"><i></i><i></i><span>Sound that speaks for your story</span></div>
     <div class="wrap">
-      <h2>Compose with breath</h2>
+      <!-- 原始尺寸 2400×331；改用同尺寸透明图/替换文件不影响布局 -->
+      <h2 class="cta-title-wrap">
+        <img src="00-index_images/cta-compose-with-breath-m.png"
+             width="2400" height="331"
+             alt="Compose with breath"
+             decoding="async" />
+      </h2>
       <div class="btns">
         <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png" id="cta-brief">Submit Brief</a>
         <a class="btn btn-line" href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener" id="cta-resume-pdf">Resume PDF</a>
