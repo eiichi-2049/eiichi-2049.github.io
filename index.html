@@ -374,17 +374,78 @@
     .foot-top li{margin-bottom:8px;opacity:.8;transition:opacity .2s}
     .foot-top li:hover{opacity:1}
     .foot-top a:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
-    /* ═══ 底部超大品牌字（专属独立样式，改这里只影响这一处大字）═══
-       想单独调：字号 → 改上面的 --display-size；
-       颜色渐隐 → 改下面的 background:linear-gradient(...)。
-       想复用这组“超大渐变字”效果：把任意标签加上 class="foot-brand" 即可。 */
-    .foot-brand{font-family:var(--serif);font-weight:300;font-size:var(--display-size);
-                letter-spacing:-.03em;line-height:.95;text-align:center;user-select:none;
-                background:linear-gradient(var(--ink),rgba(1,2,5,.15));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .foot-base{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);
-               display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
-               font-size:.78rem;color:var(--muted)}
-    .foot-base a{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}
+    /* ═══ 页脚：底部压轴区域 ═══ */
+    .foot-bottom {
+      margin-top: 80px;
+      text-align: center;
+    }
+
+    /* 底部超大品牌字 */
+    .foot-brand {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: var(--display-size);
+      letter-spacing: -.03em;
+      line-height: .95;
+      user-select: none;
+      background: linear-gradient(var(--ink), rgba(1, 2, 5, .15));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* 版权信息：跟着大字一起居中 */
+    .foot-copyright {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-size: .78rem;
+      color: var(--muted);
+      letter-spacing: .05em;
+    }
+
+    /* 极简页脚时钟：字体与颜色对齐 Work/Now/Back to Top（正文墨色 + 0.8） */
+    .foot-clock {
+      display: block;
+      margin-top: -6px;
+      margin-bottom: 20px;
+      font-family: inherit;
+      font-size: .78rem;
+      letter-spacing: .05em;
+      color: var(--ink);
+      opacity: .8;
+      line-height: 1.5;
+      user-select: none;
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
+    .foot-clock .prompt {
+      font-family: inherit;
+      color: inherit;
+      opacity: .65;
+    }
+    .foot-clock .time {
+      font-family: inherit;
+      color: inherit;
+      opacity: 1;
+    }
+    .foot-clock .caret {
+      font-family: inherit;
+      color: inherit;
+      opacity: .65;
+      animation: blink 2s step-end infinite;
+      margin-left: .1em;
+    }
+    @keyframes blink{
+      50%{opacity:0}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .foot-clock .caret{animation:none}
+    }
+    @media(max-width:760px){
+      .foot-clock{ margin-top: -4px; margin-bottom: 16px; }
+    }
 
     /* ═══ CTA 收尾区块（固定"黑暗空间" · 两层氛围光）═══
        本区块不再跟随系统明暗模式：光场依赖黑暗对比，底色一旦变浅，
@@ -994,11 +1055,16 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
   <footer id="contact">
     <div class="wrap">
       <div class="foot-top">
-        <!-- 内容：联系方式 -->
+        <!-- 联系与状态 -->
         <div>
           <h4>Start a Conversation</h4>
+          <!-- 时钟在标题下、按钮上 -->
+          <div class="foot-clock" id="foot-clock" aria-hidden="true">
+            <span class="prompt">&gt;&nbsp;</span><span class="foot-clock-time time"></span><span class="caret">_</span>
+          </div>
           <a class="btn btn-dark" href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a>
         </div>
+        <!-- Links -->
         <div>
           <h4>Links</h4>
           <ul>
@@ -1007,10 +1073,10 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
             <li><a href="#top">Back to Top</a></li>
           </ul>
         </div>
+        <!-- Social Media -->
         <div>
           <h4>Social Media</h4>
           <ul>
-            <!-- [深化] P1-3 无 JS 时打开微信二维码图片；有 JS 时弹出模态框 -->
             <li><a href="./00-index_images/Wechat_QR_Code.jpg" id="wechat-link" target="_blank" rel="noopener">Wechat</a></li>
             <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
@@ -1019,12 +1085,12 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
         </div>
       </div>
 
-      <!-- 底部大文字 -->
-      <div class="foot-brand">ReiVerb Sound Atorie</div>
-
-      <div class="foot-base">
-        <!-- 内容：版权年份与名字 -->
-        <span>© 2026 ReiVerb Sound Atorie · All Rights Reserved</span>
+      <!-- 底部压轴：大字 + 版权 -->
+      <div class="foot-bottom">
+        <div class="foot-brand">ReiVerb Sound Atorie</div>
+        <div class="foot-copyright">
+          <span>© 2026 ReiVerb Sound Atorie · All Rights Reserved</span>
+        </div>
       </div>
     </div>
   </footer>
@@ -1478,10 +1544,25 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
 
     // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
     (function() {
-      const yearEl = document.querySelector('.foot-base span');
+      const yearEl = document.querySelector('.foot-copyright span');
       if (yearEl) {
         yearEl.textContent = `© ${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
       }
+    })();
+
+    // ═══ 页脚终端时钟（到分钟；30s 对齐一次）═══
+    (function() {
+      const clock = document.querySelector('.foot-clock-time');
+      if (!clock) return;
+      const pad = (n) => String(n).padStart(2, '0');
+      const tick = () => {
+        const d = new Date();
+        clock.textContent =
+          `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ` +
+          `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      };
+      tick();
+      setInterval(tick, 30000);
     })();
 
     // ═══ 手机端：点导航链接后自动收起菜单 ═══
