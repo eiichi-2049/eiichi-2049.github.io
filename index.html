@@ -638,24 +638,9 @@
     .qr-modal-close:hover{background:var(--ink);color:var(--paper)}
     .qr-modal-close:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
 
-    /* ═══ 近况（浅色 · 状态点列表）═══ */
-    #now{scroll-margin-top:170px}
-    .now-list{display:flex;flex-direction:column;gap:28px;margin-top:20px}
-    .now-item{display:flex;align-items:flex-start;gap:16px;
-              padding-bottom:24px;border-bottom:1px solid var(--line)}
-    .now-item:last-child{border-bottom:none}
-    .now-dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex-shrink:0}
-    .now-dot-active{background:var(--olive)}   /* 进行中 */
-    .now-dot-planned{background:var(--muted)}  /* 计划中 */
-    .now-dot-done{background:var(--wine)}      /* 已完成 */
-    .now-text{font-size:1.05rem;color:var(--ink2);line-height:1.5}
-    .now-date{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
-             text-transform:uppercase;color:var(--muted);margin-top:8px;display:block}
-
     /* ═══ 滚动进场动画（仅在启用 JS 时隐藏初态，避免无 JS 时内容不可见）═══ */
     /* [深化] P1-1 进场用 translate；.b-text 额外保留 hover 的 transform/box-shadow 过渡 */
     .js .sec-head h2,
-    .js .now-item,
     .js .quote blockquote{opacity:0;translate:0 24px;transition:opacity .6s ease,translate .6s ease}
     .js .b-text{opacity:0;translate:0 24px;
                 transition:opacity .6s ease,translate .6s ease,
@@ -666,13 +651,11 @@
     .js .b-text.visible,
     .js .exp-card.visible,
     .js .sec-head h2.visible,
-    .js .now-item.visible,
     .js .quote blockquote.visible{opacity:1;translate:0 0}
     @media (prefers-reduced-motion: reduce){
       .js .b-text,
       .js .exp-card,
       .js .sec-head h2,
-      .js .now-item,
       .js .quote blockquote{opacity:1;translate:none;transition:none}
     }
 
@@ -685,9 +668,7 @@ html.has-custom-cursor,
 html.has-custom-cursor * { cursor: none !important; }
 /* 长文本阅读区：保留系统光标（I-beam），便于跟读与划选 */
 html.has-custom-cursor .quote,
-html.has-custom-cursor .quote *,
-html.has-custom-cursor .now-list,
-html.has-custom-cursor .now-list * { cursor: text !important; }
+html.has-custom-cursor .quote * { cursor: text !important; }
 @media (hover: hover) {
   #custom-cursor {
       display: block;
@@ -695,8 +676,8 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
       pointer-events: none;      /* 点击穿透 */
       z-index: 9999;
       left: 0; top: 0;
-      width: 28px;
-      height: 28px;
+      width: 25.2px;
+      height: 25.2px;
       border-radius: 50%;
       background: #93856d;       /* 暖灰褐 */
       /* [深化] P2-2 用 transform 跟随；初始在视口中心，避免系统光标隐藏后短暂“无光标” */
@@ -704,19 +685,19 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
       transition: width .25s ease, height .25s ease, background-color .25s ease, opacity .25s ease;
       will-change: transform;
       /* macOS 式双描边：白圈贴圆点、黑圈在外——浅色背景上黑圈显形，深色背景上白圈显形 */
-      box-shadow: 0 0 0 1.5px rgba(255,255,255,.65),
-                  0 0 0 3px rgba(0,0,0,.4);
+      box-shadow: 0 0 0 1.35px rgba(255,255,255,.65),
+                  0 0 0 2.7px rgba(0,0,0,.4);
   }
   /* hover 文字卡（可点击）时：光标变成半透明"查看按钮"，不再使用青柠色块 */
   .cursor-arrow{
       position:absolute;top:50%;left:50%;
       transform:translate(-50%,-50%) scale(0);
-      font-size:14px;color:var(--ink);
+      font-size:12.6px;color:var(--ink);
       opacity:0;transition:transform .25s ease,opacity .25s ease;
   }
   #custom-cursor.cursor-view{
       background:rgba(147,133,109,.38);
-      width:44px;height:44px;   /* 比默认圆点(28px)更大，做成"按钮感" */
+      width:39.6px;height:39.6px;   /* 比默认圆点(25.2px)更大，做成"按钮感" */
   }
   /* 阅读区：隐藏自定义圆点，交给系统 I-beam（!important 以压过 document mouseenter 的 inline opacity） */
   #custom-cursor.cursor-system{opacity:0 !important;}
@@ -725,7 +706,7 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
   }
   /* 长按左键：持续变小 */
   #custom-cursor.cursor-click{
-      width:20px;height:20px;
+      width:18px;height:18px;
       background:#7a6d5a;
   }
   #custom-cursor.cursor-click .cursor-arrow{
@@ -749,7 +730,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
         <nav class="nav-links" id="menu">
           <!-- ★ 内容：导航链接 -->
           <a href="#work">Work</a>
-          <a href="#now">Now</a>
           <a href="#contact">Contact</a>
         </nav>
 
@@ -995,39 +975,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
     </footer>
   </section>
 
-  <!-- ═══ 近况（浅色）═══
-       状态点颜色对照：olive=进行中，muted=计划中，wine=已完成 -->
-  <section class="wrap" id="now">
-    <div class="sec-head">
-      <div class="eyebrow"><i></i><i></i><span>Currently</span></div>
-      <h2>近况</h2>
-    </div>
-
-    <ul class="now-list">
-      <li class="now-item">
-        <span class="now-dot now-dot-active"></span>
-        <div>
-          <p class="now-text"><strong>[复盘]</strong> 在Taptap 2026 GameJam 项目中，主动整理了音效命名规范，程序对接时间缩短了 2 小时；目前正将这份规范迭代为共享的音频资产管理模板</p>
-          <span class="now-date">2026年9月</span>
-        </div>
-      </li>
-      <li class="now-item">
-        <span class="now-dot now-dot-planned"></span>
-        <div>
-          <p class="now-text"><strong>[计划]</strong> 为下个项目建立“音频设计评审”标准化流程：在 Wwise 工程提交前，用 15 分钟走一遍事件树，提前暴露集成层的命名冲突和缺失回调</p>
-          <span class="now-date">2026年10月</span>
-        </div>
-      </li>
-      <li class="now-item">
-        <span class="now-dot now-dot-done"></span>
-        <div>
-          <p class="now-text"><strong>[完成]</strong> 利用 Hise 和 Adobe Illustrator 搭建 VST 插件框架；额外产出了一份设计规范文档，减少后续图标返工</p>
-          <span class="now-date">2026年8月</span>
-        </div>
-      </li>
-    </ul>
-  </section>
-
   <!-- ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ -->
   <section id="cta-final">
     <div class="cta-fog" aria-hidden="true"></div>
@@ -1107,7 +1054,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
             <h4>Links</h4>
             <ul>
               <li><a href="#work">Work</a></li>
-              <li><a href="#now">Now</a></li>
               <li><a href="#top">Back to Top</a></li>
               <li><a href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer">Submit Brief</a></li>
               <li><a href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener">Resume PDF</a></li>
@@ -1445,13 +1391,13 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
 
     // 观察所有需要动画的元素
     document.querySelectorAll(
-      '.b-text, .exp-card, .sec-head h2, .quote blockquote, .now-item'
+      '.b-text, .exp-card, .sec-head h2, .quote blockquote'
     ).forEach(el => observer.observe(el));
 
     // 兜底：2.5s 后强制显示仍未进场的内容，避免观察器异常时卡死
     setTimeout(() => {
       document.querySelectorAll(
-        '.b-text, .exp-card, .sec-head h2, .quote blockquote, .now-item'
+        '.b-text, .exp-card, .sec-head h2, .quote blockquote'
       ).forEach(el => el.classList.add('visible'));
     }, 2500);
 
@@ -1490,7 +1436,7 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
         });
 
         // 长文本阅读区：显示系统光标，隐藏自定义圆点
-        document.querySelectorAll('.quote, .now-list').forEach(zone => {
+        document.querySelectorAll('.quote').forEach(zone => {
           zone.addEventListener('mouseenter', () => {
             cursor.classList.add('cursor-system');
           });
