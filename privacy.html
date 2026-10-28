@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>用户隐私协议 · ReiVerb Sound Atorie</title>
+  <meta name="description" content="ReiVerb Sound Atorie 用户隐私协议：说明本站如何处理与保护您的个人信息。" />
+  <link rel="icon" href="favicon.ico" />
+
+  <link rel="preload" href="fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    @font-face{
+      font-family:'OPPO Sans';
+      src:url('fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2') format('woff2');
+      font-weight:100 700;
+      font-style:normal;
+      font-display:swap;
+    }
+
+    :root{
+      --paper:#f9f9f9;
+      --card:#ffffff;
+      --ink:#010205;
+      --ink2:#333333;
+      --muted:#a1a4a7;
+      --line:rgba(1,2,5,.1);
+      --olive:#b0b748;
+      --serif:'Fraunces','Noto Serif SC',serif;
+      --mono:'DM Mono',monospace;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --paper:#121212;
+        --card:#1e1e1e;
+        --ink:#f5f5f5;
+        --ink2:#cccccc;
+        --muted:#9a9c9e;
+        --line:rgba(255,255,255,0.1);
+      }
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--paper);color:var(--ink);
+      font-family:'OPPO Sans','Microsoft YaHei UI','Microsoft YaHei','PingFang SC',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;
+      line-height:1.8;-webkit-font-smoothing:antialiased;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .wrap{max-width:820px;margin:0 auto;padding:0 40px}
+
+    /* 顶部返回条 */
+    .top-bar{padding:28px 0}
+    .back{
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--muted);transition:color .2s,opacity .2s;
+    }
+    .back:hover{color:var(--ink)}
+    .back:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:4px}
+
+    /* 标题区 */
+    .head{padding:32px 0 44px;border-bottom:1px solid var(--line)}
+    .kicker{
+      font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--muted);
+    }
+    h1{
+      font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,3rem);
+      letter-spacing:-.02em;line-height:1.15;color:var(--ink2);margin:14px 0 0;
+    }
+    .eff{font-size:.8rem;color:var(--muted);letter-spacing:.04em;margin-top:16px}
+
+    /* 正文 */
+    main{padding:48px 0 72px}
+    section{margin-bottom:44px}
+    h2{
+      font-family:var(--serif);font-weight:400;font-size:1.22rem;
+      letter-spacing:.01em;color:var(--ink);margin-bottom:16px;
+    }
+    h3{font-size:.98rem;font-weight:600;color:var(--ink);margin:22px 0 8px}
+    p{margin-bottom:14px;color:var(--ink2);font-size:.94rem}
+    ul{margin:0 0 14px;padding-left:1.25rem;list-style:disc}
+    li{color:var(--ink2);font-size:.94rem;margin-bottom:6px}
+    .lead{font-size:.98rem}
+    main a{border-bottom:1px solid var(--line);transition:border-color .2s}
+    main a:hover{border-bottom-color:var(--olive)}
+
+    /* 重点说明块：与站内其它页面的字段行语言一致 */
+    .note{
+      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+      padding:16px 0;margin:0 0 14px;
+      font-size:.9rem;color:var(--muted);
+    }
+    .note strong{color:var(--ink);font-weight:600}
+
+    /* 页脚 */
+    footer{border-top:1px solid var(--line);padding:32px 0 56px}
+    .foot-note{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted)}
+    .foot-note a{border-bottom:1px solid var(--line);transition:border-color .2s}
+    .foot-note a:hover{border-bottom-color:var(--olive)}
+
+    @media(max-width:760px){
+      .wrap{padding:0 22px}
+      .head{padding:20px 0 32px}
+      main{padding:36px 0 56px}
+      section{margin-bottom:36px}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap top-bar">
+    <a class="back" href="./index.html">← 返回首页</a>
+  </div>
+
+  <div class="wrap head">
+    <div class="kicker">Legal</div>
+    <h1>用户隐私协议</h1>
+    <p class="eff">生效日期：2026-10-28</p>
+  </div>
+
+  <main class="wrap">
+
+    <section>
+      <h2>一、引言</h2>
+      <p class="lead">本隐私协议旨在向您说明 ReiVerb Sound Atorie（以下简称「本站」）如何收集、使用与保护您的个人信息。请您仔细阅读本协议，并在同意全部条款后使用本网站。若您不同意本协议任何内容，请立即停止使用本网站。</p>
+    </section>
+
+    <section>
+      <h2>二、我们收集哪些信息</h2>
+
+      <h3>1. 您主动提供的信息</h3>
+      <p>本站不设账号系统，也不提供注册、订阅、在线支付等功能。您只有在<strong>主动联系我们</strong>时才会提供个人信息，例如直接发送电子邮件，或通过页脚的合作咨询表单填写姓名、合作事项与合作内容。</p>
+      <div class="note">
+        <strong>关于合作咨询表单：</strong>该表单通过您本地的邮件客户端发送邮件，本站服务器不接收、不存储、不留存您提交的任何内容。相关信息仅存在于您与我们之间的往来邮件中。
+      </div>
+
+      <div class="note">
+        <strong>关于项目需求问卷：</strong>本站「Submit Brief」入口会跳转至第三方平台飞书（Feishu）填写项目需求问卷。您在该问卷中提交的信息由飞书平台存储与处理，本站不直接控制其存储方式与期限，相关处理适用飞书运营方公布的隐私政策。
+      </div>
+
+      <h3>2. 本站不收集的信息</h3>
+      <p>本站不使用网站统计或用户行为分析工具，不投放广告，不追踪您的浏览行为，也不会收集您的浏览历史。</p>
+
+      <h3>3. 托管与第三方服务</h3>
+      <ul>
+        <li><strong>网站托管</strong>：本站托管于 GitHub Pages。作为托管服务提供方，GitHub 可能记录访问日志（例如 IP 地址、访问时间、请求的资源）。该部分数据处理适用 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub 隐私声明</a>。</li>
+        <li><strong>网页字体</strong>：本站使用 Google Fonts 提供部分字体，您的浏览器会向 Google 的服务器发起请求，Google 可能因此获取您的 IP 地址与浏览器信息。相关处理适用 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 隐私权政策</a>。若您不希望产生该请求，可通过浏览器扩展或网络设置阻止第三方字体加载。</li>
+        <li><strong>外部链接</strong>：本站页脚包含指向 GitHub、哔哩哔哩、小黑盒、微信等第三方平台的链接；「Submit Brief」入口会跳转至飞书（Feishu）填写项目需求问卷。点击后您将离开本站，其信息处理行为适用相应平台的隐私政策，本站无法控制亦不承担责任。</li>
+      </ul>
+
+      <h3>4. 第三方嵌入内容</h3>
+      <p>本站部分页面可能嵌入第三方视频播放器（例如 YouTube）。若相关内容被加载，该第三方可能设置 Cookie 或收集您的访问信息，此类行为适用对应第三方的隐私政策。</p>
+    </section>
+
+    <section>
+      <h2>三、信息使用</h2>
+
+      <h3>1. 使用目的</h3>
+      <p>我们仅将您主动提供的信息用于：</p>
+      <ul>
+        <li>回复您的咨询、创作邀约或合作洽谈；</li>
+        <li>就您提出的需求与您保持必要沟通；</li>
+        <li>履行法律法规要求的义务。</li>
+      </ul>
+      <p>我们不会将您的信息用于发送推广邮件或营销信息。</p>
+
+      <h3>2. 信息共享与披露</h3>
+      <p>我们承诺不会将您的个人信息出售、交易或租借给任何第三方，除非事先获得您的明确同意，或根据法律法规、司法或行政机关的强制要求。</p>
+    </section>
+
+    <section>
+      <h2>四、信息保护</h2>
+
+      <h3>1. 传输安全</h3>
+      <p>本站通过 HTTPS（安全套接层协议）加密传输，您与本站之间的通信内容不会被第三方窃听。该加密能力由托管服务方 GitHub Pages 提供。</p>
+
+      <h3>2. 存储与保留</h3>
+      <p>由于本站不存储您通过表单提交的内容，相关信息仅保存在我们用于接收与回复邮件的电子邮箱中。我们仅在处理您的咨询与合作所必需的期限内保留这些邮件，超出必要期限后予以删除。</p>
+
+      <h3>3. 访问限制</h3>
+      <p>仅本工作室的邮件接收者本人可访问上述信息。我们采取合理措施，防止您的信息遭到未经授权的访问、使用或泄露。</p>
+    </section>
+
+    <section>
+      <h2>五、Cookie 与本地存储</h2>
+      <p>本站不使用 Cookie，也不使用浏览器本地存储（localStorage / sessionStorage）记录您的任何信息。</p>
+      <p>第三方服务（例如 Google Fonts，或未来可能嵌入的视频播放器）可能在其自身域名下设置 Cookie，此类 Cookie 不在本站控制范围内，您可通过浏览器设置进行管理或清除。</p>
+    </section>
+
+    <section>
+      <h2>六、未成年人隐私保护</h2>
+      <p>我们非常重视对未成年人个人信息的保护。若您是未满 18 周岁的未成年人，请在法定监护人的指导下阅读本协议并使用本网站，并请勿在未经监护人同意的情况下向我们提供个人信息。</p>
+    </section>
+
+    <section>
+      <h2>七、免责条款</h2>
+
+      <h3>1. 第三方链接</h3>
+      <p>本网站可能包含指向第三方网站的链接。对于您在访问这些链接时可能遇到的个人信息收集和使用，我们无法控制亦不承担责任。请在离开本站后，自行阅读所访问网站的隐私政策。</p>
+
+      <h3>2. 强制性法律要求</h3>
+      <p>在法律法规要求的情况下，我们可能会披露您的个人信息。同时，我们保留在合理范围内使用、披露或保留相关信息的权利，以保护我们的合法权益、执行用户协议或应对法律诉讼。</p>
+    </section>
+
+    <section>
+      <h2>八、协议更新与通知</h2>
+      <p>我们保留随时更新本隐私协议的权利。更新后的协议将在本网站上公布，并同步更新本页顶部的生效日期。对于重大变更，我们将通过网站公告等方式通知。建议您定期查阅以了解最新的隐私政策。</p>
+    </section>
+
+    <section>
+      <h2>九、适用法律与争议解决</h2>
+      <p>本隐私协议的解释、适用与争议解决均适用中华人民共和国的法律。因本协议引起的或与本协议有关的争议，应通过友好协商解决；协商不成的，应提交至有管辖权的人民法院解决。</p>
+    </section>
+
+    <section>
+      <h2>十、联系我们</h2>
+      <p>如果您对本隐私协议，或对个人信息的收集、使用有任何疑问或意见，欢迎通过以下方式与我们联系：</p>
+      <ul>
+        <li>电子邮箱：<a href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a></li>
+      </ul>
+      <p>我们将在合理期限内回复您的请求。感谢您阅读并接受本隐私协议。</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap foot-note">
+      © 2026 ReiVerb Sound Atorie · <a href="./index.html">返回首页</a>
+    </div>
+  </footer>
+
+</body>
+</html>

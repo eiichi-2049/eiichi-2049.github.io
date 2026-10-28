@@ -144,7 +144,7 @@
     }
 
     /* ═══ 首屏 HERO ═══ */
-    .hero{position:relative;min-height:90vh;padding:calc(var(--nav-h) + 64px) 0 90px;overflow:hidden;background:var(--paper)}
+    .hero{position:relative;min-height:90vh;padding:calc(var(--nav-h) + 64px) 0 140px;overflow:hidden;background:var(--paper)}
     .hero-wave-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
     .hero-content{position:relative;z-index:1;padding-top:0;padding-bottom:0}
     @media(max-width:760px){
@@ -176,24 +176,6 @@
     .hero .btns{display:flex;
                 gap:14px;
                 flex-wrap:wrap}
-
-    /* ═══ 品牌/合作条：无缝滚动条 ═══
-       原理：.marquee-track 里放两段一模一样的 <span>（=两个“半组”），动画把整条轨道从 0
-             平移到 -50%（正好一整组的宽度）→ 回到起点，视觉上无接缝。
-       一行：white-space:nowrap + inline-flex，永不换行。
-       盖满屏：每段 <span> 内文案重复 3 遍，保证轨道总宽 > 任意屏幕宽（否则宽屏右侧留白）。
-       换文案：只改 <span> 里的文字，两段保持一致即可。 */
-    .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-             overflow:hidden;padding:16px 0}
-    .marquee-track{display:inline-flex;white-space:nowrap;
-                   animation:slide 50s linear infinite;will-change:transform}
-    .marquee-track span{flex:0 0 auto;white-space:nowrap;font-family:var(--mono);
-                        font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
-                        color:var(--muted);padding-right:3.5em}
-    @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    @media (prefers-reduced-motion: reduce){
-      .marquee-track{animation:none}
-    }
 
     /* ═══ 通用分节 ═══ */
     section{padding:110px 0}
@@ -368,12 +350,15 @@
 
     /* ═══ 页脚 ═══ */
     footer{padding:80px 0 40px;border-top:1px solid var(--line)}
-    .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:80px}
-    .foot-top h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
-                 color:var(--muted);margin-bottom:16px}
-    .foot-top li{margin-bottom:8px;opacity:.8;transition:opacity .2s}
-    .foot-top li:hover{opacity:1}
-    .foot-top a:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
+    /* 页脚主区：桌面两栏（左：联系方式与合作咨询 / 右：次级导航） */
+    .foot-main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+               gap:64px;align-items:start;margin-bottom:80px}
+    .foot-links{display:flex;gap:clamp(32px,4vw,56px);flex-wrap:wrap}
+    .foot-links h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+                   color:var(--muted);margin-bottom:16px}
+    .foot-links li{margin-bottom:8px;opacity:.8;transition:opacity .2s}
+    .foot-links li:hover{opacity:1}
+    .foot-links a:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
     /* ═══ 页脚：底部压轴区域 ═══ */
     .foot-bottom {
       margin-top: 80px;
@@ -404,15 +389,126 @@
       letter-spacing: .05em;
     }
 
-    /* 极简页脚时钟：字体与颜色对齐 Work/Now/Back to Top（正文墨色 + 0.8） */
+    /* ═══ 页脚右栏：联系方式与合作咨询 ═══
+       借联系表单的分层语言：小标签 → 大标题 → 细横线 → 字段行 → 动作。
+       表单经访客本地邮件客户端发送，本站不接收也不存储提交内容。 */
+    .foot-kicker {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .foot-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      letter-spacing: -.01em;
+      line-height: 1.15;
+      color: var(--ink2);
+      margin: 14px 0 28px;
+    }
+    .foot-fields {
+      margin: 0;
+      border-top: 1px solid var(--line);
+    }
+    .foot-field {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 24px;
+      align-items: baseline;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .foot-field dt {
+      font-size: .78rem;
+      letter-spacing: .02em;
+      color: var(--muted);
+    }
+    .foot-field dd {
+      margin: 0;
+      min-width: 0;
+      font-size: .88rem;
+      letter-spacing: .04em;
+      color: var(--ink);
+    }
+    .foot-field dd a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      overflow-wrap: anywhere;
+      transition: border-color .2s, opacity .2s;
+    }
+    .foot-field dd a:hover { border-bottom-color: var(--olive) }
+
+    /* 表单控件（沿用主题变量，深浅模式自动适配） */
+    .foot-field input[type="text"],
+    .foot-field select,
+    .foot-field textarea {
+      width: 100%;
+      font-family: inherit;
+      font-size: .88rem;
+      line-height: 1.5;
+      color: var(--ink);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 9px 12px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .foot-field textarea { min-height: 104px; resize: vertical }
+    .foot-field input::placeholder,
+    .foot-field textarea::placeholder { color: var(--muted); opacity: .85 }
+    .foot-field input:focus,
+    .foot-field select:focus,
+    .foot-field textarea:focus {
+      outline: none;
+      border-color: var(--olive);
+      box-shadow: 0 0 0 3px rgba(176,183,72,.16);
+    }
+    /* 邮件 / 当地时间：与上方表单字段拉开一层 */
+    .foot-fields-meta { margin-top: 26px }
+
+    /* 同意条款 */
+    .foot-agree {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 18px;
+      font-size: .82rem;
+      line-height: 1.6;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .foot-agree input {
+      flex: 0 0 auto;
+      width: 15px; height: 15px;
+      margin-top: .28em;
+      accent-color: var(--olive);
+      cursor: pointer;
+    }
+    .foot-agree a { color: var(--ink); border-bottom: 1px solid var(--line); transition: border-color .2s }
+    .foot-agree a:hover { border-bottom-color: var(--olive) }
+    .foot-agree input:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px }
+
+    /* 提交状态提示（校验未通过 / 已唤起邮件客户端） */
+    .foot-form-status {
+      margin-top: 12px;
+      min-height: 1.25em;
+      font-size: .8rem;
+      color: var(--olive);
+    }
+
+    .foot-actions { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* 极简页脚时钟：并入字段行，字体与颜色继承 dd */
     .foot-clock {
       display: block;
-      margin-top: -6px;
-      margin-bottom: 20px;
+      margin: 0;
       font-family: inherit;
-      font-size: .78rem;
-      letter-spacing: .05em;
-      color: var(--ink);
+      font-size: inherit;
+      letter-spacing: inherit;
+      color: inherit;
       opacity: .8;
       line-height: 1.5;
       user-select: none;
@@ -443,8 +539,15 @@
     @media (prefers-reduced-motion: reduce){
       .foot-clock .caret{animation:none}
     }
+    /* 桌面两栏 → 移动端单列 */
+    @media(max-width:900px){
+      .foot-main{grid-template-columns:1fr;gap:48px}
+    }
     @media(max-width:760px){
-      .foot-clock{ margin-top: -4px; margin-bottom: 16px; }
+      /* 标签在上、值在下 */
+      .foot-field{grid-template-columns:1fr;gap:5px;padding:13px 0}
+      .foot-actions{margin-top:24px}
+      .foot-links{gap:56px}
     }
 
     /* ═══ CTA 收尾区块（固定"黑暗空间" · 两层氛围光）═══
@@ -713,14 +816,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
     </div>
   </section>
 
-  <!-- ═══ 滚动文字条（装饰用）：两段 <span> 必须完全一致 → 无缝；每段内重复 3 遍以盖满宽屏 ═══ -->
-  <div class="marquee">
-    <div class="marquee-track">
-      <span>Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
-      <span aria-hidden="true">Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • Original Score • Sound Design • Wwise • Mixing • Mastering • OST • </span>
-    </div>
-  </div>
-
   <!-- ═══ 首页钩子：Showreel · 迷你播放 · 三层体验（Sprint B）═══ -->
   <section id="home-hooks">
     <div class="wrap" style="margin-bottom:28px">
@@ -923,7 +1018,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
           <div class="service-content">
             <span class="service-number">01</span>
             <h3 class="service-title">原创配乐 · Original Music</h3>
-            <p class="service-desc">不为炫技，只为给玩家的每一次操作留下频段空隙</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -932,7 +1026,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
           <div class="service-content">
             <span class="service-number">02</span>
             <h3 class="service-title">声音设计 · Sound Design</h3>
-            <p class="service-desc">UI 音效的第一原则是"听不见"——不被察觉才正确</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -941,7 +1034,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
           <div class="service-content">
             <span class="service-number">03</span>
             <h3 class="service-title">音频集成 · Implementation</h3>
-            <p class="service-desc">第二份设计文档</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -950,7 +1042,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
           <div class="service-content">
             <span class="service-number">04</span>
             <h3 class="service-title">混音母带 · Mixing & Mastering</h3>
-            <p class="service-desc">Master the Master</p>
             <div class="service-thumb">
             </div>
           </div>
@@ -962,8 +1053,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
   <!-- ═══ 观点引言（浅色 · 固定文案）═══ -->
   <section class="quote wrap">
     <blockquote>
-      <span class="quote-line quote-line-keep">“我从不信玩家问卷里「音乐很好听」的评价。”</span>
-      <span class="quote-line">“重击前摇时那 0.3 秒的停顿，那才是该塞进低频「呼吸感」的地方。”</span>
       <span class="quote-line quote-line-final quote-line-keep">“声音是玩家行为的延伸。”</span>
     </blockquote>
     <footer>
@@ -1045,7 +1134,7 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
              decoding="async" />
       </h2>
       <div class="btns">
-        <a class="btn btn-lime" href="./00-index_images/RVB_Questionnaire.png" id="cta-brief">Submit Brief</a>
+        <a class="btn btn-lime" href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer" id="cta-brief">Submit Brief</a>
         <a class="btn btn-line" href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener" id="cta-resume-pdf">Resume PDF</a>
       </div>
     </div>
@@ -1054,54 +1143,102 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
   <!-- ═══ 页脚 ═══ -->
   <footer id="contact">
     <div class="wrap">
-      <div class="foot-top">
-        <!-- 联系与状态 -->
-        <div>
-          <h4>Start a Conversation</h4>
-          <!-- 时钟在标题下、按钮上 -->
-          <div class="foot-clock" id="foot-clock" aria-hidden="true">
-            <span class="prompt">UTC+8 &gt;&nbsp;</span><span class="foot-clock-time time"></span><span class="caret">_</span>
+      <!-- 页脚主区：桌面两栏（左：次级导航 / 右：联系方式与合作咨询） -->
+      <div class="foot-main">
+
+        <!-- 左栏：联系方式 + 合作咨询表单 -->
+        <div class="foot-contact">
+          <div class="foot-kicker">Contact</div>
+          <h2 class="foot-title">Start a Conversation</h2>
+
+          <form class="foot-form" id="foot-form" novalidate>
+            <dl class="foot-fields">
+              <div class="foot-field">
+                <dt><label for="foot-name">您的姓名</label></dt>
+                <dd><input id="foot-name" name="name" type="text" autocomplete="name" placeholder="怎么称呼您" /></dd>
+              </div>
+              <div class="foot-field">
+                <dt><label for="foot-topic">合作事项</label></dt>
+                <dd>
+                  <select id="foot-topic" name="topic">
+                    <option>创作邀约</option>
+                    <option>商务合作</option>
+                    <option>其他</option>
+                  </select>
+                </dd>
+              </div>
+              <div class="foot-field">
+                <dt><label for="foot-message">合作内容</label></dt>
+                <dd><textarea id="foot-message" name="message" rows="5" placeholder="项目类型、周期、参考作品…"></textarea></dd>
+              </div>
+            </dl>
+
+            <label class="foot-agree">
+              <input type="checkbox" id="foot-agree" name="agree" />
+              <span>我已阅读并同意<a href="./privacy.html" target="_blank" rel="noopener">《用户隐私协议》</a></span>
+            </label>
+
+            <p class="foot-form-status" id="foot-form-status" role="status" aria-live="polite"></p>
+
+            <dl class="foot-fields foot-fields-meta">
+              <div class="foot-field">
+                <dt>Email</dt>
+                <dd><a href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a></dd>
+              </div>
+              <div class="foot-field">
+                <dt>Local time</dt>
+                <dd class="foot-clock" id="foot-clock" aria-hidden="true">
+                  <span class="prompt">UTC+8 &gt;&nbsp;</span><span class="foot-clock-time time"></span><span class="caret">_</span>
+                </dd>
+              </div>
+            </dl>
+
+            <div class="foot-actions">
+              <button class="btn btn-lime" type="submit">Send an Email</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 右栏：Links · Social Media -->
+        <div class="foot-links">
+          <div>
+            <h4>Links</h4>
+            <ul>
+              <li><a href="#work">Work</a></li>
+              <li><a href="#now">Now</a></li>
+              <li><a href="#top">Back to Top</a></li>
+            </ul>
           </div>
-          <a class="btn btn-dark" href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a>
+          <div>
+            <h4>Social Media</h4>
+            <ul>
+              <li><a href="./00_index_images/Wechat_QR_Code.jpg" id="wechat-link" target="_blank" rel="noopener">Wechat</a></li>
+              <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
+              <li><a href="https://www.xiaoheihe.cn/app/bbs/home" target="_blank" rel="noopener noreferrer">小黑盒（即将上线）</a></li>
+            </ul>
+          </div>
         </div>
-        <!-- Links -->
-        <div>
-          <h4>Links</h4>
-          <ul>
-            <li><a href="#work">Work</a></li>
-            <li><a href="#now">Now</a></li>
-            <li><a href="#top">Back to Top</a></li>
-          </ul>
-        </div>
-        <!-- Social Media -->
-        <div>
-          <h4>Social Media</h4>
-          <ul>
-            <li><a href="./00-index_images/Wechat_QR_Code.jpg" id="wechat-link" target="_blank" rel="noopener">Wechat</a></li>
-            <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
-            <li><a href="https://www.xiaoheihe.cn/app/bbs/home" target="_blank" rel="noopener noreferrer">小黑盒（即将上线）</a></li>
-          </ul>
-        </div>
+
       </div>
 
       <!-- 底部压轴：大字 + 版权 -->
       <div class="foot-bottom">
         <div class="foot-brand">ReiVerb Sound Atorie</div>
         <div class="foot-copyright">
-          <span>© 2026 ReiVerb Sound Atorie · All Rights Reserved</span>
+          <span>© 2026 ReiVerb Sound Atorie · All Rights Reserved</span><span class="foot-updated" style="display:block;margin-top:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em">最近更新 · 2026-10</span>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- 二维码弹窗：CTA 打开飞书需求表单；页脚 Wechat 打开微信码 -->
+  <!-- 二维码弹窗：页脚 Wechat 打开微信码 -->
   <div class="qr-modal" id="qr-modal" aria-hidden="true">
     <div class="qr-modal-backdrop"></div>
     <div class="qr-modal-card" role="dialog" aria-modal="true" aria-label="二维码">
       <button class="qr-modal-close" aria-label="关闭">×</button>
       <div class="qr-modal-frame">
-        <img id="qr-modal-img" src="./00-index_images/RVB_Questionnaire.png" alt="飞书项目需求表单二维码" />
+        <img id="qr-modal-img" src="./00-index_images/Wechat_QR_Code.jpg" alt="微信二维码" />
       </div>
     </div>
   </div>
@@ -1565,6 +1702,43 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
       setInterval(tick, 30000);
     })();
 
+    // ═══ 页脚合作咨询表单 ═══
+    // 校验通过后拼装 mailto，交给访客本地邮件客户端发送；
+    // 本站无后端，不接收也不存储提交内容。校验不通过时只在行内提示，不跳转。
+    (function() {
+      const form = document.getElementById('foot-form');
+      if (!form) return;
+      const nameEl = document.getElementById('foot-name');
+      const topicEl = document.getElementById('foot-topic');
+      const msgEl = document.getElementById('foot-message');
+      const agreeEl = document.getElementById('foot-agree');
+      const statusEl = document.getElementById('foot-form-status');
+      const MAIL = 'reiverb-sound-atorie@outlook.com';
+
+      const say = (text) => { if (statusEl) statusEl.textContent = text; };
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = nameEl.value.trim();
+        const topic = topicEl.value;
+        const message = msgEl.value.trim();
+
+        if (!name) { say('请先填写您的姓名。'); nameEl.focus(); return; }
+        if (!message) { say('请先填写合作内容。'); msgEl.focus(); return; }
+        if (!agreeEl.checked) { say('请先阅读并同意《用户隐私协议》。'); agreeEl.focus(); return; }
+
+        const subject = `[${topic}] 来自 ${name} 的合作咨询`;
+        const body =
+          `姓名：${name}\n` +
+          `合作事项：${topic}\n\n` +
+          `合作内容：\n${message}\n`;
+        const url = `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        say('已唤起你的邮件客户端，请确认发送。');
+        window.location.href = url;
+      });
+    })();
+
     // ═══ 手机端：点导航链接后自动收起菜单 ═══
     (function() {
       const menu = document.getElementById('menu');
@@ -1578,11 +1752,11 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
       });
     })();
 
-    // ═══ 二维码弹窗：CTA「Submit Brief」→ 飞书表单；页脚 Wechat → 微信码 ═══
+    // ═══ 二维码弹窗：页脚 Wechat → 微信码 ═══
+    //     CTA「Submit Brief」已改为直连飞书表单，不再经过弹窗
     (function() {
       const modal = document.getElementById('qr-modal');
       const modalImg = document.getElementById('qr-modal-img');
-      const ctaBrief = document.getElementById('cta-brief');
       const wechatLink = document.getElementById('wechat-link');
       if (!modal || !modalImg) return;
 
@@ -1606,12 +1780,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
         if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
       };
 
-      if (ctaBrief) {
-        ctaBrief.addEventListener('click', (e) => {
-          e.preventDefault();   // 弹出飞书二维码（href 保留给无 JS 兜底）
-          open('./00-index_images/RVB_Questionnaire.png', '飞书项目需求表单二维码');
-        });
-      }
       if (wechatLink) {
         wechatLink.addEventListener('click', (e) => {
           e.preventDefault();
