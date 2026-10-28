@@ -116,6 +116,31 @@
 
 ---
 
+### 1.6 对外可见性闸门：清除「内部制作话术」（阻断级 · 2026-10 复核新增）
+
+> 复核结论：首页 `#home-hooks` 区把内部制作状态当成对外文案渲染，任何访客在首屏即可看到。
+> 违反 AGENTS.md 08 / 09（成品不得出现作者视角与内部制作过程）。
+> 状态：`[ ]` 未修（本轮仅登记；相关修复未提交）
+
+- [ ] **Showreel 卡：建议整块撤下**，等母版到位再放回
+  - `index.html:743` `.reel-poster` 覆盖层（默认 `display:flex`，压在视频框上）：「Reel 母版待挂载 / 默认静音策略 · 点击后播放」
+  - `index.html:749` `[data-reel-status]`：「成片完成后：mp4/webm 放入站点并在 video 上加 src。」
+  - `shared/home-hooks.js:199` 点 Play 后：「Showreel 母版尚未挂入本站。把 mp4/webm 路径填入 data-src 后即可播放。」
+  - 判断：点不动的播放器卡是负资产；「第一屏能听」已由迷你播放器（3 条真实 OST）承担
+- [ ] **三层体验卡：占位文案改为对外表述**
+  - `index.html:782`：「UI 与状态机已可用；正式分层轨待替换 data-layer 音频。」
+  - `index.html:784` `.stage-ph`：「15s 静音画面位 / WebM + MP4 · <3MB」（自带素材规格，属内部约束）
+  - 前提：三条 `audio[data-layer]` 的 `src` 为空，点击只有 UI 变色（素材见 1.4）
+- [ ] **`02-bkeq` A/B 对比台无声**：引用 `../audio/bkeq-demo-o.mp3` 与 `-p.mp3`，全站不存在这两个文件，点 Play 无任何声音
+  - 二选一：补真实 A/B 音频，或先隐藏 A/B 台（同属「点了没反应」类）
+- [ ] **客户评价区模板残留**（当前由 `index.html:567` 的 `#testimonials{display:none}` 隐藏，公网不可见）
+  - 源码仍含「张三 / 游戏制作人 / 暂无评价，请在此处添加客户评价内容 / 01 / 03」（`index.html:1015–1028` 及 JS 数组 `index.html:1391–1406`）
+  - 启用前必须替换为真实评价，或删除该区；**禁止编造**（见 §6 非目标）
+
+> 本轮已修（本地未提交）：恢复 `00-index_images/og-cover.png`（一次修好 `og:image` / `twitter:image` / Showreel poster 三处死引用）；删 `02-bkeq` 的假 YouTube 占位与失效开发注释；页脚加「最近更新 · 2026-10」。
+
+---
+
 ## 2. P1 — 决定「是不是专业 / 能不能进大厂」
 
 ### 2.1 Case Study 模板（先定模板再填项目）
