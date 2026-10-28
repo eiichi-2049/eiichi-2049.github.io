@@ -1,5 +1,5 @@
 /**
- * 首页钩子 JS（Sprint B）
+ * 首页钩子 JS
  * - 迷你播放器：单曲切换 + 进度条（点击才播）
  * - 三层体验：状态机 + 层叠加；音频可 stub（无 src 或失败时仍走 UI）
  * 依赖 DOM：见 fragments/home-index-insert.md / preview/index.html
@@ -108,7 +108,6 @@
     const dots = Array.from(root.querySelectorAll('.stage-dot'));
     const status = root.querySelector('.stage-status');
     const reset = root.querySelector('.stage-reset');
-    const video = root.querySelector('.stage-video video');
     const layers = {};
     root.querySelectorAll('audio[data-layer]').forEach(function (a) {
       layers[a.getAttribute('data-layer')] = a;
@@ -177,38 +176,15 @@
     if (reset) {
       reset.addEventListener('click', function () {
         enableUpTo(0);
-        if (video) {
-          try {
-            video.currentTime = 0;
-          } catch (e) {}
-        }
       });
     }
 
     enableUpTo(0);
   }
 
-  /* ── Showreel：缺片时仅按钮提示 ── */
-  function initReel(root) {
-    const video = root.querySelector('video');
-    const play = root.querySelector('[data-reel-play]');
-    const status = root.querySelector('[data-reel-status]');
-    if (!play) return;
-    play.addEventListener('click', function () {
-      if (!video || !video.getAttribute('src')) {
-        if (status) status.textContent = 'Showreel 母版尚未挂入本站。把 mp4/webm 路径填入 data-src 后即可播放。';
-        return;
-      }
-      video.play().catch(function () {
-        if (status) status.textContent = '无法自动播放。请再次点击或检查编码（建议 H.264 + AAC）。';
-      });
-    });
-  }
-
   function boot() {
     document.querySelectorAll('[data-hook="mini-player"]').forEach(initMiniPlayer);
     document.querySelectorAll('[data-hook="stage"]').forEach(initStage);
-    document.querySelectorAll('[data-hook="reel"]').forEach(initReel);
   }
 
   if (document.readyState === 'loading') {

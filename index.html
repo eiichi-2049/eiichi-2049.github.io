@@ -127,10 +127,6 @@
     .btn-dark{background:var(--ink);color:var(--paper)}
     .btn:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
     /* 深色 CTA 区：描边按钮需用浅色，避免深底上看不见 */
-    #cta-final .btn-line{border-color:rgba(245,245,245,.55);color:var(--paper)}
-    #cta-final .btn-line:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
-    #cta-final .wrap .btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:32px}
-    #cta-final .wrap .btns .btn{margin-top:0}
     /* 手机端：隐藏文字链接 + 汉堡按钮 */
     .burger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink);line-height:1;padding:4px 8px}
     .burger:focus-visible{outline:2px solid var(--olive);outline-offset:2px;border-radius:8px}
@@ -557,7 +553,7 @@
        只动 transform/opacity（GPU 合成层）；边缘柔和靠长衰减渐变，不用 blur。 */
     #cta-final{--paper:#f5f5f5;--ink:#010205;   /* 黑暗空间固定配色，不随系统明暗切换 */
                background:var(--ink);
-               color:var(--paper);padding:111px 40px 76px;  /* 上留白 143→111 补偿 eyebrow 上移：h2 仍垂直居中 */
+               color:var(--paper);padding:150px 40px;  /* 上留白 143→111 补偿 eyebrow 上移：h2 仍垂直居中 */
                text-align:center;position:relative;overflow:hidden;}
     /* 第三层：极弱外围雾光（峰值有效亮度仅 ≈10%，只提供空间深度，不明显提亮） */
     .cta-fog{position:absolute;inset:-10%;z-index:0;pointer-events:none;
@@ -573,17 +569,10 @@
              animation:cta-mid 7s ease-in-out infinite;animation-delay:-9.3s}
     /* 内容浮于所有光层之上 */
     #cta-final .wrap{max-width:800px;margin:0 auto;position:relative;z-index:3;text-align:center}
-    /* 该 eyebrow 直接挂在整宽 section 上；左侧动态内缩，使其与顶部导航胶囊左缘
-       （即 .wrap 版心左缘）落在同一条竖线上；z-index 让其浮于氛围光层之上 */
-    #cta-final .eyebrow{position:relative;z-index:2;justify-content:flex-start;margin-bottom:72px;  /* 与标题拉开间距，eyebrow 上移 */
-                        padding-left:max(0px,calc((100% - 1120px)/2))}
-    #cta-final .eyebrow i:nth-child(1){background:#ffffff}
-    #cta-final .eyebrow i:nth-child(2){background:var(--muted)}
-    #cta-final .eyebrow span{color:var(--paper)}
     /* 标题改为预渲染透明图（2400×331），省去为这行标题加载/排版衬线整字重 */
     #cta-final .cta-title-wrap{
       display:block;
-      margin:0 auto 50px;
+      margin:0 auto;
       max-width:min(100%,860px);
     }
     #cta-final .cta-title-wrap img{
@@ -595,8 +584,6 @@
       animation:cta-title 8s ease-in-out infinite;
       will-change:opacity;
     }
-    #cta-final .btn-lime{margin-top:32px}
-    #cta-final .btns .btn-lime{margin-top:0}
 
     @keyframes cta-mid{
       0%  {transform:scale(.8);opacity:.35}
@@ -664,35 +651,6 @@
     .now-text{font-size:1.05rem;color:var(--ink2);line-height:1.5}
     .now-date{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
              text-transform:uppercase;color:var(--muted);margin-top:8px;display:block}
-
-    /* ═══ 客户评价轮播 ═══ */
-    /* 客户评价区块：暂时隐藏（不是删除）。要恢复显示，删掉下面这行的 display:none 即可 */
-    #testimonials{display:none;padding:110px 40px;scroll-margin-top:170px}
-    .testi-card{background:var(--card);border:1px solid var(--line);border-radius:20px;
-                padding:60px;max-width:900px;margin:0 auto;transition:all .3s ease}
-    .testi-card blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.4rem,3vw,2rem);
-                           color:var(--ink2);line-height:1.4;margin-bottom:40px;
-                           opacity:1;transform:translateY(0);transition:opacity .5s ease,transform .5s ease}
-    .testi-card blockquote.transitioning{opacity:0;transform:translateY(8px)}
-    .testi-meta{display:flex;justify-content:space-between;align-items:center;gap:30px}
-    .testi-info{display:flex;align-items:center;gap:14px}
-    .testi-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--line)}
-    .testi-name{font-weight:600;color:var(--ink);font-size:.95rem}
-    .testi-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--muted);margin-top:3px;text-transform:uppercase}
-    .testi-controls{display:flex;align-items:center;gap:14px}
-    .testi-btn{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--paper);
-               border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;
-               transition:transform .2s ease,box-shadow .2s ease;font-weight:bold}
-    .testi-btn:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(1,2,5,.15)}
-    .testi-btn:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
-    .testi-counter{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--muted);
-                   min-width:55px;text-align:center;text-transform:uppercase}
-    @media(max-width:760px){
-      .testi-card{padding:40px 28px}
-      .testi-meta{flex-direction:column;gap:24px;text-align:center}
-      .testi-info{justify-content:center;width:100%}
-      .testi-controls{width:100%;justify-content:center}
-    }
 
     /* ═══ 滚动进场动画（仅在启用 JS 时隐藏初态，避免无 JS 时内容不可见）═══ */
     /* [深化] P1-1 进场用 translate；.b-text 额外保留 hover 的 transform/box-shadow 过渡 */
@@ -816,7 +774,7 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
     </div>
   </section>
 
-  <!-- ═══ 首页钩子：Showreel · 迷你播放 · 三层体验（Sprint B）═══ -->
+  <!-- ═══ 首页钩子：精选试听 · 三层音频体验 ═══ -->
   <section id="home-hooks">
     <div class="wrap" style="margin-bottom:28px">
       <div class="eyebrow"><i></i><i></i><span>Listen &amp; Demo</span></div>
@@ -827,97 +785,74 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
     <!-- hooks-grid 已 max-width:1200 + margin auto，与标题 .wrap 对齐 -->
 
     <div class="hooks-grid">
-      <article class="hook-card" data-hook="reel">
-        <div class="hook-kicker"><i></i><i></i><span>Demo Reel</span></div>
-        <h2>Showreel</h2>
-        <p>30–90 秒最强内容：画面 → 声音 → 结果。母版就绪后填入 video 路径。</p>
-        <div class="reel-frame">
-          <video class="reel-video" controls playsinline preload="none"
-                 poster="00-index_images/og-cover.png"></video>
-          <div class="reel-poster" aria-hidden="true">
-            <div class="reel-hint">Reel 母版待挂载<br>默认静音策略 · 点击后播放</div>
+      <article class="hook-card mini-player"
+               data-hook="mini-player"
+               data-tracks='[
+                 {"title":"Choices","src":"01-ost/audio/Choices_.mp3","tag":"Original Music"},
+                 {"title":"Music Box","src":"01-ost/audio/music_box_2025_.mp3","tag":"Original Music"},
+                 {"title":"KB280","src":"01-ost/audio/KB280_121_DM_.mp3","tag":"Original Music"}
+               ]'>
+        <div class="hook-kicker"><i></i><i></i><span>Mini Player</span></div>
+        <h2>精选试听</h2>
+        <p>3 条原创配乐选段，点击即可试听。</p>
+        <div class="mp-row">
+          <button type="button" class="mp-play" aria-label="播放">▶</button>
+          <div class="mp-meta">
+            <div class="mp-title">—</div>
+            <div class="mp-sub">Original Music · click to play</div>
           </div>
         </div>
-        <div class="reel-actions">
-          <button type="button" class="hook-btn" data-reel-play>Play Reel</button>
-        </div>
-        <p class="hook-note" data-reel-status>成片完成后：mp4/webm 放入站点并在 video 上加 src。</p>
+        <div class="mp-bar" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+        <audio class="mp-audio" preload="none"></audio>
+        <ul class="mp-list">
+          <li><button type="button">Choices<span>Original Music</span></button></li>
+          <li><button type="button">Music Box<span>Original Music</span></button></li>
+          <li><button type="button">KB280<span>Original Music</span></button></li>
+        </ul>
       </article>
 
-      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
-        <article class="hook-card mini-player"
-                 data-hook="mini-player"
-                 data-tracks='[
-                   {"title":"Choices","src":"01-ost/audio/Choices_.mp3","tag":"Original Music"},
-                   {"title":"Music Box","src":"01-ost/audio/music_box_2025_.mp3","tag":"Original Music"},
-                   {"title":"KB280","src":"01-ost/audio/KB280_121_DM_.mp3","tag":"Original Music"}
-                 ]'>
-          <div class="hook-kicker"><i></i><i></i><span>Mini Player</span></div>
-          <h2>精选试听</h2>
-          <p>点击才出声。从已有 Original Music 中抽 3 条作为第一屏证据。</p>
-          <div class="mp-row">
-            <button type="button" class="mp-play" aria-label="播放">▶</button>
-            <div class="mp-meta">
-              <div class="mp-title">—</div>
-              <div class="mp-sub">Original Music · click to play</div>
-            </div>
+      <article class="hook-card" data-hook="stage">
+        <div class="hook-kicker"><i></i><i></i><span>Interactive Audio</span></div>
+        <h2>三层音频体验</h2>
+        <p>点击三个点，逐层叠加：环境 → 交互 → 音乐。</p>
+        <div class="stage-dots" role="group" aria-label="音频分层">
+          <button type="button" class="stage-dot" data-layer="ambience" aria-pressed="false">
+            <span class="dot-core" aria-hidden="true"></span>
+            <span class="dot-label">01 环境层</span>
+            <span class="dot-tag">Ambience Bus · RTPC Distance</span>
+          </button>
+          <button type="button" class="stage-dot" data-layer="sfx" aria-pressed="false">
+            <span class="dot-core" aria-hidden="true"></span>
+            <span class="dot-label">02 交互层</span>
+            <span class="dot-tag">SFX · Ducking · Priority</span>
+          </button>
+          <button type="button" class="stage-dot" data-layer="music" aria-pressed="false">
+            <span class="dot-core" aria-hidden="true"></span>
+            <span class="dot-label">03 音乐层</span>
+            <span class="dot-tag">Music Bus · RTPC Combat</span>
+          </button>
+        </div>
+        <p class="stage-status"></p>
+        <div class="stage-actions">
+          <button type="button" class="stage-reset">重新体验</button>
+        </div>
+        <audio data-layer="ambience" preload="none" src=""></audio>
+        <audio data-layer="sfx" preload="none" src=""></audio>
+        <audio data-layer="music" preload="none" src=""></audio>
+        <details class="stage-details">
+          <summary>技术说明（Wwise 总线示意）</summary>
+          <div class="tech-note">
+            <strong>总线草图</strong>
+            <ul>
+              <li>Main Mix → Ambience / SFX / Music</li>
+              <li>SFX：战斗峰值触发 Music 侧 Ducking</li>
+              <li>Music：Combat Intensity → Layer RTPC 分层</li>
+            </ul>
           </div>
-          <div class="mp-bar" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
-          <audio class="mp-audio" preload="none"></audio>
-          <ul class="mp-list">
-            <li><button type="button">Choices<span>Original Music</span></button></li>
-            <li><button type="button">Music Box<span>Original Music</span></button></li>
-            <li><button type="button">KB280<span>Original Music</span></button></li>
-          </ul>
-        </article>
-
-        <article class="hook-card" data-hook="stage">
-          <div class="hook-kicker"><i></i><i></i><span>Interactive Audio</span></div>
-          <h2>三层音频体验</h2>
-          <p>点击三个点，逐层叠加：环境 → 交互 → 音乐。UI 与状态机已可用；正式分层轨待替换 data-layer 音频。</p>
-          <div class="stage-video">
-            <div class="stage-ph">15s 静音画面位<br>WebM + MP4 · &lt;3MB</div>
-          </div>
-          <div class="stage-dots" role="group" aria-label="音频分层">
-            <button type="button" class="stage-dot" data-layer="ambience" aria-pressed="false">
-              <span class="dot-core" aria-hidden="true"></span>
-              <span class="dot-label">01 环境层</span>
-              <span class="dot-tag">Ambience Bus · RTPC Distance</span>
-            </button>
-            <button type="button" class="stage-dot" data-layer="sfx" aria-pressed="false">
-              <span class="dot-core" aria-hidden="true"></span>
-              <span class="dot-label">02 交互层</span>
-              <span class="dot-tag">SFX · Ducking · Priority</span>
-            </button>
-            <button type="button" class="stage-dot" data-layer="music" aria-pressed="false">
-              <span class="dot-core" aria-hidden="true"></span>
-              <span class="dot-label">03 音乐层</span>
-              <span class="dot-tag">Music Bus · RTPC Combat</span>
-            </button>
-          </div>
-          <p class="stage-status"></p>
-          <div class="stage-actions">
-            <button type="button" class="stage-reset">重新体验</button>
-          </div>
-          <audio data-layer="ambience" preload="none" src=""></audio>
-          <audio data-layer="sfx" preload="none" src=""></audio>
-          <audio data-layer="music" preload="none" src=""></audio>
-          <details class="stage-details">
-            <summary>技术说明（Wwise 总线示意）</summary>
-            <div class="tech-note">
-              <strong>总线草图</strong>
-              <ul>
-                <li>Main Mix → Ambience / SFX / Music</li>
-                <li>SFX：战斗峰值触发 Music 侧 Ducking</li>
-                <li>Music：Combat Intensity → Layer RTPC（待工程截图）</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-      </div>
+        </details>
+      </article>
     </div>
   </section>
-
   <!-- ═══ Selected Work：项目证据（真实交付 > 实验 > 思考）═══ -->
   <section id="work">
     <div class="wrap">
@@ -1093,50 +1028,17 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
     </ul>
   </section>
 
-  <!-- ═══ 客户评价轮播 ═══ -->
-  <section id="testimonials" class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow"><i></i><i></i><span>Client Voices</span></div>
-      <h2>客户评价</h2>
-    </div>
-
-    <div class="testi-card">
-      <blockquote>暂无评价，请在此处添加客户评价内容。</blockquote>
-
-      <div class="testi-meta">
-        <div class="testi-info">
-          <img class="testi-avatar" src="v2-bento/waveform.svg" alt="client" />
-          <div>
-            <div class="testi-name">张三</div>
-            <div class="testi-title">游戏制作人</div>
-          </div>
-        </div>
-
-        <div class="testi-controls">
-          <button class="testi-btn testi-prev" aria-label="previous">←</button>
-          <span class="testi-counter">01 / 03</span>
-          <button class="testi-btn testi-next" aria-label="next">→</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ -->
   <section id="cta-final">
     <div class="cta-fog" aria-hidden="true"></div>
-    <div class="eyebrow"><i></i><i></i><span>Sound that speaks for your story</span></div>
     <div class="wrap">
       <!-- 原始尺寸 2400×331；改用同尺寸透明图/替换文件不影响布局 -->
       <h2 class="cta-title-wrap">
-        <img src="00-index_images/cta-compose-with-breath-m-1.png"
+        <img src="00_index_images/cta-compose-with-breath-m-1.png"
              width="1791" height="437"
              alt="Compose with breath"
              decoding="async" />
       </h2>
-      <div class="btns">
-        <a class="btn btn-lime" href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer" id="cta-brief">Submit Brief</a>
-        <a class="btn btn-line" href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener" id="cta-resume-pdf">Resume PDF</a>
-      </div>
     </div>
   </section>
 
@@ -1207,6 +1109,7 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
               <li><a href="#work">Work</a></li>
               <li><a href="#now">Now</a></li>
               <li><a href="#top">Back to Top</a></li>
+              <li><a href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener">Resume PDF</a></li>
             </ul>
           </div>
           <div>
@@ -1524,68 +1427,6 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
       window.addEventListener('pagehide', stop);
     })();
 
-    // 客户评价轮播
-    const testimonials = [
-      {
-        quote: '暂无评价，请在此处添加客户评价内容。',
-        name: '张三',
-        title: 'XX游戏制作人',
-        avatar: 'v2-bento/waveform.svg',
-      },
-      {
-        quote: '暂无评价，请在此处添加客户评价内容。',
-        name: '李四',
-        title: 'XX独立开发团队,负责XX游戏项目',
-        avatar: 'v2-bento/spiral.svg',
-      },
-      {
-        quote: '暂无评价，请在此处添加客户评价内容。',
-        name: '王五',
-        title: '客户职位介绍',
-        avatar: 'v2-bento/network.svg',
-      }
-    ];
-
-    let currentIndex = 0;
-
-    function updateTestimonial() {
-      const blockquote = document.querySelector('.testi-card blockquote');
-      if (!blockquote) return;
-      blockquote.classList.add('transitioning');
-
-      setTimeout(() => {
-        const testi = testimonials[currentIndex];
-        blockquote.textContent = testi.quote;
-        const nameEl = document.querySelector('.testi-name');
-        const titleEl = document.querySelector('.testi-title');
-        const avatarEl = document.querySelector('.testi-avatar');
-        const counterEl = document.querySelector('.testi-counter');
-        if (nameEl) nameEl.textContent = testi.name;
-        if (titleEl) titleEl.textContent = testi.title;
-        if (avatarEl) avatarEl.src = testi.avatar || 'v2-bento/waveform.svg';
-
-        const total = testimonials.length;
-        const current = currentIndex + 1;
-        if (counterEl) {
-          counterEl.textContent =
-            `${String(current).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
-        }
-
-        blockquote.classList.remove('transitioning');
-      }, 250);
-    }
-
-    const prevBtn = document.querySelector('.testi-prev');
-    const nextBtn = document.querySelector('.testi-next');
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
-      updateTestimonial();
-    });
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % testimonials.length;
-      updateTestimonial();
-    });
-
     // IntersectionObserver 滚动进场动画
     const observerOptions = {
       threshold: 0.1,
@@ -1666,7 +1507,7 @@ html.has-custom-cursor .now-list * { cursor: text !important; }
         });
 
         // hover 可点击目标（work 文字卡、CTA 按钮）时，光标切换为"查看按钮"形态
-        document.querySelectorAll('.b-text, .exp-card, #cta-final .btn-lime, #cta-resume-pdf').forEach(card=>{
+        document.querySelectorAll('.b-text, .exp-card').forEach(card=>{
           card.addEventListener('mouseenter', ()=>{
             cursor.classList.add('cursor-view');
           });

@@ -1,4 +1,4 @@
-/* ═══ 首页钩子：Showreel / 迷你播放器 / 三层体验（Sprint B）═══
+/* ═══ 首页钩子：精选试听 / 三层音频体验 ═══
    仅增强 #home-hooks 区；不改动原 bento 视觉 */
 #home-hooks{scroll-margin-top:170px;padding-top:40px}
 /* 与 .wrap 同宽：1200 版心居中；通栏最宽留给 #work 的 bento */
@@ -12,7 +12,7 @@
   padding:0 40px;
 }
 @media(min-width:960px){
-  /* Showreel 收窄：右侧试听/三层才是主交互 */
+  /* 两卡并排：精选试听在左，三层体验在右 */
   .hooks-grid{grid-template-columns:minmax(0,0.88fr) minmax(0,1.12fr);align-items:start}
 }
 .hook-card{
@@ -42,44 +42,6 @@
 }
 .hook-card > p{
   color:var(--muted);font-size:.86rem;line-height:1.65;margin:0 0 14px;max-width:42ch;
-}
-/* —— Showreel 壳（控制体量，避免半屏大视频框） —— */
-.reel-frame{
-  position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;
-  background:#0a0a0c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
-  width:100%;max-width:100%;max-height:clamp(160px,22vw,240px);margin-inline:auto;
-  min-height:0;
-}
-.reel-frame video,.reel-frame .reel-poster{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-}
-.reel-poster{
-  display:flex;align-items:center;justify-content:center;
-  background:
-    radial-gradient(circle at 30% 40%, rgba(208,255,113,.12), transparent 45%),
-    linear-gradient(160deg,#141416,#0a0a0c 60%);
-  color:#e8e6e2;
-}
-.reel-poster .reel-hint{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
-  opacity:.75;text-align:center;line-height:1.8;padding:20px;
-}
-.reel-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.hook-btn{
-  display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
-  border:1px solid transparent;cursor:pointer;text-decoration:none;color:var(--ink);
-  background:var(--accent);transition:transform .2s,box-shadow .2s,background .2s,color .2s;
-}
-.hook-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(208,255,113,.35)}
-.hook-btn:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
-.hook-btn-ghost{
-  background:transparent;border-color:var(--ink);color:var(--ink);
-}
-.hook-btn-ghost:hover{background:var(--ink);color:var(--paper);box-shadow:none}
-.hook-note{
-  margin-top:14px;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;
-  color:var(--muted);line-height:1.7;
 }
 /* —— 迷你播放器 —— */
 .mini-player{display:flex;flex-direction:column;gap:14px;flex:1}
@@ -119,22 +81,6 @@
   text-transform:uppercase;color:var(--muted);margin-top:2px;
 }
 /* —— 三层体验 —— */
-.stage-block{margin-top:8px;display:flex;flex-direction:column;gap:14px;flex:1}
-.stage-video{
-  position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#0a0a0c;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
-}
-.stage-video video,.stage-video .stage-ph{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-}
-.stage-ph{
-  display:flex;align-items:center;justify-content:center;
-  background:
-    radial-gradient(circle at 70% 30%, rgba(176,183,72,.15), transparent 40%),
-    linear-gradient(180deg,#1a1c18,#0a0a0c);
-  color:#e8e6e2;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;
-  text-transform:uppercase;text-align:center;padding:20px;opacity:.9;
-}
 .stage-dots{
   display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;
 }
@@ -192,5 +138,5 @@
   .hooks-grid{padding:0 40px}
 }
 @media(prefers-reduced-motion:reduce){
-  .hook-btn,.mp-play,.stage-dot .dot-core{transition:none}
+  .mp-play,.stage-dot .dot-core{transition:none}
 }
