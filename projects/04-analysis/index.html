@@ -409,6 +409,35 @@
                     display: block;
                 }
 
+                /* 平台外链按钮：复用首页 .b-go 的胶囊语言 */
+                .ext-links {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    padding: 0.9rem 1.25rem 0;
+                }
+
+                .ext-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 10px 16px 10px 18px;
+                    border: 1px solid var(--ink);
+                    border-radius: 999px;
+                    font-family: var(--mono);
+                    font-size: 0.66rem;
+                    letter-spacing: 0.14em;
+                    text-transform: uppercase;
+                    color: var(--ink);
+                    text-decoration: none;
+                    transition: background 0.25s ease, color 0.25s ease;
+                }
+
+                .ext-btn i { font-style: normal; transition: transform 0.25s ease; }
+                .ext-btn:hover { background: var(--ink); color: var(--paper); }
+                .ext-btn:hover i { transform: translate(3px, -3px); }
+                .ext-btn:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; }
+
             /* 视频底部的元信息行 */
             .analysis-entry .video-meta {
                 padding: 0.6rem 1.25rem;
@@ -712,7 +741,7 @@
         <div class="story-block">
             <p>
                 <span class="emoji-deco">🎧</span>
-                这系列作品正在在Bilibili上持续更新，欢迎点赞投币
+                这系列分析视频同步发在 YouTube 与 Bilibili。下方内嵌 YouTube 版本，也可用按钮跳到任一平台观看，欢迎点赞投币
                 <span style="display:inline-block; margin-left:6px;">😄</span>
             </p>
         </div>
@@ -743,12 +772,16 @@
         <div class="analysis-entry">
             <div class="video-wrap">
                 <iframe src="https://www.youtube.com/embed/RYr2MIO6Z0g"
-                        title="阮梅 PV · 配乐分析"
+                        title="阮梅 PV · 配乐分析（YouTube）"
                         allowfullscreen></iframe>
             </div>
             <div class="video-meta">
                 <span class="entry-title">阮梅 <em>· 万物生</em></span>
                 <span class="entry-date">2025.02.15</span>
+            </div>
+            <div class="ext-links">
+                <a class="ext-btn" href="https://www.youtube.com/watch?v=RYr2MIO6Z0g" target="_blank" rel="noopener noreferrer">去 YouTube 观看 <i>↗</i></a>
+                <a class="ext-btn" href="https://www.bilibili.com/video/BV1g6N6eiE7r/" target="_blank" rel="noopener noreferrer">去 Bilibili 观看 <i>↗</i></a>
             </div>
             <div class="analysis-text">
                 <span class="style-tag">✦ 中国风 Trap</span>
@@ -774,12 +807,16 @@
         <div class="analysis-entry">
             <div class="video-wrap">
                 <iframe src="https://www.youtube.com/embed/rHPRcOomBDM"
-                        title="云璃 PV · 配乐分析"
+                        title="云璃 PV · 配乐分析（YouTube）"
                         allowfullscreen></iframe>
             </div>
             <div class="video-meta">
                 <span class="entry-title">云璃 <em>· 误打误撞</em></span>
                 <span class="entry-date">2025.02.20</span>
+            </div>
+            <div class="ext-links">
+                <a class="ext-btn" href="https://www.youtube.com/watch?v=rHPRcOomBDM" target="_blank" rel="noopener noreferrer">去 YouTube 观看 <i>↗</i></a>
+                <a class="ext-btn" href="https://www.bilibili.com/video/BV1TTKp6bEWr/" target="_blank" rel="noopener noreferrer">去 Bilibili 观看 <i>↗</i></a>
             </div>
             <div class="analysis-text">
                 <span class="style-tag">✦ 电子流行 + 中式融合</span>
@@ -813,6 +850,9 @@
                 <span class="entry-title">花火 <em>· 独角戏</em></span>
                 <span class="entry-date">2025.12.24</span>
             </div>
+            <div class="ext-links">
+                <a class="ext-btn" href="https://www.bilibili.com/video/BV1Bwk9Y8EXf/" target="_blank" rel="noopener noreferrer">去 Bilibili 观看 <i>↗</i></a>
+            </div>
             <div class="analysis-text">
                 <span class="style-tag">✦ Glitch Hop + Psy Trance</span>
                 <p>
@@ -840,11 +880,14 @@
         <div class="analysis-entry">
             <div class="video-wrap">
                 <iframe src="https://www.youtube.com/embed/NgxhLBmoeUg"
-                        title="刃 PV · 配乐分析"
+                        title="刃 PV · 配乐分析（YouTube）"
                         allowfullscreen></iframe>
             </div>
             <div class="video-meta">
                 <span class="entry-title">刃</span>
+            </div>
+            <div class="ext-links">
+                <a class="ext-btn" href="https://www.youtube.com/watch?v=NgxhLBmoeUg" target="_blank" rel="noopener noreferrer">去 YouTube 观看 <i>↗</i></a>
             </div>
             <div class="analysis-text">
                 <p>想你了，牢刃</p>
@@ -904,10 +947,10 @@
                 💡 对这套分析感兴趣？欢迎
                 <a href="../../index.html#contact"
                    style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(212,160,84,0.35);">联系我</a>
-                交流讨论，或查看
+                交流讨论，或到
                 <a href="https://space.bilibili.com/23277208"
                    target="_blank"
-                   style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(212,160,84,0.35);">Bilibili 上的完整视频</a>。
+                   style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(212,160,84,0.35);">Bilibili 频道看全部作品</a>。
             </p>
         </div>
 
