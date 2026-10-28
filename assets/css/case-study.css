@@ -1,6 +1,6 @@
 /* ═══ Case Study 组件（Sprint A）═══
    引入：子页在 subpage.css 之后
-   <link rel="stylesheet" href="../shared/case-study.css" /> */
+   <link rel="stylesheet" href="case-study.css" /> */
 
 .case-meta{
   display:grid;

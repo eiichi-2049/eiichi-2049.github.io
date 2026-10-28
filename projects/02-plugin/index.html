@@ -13,7 +13,7 @@
         /* ── 本地字体 ──────────────────────────────────────── */
         @font-face {
             font-family: "OPPO Sans";
-            src: url("../fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2") format("woff2");
+            src: url("../../assets/fonts/OPPO-Sans-subset.woff2") format("woff2");
             font-weight: 100 700;
             font-style: normal;
             font-display: swap;
@@ -401,7 +401,7 @@
             flex-shrink: 0;
         }
         .ab-play:hover { filter: brightness(1.1); }
-        .ab-play.playing { background: var(--red); border-color: var(--red); }
+        .ab-play.playing { background: var(--btn); border-color: var(--btn); color: var(--btn-ink); }
         .ab-play-label {
             font-family: var(--serif);
             font-size: 13px;
@@ -604,7 +604,7 @@
         @media (max-width: 420px) {
         }
     </style>
-    <link rel="stylesheet" href="../shared/subpage.css" />
+    <link rel="stylesheet" href="../../assets/css/subpage.css" />
     <script>
       /* 尽早设置主题，避免页面闪烁（FOUC）—— 跟随系统偏好 */
       (function () {
@@ -618,11 +618,11 @@
     <header class="nav">
         <div class="wrap">
             <div class="nav-in">
-                <a class="logo" href="../index.html#top">ReiVerb Sound <em>Atorie</em></a>
+                <a class="logo" href="../../index.html#top">ReiVerb Sound <em>Atorie</em></a>
 
                 <nav class="nav-links" id="menu">
-                    <a href="../index.html#work">Work</a>
-                    <a href="../index.html#contact">Contact</a>
+                    <a href="../../index.html#work">Work</a>
+                    <a href="../../index.html#contact">Contact</a>
                 </nav>
 
                 <button class="burger" type="button" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
@@ -634,7 +634,7 @@
     <main class="page-wrap">
         <!-- 项目标题 -->
         <header class="project-header">
-            <a href="../index.html#work" class="page-back">← back to work</a>
+            <a href="../../index.html#work" class="page-back">← back to work</a>
             <div class="project-eyebrow"><i></i><i></i><span>Plugin</span></div>
             <h1 class="project-title">
                 <em>[BKEQ Hybrid]</em>
@@ -644,7 +644,7 @@
 
         <!-- 界面 DEMO 截图 -->
         <div class="media-block">
-            <img src="images/equi.png"
+            <img src="img/equi.webp"
                  alt="BKEQ Hybrid 界面截图"
                  loading="lazy" />
             <div class="media-caption">🎛️ <i>界面 DEMO — 持续推进中</i></div>
@@ -759,7 +759,7 @@
         <div class="project-description" style="margin-top: 0;">
             <p style="font-size: 13px; color: var(--ink4); font-style: italic;">
                 💡 对这个插件感兴趣？欢迎
-                <a href="../index.html#contact"
+                <a href="../../index.html#contact"
                    style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(212,160,84,0.35);">联系我</a>。
             </p>
         </div>

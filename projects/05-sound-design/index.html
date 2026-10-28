@@ -12,7 +12,7 @@
         /* ── 本地字体 ──────────────────────────────────────── */
         @font-face {
             font-family: "OPPO Sans";
-            src: url("../fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2") format("woff2");
+            src: url("../../assets/fonts/OPPO-Sans-subset.woff2") format("woff2");
             font-weight: 100 700;
             font-style: normal;
             font-display: swap;
@@ -316,8 +316,14 @@
                 display: none;
             }
         }
+        /* ── TBD 占位块 ── */
+        .tbd-block{margin:2.5rem 0 0;padding:28px 30px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;background:var(--bg2)}
+        .tbd-tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+        .tbd-block p{color:var(--ink3);font-size:.95rem;line-height:1.85}
+        .tbd-block p + p{margin-top:10px}
+        .tbd-block a{color:var(--accent);border-bottom:1px solid currentColor}
     </style>
-    <link rel="stylesheet" href="../shared/subpage.css" />
+    <link rel="stylesheet" href="../../assets/css/subpage.css" />
     <script>
       /* 尽早设置主题，避免页面闪烁（FOUC）—— 跟随系统偏好 */
       (function () {
@@ -331,11 +337,11 @@
     <header class="nav">
         <div class="wrap">
             <div class="nav-in">
-                <a class="logo" href="../index.html#top">ReiVerb Sound <em>Atorie</em></a>
+                <a class="logo" href="../../index.html#top">ReiVerb Sound <em>Atorie</em></a>
 
                 <nav class="nav-links" id="menu">
-                    <a href="../index.html#work">Work</a>
-                    <a href="../index.html#contact">Contact</a>
+                    <a href="../../index.html#work">Work</a>
+                    <a href="../../index.html#contact">Contact</a>
                 </nav>
 
                 <button class="burger" type="button" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
@@ -348,7 +354,7 @@
 
         <!-- 页面 Hero -->
         <header class="project-header">
-            <a href="../index.html#work" class="page-back">← back to work</a>
+            <a href="../../index.html#work" class="page-back">← back to work</a>
             <div class="project-eyebrow"><i></i><i></i><span>Design</span></div>
             <h1 class="project-title">
                 <em>[Sound Design]</em>
@@ -359,7 +365,11 @@
 
         <!-- ── 内容区 ────────────────────────────────────────── -->
         <div>
-            <!-- 在此添加页面内容 -->
+            <div class="tbd-block">
+                <div class="tbd-tag">TBD · 整理中</div>
+                <p>本页正在整理。这个项目的声音设计案例（角色 / 战斗 / UI / 环境）会在素材补齐后上线。</p>
+                <p>想先了解相关工作，可以看 <a href="../../index.html#work">Selected Work</a> 里的其他项目。</p>
+            </div>
         </div>
 
         <!-- ── 页脚 ──────────────────────────────────────────── -->

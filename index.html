@@ -18,11 +18,11 @@
   <meta property="og:title" content="ReiVerb Sound Atorie - 原创配乐与声音设计工作室" />
   <meta property="og:description" content="为游戏与影像创作原创配乐与声音设计的独立工作室。" />
   <!-- [深化] P2-1 SVG 不被多数平台收录，改用 1200×630 PNG -->
-  <meta property="og:image" content="https://eiichi-2049.github.io/00-index_images/og-cover.png" />
+  <meta property="og:image" content="https://eiichi-2049.github.io/assets/img/og-cover.png" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://eiichi-2049.github.io/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://eiichi-2049.github.io/00-index_images/og-cover.png" />
+  <meta name="twitter:image" content="https://eiichi-2049.github.io/assets/img/og-cover.png" />
 
   <!-- [深化] P2-6 结构化数据 -->
   <script type="application/ld+json">
@@ -36,7 +36,7 @@
   <link rel="icon" href="favicon.ico" />
 
   <!-- 首屏正文字体：子集化 WOFF2，避免加载 22MB 原始 TTF -->
-  <link rel="preload" href="fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/OPPO-Sans-subset.woff2" as="font" type="font/woff2" crossorigin />
 
   <!-- 字体：Fraunces（衬线大标题，免费，风格接近Gambarino） -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,7 +48,7 @@
     /* ═══ OPPO Sans 正文字体（子集化 WOFF2；原始 TTF 保留在 fronts/OPPO_Sans_4.0）═══ */
     @font-face{
       font-family:'OPPO Sans';
-      src:url('fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2') format('woff2');
+      src:url('assets/fonts/OPPO-Sans-subset.woff2') format('woff2');
       font-weight:100 700;   /* [深化] P2-7 子集可变轴实际范围 wght 100–700 */
       font-style:normal;
       font-display:swap;
@@ -715,7 +715,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
 }
   </style>
   <!-- 首页钩子：Showreel / 迷你播放器 / 三层体验 -->
-  <link rel="stylesheet" href="shared/home-hooks.css" />
+  <link rel="stylesheet" href="assets/css/home-hooks.css" />
 </head>
 <body>
 
@@ -768,9 +768,9 @@ html.has-custom-cursor .quote * { cursor: text !important; }
       <article class="hook-card mini-player"
                data-hook="mini-player"
                data-tracks='[
-                 {"title":"Choices","src":"01-ost/audio/Choices_.mp3","tag":"Original Music"},
-                 {"title":"Music Box","src":"01-ost/audio/music_box_2025_.mp3","tag":"Original Music"},
-                 {"title":"KB280","src":"01-ost/audio/KB280_121_DM_.mp3","tag":"Original Music"}
+                 {"title":"Choices","src":"projects/01-music/audio/Choices_.mp3","tag":"Original Music"},
+                 {"title":"Music Box","src":"projects/01-music/audio/music_box_2025_.mp3","tag":"Original Music"},
+                 {"title":"KB280","src":"projects/01-music/audio/KB280_121_DM_.mp3","tag":"Original Music"}
                ]'>
         <div class="hook-kicker"><i></i><i></i><span>Mini Player</span></div>
         <h2>精选试听</h2>
@@ -845,7 +845,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
     <div class="bento work-evidence">
       <!-- 01 · 原创配乐交付 -->
       <div class="b-row">
-        <a class="b-card b-text" href="./01-ost/01-ost.html">
+        <a class="b-card b-text" href="./projects/01-music/">
           <div class="b-eyebrow"><span class="work-num">01</span></div>
           <h3>Game Music Package</h3>
           <p class="work-role">Original Music · Games</p>
@@ -853,16 +853,16 @@ html.has-custom-cursor .quote * { cursor: text !important; }
           <span class="b-go">Listen <i>↗</i></span>
         </a>
         <div class="b-card b-pic">
-          <img src="v2-bento/waveform.svg" alt="Original Music — 声波意象" loading="lazy"/>
+          <img src="assets/img/bento/waveform.svg" alt="Original Music — 声波意象" loading="lazy"/>
         </div>
       </div>
 
       <!-- 02 · 声音设计交付 -->
       <div class="b-row">
         <div class="b-card b-pic">
-          <img src="v2-bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
+          <img src="assets/img/bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
         </div>
-        <a class="b-card b-text" href="./05/05.html">
+        <a class="b-card b-text" href="./projects/05-sound-design/">
           <div class="b-eyebrow"><span class="work-num">02</span></div>
           <h3>Combat &amp; UI Sound Design</h3>
           <p class="work-role">Sound Design · Games</p>
@@ -873,7 +873,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
 
       <!-- 03 · 互动音频集成 -->
       <div class="b-row">
-        <a class="b-card b-text" href="./03-wwise/03-wwise.html">
+        <a class="b-card b-text" href="./projects/03-interactive/">
           <div class="b-eyebrow"><span class="work-num">03</span></div>
           <h3>Interactive Audio Pipeline</h3>
           <p class="work-role">Implementation · Wwise / FMOD</p>
@@ -881,7 +881,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
           <span class="b-go">Case Study <i>↗</i></span>
         </a>
         <div class="b-card b-pic">
-          <img src="v2-bento/network.svg" alt="Interactive Audio — 节点网络意象" loading="lazy"/>
+          <img src="assets/img/bento/network.svg" alt="Interactive Audio — 节点网络意象" loading="lazy"/>
         </div>
       </div>
     </div>
@@ -896,19 +896,19 @@ html.has-custom-cursor .quote * { cursor: text !important; }
       </div>
     </div>
     <div class="exp-grid">
-      <a class="exp-card" href="./02-bkeq/02-bkeq.html">
+      <a class="exp-card" href="./projects/02-plugin/">
         <span class="exp-kicker">Plugin</span>
         <h3>VST Plugin</h3>
         <p>均衡器设计与数字信号处理实验，从电路想法到可听结果</p>
         <span class="exp-go">Case Study ↗</span>
       </a>
-      <a class="exp-card" href="./04-hsr/04-hsr-1.html">
+      <a class="exp-card" href="./projects/04-analysis/">
         <span class="exp-kicker">Analysis</span>
         <h3>Music Analysis</h3>
         <p>以公开 PV 配乐为研究样本，拆解配器、结构与叙事功能</p>
         <span class="exp-go">Read Study ↗</span>
       </a>
-      <a class="exp-card" href="./06-research&writing/06-rw.html">
+      <a class="exp-card" href="./projects/06-writing/">
         <span class="exp-kicker">Research &amp; Writing</span>
         <h3>Notes &amp; Thoughts</h3>
         <p>声音、游戏与创作的笔记——方法、失败与尚未想清楚的部分</p>
@@ -981,7 +981,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
     <div class="wrap">
       <!-- 原始尺寸 2400×331；改用同尺寸透明图/替换文件不影响布局 -->
       <h2 class="cta-title-wrap">
-        <img src="00-index_images/cta-compose-with-breath-m-1.png"
+        <img src="assets/img/cta-compose-with-breath.webp"
              width="1791" height="437"
              alt="Compose with breath"
              decoding="async" />
@@ -1056,13 +1056,13 @@ html.has-custom-cursor .quote * { cursor: text !important; }
               <li><a href="#work">Work</a></li>
               <li><a href="#top">Back to Top</a></li>
               <li><a href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer">Submit Brief</a></li>
-              <li><a href="./%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86.pdf" target="_blank" rel="noopener">Resume PDF</a></li>
+              <li><a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">Resume PDF</a></li>
             </ul>
           </div>
           <div>
             <h4>Social Media</h4>
             <ul>
-              <li><a href="./00-index_images/Wechat_QR_Code.jpg" id="wechat-link" target="_blank" rel="noopener">Wechat</a></li>
+              <li><a href="./assets/img/wechat-qr.webp" id="wechat-link" target="_blank" rel="noopener">Wechat</a></li>
               <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
               <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
               <li><a href="https://www.xiaoheihe.cn/app/bbs/home" target="_blank" rel="noopener noreferrer">小黑盒（即将上线）</a></li>
@@ -1088,7 +1088,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
     <div class="qr-modal-card" role="dialog" aria-modal="true" aria-label="二维码">
       <button class="qr-modal-close" aria-label="关闭">×</button>
       <div class="qr-modal-frame">
-        <img id="qr-modal-img" src="./00-index_images/Wechat_QR_Code.jpg" alt="微信二维码" />
+        <img id="qr-modal-img" src="./assets/img/wechat-qr.webp" alt="微信二维码" />
       </div>
     </div>
   </div>
@@ -1571,7 +1571,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
       if (wechatLink) {
         wechatLink.addEventListener('click', (e) => {
           e.preventDefault();
-          open('./00-index_images/Wechat_QR_Code.jpg', '微信二维码');
+          open('./assets/img/wechat-qr.webp', '微信二维码');
         });
       }
       modal.querySelector('.qr-modal-backdrop').addEventListener('click', close);
@@ -1589,6 +1589,6 @@ html.has-custom-cursor .quote * { cursor: text !important; }
       });
     })();
   </script>
-  <script src="shared/home-hooks.js" defer></script>
+  <script src="assets/js/home-hooks.js" defer></script>
 </body>
 </html>

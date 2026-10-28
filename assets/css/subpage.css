@@ -1,10 +1,14 @@
 /* ═══ 子页公共版式（与首页导航/标题语言统一）═══
    引用方式：在各子页 </style> 之前或之后
-   <link rel="stylesheet" href="../shared/subpage.css" /> */
+   <link rel="stylesheet" href="subpage.css" /> */
 
 :root {
   --olive: #b0b748;
   --wine: #4e0115;
+  /* 按钮底用青柠、按钮字用墨色；与首页 .btn-lime 同一语言 */
+  --btn: #d0ff71;
+  --btn-hover: #e2ff9c;
+  --btn-ink: #010205;
 }
 
 /* logo 强调色与首页一致（橄榄斜体 Atorie） */

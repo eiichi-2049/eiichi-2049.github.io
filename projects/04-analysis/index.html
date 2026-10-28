@@ -13,7 +13,7 @@
         /* ── 本地字体 ──────────────────────────────────────── */
         @font-face {
             font-family: "OPPO Sans";
-            src: url("../fronts/OPPO_Sans_4.0/OPPO-Sans-subset.woff2") format("woff2");
+            src: url("../../assets/fonts/OPPO-Sans-subset.woff2") format("woff2");
             font-weight: 100 700;
             font-style: normal;
             font-display: swap;
@@ -397,6 +397,18 @@
                     display: block;
                 }
 
+                /* 4:3 封面（视频待上传时替代播放器） */
+                .analysis-entry .video-wrap--cover { padding-bottom: 75%; }
+
+                .analysis-entry .video-wrap--cover img {
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: block;
+                }
+
             /* 视频底部的元信息行 */
             .analysis-entry .video-meta {
                 padding: 0.6rem 1.25rem;
@@ -658,7 +670,7 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="../shared/subpage.css" />
+    <link rel="stylesheet" href="../../assets/css/subpage.css" />
     <script>
       /* 尽早设置主题，避免页面闪烁（FOUC）—— 跟随系统偏好 */
       (function () {
@@ -672,11 +684,11 @@
     <header class="nav">
         <div class="wrap">
             <div class="nav-in">
-                <a class="logo" href="../index.html#top">ReiVerb Sound <em>Atorie</em></a>
+                <a class="logo" href="../../index.html#top">ReiVerb Sound <em>Atorie</em></a>
 
                 <nav class="nav-links" id="menu">
-                    <a href="../index.html#work">Work</a>
-                    <a href="../index.html#contact">Contact</a>
+                    <a href="../../index.html#work">Work</a>
+                    <a href="../../index.html#contact">Contact</a>
                 </nav>
 
                 <button class="burger" type="button" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
@@ -688,7 +700,7 @@
     <main class="page-wrap">
         <!-- 项目标题 -->
         <header class="project-header">
-            <a href="../index.html#work" class="page-back">← back to work</a>
+            <a href="../../index.html#work" class="page-back">← back to work</a>
             <div class="project-eyebrow"><i></i><i></i><span>Analysis</span></div>
             <h1 class="project-title">
                 <em>[Music Analysis]</em>
@@ -794,9 +806,8 @@
 
         <!-- === 条目 3：花火 === -->
         <div class="analysis-entry">
-            <div class="video-wrap">
-                <iframe title="花火 PV · 配乐分析"
-                        allowfullscreen></iframe>
+            <div class="video-wrap video-wrap--cover">
+                <img src="img/mono-drama.webp" alt="花火 PV 封面" loading="lazy" />
             </div>
             <div class="video-meta">
                 <span class="entry-title">花火 <em>· 独角戏</em></span>
@@ -834,6 +845,9 @@
             </div>
             <div class="video-meta">
                 <span class="entry-title">刃</span>
+            </div>
+            <div class="analysis-text">
+                <p>想你了，牢刃</p>
             </div>
         </div>
 
@@ -888,7 +902,7 @@
         <div class="project-description" style="margin-top: 0;">
             <p style="font-size: 13px; color: var(--ink4); font-style: italic;">
                 💡 对这套分析感兴趣？欢迎
-                <a href="../index.html#contact"
+                <a href="../../index.html#contact"
                    style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(212,160,84,0.35);">联系我</a>
                 交流讨论，或查看
                 <a href="https://space.bilibili.com/23277208"
