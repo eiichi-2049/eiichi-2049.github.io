@@ -330,14 +330,10 @@
     </style>
     <link rel="stylesheet" href="../shared/subpage.css" />
     <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）——默认跟随系统，可被 localStorage 覆盖 */
+      /* 尽早设置主题，避免页面闪烁（FOUC）—— 跟随系统偏好 */
       (function () {
-        var root = document.documentElement;
-        var stored = null;
-        try { stored = localStorage.getItem("theme"); } catch (e) {}
         var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        var theme = stored || (prefersDark ? "dark" : "light");
-        root.setAttribute("data-theme", theme);
+        document.documentElement.setAttribute("data-theme", prefersDark ? "dark" : "light");
       })();
     </script>
 </head>
