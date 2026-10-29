@@ -713,6 +713,32 @@ html.has-custom-cursor .quote * { cursor: text !important; }
       opacity:0;
   }
 }
+
+    /* ═══ 履历年表（参照年份墙；作品少时先立结构）═══ */
+    #timeline{padding:clamp(70px,10vw,120px) 0 0}
+    .tl-year{display:grid;grid-template-columns:120px minmax(0,1fr);gap:24px;
+             padding:22px 0;border-top:1px solid var(--line)}
+    .tl-year:last-child{border-bottom:1px solid var(--line)}
+    .tl-year-num{font-family:var(--mono);font-size:.8rem;letter-spacing:.16em;color:var(--olive);padding-top:3px}
+    .tl-list{display:flex;flex-direction:column;gap:18px;list-style:none;margin:0;padding:0}
+    .tl-item{display:grid;grid-template-columns:104px minmax(0,1fr);gap:6px 18px;align-items:baseline}
+    .tl-type{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+             color:var(--muted);border:1px solid var(--line);border-radius:999px;
+             padding:3px 10px;justify-self:start;white-space:nowrap}
+    .tl-title{font-size:1rem;font-weight:500;color:var(--ink)}
+    .tl-title em{font-style:italic;color:var(--olive);font-weight:400}
+    .tl-stack,.tl-result{grid-column:2}
+    .tl-stack{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--muted)}
+    .tl-result{font-size:.88rem;color:var(--ink2);line-height:1.7}
+    /* Work 卡：未完成项目的角标 */
+    .work-tbd{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+              color:var(--muted);border:1px solid var(--line);border-radius:999px;
+              padding:2px 8px;margin-left:8px}
+    @media(max-width:760px){
+      .tl-year{grid-template-columns:1fr;gap:10px}
+      .tl-item{grid-template-columns:1fr}
+      .tl-stack,.tl-result{grid-column:1}
+    }
   </style>
   <!-- 首页钩子：Showreel / 迷你播放器 / 三层体验 -->
   <link rel="stylesheet" href="assets/css/home-hooks.css" />
@@ -826,7 +852,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
       <!-- 01 · 原创配乐交付 -->
       <div class="b-row">
         <a class="b-card b-text" href="./projects/01-music/">
-          <div class="b-eyebrow"><span class="work-num">01</span></div>
+          <div class="b-eyebrow"><span class="work-num">01</span><span class="work-tbd">TBD</span></div>
           <h3>Game Music Package</h3>
           <p class="work-role">Original Music · Games</p>
           <p class="work-tags">Battle / Exploration / Character / UI</p>
@@ -843,7 +869,7 @@ html.has-custom-cursor .quote * { cursor: text !important; }
           <img src="assets/img/bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
         </div>
         <a class="b-card b-text" href="./projects/05-sound-design/">
-          <div class="b-eyebrow"><span class="work-num">02</span></div>
+          <div class="b-eyebrow"><span class="work-num">02</span><span class="work-tbd">TBD</span></div>
           <h3>Combat &amp; UI Sound Design</h3>
           <p class="work-role">Sound Design · Games</p>
           <p class="work-tags">Combat / Character / UI / Ambience</p>
@@ -864,6 +890,50 @@ html.has-custom-cursor .quote * { cursor: text !important; }
           <img src="assets/img/bento/network.svg" alt="Interactive Audio — 节点网络意象" loading="lazy"/>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ═══ 履历：按年份排列（参照音序文化的年份墙；作品少时先立结构）═══ -->
+  <section id="timeline" class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><i></i><i></i><span>Timeline</span></div>
+      <h2><em>履历</em></h2>
+    </div>
+
+    <div class="tl-year">
+      <div class="tl-year-num">2026</div>
+      <ul class="tl-list">
+        <li class="tl-item">
+          <span class="tl-type">Jam</span>
+          <span class="tl-title">TapTap 2026 GameJam</span>
+          <span class="tl-stack">Unity · 音效设计 / 音频实现</span>
+          <span class="tl-result">音效设计与命名规范整理；程序对接时间缩短约 2 小时</span>
+        </li>
+        <li class="tl-item">
+          <span class="tl-type">Plugin</span>
+          <span class="tl-title">BKEQ Hybrid <em>VST3</em></span>
+          <span class="tl-stack">Hise · Illustrator</span>
+          <span class="tl-result">插件框架与界面设计规范；A/B 试听待补</span>
+        </li>
+        <li class="tl-item">
+          <span class="tl-type">Study</span>
+          <span class="tl-title">研究与写作 <em>×8</em></span>
+          <span class="tl-stack">2025 – 2026</span>
+          <span class="tl-result">声音、游戏与创作的长文笔记</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tl-year">
+      <div class="tl-year-num">2025</div>
+      <ul class="tl-list">
+        <li class="tl-item">
+          <span class="tl-type">Analysis</span>
+          <span class="tl-title">星穹铁道 PV 配乐分析 <em>×4</em></span>
+          <span class="tl-stack">阮梅 · 云璃 · 花火 · 刃</span>
+          <span class="tl-result">拆解配器、结构与叙事功能；Bilibili 与 YouTube 同步</span>
+        </li>
+      </ul>
     </div>
   </section>
 
