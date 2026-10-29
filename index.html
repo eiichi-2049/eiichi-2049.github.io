@@ -1,806 +1,555 @@
 <!doctype html>
-<!-- ════════════════════════════════════════════════════════════════════
-  怎么用：
-    1. 改 <title> 和导航里的 logo 文字
-    2. 找到标着「★ 内容」的地方，替换成你自己的文案
-    3. 颜色不喜欢 → 改 :root 里那几个变量即可
-════════════════════════════════════════════════════════════════════ -->
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- 网页标题（浏览器标签页上显示的） -->
-  <title>ReiVerb Sound Atorie</title>
-  <!-- 网页简介 -->
-  <meta name="description" content="空山漪韵 - 为游戏与影像创作原创配乐、声音设计的独立工作室。" />
+  <title>ReiVerb Sound Atorie — 为游戏做音乐、声音设计与音频实现</title>
+  <meta name="description" content="游戏音频工作室：原创配乐、声音设计、Wwise / FMOD 集成与混音母带。可交付 48 kHz / 24 bit 分轨，工程交付 −24 LUFS、网页试听 −16 LUFS。" />
 
-  <!-- Open Graph 标签（社交媒体分享） -->
-  <meta property="og:title" content="ReiVerb Sound Atorie - 原创配乐与声音设计工作室" />
-  <meta property="og:description" content="为游戏与影像创作原创配乐与声音设计的独立工作室。" />
-  <!-- [深化] P2-1 SVG 不被多数平台收录，改用 1200×630 PNG -->
+  <meta property="og:title" content="ReiVerb Sound Atorie — 游戏音频工作室" />
+  <meta property="og:description" content="原创配乐、声音设计、音频中间件集成与混音母带。" />
   <meta property="og:image" content="https://eiichi-2049.github.io/assets/img/og-cover.png" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://eiichi-2049.github.io/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://eiichi-2049.github.io/assets/img/og-cover.png" />
 
-  <!-- [深化] P2-6 结构化数据 -->
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService",
-   "name":"ReiVerb Sound Atorie","description":"为游戏与影像创作原创配乐与声音设计",
+   "name":"ReiVerb Sound Atorie","description":"为游戏创作原创配乐、声音设计与互动音频实现",
    "email":"reiverb-sound-atorie@outlook.com","url":"https://eiichi-2049.github.io/",
    "knowsAbout":["Original Score","Sound Design","Wwise","FMOD","Mixing & Mastering"]}
   </script>
 
-  <!-- 网站图标 -->
   <link rel="icon" href="favicon.ico" />
-
-  <!-- 首屏正文字体：子集化 WOFF2，避免加载 22MB 原始 TTF -->
   <link rel="preload" href="assets/fonts/oppo-sans-subset.woff2" as="font" type="font/woff2" crossorigin />
-
-  <!-- 字体：Fraunces（衬线大标题，免费，风格接近Gambarino） -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
 
   <script>document.documentElement.classList.add('js')</script>
   <style>
-    /* ═══ OPPO Sans 正文字体（子集化 WOFF2；原始 TTF 保留在 fronts/OPPO_Sans_4.0）═══ */
     @font-face{
       font-family:'OPPO Sans';
       src:url('assets/fonts/oppo-sans-subset.woff2') format('woff2');
-      font-weight:100 700;   /* [深化] P2-7 子集可变轴实际范围 wght 100–700 */
-      font-style:normal;
-      font-display:swap;
+      font-weight:100 700; font-style:normal; font-display:swap;
     }
 
-    /* ═══ 颜色变量（整套配色）═══ */
+    /* ═══ 设计 token ═══
+       深色优先：借 Oregon Symphony 的「深底 + 单一高饱和强调色」语言。
+       强调色只用于：按钮底、激活态、小标签、图解线条。 */
     :root{
-      --nav-h:136px;                 /* 导航栏高度 */
-      --paper:#f9f9f9;   /* 米白 · 页面底色 */
-      --card:#ffffff;    /* 纯白 · 卡片/区块底色 */
-      --ink:#010205;     /* 近黑 · 正文/大标题色 */
-      --ink2:#333333;    /* 深灰 · 标题备选色 */
-      --muted:#a1a4a7;   /* 灰 · 次要文字 */
-      --line:rgba(1,2,5,.1);  /* 淡黑 · 分隔线 */
-      --stroke:#222;     /* 卡片/导航描边（深浅模式各自覆盖） */
-      --glass:rgba(1,2,5,.06);
-      --accent:#d0ff71;  /* 青柠绿 · 强调/按钮 */
-      --olive:#b0b748;   /* 橄榄绿 · 小圆点1 */
-      --wine:#4e0115;    /* 酒红 · 小圆点2 */
-      --serif:'Fraunces','Noto Serif SC',serif;   /* 衬线标题字 */
-      --mono:'DM Mono',monospace;                  /* 等宽小字(标签用) */
-      --display-size:clamp(3rem,12vw,9rem);        /* ★ 底部超大品牌字的字号：只改这一处即可 */
+      --nav-h:76px;
+      /* 容器 960px：1440 屏下正文约 880px，两侧留白约 38.2% */
+      --wrap:960px;
+      --serif:'Fraunces','Noto Serif SC',serif;
+      --mono:'DM Mono',monospace;
+      --sans:'OPPO Sans',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;
+      --ease:cubic-bezier(.16,1,.3,1);
     }
-
-    /* ═══ 深色模式（跟随系统设置自动切换）═══ */
-    @media (prefers-color-scheme: dark){
-      :root{
-        --paper:#121212;             /* 页面底色反转 */
-        --card:#1e1e1e;              /* 卡片底色 */
-        --ink:#f5f5f5;               /* 正文/大标题反转 */
-        --ink2:#cccccc;
-        --muted:#9a9c9e;
-        --line:rgba(255,255,255,0.1);
-        --stroke:rgba(255,255,255,.18);
-        --glass:rgba(255,255,255,.06);
+    :root, [data-theme="dark"]{
+      color-scheme:dark;
+      --bg:#08090b;
+      --bg2:#0e0f12;
+      --bg3:#141519;
+      --ink:#f4f4f2;
+      --ink2:#bfc0bd;
+      --ink3:#7e8083;
+      --line:rgba(255,255,255,.10);
+      --line2:rgba(255,255,255,.18);
+      --accent:#d0ff71;
+      --accent-ink:#0a0b07;
+      --accent-dim:rgba(208,255,113,.10);
+      --nav-bg:rgba(8,9,11,.84);
+      --olive:#b0b748;
+    }
+    @media (prefers-color-scheme: light){
+      :root:not([data-theme="dark"]){
+        color-scheme:light;
+        --bg:#ffffff;
+        --bg2:#ffffff;
+        --bg3:#f4f4f4;
+        --ink:#010205;
+        --ink2:#3a3c3e;
+        --ink3:#7b7e81;
+        --line:rgba(1,2,5,.12);
+        --line2:rgba(1,2,5,.22);
+        --accent:#8fae1f;
+        --accent-ink:#ffffff;
+        --accent-dim:rgba(143,174,31,.13);
+        --nav-bg:rgba(255,255,255,.86);
+        --olive:#8b9238;
       }
-      .nav{background:rgba(18,18,18,0.85)}
-      .foot-brand{background:linear-gradient(var(--ink),rgba(255,255,255,0.15))}
+    }
+    [data-theme="light"]{
+      color-scheme:light;
+      --bg:#ffffff; --bg2:#ffffff; --bg3:#f4f4f4;
+      --ink:#010205; --ink2:#3a3c3e; --ink3:#7b7e81;
+      --line:rgba(1,2,5,.12); --line2:rgba(1,2,5,.22);
+      --accent:#8fae1f; --accent-ink:#ffffff; --accent-dim:rgba(143,174,31,.13);
+      --nav-bg:rgba(255,255,255,.86); --olive:#8b9238;
     }
 
-    /* ═══ 基础重置 ═══ */
-    *{margin:0;padding:0;box-sizing:border-box}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{background:var(--paper);color:var(--ink);font-family:'OPPO Sans','Microsoft YaHei UI','Microsoft YaHei','PingFang SC',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body{
+      background:var(--bg);color:var(--ink);font-family:var(--sans);
+      line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    }
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
     ul{list-style:none}
-    .wrap{max-width:1200px;margin:0 auto;padding:0 40px}   /* 版心，自动居中 */
+    .wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(20px,3vw,40px)}
+    ::selection{background:var(--accent);color:var(--accent-ink)}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 
-    /* ═══ 顶部导航（吸顶、毛玻璃；高度）═══ */
-    /* 这里不能用 display:flex 来居中：会把内层 .wrap 缩成”内容宽度”，
-       导致导航黑框比页脚版心窄。用上下 padding 留白即可让 .wrap 整宽居中。 */
-    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);padding:24px 0; /* 上/下留白24px */
-         background:rgba(249,249,249,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-    /* 导航内容框：浅灰半透明胶囊 + 一圈描边 + 圆角，包住 logo/链接/按钮（Our Wave 参考样式） */
-    .nav-in{width:100%;height:88px;display:flex;align-items:center;justify-content:space-between;gap:28px;
-            background:var(--glass);border:1px solid var(--stroke);border-radius:16px;padding:0 max(18px, 2.5vw); }
-    .logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:-.02em;white-space:nowrap;transition:opacity .2s}
-    .logo:hover{opacity:.8}
-    .logo:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:4px}
-    .logo em{font-style:italic;color:var(--olive)}
-    .nav-links{display:flex;align-items:center;justify-content:center;gap:34px;
-               font-size:1.0rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
-    .nav-links a{opacity:.72;transition:opacity .2s,color .2s}
-    .nav-links a:hover{opacity:1}
-    .nav-links a:focus-visible{opacity:1;outline:2px solid var(--olive);outline-offset:4px;border-radius:4px}
-    /* 胶囊按钮：实心青柠 / 描边深色 两种 */
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;
-         font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
-         border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s}
-    .btn:hover{transform:translateY(-2px)}
-    .btn-lime{background:var(--accent);color:var(--ink)}
-    .btn-lime:hover{box-shadow:0 10px 24px rgba(208,255,113,.4)}
-    .btn-line{background:transparent;border-color:var(--ink)}
-    .btn-line:hover{background:var(--ink);color:var(--paper)}
-    .btn-dark{background:var(--ink);color:var(--paper)}
-    .btn:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
-    /* 深色 CTA 区：描边按钮需用浅色，避免深底上看不见 */
-    /* 手机端：隐藏文字链接 + 汉堡按钮 */
-    .burger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink);line-height:1;padding:4px 8px}
-    .burger:focus-visible{outline:2px solid var(--olive);outline-offset:2px;border-radius:8px}
-    @media(max-width:760px){
-      .nav-links{position:absolute;top:var(--nav-h);left:0;right:0;background:var(--paper);
-                 flex-direction:column;padding:20px 40px;border-bottom:1px solid var(--line);
-                opacity:0;pointer-events:none;transition:opacity .3s ease;
-                display:flex;align-items:center;justify-content:center;gap:20px}
+    /* ═══ 模块之间的「勾缝」（Mortar）：色块 + 留白，不做花哨过渡 ═══ */
+    .sec{padding:clamp(72px,10vw,128px) 0}
+    .sec + .sec{border-top:1px solid var(--line)}
+    .sec-head{margin-bottom:clamp(28px,4vw,48px)}
+    .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .eyebrow i{width:8px;height:8px;border-radius:50%;display:inline-block}
+    .eyebrow i:nth-child(1){background:var(--accent)}
+    .eyebrow i:nth-child(2){background:var(--olive)}
+    .eyebrow span{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+    h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.02em;line-height:1.1;color:var(--ink)}
+    h2 em{font-style:italic;color:var(--olive)}
+
+    /* ═══ 导航：链接尽可能少（手册：Nav 是创新受限区）═══ */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
+         background:var(--nav-bg);
+         backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav-in{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .logo{font-size:1rem;font-weight:600;letter-spacing:-.005em;white-space:nowrap}
+    .logo em{font-style:normal;color:var(--accent)}
+    .nav-links{display:flex;align-items:center;gap:28px;
+               font-size:.84rem;letter-spacing:.02em}
+    .nav-links a{color:var(--ink2);transition:color .2s}
+    .nav-links a:hover{color:var(--ink)}
+    .nav-cta{padding:9px 18px;border-radius:999px;background:var(--accent);color:var(--accent-ink)!important;
+             font-weight:500;transition:transform .2s var(--ease),box-shadow .2s}
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(208,255,113,.28)}
+    .nav-right{display:flex;align-items:center;gap:26px;margin-left:auto}
+    .nav-tools{display:flex;align-items:center;gap:10px}
+    .theme-switch{display:inline-flex;align-items:center;width:46px;height:26px;padding:3px;
+                  border-radius:999px;border:1px solid var(--line2);background:var(--bg3);cursor:pointer;
+                  transition:background .2s,border-color .2s}
+    .theme-switch:hover{border-color:var(--ink3)}
+    .theme-switch-thumb{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+                        background:var(--ink);color:var(--bg);font-size:11px;line-height:1;
+                        transition:transform .25s var(--ease),background .2s,color .2s}
+    .theme-switch[aria-checked="true"] .theme-switch-thumb{transform:translateX(22px);
+                        background:var(--accent);color:var(--accent-ink)}
+    .burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);
+            border-radius:8px;padding:6px 10px;font-size:1rem;cursor:pointer}
+    @media(max-width:820px){
+      .nav-links{position:absolute;top:var(--nav-h);left:0;right:0;background:var(--bg);
+                 border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;
+                 gap:0;padding:8px clamp(20px,5vw,40px) 18px;opacity:0;pointer-events:none;transition:opacity .2s}
       .nav-links.open{opacity:1;pointer-events:auto}
+      .nav-links a{padding:11px 0;width:100%}
+      .nav-links a.nav-cta{width:auto;padding:9px 18px;margin-top:10px}
       .burger{display:block}
     }
 
-    /* ═══ 首屏 HERO ═══ */
-    .hero{position:relative;min-height:90vh;padding:calc(var(--nav-h) + 64px) 0 140px;overflow:hidden;background:var(--paper)}
-    .hero-wave-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-    .hero-content{position:relative;z-index:1;padding-top:0;padding-bottom:0}
-    @media(max-width:760px){
-      .hero{min-height:82vh;padding-top:calc(var(--nav-h) + 44px)}
+    /* ═══ 首屏：纯色背景 + 原站三行字标 ═══ */
+    .hero{position:relative;padding:calc(var(--nav-h) + clamp(56px,9vw,110px)) 0 clamp(56px,9vw,104px);
+          background:var(--bg);overflow:hidden}
+    .hero-in{position:relative}
+    .hero h1{
+      font-family:var(--serif);font-weight:300;font-size:clamp(3.1rem,9vw,6.5rem);
+      line-height:1.04;letter-spacing:.03em;margin:18px 0 0;color:var(--ink);
     }
-    /* 小标签：两个彩点 + 小号英文(等宽字) */
-    .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:26px}
-    .eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
-    .eyebrow i:nth-child(1){background:var(--olive)}
-    .eyebrow i:nth-child(2){background:var(--wine)}
-    .eyebrow span{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-    /* 大标题：超大衬线。收紧字距、略压行高，避免三行英文在桌面端发散过空 */
-    .hero h1{font-family:var(--serif);
-            font-weight:300;
-            font-size:clamp(3.2rem,9vw,6.5rem);
-            line-height:1.08;
-            letter-spacing: 0.04em;
-            text-align: left;
-            color:var(--ink2)}
-    .hero h1 em{font-style:italic;
-                color:var(--ink)}
-    /* 末行 Atorie 用橄榄斜体高光，呼应导航 logo 的 em */
-    .hero h1 .hero-accent{font-style:italic;
-                color:var(--olive)}
-    .hero p{max-width:44ch;
-            margin:32px 0 48px;
-            color:var(--muted);
-            font-size:1rem}
-    .hero .btns{display:flex;
-                gap:14px;
-                flex-wrap:wrap}
+    .hero h1 em{font-style:italic;color:var(--accent)}
 
-    /* ═══ 通用分节 ═══ */
-    section{padding:110px 0}
-    .sec-head{margin-bottom:50px}
-    .sec-head h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,3.6vw,3rem);
-                 letter-spacing:-.02em;color:var(--ink2);line-height:1.15;max-width:20ch}
-    .sec-head h2 em{font-style:italic;color:var(--olive)}
+    /* ═══ 按钮：必须像按钮（手册：ghost button 转化显著更差）═══ */
+    .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:999px;
+         font-family:var(--sans);font-size:.84rem;font-weight:500;letter-spacing:.01em;
+         border:1px solid transparent;cursor:pointer;
+         transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s,color .2s}
+    .btn-primary{background:var(--accent);color:var(--accent-ink)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(208,255,113,.3)}
+    .btn-secondary{background:var(--bg3);color:var(--ink);border-color:var(--line2)}
+    .btn-secondary:hover{transform:translateY(-2px);border-color:var(--ink3)}
 
-    /* ═══ Selected Work：项目证据层（沿用 bento 视觉，强化编号 / 标签 / CTA）═══
-       01–03 为「真实交付证据」，其后 Experiments 为实验与研究，层次：证据 > 实验 > 思考 */
-    #work{scroll-margin-top:170px}
-    #contact{scroll-margin-top:170px}
-    #experiments{scroll-margin-top:170px;padding-top:0}
-    /* 特异性提到 (0,2,0)：压过 .b-eyebrow span / .b-text p，否则编号变灰、标签丢等宽字 */
-    .b-eyebrow .work-num{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
-              color:var(--olive);font-weight:500;text-transform:uppercase}
-    .b-text .work-role{color:var(--muted);font-size:.95rem;margin-top:clamp(12px,1.8vh,18px)}
-    .b-text .work-tags{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
-               text-transform:uppercase;color:var(--muted);margin-top:10px;line-height:1.7}
-    .b-text .b-go{margin-top:auto}
-    /* 证据卡：编号已占上部，标题不必再拉很大留白 */
-    .work-evidence .b-text h3{margin-top:clamp(24px,3.5vh,42px)}
-    .exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 40px}
-    .exp-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;
-              text-align:left;box-sizing:border-box;background:var(--card);
-              box-shadow:0 0 0 1px var(--stroke);border-radius:16px;
-              padding:28px 26px 24px;min-height:200px;color:inherit;text-decoration:none;
-              transition:transform .25s ease,box-shadow .25s ease}
-    .exp-card:hover{transform:translateY(-3px);
-                    box-shadow:0 0 0 1px var(--stroke),0 18px 36px rgba(1,2,5,.08);z-index:2}
-    .exp-card:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
-    .exp-kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;
-                text-transform:uppercase;color:var(--muted);margin-bottom:18px}
-    .exp-card h3{font-family:var(--serif);font-weight:400;color:var(--ink2);
-                 font-size:clamp(1.25rem,1.6vw,1.55rem);line-height:1.2;letter-spacing:-.015em}
-    .exp-card p{color:var(--muted);font-size:.88rem;line-height:1.65;margin-top:12px;max-width:36ch}
-    .exp-go{margin-top:auto;padding-top:22px;font-family:var(--mono);font-size:.66rem;
-            letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.75}
-    .exp-card:hover .exp-go{opacity:1;color:var(--olive)}
-    @media(max-width:960px){
-      .exp-grid{grid-template-columns:1fr;padding:0 40px}
-    }
-    .bento{display:flex;flex-direction:column;gap:0;width:100%;padding:0 40px}
-    .b-row{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;
-           gap:0;margin:0}
-    /* [深化] P2-5 描边用 box-shadow，去掉负 margin 拼缝补丁 */
-    .b-card{position:relative;display:block;overflow:hidden;box-sizing:border-box;
-            background:var(--card);border:none;box-shadow:0 0 0 1px var(--stroke);border-radius:20px;
-            width:50%;flex:0 0 50%;min-width:0}
-    /* —— 文字卡（整张可点） —— */
-    .b-text{display:flex;flex-direction:column;align-items:flex-start;text-align:left;
-            aspect-ratio: 1.618 / 1;
-            min-height: 320px;
-            padding:40px;                          /* 卡内留白，文字不贴边 */
-            transition:transform .25s ease,box-shadow .25s ease}
-    .b-text:hover{transform:translateY(-3px);
-                  box-shadow:0 0 0 1px var(--stroke),0 22px 46px rgba(1,2,5,.09);z-index:2}
-    .b-text:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
-    .b-eyebrow{display:flex;align-items:center;gap:10px}
-    .b-eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block}
-    .b-eyebrow i:nth-child(1){background:var(--olive)}
-    .b-eyebrow i:nth-child(2){background:var(--wine)}
-    .b-eyebrow span{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
-                    text-transform:uppercase;color:var(--muted)}
-    .b-text h3{font-family:var(--serif);font-weight:400;color:var(--ink2);
-               font-size:clamp(1.7rem,2.4vw,2.5rem);line-height:1.18;letter-spacing:-.015em;
-               margin-top:clamp(36px,5.5vh,66px)}   /* 与眉标拉开留白（Our Wave 式松排版） */
-    .b-text p{color:var(--muted);font-size:.92rem;letter-spacing:.015em;line-height:1.75;
-              max-width:38ch;margin-top:clamp(18px,2.6vh,26px)}
-    .b-go{display:inline-flex;align-items:center;gap:10px;margin-top:clamp(30px,5vh,54px);
-          padding:11px 18px 11px 20px;border:1px solid var(--ink);border-radius:999px;
-          font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
-          transition:background .25s ease,color .25s ease}
-    .b-go i{font-style:normal;transition:transform .25s ease}
-    .b-text:hover .b-go{background:var(--ink);color:var(--paper)}
-    .b-text:hover .b-go i{transform:translate(3px,-3px)}
-    /* —— 图片卡 —— */
-    .b-pic{background:#0a0a0c;
-           aspect-ratio: 1.618 / 1;   /* 与文字卡同比例 → 整行 1.618:1 横版，不再是正方形 */
-           min-height: 320px}
-    .b-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-               filter:opacity(.93);transition:filter .8s ease}   /* 常态微沉入卡片 · hover 时浮起呼吸 */
-    /* 呼吸晕染：hover 时让 SVG 的亮色线条悄悄染上橄榄/青柠。
-       用 mix-blend-mode:overlay 而非整图 drop-shadow —— 它按"亮度"混合，
-       黑底几乎不动、亮线（波形/漩涡/节点笔画）被染上 var(--olive)/var(--accent)，
-       结构性"只染线条不染底"，也不会产生霓虹辉光。 */
-    .b-pic::after{content:"";position:absolute;inset:0;pointer-events:none;
-                  background:linear-gradient(135deg,var(--olive),var(--accent));
-                  mix-blend-mode:overlay;opacity:.08;transition:opacity .8s ease}
-    .b-pic:hover::after{opacity:.4}
-    .b-pic:hover img{filter:opacity(1)}
-    /* —— 兼容：手机上改单列堆叠（保留间距便于阅读）—— */
-    @media(max-width:760px){
-      .bento{padding:0 20px;gap:18px}                 /* 三行之间分开 */
-      .b-row{flex-direction:column;gap:18px}
-      .b-row .b-card{flex:0 0 auto;width:100%;min-width:0}
-      .b-text{aspect-ratio:none;min-height:0;padding:34px 28px;order:1}   /* 文字卡固定在上 */
-      .b-pic{height:clamp(240px,68vw,380px);order:2}                     /* 图片卡固定在下 */
+    /* ═══ 作品索引（Editorial List：左 61.8% 大字标题 / 右 38.2% 职责与年份）═══ */
+    .work-list{display:flex;flex-direction:column}
+    .work-row{position:relative;display:grid;grid-template-columns:1.618fr 1fr;
+              gap:clamp(20px,4vw,56px);align-items:baseline;
+              padding:clamp(24px,3.2vw,34px) 22px;
+              margin:0 -22px;border-top:1px solid var(--line)}
+    .work-row:last-child{border-bottom:1px solid var(--line)}
+    .work-row::before{content:"";position:absolute;inset:2px;border-radius:12px;background:var(--bg3);
+                      opacity:0;transition:opacity .28s var(--ease);pointer-events:none}
+    .work-row:hover::before,.work-row:focus-visible::before{opacity:1}
+    .work-row>*{position:relative;z-index:1}
+    .work-main{display:flex;align-items:baseline;gap:clamp(14px,2.6vw,28px);min-width:0}
+    .work-num{font-size:.82rem;letter-spacing:.12em;font-variant-numeric:tabular-nums;color:var(--ink3);
+              transition:color .25s}
+    .work-title{font-family:var(--sans);font-weight:400;font-size:clamp(1.35rem,2.9vw,2.1rem);
+                letter-spacing:-.025em;line-height:1.15;color:var(--ink)}
+    .work-tags{margin-top:8px;font-size:.82rem;line-height:1.5;color:var(--ink3)}
+    .work-meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;min-width:0}
+    .work-role{font-size:.88rem;line-height:1.35;color:var(--ink2)}
+    .work-year{font-size:.8rem;font-variant-numeric:tabular-nums;letter-spacing:.02em;color:var(--ink3)}
+    .work-arrow{position:absolute;right:2px;top:clamp(24px,3.4vw,36px);z-index:1;
+                font-size:1.05rem;line-height:1;color:var(--accent);
+                opacity:0;transform:translate(-6px,6px);
+                transition:opacity .28s var(--ease),transform .28s var(--ease)}
+    .work-row:hover .work-arrow,.work-row:focus-visible .work-arrow{opacity:1;transform:none}
+    .work-row:hover .work-num{color:var(--accent)}
+    .work-status{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+    @media(hover:none){ .work-arrow{display:none} }
+    @media(max-width:720px){
+      .work-row{grid-template-columns:auto minmax(0,1fr);column-gap:16px;row-gap:8px;
+                padding:22px 18px;margin:0 -18px;align-items:baseline}
+      .work-main{display:contents}
+      .work-num,.work-body,.work-meta{position:relative;z-index:1}
+      .work-num{grid-column:1;grid-row:1}
+      .work-body{grid-column:2;grid-row:1;min-width:0}
+      .work-meta{grid-column:2;grid-row:2;flex-direction:row;align-items:baseline;
+                 justify-content:space-between;gap:16px;text-align:left}
     }
 
-    /* ═══ 服务专长（深色背景交互列表）═══ */
-    #services{background:var(--ink);color:var(--paper);padding:110px 0;position:relative}
-    #services .sec-head h2{color:var(--paper)}
-    #services .sec-head { margin-bottom: 60px; }
-    #services .eyebrow i:nth-child(1){background:#ffffff}
-    #services .eyebrow i:nth-child(2){background:var(--muted)}
-    #services .eyebrow span{color:var(--paper)}
-    .service-list{list-style:none;display:flex;flex-direction:column;gap:32px}
-    .service-row{position:relative;border-bottom:1px solid rgba(249,249,249,.15);
-                 padding-bottom:24px;overflow:hidden;cursor:default}
-    .service-row:last-child{border-bottom:none}
-    .service-content{display:flex;align-items:flex-start;gap:24px;position:relative}
-    .service-number{font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;
-                    color:var(--paper);opacity:.5;min-width:40px;flex-shrink:0;
-                    transition:opacity .6s ease}
-    .service-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2vw,1.8rem);
-                   letter-spacing:-.015em;color:var(--paper);opacity:.55;
-                   transition:opacity .6s ease;line-height:1.2;flex:1}
-    .service-desc{font-family:var(--mono);font-size:.65rem;color:var(--muted);
-                  opacity:.65;margin-top:8px;line-height:1.6;max-width:52ch;
-                  transition:opacity .6s ease}
-    .service-thumb{position:absolute;right:0;top:50%;transform:translateY(-50%);
-                   width:clamp(60px,8vw,100px);height:clamp(60px,8vw,100px);
-                   opacity:0;transition:opacity .3s ease;display:flex;align-items:center;justify-content:center}
-    .service-thumb img{width:100%;height:100%;object-fit:contain;filter:invert(1) brightness(0.9)}
-
-    /* 列表交互：hover 某行时该行全亮，其余变暗——仅透明度反馈，字号不变 */
-    .service-list:has(.service-row:hover) .service-row:not(:hover) .service-title{
-      opacity:.28
-    }
-    .service-list:has(.service-row:hover) .service-row:not(:hover) .service-desc{
-      opacity:.25
-    }
-    .service-list:has(.service-row:hover) .service-row:hover .service-title{
-      opacity:1
-    }
-    .service-list:has(.service-row:hover) .service-row:hover .service-desc{
-      opacity:.85
-    }
-    .service-list:has(.service-row:hover) .service-row:hover .service-number{opacity:.6}
-    .service-list:has(.service-row:hover) .service-row:hover .service-thumb{opacity:1}
-
-    /* [深化] P2-3 :has() 不可用时的可读性降级 */
-    @supports not selector(:has(*)) {
-      .service-title{opacity:.85}
-      .service-row:hover .service-title,
-      .service-row:hover .service-desc{opacity:1}
-    }
-
-    /* 手机端：取消 hover 交互，统一显示 */
-    @media(max-width:760px){
-      .service-content{flex-direction:column;gap:12px}
-      .service-title{opacity:1;font-size:1.4rem}
-      .service-number{opacity:1;min-width:auto}
-      .service-thumb{display:none}
-    }
-
-    /* ═══ 关于（浅色 + 一段大文字）═══ */
-    .quote{padding:140px 40px}   /* 左右 40px 与 .wrap 版心对齐 */
-    .quote blockquote{font-family:var(--serif);font-weight:300;font-size:clamp(1.55rem,3.8vw,2.85rem);
-                      line-height:1.52;letter-spacing:.025em;color:var(--ink2);max-width:48ch}
-    .quote-line{display:block;margin:0 0 .78em}
-    .quote-line-keep{white-space:nowrap}
-    @media(max-width:760px){.quote blockquote{max-width:100%}.quote-line-keep{white-space:normal}}
-    .quote-line-final{position:relative;margin-top:1.38em;padding-top:.92em;font-weight:400;color:var(--ink);letter-spacing:.035em}
-    .quote-line-final::before{content:"";position:absolute;top:0;left:0;width:clamp(64px,12vw,128px);height:1px;background:var(--line)}
-    .quote footer{margin-top:42px;display:flex;align-items:center;gap:10px;
-                  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
-    .quote footer i{width:9px;height:9px;border-radius:50%;display:inline-block}
-    .quote footer i:nth-child(1){background:var(--olive)}
-    .quote footer i:nth-child(2){background:var(--wine)}
-
-    /* ═══ 页脚 ═══ */
-    footer{padding:80px 0 40px;border-top:1px solid var(--line)}
-    /* 页脚主区：桌面两栏（左：联系方式与合作咨询 / 右：次级导航） */
-    .foot-main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
-               gap:64px;align-items:start;margin-bottom:80px}
-    .foot-links{display:flex;gap:clamp(32px,4vw,56px);flex-wrap:wrap}
-    .foot-links h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
-                   color:var(--muted);margin-bottom:16px}
-    .foot-links li{margin-bottom:8px;opacity:.8;transition:opacity .2s}
-    .foot-links li:hover{opacity:1}
-    .foot-links a:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
-    /* ═══ 页脚：底部压轴区域 ═══ */
-    .foot-bottom {
-      margin-top: 80px;
-      text-align: center;
-    }
-
-    /* 底部超大品牌字 */
-    .foot-brand {
-      font-family: var(--serif);
-      font-weight: 300;
-      font-size: var(--display-size);
-      letter-spacing: -.03em;
-      line-height: .95;
-      user-select: none;
-      background: linear-gradient(var(--ink), rgba(1, 2, 5, .15));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    /* 版权信息：跟着大字一起居中 */
-    .foot-copyright {
-      margin-top: 40px;
-      padding-top: 24px;
-      border-top: 1px solid var(--line);
-      font-size: .78rem;
-      color: var(--muted);
-      letter-spacing: .05em;
-    }
-
-    /* ═══ 页脚右栏：联系方式与合作咨询 ═══
-       借联系表单的分层语言：小标签 → 大标题 → 细横线 → 字段行 → 动作。
-       表单经访客本地邮件客户端发送，本站不接收也不存储提交内容。 */
-    .foot-kicker {
-      font-family: var(--mono);
-      font-size: .7rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .foot-title {
-      font-family: var(--serif);
-      font-weight: 300;
-      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
-      letter-spacing: -.01em;
-      line-height: 1.15;
-      color: var(--ink2);
-      margin: 14px 0 28px;
-    }
-    .foot-fields {
-      margin: 0;
-      border-top: 1px solid var(--line);
-    }
-    .foot-field {
-      display: grid;
-      grid-template-columns: 140px minmax(0, 1fr);
-      gap: 24px;
-      align-items: baseline;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .foot-field dt {
-      font-size: .78rem;
-      letter-spacing: .02em;
-      color: var(--muted);
-    }
-    .foot-field dd {
-      margin: 0;
-      min-width: 0;
-      font-size: .88rem;
-      letter-spacing: .04em;
-      color: var(--ink);
-    }
-    .foot-field dd a {
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 1px solid var(--line);
-      overflow-wrap: anywhere;
-      transition: border-color .2s, opacity .2s;
-    }
-    .foot-field dd a:hover { border-bottom-color: var(--olive) }
-
-    /* 表单控件（沿用主题变量，深浅模式自动适配） */
-    .foot-field input[type="text"],
-    .foot-field select,
-    .foot-field textarea {
-      width: 100%;
-      font-family: inherit;
-      font-size: .88rem;
-      line-height: 1.5;
-      color: var(--ink);
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 9px 12px;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    .foot-field textarea { min-height: 104px; resize: vertical }
-    .foot-field input::placeholder,
-    .foot-field textarea::placeholder { color: var(--muted); opacity: .85 }
-    .foot-field input:focus,
-    .foot-field select:focus,
-    .foot-field textarea:focus {
-      outline: none;
-      border-color: var(--olive);
-      box-shadow: 0 0 0 3px rgba(176,183,72,.16);
-    }
-    /* 邮件 / 当地时间：与上方表单字段拉开一层 */
-    .foot-fields-meta { margin-top: 26px }
-
-    /* 同意条款 */
-    .foot-agree {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-top: 18px;
-      font-size: .82rem;
-      line-height: 1.6;
-      color: var(--muted);
-      cursor: pointer;
-    }
-    .foot-agree input {
-      flex: 0 0 auto;
-      width: 15px; height: 15px;
-      margin-top: .28em;
-      accent-color: var(--olive);
-      cursor: pointer;
-    }
-    .foot-agree a { color: var(--ink); border-bottom: 1px solid var(--line); transition: border-color .2s }
-    .foot-agree a:hover { border-bottom-color: var(--olive) }
-    .foot-agree input:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px }
-
-    /* 提交状态提示（校验未通过 / 已唤起邮件客户端） */
-    .foot-form-status {
-      margin-top: 12px;
-      min-height: 1.25em;
-      font-size: .8rem;
-      color: var(--olive);
-    }
-
-    .foot-actions { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; }
-
-    /* 极简页脚时钟：并入字段行，字体与颜色继承 dd */
-    .foot-clock {
-      display: block;
-      margin: 0;
-      font-family: inherit;
-      font-size: inherit;
-      letter-spacing: inherit;
-      color: inherit;
-      opacity: .8;
-      line-height: 1.5;
-      user-select: none;
-      padding: 0;
-      background: transparent;
-      border: none;
-    }
-    .foot-clock .prompt {
-      font-family: inherit;
-      color: inherit;
-      opacity: .65;
-    }
-    .foot-clock .time {
-      font-family: inherit;
-      color: inherit;
-      opacity: 1;
-    }
-    .foot-clock .caret {
-      font-family: inherit;
-      color: inherit;
-      opacity: .65;
-      animation: blink 2s step-end infinite;
-      margin-left: .1em;
-    }
-    @keyframes blink{
-      50%{opacity:0}
-    }
-    @media (prefers-reduced-motion: reduce){
-      .foot-clock .caret{animation:none}
-    }
-    /* 桌面两栏 → 移动端单列 */
-    @media(max-width:900px){
-      .foot-main{grid-template-columns:1fr;gap:48px}
-    }
-    @media(max-width:760px){
-      /* 标签在上、值在下 */
-      .foot-field{grid-template-columns:1fr;gap:5px;padding:13px 0}
-      .foot-actions{margin-top:24px}
-      .foot-links{gap:56px}
-    }
-
-    /* ═══ CTA 收尾区块（固定"黑暗空间" · 两层氛围光）═══
-       本区块不再跟随系统明暗模式：光场依赖黑暗对比，底色一旦变浅，
-       青柠光会完全不可见。--paper/--ink 在此区块内固定为深色空间配色。
-       层级：中层光晕(::after, 11s) → 外围雾光(.cta-fog, 14s)，周期互质错相。
-       只动 transform/opacity（GPU 合成层）；边缘柔和靠长衰减渐变，不用 blur。 */
-    #cta-final{--paper:#f5f5f5;--ink:#010205;   /* 黑暗空间固定配色，不随系统明暗切换 */
-               background:var(--ink);
-               color:var(--paper);padding:150px 40px;  /* 上留白 143→111 补偿 eyebrow 上移：h2 仍垂直居中 */
-               text-align:center;position:relative;overflow:hidden;}
-    /* 第三层：极弱外围雾光（峰值有效亮度仅 ≈10%，只提供空间深度，不明显提亮） */
-    .cta-fog{position:absolute;inset:-10%;z-index:0;pointer-events:none;
-             background:radial-gradient(circle 640px at 55% 60%,
-                        rgba(208,255,113,.08) 0%, rgba(208,255,113,.02) 50%, rgba(208,255,113,0) 80%);
-             transform:scale(.96);opacity:.5;will-change:transform,opacity;
-             animation:cta-fog 9s ease-in-out infinite;animation-delay:-5s}
-    /* 中距离光晕（现在是最亮的一层，承担主呼吸节奏；雾光在其下提供深度） */
-    #cta-final::after{content:'';position:absolute;inset:-10%;z-index:1;pointer-events:none;
-             background:radial-gradient(circle 480px at 52% 55%,
-                        rgba(208,255,113,.2) 0%, rgba(208,255,113,.06) 30%, rgba(208,255,113,0) 75%);
-             transform:scale(.8);opacity:.35;will-change:transform,opacity;
-             animation:cta-mid 7s ease-in-out infinite;animation-delay:-9.3s}
-    /* 内容浮于所有光层之上 */
-    #cta-final .wrap{max-width:800px;margin:0 auto;position:relative;z-index:3;text-align:center}
-    /* 标题改为预渲染透明图（2400×331），省去为这行标题加载/排版衬线整字重 */
-    #cta-final .cta-title-wrap{
-      display:block;
-      margin:0 auto;
-      max-width:min(100%,860px);
-    }
-    #cta-final .cta-title-wrap img{
-      display:block;
-      width:100%;
-      height:auto;
-      max-width:100%;
-      opacity:.78;
-      animation:cta-title 8s ease-in-out infinite;
-      will-change:opacity;
-    }
-
-    @keyframes cta-mid{
-      0%  {transform:scale(.8);opacity:.35}
-      50% {transform:scale(1.08);opacity:.95}
-      100%{transform:scale(.8);opacity:.35}
-    }
-    @keyframes cta-fog{
-      0%  {transform:scale(.96);opacity:.5}
-      50% {transform:scale(1.06);opacity:1}
-      100%{transform:scale(.96);opacity:.5}
-    }
-    /* 标题亮度呼吸：仅 opacity，位置与字号不动 */
-    @keyframes cta-title{
-      0%,100%{opacity:.68}
-      50%{opacity:.78}
-    }
-
-    /* 手机端：光场横向拉宽、纵向压扁——呼吸依旧明显，但窄屏上不会聚成"绿色圆圈" */
-    @media(max-width:760px){
-      #cta-final::after{background:radial-gradient(ellipse 90% 40% at 52% 55%,
-                          rgba(208,255,113,.18) 0%, rgba(208,255,113,.07) 45%, rgba(208,255,113,0) 72%)}
-      .cta-fog{background:radial-gradient(ellipse 110% 55% at 55% 60%,
-                          rgba(208,255,113,.08) 0%, rgba(208,255,113,.035) 45%, rgba(208,255,113,0) 70%)}
-    }
-
-    /* 减少动画：停掉全部呼吸，只保留一层极淡的静态环境光 */
-    @media (prefers-reduced-motion: reduce){
-      #cta-final::after,.cta-fog,#cta-final .cta-title-wrap img{animation:none}
-      #cta-final::after{opacity:.35;transform:scale(1)}
-      .cta-fog{opacity:.5;transform:scale(1)}
-      #cta-final .cta-title-wrap img{opacity:.72}
-    }
-
-    /* ═══ 二维码弹窗（点击"扫码预约咨询"打开）═══ */
-    .qr-modal{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
-              opacity:0;pointer-events:none;transition:opacity .25s ease}
-    .qr-modal.open{opacity:1;pointer-events:auto}
-    .qr-modal-backdrop{position:absolute;inset:0;background:rgba(1,2,5,.55)}
-    .qr-modal-card{position:relative;background:var(--card);border:1px solid var(--line);
-                   border-radius:20px;padding:40px 48px;display:flex;flex-direction:column;
-                   align-items:center;gap:16px;box-shadow:0 24px 64px rgba(1,2,5,.3);
-                   transform:translateY(16px) scale(.96);transition:transform .25s ease}
-    .qr-modal.open .qr-modal-card{transform:translateY(0) scale(1)}
-    /* 装饰框架：二维码外一圈描边框；底色固定白色，保证深色模式下二维码仍可识别 */
-    .qr-modal-frame{padding:12px;border:1.5px solid var(--line);border-radius:12px;background:#ffffff}
-    .qr-modal-frame img{width:220px;height:auto;display:block}
-    .qr-modal-tip{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;color:var(--muted)}
-    .qr-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;
-                    border:1px solid var(--line);background:transparent;color:var(--ink);
-                    font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
-                    transition:background .25s ease,color .25s ease}
-    .qr-modal-close:hover{background:var(--ink);color:var(--paper)}
-    .qr-modal-close:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
-
-    /* ═══ 滚动进场动画（仅在启用 JS 时隐藏初态，避免无 JS 时内容不可见）═══ */
-    /* [深化] P1-1 进场用 translate；.b-text 额外保留 hover 的 transform/box-shadow 过渡 */
-    .js .sec-head h2,
-    .js .quote blockquote{opacity:0;translate:0 24px;transition:opacity .6s ease,translate .6s ease}
-    .js .b-text{opacity:0;translate:0 24px;
-                transition:opacity .6s ease,translate .6s ease,
-                           transform .25s ease,box-shadow .25s ease}
-    .js .exp-card{opacity:0;translate:0 24px;
-                  transition:opacity .6s ease,translate .6s ease,
-                             transform .25s ease,box-shadow .25s ease}
-    .js .b-text.visible,
-    .js .exp-card.visible,
-    .js .sec-head h2.visible,
-    .js .quote blockquote.visible{opacity:1;translate:0 0}
-    @media (prefers-reduced-motion: reduce){
-      .js .b-text,
-      .js .exp-card,
-      .js .sec-head h2,
-      .js .quote blockquote{opacity:1;translate:none;transition:none}
-    }
-
-    /* ═══ 自定义粘滞光标（暖灰褐 #93856d）═══
-       仅限支持 hover 的设备；由 JS 添加 html.has-custom-cursor 后才隐藏系统光标
-       [深化] P0-2 / P2-2 */
-#custom-cursor{display:none}
-/* [深化] P0-2：cursor:none 只在 JS 成功初始化后生效，失败时自动恢复系统光标 */
-html.has-custom-cursor,
-html.has-custom-cursor * { cursor: none !important; }
-/* 长文本阅读区：保留系统光标（I-beam），便于跟读与划选 */
-html.has-custom-cursor .quote,
-html.has-custom-cursor .quote * { cursor: text !important; }
-@media (hover: hover) {
-  #custom-cursor {
-      display: block;
-      position: fixed;
-      pointer-events: none;      /* 点击穿透 */
-      z-index: 9999;
-      left: 0; top: 0;
-      width: 25.2px;
-      height: 25.2px;
-      border-radius: 50%;
-      background: #93856d;       /* 暖灰褐 */
-      /* [深化] P2-2 用 transform 跟随；初始在视口中心，避免系统光标隐藏后短暂“无光标” */
-      transform: translate3d(50vw,50vh,0) translate(-50%,-50%);
-      transition: width .25s ease, height .25s ease, background-color .25s ease, opacity .25s ease;
-      will-change: transform;
-      /* macOS 式双描边：白圈贴圆点、黑圈在外——浅色背景上黑圈显形，深色背景上白圈显形 */
-      box-shadow: 0 0 0 1.35px rgba(255,255,255,.65),
-                  0 0 0 2.7px rgba(0,0,0,.4);
-  }
-  /* hover 文字卡（可点击）时：光标变成半透明"查看按钮"，不再使用青柠色块 */
-  .cursor-arrow{
-      position:absolute;top:50%;left:50%;
-      transform:translate(-50%,-50%) scale(0);
-      font-size:12.6px;color:var(--ink);
-      opacity:0;transition:transform .25s ease,opacity .25s ease;
-  }
-  #custom-cursor.cursor-view{
-      background:rgba(147,133,109,.38);
-      width:39.6px;height:39.6px;   /* 比默认圆点(25.2px)更大，做成"按钮感" */
-  }
-  /* 阅读区：隐藏自定义圆点，交给系统 I-beam（!important 以压过 document mouseenter 的 inline opacity） */
-  #custom-cursor.cursor-system{opacity:0 !important;}
-  #custom-cursor.cursor-view .cursor-arrow{
-      opacity:1;transform:translate(-50%,-50%) scale(1);
-  }
-  /* 长按左键：持续变小 */
-  #custom-cursor.cursor-click{
-      width:18px;height:18px;
-      background:#7a6d5a;
-  }
-  #custom-cursor.cursor-click .cursor-arrow{
-      opacity:0;
-  }
-}
-
-    /* ═══ 履历年表（参照年份墙；作品少时先立结构）═══ */
-    #timeline{padding:clamp(70px,10vw,120px) 0 0}
-    .tl-year{display:grid;grid-template-columns:120px minmax(0,1fr);gap:24px;
-             padding:22px 0;border-top:1px solid var(--line)}
+    /* ═══ 履历（High-touch：形式跟随内容）═══ */
+    .tl-year{display:grid;grid-template-columns:112px minmax(0,1fr);gap:26px;
+             padding:24px 0;border-top:1px solid var(--line)}
     .tl-year:last-child{border-bottom:1px solid var(--line)}
-    .tl-year-num{font-family:var(--mono);font-size:.8rem;letter-spacing:.16em;color:var(--olive);padding-top:3px}
-    .tl-list{display:flex;flex-direction:column;gap:18px;list-style:none;margin:0;padding:0}
-    .tl-item{display:grid;grid-template-columns:104px minmax(0,1fr);gap:6px 18px;align-items:baseline}
-    .tl-type{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
-             color:var(--muted);border:1px solid var(--line);border-radius:999px;
-             padding:3px 10px;justify-self:start;white-space:nowrap}
-    .tl-title{font-size:1rem;font-weight:500;color:var(--ink)}
+    .tl-year-num{font-size:1rem;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.02em;color:var(--accent);padding-top:2px}
+    .tl-list{display:flex;flex-direction:column;gap:20px}
+    .tl-item{display:grid;grid-template-columns:96px minmax(0,1fr);gap:5px 20px;align-items:baseline}
+    .tl-type{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);
+             border:1px solid var(--line);border-radius:999px;padding:3px 10px;justify-self:start;white-space:nowrap}
+    .tl-title{font-size:1.02rem;font-weight:500}
     .tl-title em{font-style:italic;color:var(--olive);font-weight:400}
     .tl-stack,.tl-result{grid-column:2}
-    .tl-stack{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--muted)}
+    .tl-stack{font-size:.78rem;letter-spacing:.01em;color:var(--ink3)}
     .tl-result{font-size:.88rem;color:var(--ink2);line-height:1.7}
-    /* Work 卡：未完成项目的角标 */
-    .work-tbd{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
-              color:var(--muted);border:1px solid var(--line);border-radius:999px;
-              padding:2px 8px;margin-left:8px}
-    @media(max-width:760px){
-      .tl-year{grid-template-columns:1fr;gap:10px}
+    @media(max-width:820px){
+      .tl-year{grid-template-columns:1fr;gap:12px}
       .tl-item{grid-template-columns:1fr}
       .tl-stack,.tl-result{grid-column:1}
     }
+
+    /* ═══ 服务（Workhorse：Three Up / Four Up）═══ */
+    .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+    .svc{padding:28px 26px 30px;border:1px solid var(--line);border-radius:16px;background:var(--bg2)}
+    .svc-num{font-size:.66rem;letter-spacing:.14em;font-variant-numeric:tabular-nums;color:var(--ink3)}
+    .svc h3{font-family:var(--sans);font-weight:500;font-size:1.08rem;margin:16px 0 10px;line-height:1.3}
+    .svc p{font-size:.88rem;color:var(--ink3);line-height:1.7}
+    .svc-deliver{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+                 font-size:.76rem;letter-spacing:.01em;color:var(--ink2)}
+    @media(max-width:620px){ .svc-grid{grid-template-columns:1fr} }
+
+    /* ═══ 交互音频演示（音频素材就位后取消 hidden）═══ */
+    .stage-wrap{padding:30px;border:1px solid var(--line);border-radius:18px;background:var(--bg2)}
+    .stage-dots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .stage-dot{text-align:left;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--bg3);
+               color:var(--ink);cursor:pointer;transition:border-color .25s,background .25s}
+    .stage-dot[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-dim)}
+    .dot-core{width:11px;height:11px;border-radius:50%;background:var(--ink3);display:block;margin-bottom:14px;transition:background .25s}
+    .stage-dot[aria-pressed="true"] .dot-core{background:var(--accent)}
+    .dot-label{display:block;font-size:.96rem;font-weight:500}
+    .dot-tag{display:block;margin-top:7px;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;color:var(--ink3)}
+    .stage-status{margin-top:20px;font-size:.9rem;color:var(--ink2)}
+    .stage-actions{margin-top:18px}
+    @media(max-width:760px){ .stage-dots{grid-template-columns:1fr} }
+
+    /* ═══ 引言（Grace Note）═══ */
+    .quote{text-align:center}
+    .quote blockquote{font-family:var(--serif);font-weight:300;font-style:italic;
+                      font-size:clamp(1.5rem,3.6vw,2.4rem);line-height:1.35;letter-spacing:-.015em;max-width:22ch;margin:0 auto}
+    .quote footer{margin-top:26px;display:flex;justify-content:center;gap:8px}
+    .quote footer i{width:8px;height:8px;border-radius:50%;display:inline-block}
+    .quote footer i:nth-child(1){background:var(--accent)}
+    .quote footer i:nth-child(2){background:var(--olive)}
+
+    /* ═══ 转化区（Converter：沿用原站“发送邮件”表单语言）═══ */
+    .contact-head{margin-bottom:clamp(30px,4vw,46px)}
+    .contact-head h2{margin-bottom:16px}
+    .contact-lead{max-width:54ch;color:var(--ink2);font-size:.96rem;line-height:1.85}
+    .contact-body{display:grid;grid-template-columns:1.618fr 1fr;gap:clamp(32px,5vw,64px);align-items:start}
+    .mail-fields{margin:0;border-top:1px solid var(--line)}
+    .mail-field{display:grid;grid-template-columns:104px minmax(0,1fr);gap:18px;align-items:start;
+                padding:14px 0;border-bottom:1px solid var(--line)}
+    .mail-field dt{padding-top:10px;font-size:.76rem;letter-spacing:.02em;color:var(--ink3)}
+    .mail-field dd{margin:0;min-width:0}
+    .mail-field input[type="text"],.mail-field select,.mail-field textarea{
+      width:100%;padding:10px 12px;border-radius:8px;background:var(--bg3);color:var(--ink);
+      border:1px solid var(--line);font-family:var(--sans);font-size:.9rem;line-height:1.5;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    .mail-field textarea{min-height:100px;resize:vertical}
+    .mail-field input::placeholder,.mail-field textarea::placeholder{color:var(--ink3);opacity:.85}
+    .mail-field input:focus,.mail-field select:focus,.mail-field textarea:focus{
+      outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)
+    }
+    .mail-agree{display:flex;align-items:flex-start;gap:10px;margin-top:16px;font-size:.82rem;
+                line-height:1.6;color:var(--ink3);cursor:pointer}
+    .mail-agree input{flex:0 0 auto;width:15px;height:15px;margin-top:.3em;accent-color:var(--accent);cursor:pointer}
+    .mail-agree a{color:var(--ink2);border-bottom:1px solid var(--line2)}
+    .mail-agree a:hover{color:var(--ink);border-color:var(--ink)}
+    .mail-status{min-height:1.3em;margin-top:10px;font-size:.8rem;color:var(--accent)}
+    .mail-actions{margin-top:18px}
+    .mail-actions .btn{justify-content:center;min-width:220px}
+    .mail-note{margin-top:14px;font-size:.76rem;line-height:1.6;color:var(--ink3)}
+    .contact-direct{display:flex;flex-direction:column;gap:26px;padding-top:4px}
+    .contact-label{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:9px}
+    .contact-direct a{display:block;align-self:flex-start;margin-bottom:10px;font-size:.9rem;color:var(--ink2);
+                      border-bottom:1px solid var(--line2);padding-bottom:2px;
+                      transition:color .2s,border-color .2s;overflow-wrap:anywhere}
+    .contact-direct a:hover{color:var(--ink);border-color:var(--ink)}
+    .contact-mail{font-size:1rem!important;color:var(--ink)!important}
+    @media(max-width:900px){
+      .contact-body{grid-template-columns:1fr;gap:38px}
+      .contact-direct{padding-top:0}
+    }
+    @media(max-width:560px){
+      .mail-field{grid-template-columns:1fr;gap:6px;padding:12px 0}
+      .mail-field dt{padding-top:0}
+      .mail-actions .btn{width:100%;min-width:0}
+    }
+
+    /* ═══ 大页脚（手册：页脚可很大；全站目录 + 末次 CTA + 个性）═══ */
+    .foot{border-top:1px solid var(--line);padding:clamp(56px,7vw,88px) 0 34px;margin-top:clamp(56px,7vw,88px)}
+    .foot-dir{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+    .foot-dir h4{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+                 color:var(--ink3);margin-bottom:15px}
+    .foot-dir li{margin-bottom:9px}
+    .foot-dir a{font-size:.9rem;color:var(--ink2);transition:color .2s}
+    .foot-dir a:hover{color:var(--ink)}
+    .foot-brand{margin-top:clamp(48px,6vw,80px);font-family:var(--serif);font-weight:300;
+                font-size:clamp(1.8rem,9.2vw,7rem);line-height:.92;letter-spacing:-.04em;
+                background:linear-gradient(var(--ink),transparent 92%);
+                -webkit-background-clip:text;background-clip:text;color:transparent;user-select:none;white-space:nowrap}
+    .foot-meta{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
+               display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between;
+               font-size:.72rem;letter-spacing:.01em;color:var(--ink3)}
+    .foot-clock{font-family:var(--mono)}
+    .foot-clock .prompt{opacity:.6}
+    .foot-clock .caret{opacity:.6;animation:blink 2s step-end infinite;margin-left:.1em}
+    @keyframes blink{50%{opacity:0}}
+    @media(prefers-reduced-motion: reduce){ .foot-clock .caret{animation:none} }
+    @media(max-width:900px){ .foot-dir{grid-template-columns:repeat(2,1fr)} }
+
+    /* ═══ 进场动画（仅 opacity + translate，尊重减弱动效）═══ */
+    .js .reveal{opacity:0;translate:0 22px;transition:opacity .6s ease,translate .6s ease}
+    .js .reveal.visible{opacity:1;translate:0 0}
+    @media(prefers-reduced-motion: reduce){
+      .js .reveal{opacity:1;translate:none;transition:none}
+      html{scroll-behavior:auto}
+    }
   </style>
-  <!-- 首页钩子：Showreel / 迷你播放器 / 三层体验 -->
-  <link rel="stylesheet" href="assets/css/home-hooks.css" />
 </head>
 <body>
 
-  <!-- ═══ 顶部导航 ═══ -->
+  <!-- ═══ 导航：3 个链接，其余交给页脚 ═══ -->
   <header class="nav">
-    <div class="wrap">
-      <!-- 黑色描边圆角框：包住导航内容（Our Wave 风格） -->
-      <div class="nav-in">
-        <!-- ★ 内容：logo -->
-        <a class="logo" href="#top">ReiVerb Sound <em>Atorie</em></a>
-
+    <div class="wrap nav-in">
+      <a class="logo" href="#top">ReiVerb Sound <em>Atorie</em></a>
+      <div class="nav-right">
         <nav class="nav-links" id="menu">
-          <!-- ★ 内容：导航链接 -->
           <a href="#work">Work</a>
-          <a href="#contact">Contact</a>
+          <a href="#timeline">履历</a>
+          <a href="#contact" class="nav-cta">聊聊项目</a>
         </nav>
-
-        <!-- 手机端菜单按钮 -->
-        <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false" onclick="document.getElementById('menu').classList.toggle('open');this.setAttribute('aria-expanded',document.getElementById('menu').classList.contains('open'))">☰</button>
+        <div class="nav-tools">
+          <button class="theme-switch" id="theme-switch" type="button" role="switch" aria-checked="false"
+                  aria-label="深色模式" title="切换深色 / 浅色">
+            <span class="theme-switch-thumb" aria-hidden="true">☀</span>
+          </button>
+          <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false"
+                  onclick="var m=document.getElementById('menu');m.classList.toggle('open');this.setAttribute('aria-expanded',m.classList.contains('open'))">☰</button>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- ═══ 首屏 HERO ═══ -->
+  <!-- ═══ 首屏 ═══ -->
   <section class="hero" id="top">
-    <canvas class="hero-wave-canvas" id="heroWaveCanvas" aria-hidden="true"></canvas>
-    <div class="hero-content wrap">
-      <!-- 小标签：两个彩点 + 小号英文 -->
-      <div class="eyebrow"><i></i><i></i><span>
-        空山漪韵<br>
-        /ˈreɪ.vɜːrb ˈsaʊnd əˈtɔːri/</span></div>
-      <!-- ★ 主标语 -->
-      <h1>ReiVerb<br>Sound<br><span class="hero-accent">Atorie</span></h1>
-      <!-- ★ 内容：一句话简介 -->
-      <p>Composer · Sound Designer · Audio Implementer<br>为游戏创造音乐、声音设计与互动音频体验</p>
+    <div class="wrap hero-in">
+      <div class="eyebrow"><i></i><i></i><span>Game Audio · 空山漪韵</span></div>
+      <h1>ReiVerb<br>Sound<br><em>Atorie</em></h1>
     </div>
   </section>
 
-  <!-- ═══ 首页钩子：精选试听 · 三层音频体验 ═══ -->
-  <section id="home-hooks">
-    <div class="wrap" style="margin-bottom:28px">
-      <div class="eyebrow"><i></i><i></i><span>Listen &amp; Demo</span></div>
-      <h2 style="font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,3.6vw,3rem);letter-spacing:-.02em;color:var(--ink2);margin:0">
-        <em style="font-style:italic;color:var(--olive)">先听</em>
-      </h2>
+  <!-- ═══ 项目证据 ═══ -->
+  <section class="sec" id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow"><i></i><i></i><span>Selected Work</span></div>
+        <h2><em>证据</em>，不是陈列</h2>
+      </div>
+
+      <div class="work-list">
+        <a class="work-row reveal" href="./projects/03-interactive/">
+          <div class="work-main">
+            <span class="work-num">01</span>
+            <div class="work-body">
+              <h3 class="work-title">Interactive Audio Pipeline</h3>
+              <p class="work-tags">Event Hierarchy / RTPC / Profiling / Docs</p>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-role">Implementation · Wwise</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="work-row reveal" href="./projects/02-plugin/">
+          <div class="work-main">
+            <span class="work-num">02</span>
+            <div class="work-body">
+              <h3 class="work-title">BKEQ Hybrid VST3</h3>
+              <p class="work-tags">Hise / Illustrator / A–B 试听</p>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-role">Plugin · DSP</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="work-row reveal" href="./projects/04-analysis/">
+          <div class="work-main">
+            <span class="work-num">03</span>
+            <div class="work-body">
+              <h3 class="work-title">Music Analysis</h3>
+              <p class="work-tags">配器 / 结构 / 叙事功能</p>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-role">Analysis · Research</span>
+            <span class="work-year">2025</span>
+          </div>
+          <span class="work-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="work-row reveal" href="./projects/05-sound-design/">
+          <div class="work-main">
+            <span class="work-num">04</span>
+            <div class="work-body">
+              <h3 class="work-title">Combat &amp; UI Sound Design</h3>
+              <p class="work-tags">Combat / Character / UI / Ambience</p>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-role">Sound Design · Games</span>
+            <span class="work-status">Upcoming</span>
+          </div>
+          <span class="work-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="work-row reveal" href="./projects/01-music/">
+          <div class="work-main">
+            <span class="work-num">05</span>
+            <div class="work-body">
+              <h3 class="work-title">Original Soundtracks</h3>
+              <p class="work-tags">Battle / Exploration / Character / UI</p>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-role">Original Music · Games</span>
+            <span class="work-status">Upcoming</span>
+          </div>
+          <span class="work-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
     </div>
-    <!-- hooks-grid 已 max-width:1200 + margin auto，与标题 .wrap 对齐 -->
+  </section>
 
-    <div class="hooks-grid">
-      <article class="hook-card" data-hook="player-pending">
-        <div class="hook-kicker"><i></i><i></i><span>Mini Player</span></div>
-        <h2>精选试听</h2>
-        <p>Audio player is under reconstruction.</p>
-      </article>
+  <!-- ═══ 履历 ═══ -->
+  <section class="sec" id="timeline">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow"><i></i><i></i><span>Timeline</span></div>
+        <h2><em>履历</em></h2>
+      </div>
 
-      <article class="hook-card" data-hook="stage">
-        <div class="hook-kicker"><i></i><i></i><span>Interactive Audio</span></div>
-        <h2>三层音频体验</h2>
-        <p>点击三个点，逐层叠加：环境 → 交互 → 音乐。</p>
+      <div class="tl-year reveal">
+        <div class="tl-year-num">2026</div>
+        <ul class="tl-list">
+          <li class="tl-item">
+            <span class="tl-type">Jam</span>
+            <span class="tl-title">TapTap 2026 GameJam</span>
+            <span class="tl-stack">Unity · 音效设计 / 音频实现</span>
+            <span class="tl-result">整理音效命名规范，程序对接时间缩短约 2 小时</span>
+          </li>
+          <li class="tl-item">
+            <span class="tl-type">Plugin</span>
+            <span class="tl-title">BKEQ Hybrid <em>VST3</em></span>
+            <span class="tl-stack">Hise · Illustrator</span>
+            <span class="tl-result">插件框架与界面设计规范</span>
+          </li>
+          <li class="tl-item">
+            <span class="tl-type">Study</span>
+            <span class="tl-title">研究与写作 <em>×8</em></span>
+            <span class="tl-stack">2025 – 2026</span>
+            <span class="tl-result">声音、游戏与创作的长文笔记</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tl-year reveal">
+        <div class="tl-year-num">2025</div>
+        <ul class="tl-list">
+          <li class="tl-item">
+            <span class="tl-type">Analysis</span>
+            <span class="tl-title">星穹铁道 PV 配乐分析 <em>×4</em></span>
+            <span class="tl-stack">阮梅 · 云璃 · 花火 · 刃</span>
+            <span class="tl-result">拆解配器、结构与叙事功能；Bilibili 与 YouTube 同步</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 服务 ═══ -->
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow"><i></i><i></i><span>What you get</span></div>
+        <h2><em>交付物</em>长什么样</h2>
+      </div>
+      <div class="svc-grid">
+        <div class="svc reveal">
+          <div class="svc-num">01</div>
+          <h3>原创配乐</h3>
+          <p>主题动机、场景循环、Boss 与情绪曲线。</p>
+          <div class="svc-deliver">Loop + Stinger + Stems</div>
+        </div>
+        <div class="svc reveal">
+          <div class="svc-num">02</div>
+          <h3>声音设计</h3>
+          <p>角色、战斗、UI、环境；拟音与合成并用。</p>
+          <div class="svc-deliver">OneShot 包 + 命名表 + 音量阶梯</div>
+        </div>
+        <div class="svc reveal">
+          <div class="svc-num">03</div>
+          <h3>音频集成</h3>
+          <p>Wwise / FMOD 事件树、RTPC、总线与优先级。</p>
+          <div class="svc-deliver">工程 + 事件命名规范 + 测试包</div>
+        </div>
+        <div class="svc reveal">
+          <div class="svc-num">04</div>
+          <h3>混音母带</h3>
+          <p>响度对齐、频段让位、集成后回归验证。</p>
+          <div class="svc-deliver">48 kHz / 24 bit · −24 LUFS 交付</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 交互音频演示：等真实音频素材就位后再公开 -->
+  <section class="sec" id="stage" hidden>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow"><i></i><i></i><span>Interactive Audio</span></div>
+        <h2><em>分层</em>是怎么叠起来的</h2>
+      </div>
+      <div class="stage-wrap reveal" data-hook="stage">
         <div class="stage-dots" role="group" aria-label="音频分层">
           <button type="button" class="stage-dot" data-layer="ambience" aria-pressed="false">
             <span class="dot-core" aria-hidden="true"></span>
@@ -818,827 +567,242 @@ html.has-custom-cursor .quote * { cursor: text !important; }
             <span class="dot-tag">Music Bus · RTPC Combat</span>
           </button>
         </div>
-        <p class="stage-status"></p>
+        <p class="stage-status" aria-live="polite">当前：静音。</p>
         <div class="stage-actions">
-          <button type="button" class="stage-reset">重新体验</button>
-        </div>
-        <audio data-layer="ambience" preload="none" src=""></audio>
-        <audio data-layer="sfx" preload="none" src=""></audio>
-        <audio data-layer="music" preload="none" src=""></audio>
-        <details class="stage-details">
-          <summary>技术说明（Wwise 总线示意）</summary>
-          <div class="tech-note">
-            <strong>总线草图</strong>
-            <ul>
-              <li>Main Mix → Ambience / SFX / Music</li>
-              <li>SFX：战斗峰值触发 Music 侧 Ducking</li>
-              <li>Music：Combat Intensity → Layer RTPC 分层</li>
-            </ul>
-          </div>
-        </details>
-      </article>
-    </div>
-  </section>
-  <!-- ═══ Selected Work：项目证据（真实交付 > 实验 > 思考）═══ -->
-  <section id="work">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="eyebrow"><i></i><i></i><span>Selected Work</span></div>
-        <h2><em>项目</em></h2>
-      </div>
-    </div>
-
-    <div class="bento work-evidence">
-      <!-- 01 · 原创配乐交付 -->
-      <div class="b-row">
-        <a class="b-card b-text" href="./projects/01-music/">
-          <div class="b-eyebrow"><span class="work-num">01</span><span class="work-tbd">TBD</span></div>
-          <h3>Game Music Package</h3>
-          <p class="work-role">Original Music · Games</p>
-          <p class="work-tags">Battle / Exploration / Character / UI</p>
-          <span class="b-go">Listen <i>↗</i></span>
-        </a>
-        <div class="b-card b-pic">
-          <img src="assets/img/bento/waveform.svg" alt="Original Music — 声波意象" loading="lazy"/>
-        </div>
-      </div>
-
-      <!-- 02 · 声音设计交付 -->
-      <div class="b-row">
-        <div class="b-card b-pic">
-          <img src="assets/img/bento/spiral.svg" alt="Sound Design — 漩涡意象" loading="lazy"/>
-        </div>
-        <a class="b-card b-text" href="./projects/05-sound-design/">
-          <div class="b-eyebrow"><span class="work-num">02</span><span class="work-tbd">TBD</span></div>
-          <h3>Combat &amp; UI Sound Design</h3>
-          <p class="work-role">Sound Design · Games</p>
-          <p class="work-tags">Combat / Character / UI / Ambience</p>
-          <span class="b-go">Case Study <i>↗</i></span>
-        </a>
-      </div>
-
-      <!-- 03 · 互动音频集成 -->
-      <div class="b-row">
-        <a class="b-card b-text" href="./projects/03-interactive/">
-          <div class="b-eyebrow"><span class="work-num">03</span></div>
-          <h3>Interactive Audio Pipeline</h3>
-          <p class="work-role">Implementation · Wwise / FMOD</p>
-          <p class="work-tags">Event Hierarchy / RTPC / Profiling / Docs</p>
-          <span class="b-go">Case Study <i>↗</i></span>
-        </a>
-        <div class="b-card b-pic">
-          <img src="assets/img/bento/network.svg" alt="Interactive Audio — 节点网络意象" loading="lazy"/>
+          <button type="button" class="btn btn-secondary stage-reset">重新体验</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ 履历：按年份排列（参照音序文化的年份墙；作品少时先立结构）═══ -->
-  <section id="timeline" class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow"><i></i><i></i><span>Timeline</span></div>
-      <h2><em>履历</em></h2>
-    </div>
-
-    <div class="tl-year">
-      <div class="tl-year-num">2026</div>
-      <ul class="tl-list">
-        <li class="tl-item">
-          <span class="tl-type">Jam</span>
-          <span class="tl-title">TapTap 2026 GameJam</span>
-          <span class="tl-stack">Unity · 音效设计 / 音频实现</span>
-          <span class="tl-result">音效设计与命名规范整理；程序对接时间缩短约 2 小时</span>
-        </li>
-        <li class="tl-item">
-          <span class="tl-type">Plugin</span>
-          <span class="tl-title">BKEQ Hybrid <em>VST3</em></span>
-          <span class="tl-stack">Hise · Illustrator</span>
-          <span class="tl-result">插件框架与界面设计规范；A/B 试听待补</span>
-        </li>
-        <li class="tl-item">
-          <span class="tl-type">Study</span>
-          <span class="tl-title">研究与写作 <em>×8</em></span>
-          <span class="tl-stack">2025 – 2026</span>
-          <span class="tl-result">声音、游戏与创作的长文笔记</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="tl-year">
-      <div class="tl-year-num">2025</div>
-      <ul class="tl-list">
-        <li class="tl-item">
-          <span class="tl-type">Analysis</span>
-          <span class="tl-title">星穹铁道 PV 配乐分析 <em>×4</em></span>
-          <span class="tl-stack">阮梅 · 云璃 · 花火 · 刃</span>
-          <span class="tl-result">拆解配器、结构与叙事功能；Bilibili 与 YouTube 同步</span>
-        </li>
-      </ul>
+  <!-- ═══ 引言 ═══ -->
+  <section class="sec quote reveal">
+    <div class="wrap">
+      <blockquote>“声音是玩家行为的延伸。”</blockquote>
+      <footer><i></i><i></i></footer>
     </div>
   </section>
 
-  <!-- ═══ Experiments：实验 / 研究 / 思考（证据之下的第二层）═══ -->
-  <section id="experiments">
+  <!-- ═══ 转化区：原站“发送邮件”表单 ═══ -->
+  <section class="sec" id="contact">
     <div class="wrap">
-      <div class="sec-head">
-        <div class="eyebrow"><i></i><i></i><span>Experiments</span></div>
-        <h2><em>实验</em></h2>
-      </div>
-    </div>
-    <div class="exp-grid">
-      <a class="exp-card" href="./projects/02-plugin/">
-        <span class="exp-kicker">Plugin</span>
-        <h3>VST Plugin</h3>
-        <p>均衡器设计与数字信号处理实验，从电路想法到可听结果</p>
-        <span class="exp-go">Case Study ↗</span>
-      </a>
-      <a class="exp-card" href="./projects/04-analysis/">
-        <span class="exp-kicker">Analysis</span>
-        <h3>Music Analysis</h3>
-        <p>以公开 PV 配乐为研究样本，拆解配器、结构与叙事功能</p>
-        <span class="exp-go">Read Study ↗</span>
-      </a>
-      <a class="exp-card" href="./projects/06-writing/">
-        <span class="exp-kicker">Research &amp; Writing</span>
-        <h3>Notes &amp; Thoughts</h3>
-        <p>声音、游戏与创作的笔记——方法、失败与尚未想清楚的部分</p>
-        <span class="exp-go">Open Notes ↗</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- ═══ 服务专长（深色背景）═══ -->
-  <section id="services">
-    <div class="wrap">
-      <div class="sec-head" style="margin-bottom:60px">
-        <div class="eyebrow">
-          <i></i>
-          <i></i>
-          <span>Expertise</span></div>
-          <h2><em>专长</em></h2>
+      <div class="contact-head reveal">
+        <div class="eyebrow"><i></i><i></i><span>Contact</span></div>
+        <h2>说说你的<em>项目</em></h2>
+        <p class="contact-lead">把项目类型、周期和参考作品发我，我会判断能不能接、怎么接，并给出交付物与档期建议。谈不拢也不耽误你。</p>
       </div>
 
-      <ul class="service-list">
-        <li class="service-row">
-          <div class="service-content">
-            <span class="service-number">01</span>
-            <h3 class="service-title">原创配乐 · Original Music</h3>
-            <div class="service-thumb">
+      <div class="contact-body">
+        <form class="mail-form reveal" id="foot-form" novalidate>
+          <dl class="mail-fields">
+            <div class="mail-field">
+              <dt><label for="foot-name">您的姓名</label></dt>
+              <dd><input id="foot-name" name="name" type="text" autocomplete="name" placeholder="怎么称呼您" /></dd>
             </div>
+            <div class="mail-field">
+              <dt><label for="foot-topic">合作事项</label></dt>
+              <dd>
+                <select id="foot-topic" name="topic">
+                  <option>创作邀约</option>
+                  <option>商务合作</option>
+                  <option>其他</option>
+                </select>
+              </dd>
+            </div>
+            <div class="mail-field">
+              <dt><label for="foot-message">合作内容</label></dt>
+              <dd><textarea id="foot-message" name="message" rows="4" placeholder="项目类型、周期、参考作品…"></textarea></dd>
+            </div>
+          </dl>
+
+          <label class="mail-agree">
+            <input type="checkbox" id="foot-agree" name="agree" />
+            <span>我已阅读并同意<a href="./privacy.html" target="_blank" rel="noopener">《用户隐私协议》</a></span>
+          </label>
+
+          <p class="mail-status" id="foot-form-status" role="status" aria-live="polite"></p>
+
+          <div class="mail-actions">
+            <button class="btn btn-primary" type="submit">发送邮件 <span aria-hidden="true">↗</span></button>
           </div>
-        </li>
-        <li class="service-row">
-          <div class="service-content">
-            <span class="service-number">02</span>
-            <h3 class="service-title">声音设计 · Sound Design</h3>
-            <div class="service-thumb">
-            </div>
-          </div>
-        </li>
-        <li class="service-row">
-          <div class="service-content">
-            <span class="service-number">03</span>
-            <h3 class="service-title">音频集成 · Implementation</h3>
-            <div class="service-thumb">
-            </div>
-          </div>
-        </li>
-        <li class="service-row">
-          <div class="service-content">
-            <span class="service-number">04</span>
-            <h3 class="service-title">混音母带 · Mixing & Mastering</h3>
-            <div class="service-thumb">
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </section>
+          <p class="mail-note">表单会调用你的邮件客户端发送，本站不接收、不存储提交内容。</p>
+        </form>
 
-  <!-- ═══ 观点引言（浅色 · 固定文案）═══ -->
-  <section class="quote wrap">
-    <blockquote>
-      <span class="quote-line quote-line-final quote-line-keep">“声音是玩家行为的延伸。”</span>
-    </blockquote>
-    <footer>
-      <i></i><i></i>
-    </footer>
-  </section>
-
-  <!-- ═══ CTA 收尾区块（深色背景、微妙渐变纹理）═══ -->
-  <section id="cta-final">
-    <div class="cta-fog" aria-hidden="true"></div>
-    <div class="wrap">
-      <!-- 原始尺寸 2400×331；改用同尺寸透明图/替换文件不影响布局 -->
-      <h2 class="cta-title-wrap">
-        <img src="assets/img/cta-compose-with-breath.webp"
-             width="1791" height="437"
-             alt="Compose with breath"
-             decoding="async" />
-      </h2>
-    </div>
-  </section>
-
-  <!-- ═══ 页脚 ═══ -->
-  <footer id="contact">
-    <div class="wrap">
-      <!-- 页脚主区：桌面两栏（左：次级导航 / 右：联系方式与合作咨询） -->
-      <div class="foot-main">
-
-        <!-- 左栏：联系方式 + 合作咨询表单 -->
-        <div class="foot-contact">
-          <div class="foot-kicker">Contact</div>
-          <h2 class="foot-title">Start a Conversation</h2>
-
-          <form class="foot-form" id="foot-form" novalidate>
-            <dl class="foot-fields">
-              <div class="foot-field">
-                <dt><label for="foot-name">您的姓名</label></dt>
-                <dd><input id="foot-name" name="name" type="text" autocomplete="name" placeholder="怎么称呼您" /></dd>
-              </div>
-              <div class="foot-field">
-                <dt><label for="foot-topic">合作事项</label></dt>
-                <dd>
-                  <select id="foot-topic" name="topic">
-                    <option>创作邀约</option>
-                    <option>商务合作</option>
-                    <option>其他</option>
-                  </select>
-                </dd>
-              </div>
-              <div class="foot-field">
-                <dt><label for="foot-message">合作内容</label></dt>
-                <dd><textarea id="foot-message" name="message" rows="5" placeholder="项目类型、周期、参考作品…"></textarea></dd>
-              </div>
-            </dl>
-
-            <label class="foot-agree">
-              <input type="checkbox" id="foot-agree" name="agree" />
-              <span>我已阅读并同意<a href="./privacy.html" target="_blank" rel="noopener">《用户隐私协议》</a></span>
-            </label>
-
-            <p class="foot-form-status" id="foot-form-status" role="status" aria-live="polite"></p>
-
-            <dl class="foot-fields foot-fields-meta">
-              <div class="foot-field">
-                <dt>Email</dt>
-                <dd><a href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a></dd>
-              </div>
-              <div class="foot-field">
-                <dt>Local time</dt>
-                <dd class="foot-clock" id="foot-clock" aria-hidden="true">
-                  <span class="prompt">UTC+8 &gt;&nbsp;</span><span class="foot-clock-time time"></span><span class="caret">_</span>
-                </dd>
-              </div>
-            </dl>
-
-            <div class="foot-actions">
-              <button class="btn btn-lime" type="submit">Send an Email</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- 右栏：Links · Social Media -->
-        <div class="foot-links">
+        <aside class="contact-direct reveal">
           <div>
-            <h4>Links</h4>
-            <ul>
-              <li><a href="#work">Work</a></li>
-              <li><a href="#top">Back to Top</a></li>
-              <li><a href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer">Submit Brief</a></li>
-              <li><a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">Resume PDF</a></li>
-            </ul>
+            <div class="contact-label">Email</div>
+            <a class="contact-mail" href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a>
           </div>
           <div>
-            <h4>Social Media</h4>
-            <ul>
-              <li><a href="./assets/img/wechat-qr.webp" id="wechat-link" target="_blank" rel="noopener">Wechat</a></li>
-              <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-              <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
-              <li><a href="https://www.xiaoheihe.cn/app/bbs/home" target="_blank" rel="noopener noreferrer">小黑盒（即将上线）</a></li>
-            </ul>
+            <div class="contact-label">Or</div>
+            <a href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer">飞书需求问卷 ↗</a>
+            <a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">简历 PDF ↗</a>
           </div>
-        </div>
+        </aside>
+      </div>
+    </div>
+  </section>
 
+  <!-- ═══ 大页脚：全站目录 + 末次 CTA + 个性 ═══ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-dir">
+        <div>
+          <h4>Work</h4>
+          <ul>
+            <li><a href="./projects/03-interactive/">Interactive Audio Pipeline</a></li>
+            <li><a href="./projects/02-plugin/">BKEQ Hybrid VST3</a></li>
+            <li><a href="./projects/04-analysis/">Music Analysis</a></li>
+            <li><a href="./projects/05-sound-design/">Sound Design</a></li>
+            <li><a href="./projects/01-music/">Original Soundtracks</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Notes</h4>
+          <ul>
+            <li><a href="./projects/06-writing/">研究与写作</a></li>
+            <li><a href="#timeline">履历</a></li>
+            <li><a href="#services">交付物</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#contact">项目询盘</a></li>
+            <li><a href="mailto:reiverb-sound-atorie@outlook.com">发邮件</a></li>
+            <li><a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">简历 PDF</a></li>
+            <li><a href="./assets/img/wechat-qr.webp" id="wechat-link" target="_blank" rel="noopener">微信二维码</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Elsewhere</h4>
+          <ul>
+            <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
+            <li><a href="https://www.xiaoheihe.cn/app/bbs/home" target="_blank" rel="noopener noreferrer">小黑盒</a></li>
+            <li><a href="./privacy.html">隐私协议</a></li>
+          </ul>
+        </div>
       </div>
 
-      <!-- 底部压轴：大字 + 版权 -->
-      <div class="foot-bottom">
-        <div class="foot-brand">ReiVerb Sound Atorie</div>
-        <div class="foot-copyright">
-          <span>© 2026 ReiVerb Sound Atorie · All Rights Reserved</span><span class="foot-updated" style="display:block;margin-top:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em">最近更新 · 2026-10</span>
-        </div>
+      <div class="foot-brand" aria-hidden="true">ReiVerb Sound Atorie</div>
+
+      <div class="foot-meta">
+        <span>© 2026 ReiVerb Sound Atorie · 最近更新 2026-10</span>
+        <span class="foot-clock" id="foot-clock" aria-hidden="true">
+          <span class="prompt">UTC+8 &gt;&nbsp;</span><span class="foot-clock-time time"></span><span class="caret">_</span>
+        </span>
       </div>
     </div>
   </footer>
 
-  <!-- 二维码弹窗：页脚 Wechat 打开微信码 -->
-  <div class="qr-modal" id="qr-modal" aria-hidden="true">
-    <div class="qr-modal-backdrop"></div>
-    <div class="qr-modal-card" role="dialog" aria-modal="true" aria-label="二维码">
-      <button class="qr-modal-close" aria-label="关闭">×</button>
-      <div class="qr-modal-frame">
-        <img id="qr-modal-img" src="./assets/img/wechat-qr.webp" alt="微信二维码" />
-      </div>
-    </div>
-  </div>
-
-  <!-- 自定义粘滞光标（放在 body 最底部） -->
-  <div id="custom-cursor">
-    <span class="cursor-arrow">↗</span>
-  </div>
-
   <script>
-    // Hero 3D point-grid droplet ripple animation (from animation test 2, inverted for light hero)
-    (function() {
-      const hero = document.querySelector('.hero');
-      const canvas = document.getElementById('heroWaveCanvas');
-      if (!hero || !canvas) return;
+    // 主题：跟随系统，可被手动覆盖
+    (function(){
+      var stored = null;
+      try { stored = localStorage.getItem('theme'); } catch (e) {}
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', stored || (prefersDark ? 'dark' : 'light'));
+    })();
 
-      const ctx = canvas.getContext('2d', { alpha: true });
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      // [深化] P0-1 深色模式下点阵颜色跟随系统主题
-      const darkMQ = window.matchMedia('(prefers-color-scheme: dark)');
-      let isDark = darkMQ.matches;
-      let dropFill, dropShadow, gridFill, rippleFill;
-      function syncThemeColors() {
-        dropFill = isDark ? 'rgba(245,245,245,.5)' : 'rgba(1, 2, 5, 0.62)';
-        dropShadow = isDark ? 'rgba(245,245,245,.12)' : 'rgba(1, 2, 5, 0.14)';
-        gridFill = isDark ? 'rgba(245,245,245,.16)' : 'rgba(72, 74, 78, 0.18)';
-        rippleFill = isDark
-          ? (a) => `rgba(245,245,245,${a * 0.5})`
-          : (a) => `rgba(1, 2, 5, ${a * 0.58})`;
+    // 深浅色开关
+    (function(){
+      var btn = document.getElementById('theme-switch');
+      if (!btn) return;
+      var root = document.documentElement;
+      var thumb = btn.querySelector('.theme-switch-thumb');
+      function sync(){
+        var dark = root.getAttribute('data-theme') === 'dark';
+        btn.setAttribute('aria-checked', dark ? 'true' : 'false');
+        btn.title = dark ? '切换到浅色主题' : '切换到深色主题';
+        if (thumb) thumb.textContent = dark ? '☾' : '☀';
       }
-      syncThemeColors();
-      darkMQ.addEventListener('change', e => {
-        isDark = e.matches;
-        syncThemeColors();
-        if (!isRunning) draw(performance.now());
+      btn.addEventListener('click', function(){
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        sync();
       });
-      const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
-      let width = 0;
-      let height = 0;
-      let dpr = 1;
-      let dots = [];
-      let frameMs = 22;
-      let lastFrameAt = 0;
-      let lastDropAt = 0;
-      let rafId = 0;
-      let resizeRaf = 0;
-      let isHeroVisible = true;
-      let isPageVisible = !document.hidden;
-      let isRunning = false;
+      sync();
+    })();
 
-      // Keep the original perspective camera setup.
-      const focalLength = 650;
-      const zOffset = 600;
-      const theta = 1.15;
-      const cosT = Math.cos(theta);
-      const sinT = Math.sin(theta);
-      const WAVE_BAND = 28;
-      const WAVE_RADIUS = WAVE_BAND / 0.045;
-      const WAVE_RADIUS_SQ = WAVE_RADIUS * WAVE_RADIUS;
-      const MAX_TIME = 190;
-      const DOT_PI = Math.PI * 2;
-
-      const drops = [];
-      const ripples = [];
-
-      function getSpacing() {
-        if (isMobile()) return width > 420 ? 112 : 128;
-        if (width >= 1800) return 96;
-        if (width >= 1280) return 86;
-        return 76;
+    // 页脚时钟
+    (function(){
+      var el = document.querySelector('.foot-clock-time');
+      if (!el) return;
+      var pad = function(n){ return String(n).padStart(2,'0'); };
+      function tick(){
+        var d = new Date();
+        el.textContent = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
       }
+      tick(); setInterval(tick, 30000);
+    })();
 
-      function initCanvas() {
-        const rect = hero.getBoundingClientRect();
-        dpr = Math.min(window.devicePixelRatio || 1, isMobile() ? 1.15 : 1.5);
-        width = Math.max(1, Math.floor(rect.width));
-        height = Math.max(1, Math.floor(rect.height));
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        frameMs = isMobile() ? 33 : 22;
-        buildDots();
+    // 进场动画
+    (function(){
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('visible'); }); return; }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); } });
+      }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function(e){ io.observe(e); });
+      setTimeout(function(){ els.forEach(function(e){ e.classList.add('visible'); }); }, 2500);
+    })();
+
+    // 分层演示状态机
+    (function(){
+      var root = document.querySelector('[data-hook="stage"]');
+      if (!root) return;
+      var dots = Array.prototype.slice.call(root.querySelectorAll('.stage-dot'));
+      var status = root.querySelector('.stage-status');
+      var reset = root.querySelector('.stage-reset');
+      var order = ['ambience','sfx','music'];
+      var MSG = [
+        '当前：静音。',
+        '当前：+环境层。Ambience 建立空间与材质。',
+        '当前：+交互层。SFX 与 UI 反馈进入，注意 Ducking 与优先级。',
+        '当前：+音乐层。Music 叠合交互层，强度曲线跟随战斗意图。'
+      ];
+      var on = { ambience:false, sfx:false, music:false };
+      function count(){ return order.filter(function(k){ return on[k]; }).length; }
+      function render(){
+        dots.forEach(function(b){ b.setAttribute('aria-pressed', on[b.getAttribute('data-layer')] ? 'true' : 'false'); });
+        if (status) status.textContent = MSG[count()] || MSG[3];
       }
-
-      // Same 3D matrix concept; density and depth are capped to what the hero can show.
-      function buildDots() {
-        dots = [];
-        const mobile = isMobile();
-        const spacing = getSpacing();
-        const rangeX = Math.min(mobile ? 2200 : 3600, width * (mobile ? 3.4 : 3.1));
-        const rangeZFront = Math.min(mobile ? 3200 : 4600, Math.max(2600, height * (mobile ? 3.8 : 4.6)));
-        const rangeZBack = -1400;
-
-        for (let x = -rangeX; x <= rangeX; x += spacing) {
-          for (let z = rangeZBack; z <= rangeZFront; z += spacing) {
-            const distFromCenter = Math.sqrt(x * x + z * z);
-            dots.push({
-              x,
-              y: 0,
-              z,
-              edgeFade: Math.max(0, 1 - distFromCenter / 3500)
-            });
-          }
-        }
-      }
-
-      function projectInto(out, x, y, z) {
-        const yRot = y * cosT - z * sinT;
-        const zRot = y * sinT + z * cosT;
-        const scale = focalLength / (focalLength + zRot + zOffset);
-        out.x = width * (isMobile() ? 0.55 : 0.68) + x * scale;
-        out.y = height * 0.58 + yRot * scale;
-        out.scale = scale;
-        return out;
-      }
-
-      function spawnDrop() {
-        const mobile = isMobile();
-        // 30% 概率落在文字区域附近，70% 保持随机分布。
-        const x = Math.random() < 0.3
-          ? (Math.random() - 0.5) * 360
-          : (Math.random() - 0.5) * (mobile ? 420 : 560);
-
-        drops.push({
-          x,
-          y: -1800 - Math.random() * 600,
-          z: 400 + (Math.random() - 0.5) * 400,
-          speed: 22 + Math.random() * 18,
-          radius: 6 + Math.random() * 2.5
+      function upTo(n){ order.forEach(function(k,i){ on[k] = i < n; }); render(); }
+      dots.forEach(function(b){
+        b.addEventListener('click', function(){
+          var k = b.getAttribute('data-layer'), i = order.indexOf(k);
+          if (on[k] && count() === i + 1) upTo(0); else upTo(i + 1);
         });
-      }
-
-      function draw(now) {
-        ctx.clearRect(0, 0, width, height);
-
-        if (!reduceMotion && now - lastDropAt > (isMobile() ? 3600 : 2800)) {
-          spawnDrop();
-          lastDropAt = now;
-        }
-
-        const proj = { x: 0, y: 0, scale: 0 };
-
-        ctx.fillStyle = dropFill;
-        ctx.shadowColor = dropShadow;
-        ctx.shadowBlur = 8;
-        for (let i = drops.length - 1; i >= 0; i--) {
-          const drop = drops[i];
-          drop.y += drop.speed;
-          projectInto(proj, drop.x, drop.y, drop.z);
-
-          if (proj.scale > 0) {
-            ctx.beginPath();
-            ctx.arc(proj.x, proj.y, drop.radius * proj.scale, 0, DOT_PI);
-            ctx.fill();
-          }
-
-          if (drop.y >= 0) {
-            ripples.push({ x: drop.x, z: drop.z, time: 0, fade: 1, maxSq: WAVE_RADIUS_SQ });
-            drops.splice(i, 1);
-          }
-        }
-        ctx.shadowBlur = 0;
-
-        for (let i = ripples.length - 1; i >= 0; i--) {
-          const ripple = ripples[i];
-          ripple.time += 0.6;
-          if (ripple.time > MAX_TIME) {
-            ripples.splice(i, 1);
-          } else {
-            const t = ripple.time / MAX_TIME;
-            ripple.fade = 1 - t * t;
-          }
-        }
-
-        ctx.fillStyle = gridFill;
-        ctx.beginPath();
-        let pending = 0;
-
-        for (let i = 0; i < dots.length; i++) {
-          const dot = dots[i];
-          let currentY = 0;
-          let isRipplePoint = false;
-
-          for (let r = 0; r < ripples.length; r++) {
-            const ripple = ripples[r];
-            const dx = dot.x - ripple.x;
-            const dz = dot.z - ripple.z;
-            const distSq = dx * dx + dz * dz;
-            if (distSq > ripple.maxSq) continue;
-
-            const distance = Math.sqrt(distSq);
-            const wave = distance * 0.045 - ripple.time;
-            if (wave < 0 && wave > -WAVE_BAND) {
-              const damping = Math.max(0, 1 - distance / 2200);
-              currentY += Math.sin(wave) * 65 * damping * ripple.fade;
-              isRipplePoint = true;
-            }
-          }
-
-          projectInto(proj, dot.x, currentY, dot.z);
-          if (proj.scale <= 0 || proj.scale >= 6) continue;
-
-          const alpha = Math.max(0, Math.min(1, proj.scale * 1.5)) * dot.edgeFade;
-          if (alpha <= 0.01) continue;
-
-          if (isRipplePoint || currentY > 10) {
-            if (pending) {
-              ctx.fill();
-              ctx.beginPath();
-              pending = 0;
-            }
-            ctx.fillStyle = rippleFill(alpha);
-            ctx.beginPath();
-            ctx.arc(proj.x, proj.y, 1.8 * proj.scale, 0, DOT_PI);
-            ctx.fill();
-            ctx.fillStyle = gridFill;
-            ctx.beginPath();
-          } else {
-            ctx.moveTo(proj.x + 1.8 * proj.scale, proj.y);
-            ctx.arc(proj.x, proj.y, 1.8 * proj.scale, 0, DOT_PI);
-            pending++;
-          }
-        }
-
-        if (pending) ctx.fill();
-      }
-
-      function animate(now) {
-        if (!isRunning) return;
-        rafId = requestAnimationFrame(animate);
-        if (now - lastFrameAt < frameMs) return;
-        lastFrameAt = now;
-        draw(now);
-      }
-
-      function start() {
-        if (isRunning || !isHeroVisible || !isPageVisible) return;
-        isRunning = true;
-        lastFrameAt = 0;
-        lastDropAt = performance.now();
-        rafId = requestAnimationFrame(animate);
-      }
-
-      function stop() {
-        isRunning = false;
-        cancelAnimationFrame(rafId);
-      }
-
-      function scheduleResize() {
-        cancelAnimationFrame(resizeRaf);
-        resizeRaf = requestAnimationFrame(() => {
-          initCanvas();
-          if (!isRunning) draw(performance.now());
-        });
-      }
-
-      initCanvas();
-      spawnDrop();
-      draw(performance.now());
-
-      // [深化] P2-4 减少动画时只静态绘制一帧，不进入 rAF 循环
-      if (reduceMotion) {
-        window.addEventListener('resize', scheduleResize, { passive: true });
-        return;
-      }
-
-      const visibilityObserver = new IntersectionObserver((entries) => {
-        isHeroVisible = entries[0].isIntersecting;
-        if (isHeroVisible) start();
-        else stop();
-      }, { threshold: 0.05 });
-      visibilityObserver.observe(hero);
-
-      document.addEventListener('visibilitychange', () => {
-        isPageVisible = !document.hidden;
-        if (isPageVisible) start();
-        else stop();
       });
-
-      window.addEventListener('resize', scheduleResize, { passive: true });
-      window.addEventListener('pagehide', stop);
+      if (reset) reset.addEventListener('click', function(){ upTo(0); });
+      render();
     })();
 
-    // IntersectionObserver 滚动进场动画
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // 观察所有需要动画的元素
-    document.querySelectorAll(
-      '.b-text, .exp-card, .sec-head h2, .quote blockquote'
-    ).forEach(el => observer.observe(el));
-
-    // 兜底：2.5s 后强制显示仍未进场的内容，避免观察器异常时卡死
-    setTimeout(() => {
-      document.querySelectorAll(
-        '.b-text, .exp-card, .sec-head h2, .quote blockquote'
-      ).forEach(el => el.classList.add('visible'));
-    }, 2500);
-
-    // ═══ 自定义粘滞光标控制 ═══
-    (function() {
-      const cursor = document.getElementById('custom-cursor');
-      if (!cursor) return;
-      // [深化] P0-2 仅在支持 hover 的设备启用；失败时恢复系统光标
-      if (!window.matchMedia('(hover: hover)').matches) return;
-
-      try {
-        document.documentElement.classList.add('has-custom-cursor');
-
-        // [深化] P2-2 rAF 节流 + transform；初始居中，避免系统光标已隐藏时“无光标”
-        let mx = Math.round(window.innerWidth / 2);
-        let my = Math.round(window.innerHeight / 2);
-        let queued = false;
-        const paint = () => {
-          queued = false;
-          cursor.style.transform = `translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;
-        };
-        paint();
-        document.addEventListener('mousemove', (e) => {
-          mx = e.clientX;
-          my = e.clientY;
-          if (queued) return;
-          queued = true;
-          requestAnimationFrame(paint);
-        }, { passive: true });
-
-        document.addEventListener('mouseleave', () => {
-          cursor.style.opacity = '0';
-        });
-        document.addEventListener('mouseenter', () => {
-          cursor.style.opacity = '1';
-        });
-
-        // 长文本阅读区：显示系统光标，隐藏自定义圆点
-        document.querySelectorAll('.quote').forEach(zone => {
-          zone.addEventListener('mouseenter', () => {
-            cursor.classList.add('cursor-system');
-          });
-          zone.addEventListener('mouseleave', () => {
-            cursor.classList.remove('cursor-system');
-          });
-        });
-
-        // 长按左键：持续变小
-        document.addEventListener('mousedown', () => {
-          cursor.classList.add('cursor-click');
-        });
-        document.addEventListener('mouseup', () => {
-          cursor.classList.remove('cursor-click');
-        });
-
-        // hover 可点击目标（work 文字卡、CTA 按钮）时，光标切换为"查看按钮"形态
-        document.querySelectorAll('.b-text, .exp-card').forEach(card=>{
-          card.addEventListener('mouseenter', ()=>{
-            cursor.classList.add('cursor-view');
-          });
-          card.addEventListener('mouseleave', ()=>{
-            cursor.classList.remove('cursor-view');
-          });
-        });
-      } catch (err) {
-        document.documentElement.classList.remove('has-custom-cursor');
-      }
-    })();
-
-    // ═══ 底部版权年份自动更新（HTML 里的静态文本保留作无 JS 兜底）═══
-    (function() {
-      const yearEl = document.querySelector('.foot-copyright span');
-      if (yearEl) {
-        yearEl.textContent = `© ${new Date().getFullYear()} ReiVerb Sound Atorie · All Rights Reserved`;
-      }
-    })();
-
-    // ═══ 页脚终端时钟（到分钟；30s 对齐一次）═══
-    (function() {
-      const clock = document.querySelector('.foot-clock-time');
-      if (!clock) return;
-      const pad = (n) => String(n).padStart(2, '0');
-      const tick = () => {
-        const d = new Date();
-        clock.textContent =
-          `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ` +
-          `${pad(d.getHours())}:${pad(d.getMinutes())}`;
-      };
-      tick();
-      setInterval(tick, 30000);
-    })();
-
-    // ═══ 页脚合作咨询表单 ═══
-    // 校验通过后拼装 mailto，交给访客本地邮件客户端发送；
-    // 本站无后端，不接收也不存储提交内容。校验不通过时只在行内提示，不跳转。
-    (function() {
-      const form = document.getElementById('foot-form');
+    // 询盘表单：校验后拼 mailto，本站不接收、不存储
+    (function(){
+      var form = document.getElementById('foot-form');
       if (!form) return;
-      const nameEl = document.getElementById('foot-name');
-      const topicEl = document.getElementById('foot-topic');
-      const msgEl = document.getElementById('foot-message');
-      const agreeEl = document.getElementById('foot-agree');
-      const statusEl = document.getElementById('foot-form-status');
-      const MAIL = 'reiverb-sound-atorie@outlook.com';
-
-      const say = (text) => { if (statusEl) statusEl.textContent = text; };
-
-      form.addEventListener('submit', (e) => {
+      var nameEl = document.getElementById('foot-name');
+      var topicEl = document.getElementById('foot-topic');
+      var msgEl = document.getElementById('foot-message');
+      var agreeEl = document.getElementById('foot-agree');
+      var statusEl = document.getElementById('foot-form-status');
+      var MAIL = 'reiverb-sound-atorie@outlook.com';
+      function say(t){ if (statusEl) statusEl.textContent = t; }
+      form.addEventListener('submit', function(e){
         e.preventDefault();
-        const name = nameEl.value.trim();
-        const topic = topicEl.value;
-        const message = msgEl.value.trim();
-
-        if (!name) { say('请先填写您的姓名。'); nameEl.focus(); return; }
+        var name = nameEl.value.trim(), topic = topicEl.value, message = msgEl.value.trim();
+        if (!name) { say('请先填写姓名。'); nameEl.focus(); return; }
         if (!message) { say('请先填写合作内容。'); msgEl.focus(); return; }
-        if (!agreeEl.checked) { say('请先阅读并同意《用户隐私协议》。'); agreeEl.focus(); return; }
-
-        const subject = `[${topic}] 来自 ${name} 的合作咨询`;
-        const body =
-          `姓名：${name}\n` +
-          `合作事项：${topic}\n\n` +
-          `合作内容：\n${message}\n`;
-        const url = `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
+        if (!agreeEl.checked) { say('请先阅读并同意隐私协议。'); agreeEl.focus(); return; }
+        var subject = '[' + topic + '] 来自 ' + name + ' 的合作咨询';
+        var body = '姓名：' + name + '\n合作事项：' + topic + '\n\n合作内容：\n' + message + '\n';
         say('已唤起你的邮件客户端，请确认发送。');
-        window.location.href = url;
-      });
-    })();
-
-    // ═══ 手机端：点导航链接后自动收起菜单 ═══
-    (function() {
-      const menu = document.getElementById('menu');
-      const burger = document.querySelector('.burger');
-      if (!menu || !burger) return;
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          menu.classList.remove('open');
-          burger.setAttribute('aria-expanded', 'false');
-        });
-      });
-    })();
-
-    // ═══ 二维码弹窗：页脚 Wechat → 微信码 ═══
-    //     CTA「Submit Brief」已改为直连飞书表单，不再经过弹窗
-    (function() {
-      const modal = document.getElementById('qr-modal');
-      const modalImg = document.getElementById('qr-modal-img');
-      const wechatLink = document.getElementById('wechat-link');
-      if (!modal || !modalImg) return;
-
-      // [深化] P1-2 焦点管理
-      let lastFocus = null;
-
-      const open = (src, alt) => {
-        lastFocus = document.activeElement;
-        if (src) modalImg.src = src;
-        if (alt) modalImg.alt = alt;
-        modal.classList.add('open');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        const closeBtn = modal.querySelector('.qr-modal-close');
-        if (closeBtn) closeBtn.focus();
-      };
-      const close = () => {
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
-      };
-
-      if (wechatLink) {
-        wechatLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          open('./assets/img/wechat-qr.webp', '微信二维码');
-        });
-      }
-      modal.querySelector('.qr-modal-backdrop').addEventListener('click', close);
-      modal.querySelector('.qr-modal-close').addEventListener('click', close);
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('open')) close();
-      });
-      // [深化] P1-2 Tab 陷阱：弹窗打开时焦点不跑到背景
-      modal.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab' && modal.classList.contains('open')) {
-          e.preventDefault();
-          const closeBtn = modal.querySelector('.qr-modal-close');
-          if (closeBtn) closeBtn.focus();
-        }
+        window.location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       });
     })();
   </script>
-  <script src="assets/js/home-hooks.js" defer></script>
 </body>
 </html>
