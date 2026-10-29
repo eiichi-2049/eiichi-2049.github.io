@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "updated": "2026-10-29",
-  "note": "作品数据源：新增/修改作品只改本文件，不要改 HTML。字段含义见 docs/CASE_STUDY_TEMPLATE.md。",
+  "note": "作品数据源：新增/修改作品只改本文件，不要改 HTML。字段含义见 docs/case-study-template.md。",
   "standards": {
     "naming": "kebab-case（文件与目录）；音频交付沿用项目内既有前缀，需在条目内注明",
     "loudness": {
