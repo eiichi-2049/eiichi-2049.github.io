@@ -39,10 +39,10 @@
        深色优先：借 Oregon Symphony 的「深底 + 单一高饱和强调色」语言。
        强调色只用于：按钮底、激活态、小标签、图解线条。 */
     :root{
-      --nav-h:76px;
+      --nav-h:96px;
       /* 容器 960px：1440 屏下正文约 880px，两侧留白约 38.2% */
       --wrap:960px;
-      --serif:'Fraunces','Noto Serif SC',serif;
+      --serif:'Fraunces','OPPO Sans',sans-serif;
       --mono:'DM Mono',monospace;
       --sans:'OPPO Sans',-apple-system,'Segoe UI','Noto Sans SC',sans-serif;
       --ease:cubic-bezier(.16,1,.3,1);
@@ -61,6 +61,7 @@
       --accent-ink:#0a0b07;
       --accent-dim:rgba(208,255,113,.10);
       --nav-bg:rgba(8,9,11,.84);
+      --nav-pill:rgba(255,255,255,.06);
       --olive:#b0b748;
     }
     @media (prefers-color-scheme: light){
@@ -78,6 +79,7 @@
         --accent-ink:#ffffff;
         --accent-dim:rgba(143,174,31,.13);
         --nav-bg:rgba(255,255,255,.86);
+        --nav-pill:rgba(1,2,5,.05);
         --olive:#8b9238;
       }
     }
@@ -87,7 +89,7 @@
       --ink:#010205; --ink2:#3a3c3e; --ink3:#7b7e81;
       --line:rgba(1,2,5,.12); --line2:rgba(1,2,5,.22);
       --accent:#8fae1f; --accent-ink:#ffffff; --accent-dim:rgba(143,174,31,.13);
-      --nav-bg:rgba(255,255,255,.86); --olive:#8b9238;
+      --nav-bg:rgba(255,255,255,.86); --nav-pill:rgba(1,2,5,.05); --olive:#8b9238;
     }
 
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -111,23 +113,27 @@
     .eyebrow i{width:8px;height:8px;border-radius:50%;display:inline-block}
     .eyebrow i:nth-child(1){background:var(--accent)}
     .eyebrow i:nth-child(2){background:var(--olive)}
-    .eyebrow span{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
-    h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.02em;line-height:1.1;color:var(--ink)}
+    .eyebrow span{font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+    h2{font-family:var(--sans);font-weight:600;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.02em;line-height:1.1;color:var(--ink)}
     h2 em{font-style:italic;color:var(--olive)}
 
-    /* ═══ 导航：链接尽可能少（手册：Nav 是创新受限区）═══ */
-    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
+    /* ═══ 导航：沿用子页的毛玻璃胶囊 + 字距化链接 ═══ */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);padding:8px 0;
          background:var(--nav-bg);
-         backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-    .nav-in{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .logo{font-size:1rem;font-weight:600;letter-spacing:-.005em;white-space:nowrap}
-    .logo em{font-style:normal;color:var(--accent)}
-    .nav-links{display:flex;align-items:center;gap:28px;
-               font-size:.84rem;letter-spacing:.02em}
-    .nav-links a{color:var(--ink2);transition:color .2s}
-    .nav-links a:hover{color:var(--ink)}
+         backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+    .nav-in{height:calc(var(--nav-h) - 16px);display:flex;align-items:center;justify-content:space-between;gap:24px;
+            background:var(--nav-pill);border:1px solid var(--line2);border-radius:16px;
+            padding:0 clamp(16px,2.4vw,28px);
+            backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    .logo{font-family:var(--serif);font-size:clamp(.9rem,4.2vw,1.35rem);font-weight:400;
+          letter-spacing:-.02em;white-space:nowrap}
+    .logo em{font-style:italic;color:var(--accent)}
+    .nav-links{display:flex;align-items:center;gap:clamp(20px,2.6vw,34px);
+               font-size:clamp(.82rem,1vw,.95rem);font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+    .nav-links a{color:var(--ink);opacity:.72;transition:opacity .2s,color .2s}
+    .nav-links a:hover{opacity:1}
     .nav-cta{padding:9px 18px;border-radius:999px;background:var(--accent);color:var(--accent-ink)!important;
-             font-weight:500;transition:transform .2s var(--ease),box-shadow .2s}
+             font-weight:500;opacity:1;transition:transform .2s var(--ease),box-shadow .2s}
     .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(208,255,113,.28)}
     .nav-right{display:flex;align-items:center;gap:26px;margin-left:auto}
     .nav-tools{display:flex;align-items:center;gap:10px}
@@ -143,6 +149,8 @@
     .burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);
             border-radius:8px;padding:6px 10px;font-size:1rem;cursor:pointer}
     @media(max-width:820px){
+      .nav-in{gap:14px;padding:0 14px}
+      .nav-right{gap:14px}
       .nav-links{position:absolute;top:var(--nav-h);left:0;right:0;background:var(--bg);
                  border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;
                  gap:0;padding:8px clamp(20px,5vw,40px) 18px;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -186,7 +194,7 @@
     .work-main{display:flex;align-items:baseline;gap:clamp(14px,2.6vw,28px);min-width:0}
     .work-num{font-size:.82rem;letter-spacing:.12em;font-variant-numeric:tabular-nums;color:var(--ink3);
               transition:color .25s}
-    .work-title{font-family:var(--sans);font-weight:400;font-size:clamp(1.35rem,2.9vw,2.1rem);
+    .work-title{font-family:var(--sans);font-weight:500;font-size:clamp(1.35rem,2.9vw,2.1rem);
                 letter-spacing:-.025em;line-height:1.15;color:var(--ink)}
     .work-tags{margin-top:8px;font-size:.82rem;line-height:1.5;color:var(--ink3)}
     .work-meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;min-width:0}
@@ -220,7 +228,7 @@
     .tl-item{display:grid;grid-template-columns:96px minmax(0,1fr);gap:5px 20px;align-items:baseline}
     .tl-type{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);
              border:1px solid var(--line);border-radius:999px;padding:3px 10px;justify-self:start;white-space:nowrap}
-    .tl-title{font-size:1.02rem;font-weight:500}
+    .tl-title{font-size:1.02rem;font-weight:600}
     .tl-title em{font-style:italic;color:var(--olive);font-weight:400}
     .tl-stack,.tl-result{grid-column:2}
     .tl-stack{font-size:.78rem;letter-spacing:.01em;color:var(--ink3)}
@@ -230,16 +238,6 @@
       .tl-item{grid-template-columns:1fr}
       .tl-stack,.tl-result{grid-column:1}
     }
-
-    /* ═══ 服务（Workhorse：Three Up / Four Up）═══ */
-    .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-    .svc{padding:28px 26px 30px;border:1px solid var(--line);border-radius:16px;background:var(--bg2)}
-    .svc-num{font-size:.66rem;letter-spacing:.14em;font-variant-numeric:tabular-nums;color:var(--ink3)}
-    .svc h3{font-family:var(--sans);font-weight:500;font-size:1.08rem;margin:16px 0 10px;line-height:1.3}
-    .svc p{font-size:.88rem;color:var(--ink3);line-height:1.7}
-    .svc-deliver{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
-                 font-size:.76rem;letter-spacing:.01em;color:var(--ink2)}
-    @media(max-width:620px){ .svc-grid{grid-template-columns:1fr} }
 
     /* ═══ 交互音频演示（音频素材就位后取消 hidden）═══ */
     .stage-wrap{padding:30px;border:1px solid var(--line);border-radius:18px;background:var(--bg2)}
@@ -257,7 +255,7 @@
 
     /* ═══ 引言（Grace Note）═══ */
     .quote{text-align:center}
-    .quote blockquote{font-family:var(--serif);font-weight:300;font-style:italic;
+    .quote blockquote{font-family:var(--sans);font-weight:300;font-style:italic;
                       font-size:clamp(1.5rem,3.6vw,2.4rem);line-height:1.35;letter-spacing:-.015em;max-width:22ch;margin:0 auto}
     .quote footer{margin-top:26px;display:flex;justify-content:center;gap:8px}
     .quote footer i{width:8px;height:8px;border-radius:50%;display:inline-block}
@@ -313,7 +311,7 @@
     /* ═══ 大页脚（手册：页脚可很大；全站目录 + 末次 CTA + 个性）═══ */
     .foot{border-top:1px solid var(--line);padding:clamp(56px,7vw,88px) 0 34px;margin-top:clamp(56px,7vw,88px)}
     .foot-dir{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
-    .foot-dir h4{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+    .foot-dir h4{font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
                  color:var(--ink3);margin-bottom:15px}
     .foot-dir li{margin-bottom:9px}
     .foot-dir a{font-size:.9rem;color:var(--ink2);transition:color .2s}
@@ -345,21 +343,23 @@
 
   <!-- ═══ 导航：3 个链接，其余交给页脚 ═══ -->
   <header class="nav">
-    <div class="wrap nav-in">
-      <a class="logo" href="#top">ReiVerb Sound <em>Atorie</em></a>
-      <div class="nav-right">
-        <nav class="nav-links" id="menu">
-          <a href="#work">Work</a>
-          <a href="#timeline">履历</a>
-          <a href="#contact" class="nav-cta">聊聊项目</a>
-        </nav>
-        <div class="nav-tools">
-          <button class="theme-switch" id="theme-switch" type="button" role="switch" aria-checked="false"
-                  aria-label="深色模式" title="切换深色 / 浅色">
-            <span class="theme-switch-thumb" aria-hidden="true">☀</span>
-          </button>
-          <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false"
-                  onclick="var m=document.getElementById('menu');m.classList.toggle('open');this.setAttribute('aria-expanded',m.classList.contains('open'))">☰</button>
+    <div class="wrap">
+      <div class="nav-in">
+        <a class="logo" href="#top">ReiVerb Sound <em>Atorie</em></a>
+        <div class="nav-right">
+          <nav class="nav-links" id="menu">
+            <a href="#work">Work</a>
+            <a href="#timeline">履历</a>
+            <a href="#contact" class="nav-cta">聊聊项目</a>
+          </nav>
+          <div class="nav-tools">
+            <button class="theme-switch" id="theme-switch" type="button" role="switch" aria-checked="false"
+                    aria-label="深色模式" title="切换深色 / 浅色">
+              <span class="theme-switch-thumb" aria-hidden="true">☀</span>
+            </button>
+            <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false"
+                    onclick="var m=document.getElementById('menu');m.classList.toggle('open');this.setAttribute('aria-expanded',m.classList.contains('open'))">☰</button>
+          </div>
         </div>
       </div>
     </div>
@@ -506,42 +506,6 @@
     </div>
   </section>
 
-  <!-- ═══ 服务 ═══ -->
-  <section class="sec" id="services">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <div class="eyebrow"><i></i><i></i><span>What you get</span></div>
-        <h2><em>交付物</em>长什么样</h2>
-      </div>
-      <div class="svc-grid">
-        <div class="svc reveal">
-          <div class="svc-num">01</div>
-          <h3>原创配乐</h3>
-          <p>主题动机、场景循环、Boss 与情绪曲线。</p>
-          <div class="svc-deliver">Loop + Stinger + Stems</div>
-        </div>
-        <div class="svc reveal">
-          <div class="svc-num">02</div>
-          <h3>声音设计</h3>
-          <p>角色、战斗、UI、环境；拟音与合成并用。</p>
-          <div class="svc-deliver">OneShot 包 + 命名表 + 音量阶梯</div>
-        </div>
-        <div class="svc reveal">
-          <div class="svc-num">03</div>
-          <h3>音频集成</h3>
-          <p>Wwise / FMOD 事件树、RTPC、总线与优先级。</p>
-          <div class="svc-deliver">工程 + 事件命名规范 + 测试包</div>
-        </div>
-        <div class="svc reveal">
-          <div class="svc-num">04</div>
-          <h3>混音母带</h3>
-          <p>响度对齐、频段让位、集成后回归验证。</p>
-          <div class="svc-deliver">48 kHz / 24 bit · −24 LUFS 交付</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- 交互音频演示：等真实音频素材就位后再公开 -->
   <section class="sec" id="stage" hidden>
     <div class="wrap">
@@ -662,7 +626,6 @@
           <ul>
             <li><a href="./projects/06-writing/">研究与写作</a></li>
             <li><a href="#timeline">履历</a></li>
-            <li><a href="#services">交付物</a></li>
           </ul>
         </div>
         <div>
