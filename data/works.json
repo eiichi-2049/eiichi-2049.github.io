@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-29",
+  "note": "作品数据源：新增/修改作品只改本文件，不要改 HTML。字段含义见 docs/CASE_STUDY_TEMPLATE.md。",
+  "standards": {
+    "naming": "kebab-case（文件与目录）；音频交付沿用项目内既有前缀，需在条目内注明",
+    "loudness": {
+      "webPreview": "-16 LUFS",
+      "delivery": "-24 LUFS"
+    }
+  },
+  "works": [
+    {
+      "id": "taptap-2026-gamejam",
+      "type": "jam",
+      "title": "TapTap 2026 GameJam",
+      "subtitle": "团队参赛项目 · 音频负责",
+      "role": "音效设计 / 音频实现",
+      "responsibilities": [
+        "音效设计",
+        "音频命名规范整理",
+        "音频交付与对接"
+      ],
+      "team": null,
+      "teamNote": "团队成员数待确认，未填即不展示",
+      "engine": [
+        "Unity"
+      ],
+      "middleware": null,
+      "deliverables": {
+        "music": "13 首 BGM（MP3 320kbps）",
+        "sfx": "约 29 条（方块 / 岩浆 / 平台 / 攀爬 / 环境等）",
+        "naming": "sfx_gp_* · amb_env_*（项目内实际命名）",
+        "loudness": {
+          "value": -28,
+          "unit": "LUFS",
+          "scope": "项目内 BGM 归一化（按项目方要求；低于本站交付标准 -24）"
+        }
+      },
+      "verifiedResult": "整理音效命名规范，程序对接时间缩短约 2 小时",
+      "links": {},
+      "disclosure": "参赛项目，非商业委托；对外发布前需确认团队授权",
+      "status": "draft"
+    }
+  ]
+}

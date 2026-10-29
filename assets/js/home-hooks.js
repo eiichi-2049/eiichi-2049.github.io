@@ -7,94 +7,6 @@
 (function () {
   'use strict';
 
-  /* ── 迷你播放器 ── */
-  function initMiniPlayer(root) {
-    const audio = root.querySelector('.mp-audio');
-    const playBtn = root.querySelector('.mp-play');
-    const bar = root.querySelector('.mp-bar');
-    const fill = root.querySelector('.mp-bar > i');
-    const title = root.querySelector('.mp-title');
-    const items = Array.from(root.querySelectorAll('.mp-list button'));
-    if (!audio || !playBtn) return;
-
-    let tracks = [];
-    try {
-      tracks = JSON.parse(root.getAttribute('data-tracks') || '[]');
-    } catch (e) {
-      tracks = [];
-    }
-    let index = 0;
-
-    function setTrack(i) {
-      if (!tracks.length) return;
-      index = ((i % tracks.length) + tracks.length) % tracks.length;
-      const t = tracks[index];
-      audio.src = t.src;
-      if (title) title.textContent = t.title || '—';
-      items.forEach((btn, n) => {
-        btn.setAttribute('aria-current', n === index ? 'true' : 'false');
-      });
-      playBtn.dataset.playing = 'false';
-      playBtn.setAttribute('aria-label', '播放');
-      playBtn.textContent = '▶';
-      audio.pause();
-      if (fill) fill.style.width = '0%';
-    }
-
-    function toggle() {
-      if (!audio.src) {
-        if (title) title.textContent = '暂无音源';
-        return;
-      }
-      if (audio.paused) {
-        const p = audio.play();
-        if (p && p.catch) {
-          p.catch(function () {
-            if (title) title.textContent = '播放失败，点击重试';
-          });
-        }
-      } else {
-        audio.pause();
-      }
-    }
-
-    playBtn.addEventListener('click', toggle);
-    items.forEach((btn, i) => {
-      btn.addEventListener('click', function () {
-        setTrack(i);
-        toggle();
-      });
-    });
-    audio.addEventListener('play', function () {
-      playBtn.dataset.playing = 'true';
-      playBtn.textContent = '❚❚';
-      playBtn.setAttribute('aria-label', '暂停');
-    });
-    audio.addEventListener('pause', function () {
-      playBtn.dataset.playing = 'false';
-      playBtn.textContent = '▶';
-      playBtn.setAttribute('aria-label', '播放');
-    });
-    audio.addEventListener('ended', function () {
-      setTrack(index + 1);
-      toggle();
-    });
-    audio.addEventListener('timeupdate', function () {
-      if (!fill || !audio.duration) return;
-      fill.style.width = ((audio.currentTime / audio.duration) * 100).toFixed(2) + '%';
-    });
-    if (bar) {
-      bar.addEventListener('click', function (e) {
-        if (!audio.duration) return;
-        const r = bar.getBoundingClientRect();
-        const ratio = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
-        audio.currentTime = ratio * audio.duration;
-      });
-    }
-
-    if (tracks.length) setTrack(0);
-  }
-
   /* ── 三层体验 ── */
   var LAYER_STATUS = {
     none: '当前：仅画面。音频关闭——先建立视觉基线。',
@@ -183,7 +95,6 @@
   }
 
   function boot() {
-    document.querySelectorAll('[data-hook="mini-player"]').forEach(initMiniPlayer);
     document.querySelectorAll('[data-hook="stage"]').forEach(initStage);
   }
 

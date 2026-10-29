@@ -36,7 +36,7 @@
   <link rel="icon" href="favicon.ico" />
 
   <!-- 首屏正文字体：子集化 WOFF2，避免加载 22MB 原始 TTF -->
-  <link rel="preload" href="assets/fonts/OPPO-Sans-subset.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/oppo-sans-subset.woff2" as="font" type="font/woff2" crossorigin />
 
   <!-- 字体：Fraunces（衬线大标题，免费，风格接近Gambarino） -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,7 +48,7 @@
     /* ═══ OPPO Sans 正文字体（子集化 WOFF2；原始 TTF 保留在 fronts/OPPO_Sans_4.0）═══ */
     @font-face{
       font-family:'OPPO Sans';
-      src:url('assets/fonts/OPPO-Sans-subset.woff2') format('woff2');
+      src:url('assets/fonts/oppo-sans-subset.woff2') format('woff2');
       font-weight:100 700;   /* [深化] P2-7 子集可变轴实际范围 wght 100–700 */
       font-style:normal;
       font-display:swap;
@@ -765,30 +765,10 @@ html.has-custom-cursor .quote * { cursor: text !important; }
     <!-- hooks-grid 已 max-width:1200 + margin auto，与标题 .wrap 对齐 -->
 
     <div class="hooks-grid">
-      <article class="hook-card mini-player"
-               data-hook="mini-player"
-               data-tracks='[
-                 {"title":"Choices","src":"projects/01-music/audio/Choices_.mp3","tag":"Original Music"},
-                 {"title":"Music Box","src":"projects/01-music/audio/music_box_2025_.mp3","tag":"Original Music"},
-                 {"title":"KB280","src":"projects/01-music/audio/KB280_121_DM_.mp3","tag":"Original Music"}
-               ]'>
+      <article class="hook-card" data-hook="player-pending">
         <div class="hook-kicker"><i></i><i></i><span>Mini Player</span></div>
         <h2>精选试听</h2>
-        <p>3 条原创配乐选段，点击即可试听。</p>
-        <div class="mp-row">
-          <button type="button" class="mp-play" aria-label="播放">▶</button>
-          <div class="mp-meta">
-            <div class="mp-title">—</div>
-            <div class="mp-sub">Original Music · click to play</div>
-          </div>
-        </div>
-        <div class="mp-bar" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
-        <audio class="mp-audio" preload="none"></audio>
-        <ul class="mp-list">
-          <li><button type="button">Choices<span>Original Music</span></button></li>
-          <li><button type="button">Music Box<span>Original Music</span></button></li>
-          <li><button type="button">KB280<span>Original Music</span></button></li>
-        </ul>
+        <p>Audio player is under reconstruction.</p>
       </article>
 
       <article class="hook-card" data-hook="stage">

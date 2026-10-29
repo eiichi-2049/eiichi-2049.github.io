@@ -44,42 +44,6 @@
   color:var(--muted);font-size:.86rem;line-height:1.65;margin:0 0 14px;max-width:42ch;
 }
 /* —— 迷你播放器 —— */
-.mini-player{display:flex;flex-direction:column;gap:14px;flex:1}
-.mp-row{display:flex;align-items:center;gap:14px}
-.mp-play{
-  width:48px;height:48px;border-radius:50%;border:1px solid var(--ink);
-  background:var(--ink);color:var(--paper);cursor:pointer;flex-shrink:0;
-  font-size:1rem;display:inline-flex;align-items:center;justify-content:center;
-  transition:transform .2s,background .2s,color .2s;
-}
-.mp-play:hover{transform:scale(1.05)}
-.mp-play:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
-.mp-play[data-playing="true"]{background:var(--accent);color:var(--ink);border-color:var(--accent)}
-.mp-meta{min-width:0;flex:1}
-.mp-title{
-  font-family:var(--serif);font-size:1.05rem;color:var(--ink2);white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis;
-}
-.mp-sub{
-  font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--muted);margin-top:4px;
-}
-.mp-bar{
-  height:4px;border-radius:999px;background:rgba(1,2,5,.08);overflow:hidden;cursor:pointer;
-}
-.mp-bar > i{display:block;height:100%;width:0;background:var(--olive);border-radius:inherit}
-.mp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.mp-list button{
-  width:100%;text-align:left;background:transparent;border:none;cursor:pointer;
-  padding:10px 12px;border-radius:10px;color:var(--ink2);font-family:inherit;font-size:.88rem;
-  transition:background .2s;
-}
-.mp-list button:hover,.mp-list button[aria-current="true"]{background:rgba(1,2,5,.05)}
-.mp-list button[aria-current="true"]{box-shadow:inset 0 0 0 1px var(--line)}
-.mp-list span{
-  display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted);margin-top:2px;
-}
 /* —— 三层体验 —— */
 .stage-dots{
   display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;
@@ -138,5 +102,4 @@
   .hooks-grid{padding:0 40px}
 }
 @media(prefers-reduced-motion:reduce){
-  .mp-play,.stage-dot .dot-core{transition:none}
 }
