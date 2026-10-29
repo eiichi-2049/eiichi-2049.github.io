@@ -196,3 +196,120 @@
   letter-spacing: -0.02em;
   margin-bottom: 1.1rem;
 }
+
+/* ═══ 与首页统一：导航占满整页 + 阅读字号层级 ═══
+   只调整阅读/页头/页脚系统；播放器与写作页窗口 chrome 保持紧凑 UI 尺寸。 */
+.nav .wrap {
+  max-width: none;
+  padding: 0 clamp(12px, 1.8vw, 24px);
+}
+
+.nav-in {
+  padding: 0 clamp(18px, 2.6vw, 32px);
+}
+
+.nav-links {
+  gap: clamp(24px, 3.4vw, 48px);
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.page-desc,
+.rw-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink2, var(--ink3));
+  max-width: 62ch;
+}
+
+.page-back,
+.rw-back {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.project-eyebrow span {
+  font-family: var(--sans, inherit);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+.footer-sub {
+  font-size: 0.8rem;
+}
+
+.footer-sub a {
+  font-family: var(--sans, inherit);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.tbd-block p {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.story-block p,
+.project-description p {
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.analysis-entry .analysis-text p {
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.analysis-entry .video-meta .entry-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.analysis-entry .video-meta .entry-date {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.analysis-entry .analysis-text .style-tag {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+.quote-block {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.rw-modal-content {
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.rw-modal-content h1 {
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+}
+
+.rw-modal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.rw-modal-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* 子页移动端菜单：内联样式在 768px 处把 .nav-links 设为 display:none，
+   覆盖后让 ≤760px 的汉堡下拉仍然可用。 */
+@media (max-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+}

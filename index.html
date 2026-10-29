@@ -121,22 +121,23 @@
     .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);padding:8px 0;
          background:var(--nav-bg);
          backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-    .nav-in{height:calc(var(--nav-h) - 16px);display:flex;align-items:center;justify-content:space-between;gap:24px;
+    .nav .wrap{max-width:none;padding:0 clamp(12px,1.8vw,24px)}
+    .nav-in{height:calc(var(--nav-h) - 16px);display:flex;align-items:center;justify-content:space-between;gap:32px;
             background:var(--nav-pill);border:1px solid var(--line2);border-radius:16px;
-            padding:0 clamp(16px,2.4vw,28px);
+            padding:0 clamp(18px,2.6vw,32px);
             backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
     .logo{font-family:var(--serif);font-size:clamp(.9rem,4.2vw,1.35rem);font-weight:400;
           letter-spacing:-.02em;white-space:nowrap}
     .logo em{font-style:italic;color:var(--accent)}
-    .nav-links{display:flex;align-items:center;gap:clamp(20px,2.6vw,34px);
+    .nav-links{display:flex;align-items:center;gap:clamp(24px,3.4vw,48px);
                font-size:clamp(.82rem,1vw,.95rem);font-weight:500;letter-spacing:.14em;text-transform:uppercase}
     .nav-links a{color:var(--ink);opacity:.72;transition:opacity .2s,color .2s}
     .nav-links a:hover{opacity:1}
     .nav-cta{padding:9px 18px;border-radius:999px;background:var(--accent);color:var(--accent-ink)!important;
              font-weight:500;opacity:1;transition:transform .2s var(--ease),box-shadow .2s}
     .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(208,255,113,.28)}
-    .nav-right{display:flex;align-items:center;gap:26px;margin-left:auto}
-    .nav-tools{display:flex;align-items:center;gap:10px}
+    .nav-right{display:flex;align-items:center;gap:clamp(20px,2.4vw,40px);margin-left:auto}
+    .nav-tools{display:flex;align-items:center;gap:12px}
     .theme-switch{display:inline-flex;align-items:center;width:46px;height:26px;padding:3px;
                   border-radius:999px;border:1px solid var(--line2);background:var(--bg3);cursor:pointer;
                   transition:background .2s,border-color .2s}
@@ -310,7 +311,7 @@
 
     /* ═══ 大页脚（手册：页脚可很大；全站目录 + 末次 CTA + 个性）═══ */
     .foot{border-top:1px solid var(--line);padding:clamp(56px,7vw,88px) 0 34px;margin-top:clamp(56px,7vw,88px)}
-    .foot-dir{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+    .foot-dir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(32px,6vw,72px)}
     .foot-dir h4{font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
                  color:var(--ink3);margin-bottom:15px}
     .foot-dir li{margin-bottom:9px}
@@ -348,9 +349,9 @@
         <a class="logo" href="#top">ReiVerb Sound <em>Atorie</em></a>
         <div class="nav-right">
           <nav class="nav-links" id="menu">
-            <a href="#work">Work</a>
+            <a href="#work">作品</a>
             <a href="#timeline">履历</a>
-            <a href="#contact" class="nav-cta">聊聊项目</a>
+            <a href="#contact" class="nav-cta">联系</a>
           </nav>
           <div class="nav-tools">
             <button class="theme-switch" id="theme-switch" type="button" role="switch" aria-checked="false"
@@ -368,7 +369,7 @@
   <!-- ═══ 首屏 ═══ -->
   <section class="hero" id="top">
     <div class="wrap hero-in">
-      <div class="eyebrow"><i></i><i></i><span>Game Audio · 空山漪韵</span></div>
+      <div class="eyebrow"><i></i><i></i><span>RVSA · 空山漪韵</span></div>
       <h1>ReiVerb<br>Sound<br><em>Atorie</em></h1>
     </div>
   </section>
@@ -378,7 +379,7 @@
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="eyebrow"><i></i><i></i><span>Selected Work</span></div>
-        <h2><em>证据</em>，不是陈列</h2>
+        <h2>作品展示</h2>
       </div>
 
       <div class="work-list">
@@ -472,7 +473,7 @@
         <div class="tl-year-num">2026</div>
         <ul class="tl-list">
           <li class="tl-item">
-            <span class="tl-type">Jam</span>
+            <span class="tl-type">Game Jam</span>
             <span class="tl-title">TapTap 2026 GameJam</span>
             <span class="tl-stack">Unity · 音效设计 / 音频实现</span>
             <span class="tl-result">整理音效命名规范，程序对接时间缩短约 2 小时</span>
@@ -483,12 +484,6 @@
             <span class="tl-stack">Hise · Illustrator</span>
             <span class="tl-result">插件框架与界面设计规范</span>
           </li>
-          <li class="tl-item">
-            <span class="tl-type">Study</span>
-            <span class="tl-title">研究与写作 <em>×8</em></span>
-            <span class="tl-stack">2025 – 2026</span>
-            <span class="tl-result">声音、游戏与创作的长文笔记</span>
-          </li>
         </ul>
       </div>
 
@@ -497,8 +492,8 @@
         <ul class="tl-list">
           <li class="tl-item">
             <span class="tl-type">Analysis</span>
-            <span class="tl-title">星穹铁道 PV 配乐分析 <em>×4</em></span>
-            <span class="tl-stack">阮梅 · 云璃 · 花火 · 刃</span>
+            <span class="tl-title">米哈游 PV 配乐分析 <em>×4</em></span>
+            <span class="tl-stack">阮梅 · 云璃 · 花火 · 刃 · 持续更新中……</span>
             <span class="tl-result">拆解配器、结构与叙事功能；Bilibili 与 YouTube 同步</span>
           </li>
         </ul>
@@ -542,7 +537,7 @@
   <!-- ═══ 引言 ═══ -->
   <section class="sec quote reveal">
     <div class="wrap">
-      <blockquote>“声音是玩家行为的延伸。”</blockquote>
+      <blockquote>“声音是玩家行为的延伸”</blockquote>
       <footer><i></i><i></i></footer>
     </div>
   </section>
@@ -552,8 +547,7 @@
     <div class="wrap">
       <div class="contact-head reveal">
         <div class="eyebrow"><i></i><i></i><span>Contact</span></div>
-        <h2>说说你的<em>项目</em></h2>
-        <p class="contact-lead">把项目类型、周期和参考作品发我，我会判断能不能接、怎么接，并给出交付物与档期建议。谈不拢也不耽误你。</p>
+        <h2>随便聊聊</h2>
       </div>
 
       <div class="contact-body">
@@ -589,13 +583,13 @@
           <div class="mail-actions">
             <button class="btn btn-primary" type="submit">发送邮件 <span aria-hidden="true">↗</span></button>
           </div>
-          <p class="mail-note">表单会调用你的邮件客户端发送，本站不接收、不存储提交内容。</p>
+          <p class="mail-note">表单会调用邮件客户端发送，本站不接收、不存储任何提交内容。详见《用户隐私协议》</p>
         </form>
 
         <aside class="contact-direct reveal">
           <div>
             <div class="contact-label">Email</div>
-            <a class="contact-mail" href="mailto:reiverb-sound-atorie@outlook.com">reiverb-sound-atorie@outlook.com</a>
+            reiverb-sound-atorie@outlook.com
           </div>
           <div>
             <div class="contact-label">Or</div>
@@ -622,28 +616,18 @@
           </ul>
         </div>
         <div>
-          <h4>Notes</h4>
-          <ul>
-            <li><a href="./projects/06-writing/">研究与写作</a></li>
-            <li><a href="#timeline">履历</a></li>
-          </ul>
-        </div>
-        <div>
           <h4>Contact</h4>
           <ul>
-            <li><a href="#contact">项目询盘</a></li>
-            <li><a href="mailto:reiverb-sound-atorie@outlook.com">发邮件</a></li>
             <li><a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">简历 PDF</a></li>
             <li><a href="./assets/img/wechat-qr.webp" id="wechat-link" target="_blank" rel="noopener">微信二维码</a></li>
           </ul>
         </div>
         <div>
-          <h4>Elsewhere</h4>
+          <h4>Social Media</h4>
           <ul>
             <li><a href="https://github.com/eiichi-2049" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             <li><a href="https://space.bilibili.com/23277208" target="_blank" rel="noopener noreferrer">哔哩哔哩</a></li>
             <li><a href="https://www.xiaoheihe.cn/app/bbs/home" target="_blank" rel="noopener noreferrer">小黑盒</a></li>
-            <li><a href="./privacy.html">隐私协议</a></li>
           </ul>
         </div>
       </div>
@@ -678,7 +662,7 @@
         var dark = root.getAttribute('data-theme') === 'dark';
         btn.setAttribute('aria-checked', dark ? 'true' : 'false');
         btn.title = dark ? '切换到浅色主题' : '切换到深色主题';
-        if (thumb) thumb.textContent = dark ? '☾' : '☀';
+        if (thumb) thumb.textContent = dark ? '🌙' : '☀';
       }
       btn.addEventListener('click', function(){
         var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
