@@ -199,13 +199,42 @@
 
 /* ═══ 与首页统一：导航占满整页 + 阅读字号层级 ═══
    只调整阅读/页头/页脚系统；播放器与写作页窗口 chrome 保持紧凑 UI 尺寸。 */
+:root {
+  --nav-h: 96px;
+}
+
+.nav {
+  height: 96px;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+}
+
 .nav .wrap {
   max-width: none;
+  height: 100%;
   padding: 0 clamp(12px, 1.8vw, 24px);
 }
 
 .nav-in {
-  padding: 0 clamp(18px, 2.6vw, 32px);
+  height: 100%;
+  padding: 0 max(12px, calc((100% - 1080px) / 2 + 48px));
+  background: none;
+  border: 0;
+  border-radius: 0;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+@media (max-width: 1080px) {
+  .nav-in {
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-in {
+    padding: 0 12px;
+  }
 }
 
 .nav-links {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReiVerb Sound Atorie — 为游戏做音乐、声音设计与音频实现</title>
+  <title>ReiVerb Sound Atorie — 游戏音乐、声音设计与音频实现</title>
   <meta name="description" content="游戏音频工作室：原创配乐、声音设计、Wwise / FMOD 集成与混音母带。可交付 48 kHz / 24 bit 分轨，工程交付 −24 LUFS、网页试听 −16 LUFS。" />
 
   <meta property="og:title" content="ReiVerb Sound Atorie — 游戏音频工作室" />
@@ -105,9 +105,8 @@
     ::selection{background:var(--accent);color:var(--accent-ink)}
     :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 
-    /* ═══ 模块之间的「勾缝」（Mortar）：色块 + 留白，不做花哨过渡 ═══ */
+    /* ═══ 模块之间只靠留白分隔，不画通栏细线 ═══ */
     .sec{padding:clamp(72px,10vw,128px) 0}
-    .sec + .sec{border-top:1px solid var(--line)}
     .sec-head{margin-bottom:clamp(28px,4vw,48px)}
     .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
     .eyebrow i{width:8px;height:8px;border-radius:50%;display:inline-block}
@@ -117,15 +116,14 @@
     h2{font-family:var(--sans);font-weight:600;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.02em;line-height:1.1;color:var(--ink)}
     h2 em{font-style:italic;color:var(--olive)}
 
-    /* ═══ 导航：沿用子页的毛玻璃胶囊 + 字距化链接 ═══ */
-    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);padding:8px 0;
-         background:var(--nav-bg);
+    /* ═══ 导航：全宽毛玻璃栏 + 内容对齐正文网格 ═══ */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);padding:0;
+         background:var(--nav-bg);border-bottom:1px solid var(--line);
          backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-    .nav .wrap{max-width:none;padding:0 clamp(12px,1.8vw,24px)}
-    .nav-in{height:calc(var(--nav-h) - 16px);display:flex;align-items:center;justify-content:space-between;gap:32px;
-            background:var(--nav-pill);border:1px solid var(--line2);border-radius:16px;
-            padding:0 clamp(18px,2.6vw,32px);
-            backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    .nav .wrap{max-width:none;height:100%;padding:0 clamp(12px,1.8vw,24px)}
+    .nav-in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:32px;
+            background:none;border:0;border-radius:0;
+            padding:0 max(8px, calc((100% - 960px) / 2 + 40px));}
     .logo{font-family:var(--serif);font-size:clamp(.9rem,4.2vw,1.35rem);font-weight:400;
           letter-spacing:-.02em;white-space:nowrap}
     .logo em{font-style:italic;color:var(--accent)}
@@ -150,7 +148,7 @@
     .burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);
             border-radius:8px;padding:6px 10px;font-size:1rem;cursor:pointer}
     @media(max-width:820px){
-      .nav-in{gap:14px;padding:0 14px}
+      .nav-in{gap:14px;padding:0 8px}
       .nav-right{gap:14px}
       .nav-links{position:absolute;top:var(--nav-h);left:0;right:0;background:var(--bg);
                  border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;
@@ -254,8 +252,8 @@
     .stage-actions{margin-top:18px}
     @media(max-width:760px){ .stage-dots{grid-template-columns:1fr} }
 
-    /* ═══ 引言（Grace Note）═══ */
-    .quote{text-align:center}
+    /* ═══ 引言（Grace Note）：收束全页，与页脚组成同一个句尾 ═══ */
+    .quote{text-align:center;padding:clamp(56px,7vw,88px) 0 clamp(24px,3vw,40px)}
     .quote blockquote{font-family:var(--sans);font-weight:300;font-style:italic;
                       font-size:clamp(1.5rem,3.6vw,2.4rem);line-height:1.35;letter-spacing:-.015em;max-width:22ch;margin:0 auto}
     .quote footer{margin-top:26px;display:flex;justify-content:center;gap:8px}
@@ -310,7 +308,7 @@
     }
 
     /* ═══ 大页脚（手册：页脚可很大；全站目录 + 末次 CTA + 个性）═══ */
-    .foot{border-top:1px solid var(--line);padding:clamp(56px,7vw,88px) 0 34px;margin-top:clamp(56px,7vw,88px)}
+    .foot{padding:clamp(56px,7vw,88px) 0 34px}
     .foot-dir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(32px,6vw,72px)}
     .foot-dir h4{font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
                  color:var(--ink3);margin-bottom:15px}
@@ -387,12 +385,12 @@
           <div class="work-main">
             <span class="work-num">01</span>
             <div class="work-body">
-              <h3 class="work-title">Interactive Audio Pipeline</h3>
-              <p class="work-tags">Event Hierarchy / RTPC / Profiling / Docs</p>
+              <h3 class="work-title">Wwise 101 · 学习笔记</h3>
+              <p class="work-tags">Event / RTPC / Bus / SoundBank</p>
             </div>
           </div>
           <div class="work-meta">
-            <span class="work-role">Implementation · Wwise</span>
+            <span class="work-role">Study · Wwise 101</span>
             <span class="work-year">2026</span>
           </div>
           <span class="work-arrow" aria-hidden="true">↗</span>
@@ -457,6 +455,21 @@
           </div>
           <span class="work-arrow" aria-hidden="true">↗</span>
         </a>
+
+        <a class="work-row reveal" href="./projects/07-xingzhicai/">
+          <div class="work-main">
+            <span class="work-num">06</span>
+            <div class="work-body">
+              <h3 class="work-title">XingZhiCai · 形之彩</h3>
+              <p class="work-tags">2026 TapTap GameJam / 音乐 / 音效 / Unity 音频</p>
+            </div>
+          </div>
+          <div class="work-meta">
+            <span class="work-role">Sound Design · Unity Audio</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-arrow" aria-hidden="true">↗</span>
+        </a>
       </div>
     </div>
   </section>
@@ -475,14 +488,14 @@
           <li class="tl-item">
             <span class="tl-type">Game Jam</span>
             <span class="tl-title">TapTap 2026 GameJam</span>
-            <span class="tl-stack">Unity · 音效设计 / 音频实现</span>
-            <span class="tl-result">整理音效命名规范，程序对接时间缩短约 2 小时</span>
+            <span class="tl-stack">音效设计 / 音频实现</span>
+            <span class="tl-result">负责全案音乐/音效设计，整理命名规范</span>
           </li>
           <li class="tl-item">
             <span class="tl-type">Plugin</span>
             <span class="tl-title">BKEQ Hybrid <em>VST3</em></span>
-            <span class="tl-stack">Hise · Illustrator</span>
-            <span class="tl-result">插件框架与界面设计规范</span>
+            <span class="tl-stack">Hise · Photo Shop</span>
+            <span class="tl-result">插件框架与界面设计</span>
           </li>
         </ul>
       </div>
@@ -492,7 +505,7 @@
         <ul class="tl-list">
           <li class="tl-item">
             <span class="tl-type">Analysis</span>
-            <span class="tl-title">米哈游 PV 配乐分析 <em>×4</em></span>
+            <span class="tl-title">HoYo-Mix PV 配乐分析</span>
             <span class="tl-stack">阮梅 · 云璃 · 花火 · 刃 · 持续更新中……</span>
             <span class="tl-result">拆解配器、结构与叙事功能；Bilibili 与 YouTube 同步</span>
           </li>
@@ -534,20 +547,12 @@
     </div>
   </section>
 
-  <!-- ═══ 引言 ═══ -->
-  <section class="sec quote reveal">
-    <div class="wrap">
-      <blockquote>“声音是玩家行为的延伸”</blockquote>
-      <footer><i></i><i></i></footer>
-    </div>
-  </section>
-
   <!-- ═══ 转化区：原站“发送邮件”表单 ═══ -->
   <section class="sec" id="contact">
     <div class="wrap">
       <div class="contact-head reveal">
         <div class="eyebrow"><i></i><i></i><span>Contact</span></div>
-        <h2>随便聊聊</h2>
+        <h2>联系</h2>
       </div>
 
       <div class="contact-body">
@@ -555,7 +560,7 @@
           <dl class="mail-fields">
             <div class="mail-field">
               <dt><label for="foot-name">您的姓名</label></dt>
-              <dd><input id="foot-name" name="name" type="text" autocomplete="name" placeholder="怎么称呼您" /></dd>
+              <dd><input id="foot-name" name="name" type="text" autocomplete="name" placeholder="" /></dd>
             </div>
             <div class="mail-field">
               <dt><label for="foot-topic">合作事项</label></dt>
@@ -581,9 +586,9 @@
           <p class="mail-status" id="foot-form-status" role="status" aria-live="polite"></p>
 
           <div class="mail-actions">
-            <button class="btn btn-primary" type="submit">发送邮件 <span aria-hidden="true">↗</span></button>
+            <button class="btn btn-primary" type="submit">发送邮件 <span aria-hidden="true"></span></button>
           </div>
-          <p class="mail-note">表单会调用邮件客户端发送，本站不接收、不存储任何提交内容。详见《用户隐私协议》</p>
+          <p class="mail-note">表单调用邮件客户端发送，本站不接收、不存储任何提交内容。</p>
         </form>
 
         <aside class="contact-direct reveal">
@@ -593,11 +598,19 @@
           </div>
           <div>
             <div class="contact-label">Or</div>
-            <a href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer">飞书需求问卷 ↗</a>
-            <a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">简历 PDF ↗</a>
+            <a href="https://ecny6cc606ki.feishu.cn/share/base/form/shrcnzsBZ8Qb13f15AFR6GlYdse" target="_blank" rel="noopener noreferrer">飞书问卷</a>
+            <a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">下载简历</a>
           </div>
         </aside>
       </div>
+    </div>
+  </section>
+
+  <!-- ═══ 引言（Grace Note）═══ -->
+  <section class="sec quote reveal">
+    <div class="wrap">
+      <blockquote>“音乐始于词尽之处”</blockquote>
+      <footer><i></i><i></i></footer>
     </div>
   </section>
 
@@ -608,11 +621,12 @@
         <div>
           <h4>Work</h4>
           <ul>
-            <li><a href="./projects/03-interactive/">Interactive Audio Pipeline</a></li>
+            <li><a href="./projects/03-interactive/">Wwise 101 笔记</a></li>
             <li><a href="./projects/02-plugin/">BKEQ Hybrid VST3</a></li>
             <li><a href="./projects/04-analysis/">Music Analysis</a></li>
             <li><a href="./projects/05-sound-design/">Sound Design</a></li>
             <li><a href="./projects/01-music/">Original Soundtracks</a></li>
+            <li><a href="./projects/07-xingzhicai/">XingZhiCai · 形之彩</a></li>
           </ul>
         </div>
         <div>
