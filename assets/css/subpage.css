@@ -43,13 +43,37 @@
   font-display: swap;
 }
 
-:root {
-  --olive: #b0b748;
-  --wine: #4e0115;
-  /* 按钮底用青柠、按钮字用墨色；与首页 .btn-lime 同一语言 */
-  --btn: #d0ff71;
-  --btn-hover: #e2ff9c;
-  --btn-ink: #010205;
+:root:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --bg2: #ffffff;
+  --bg3: #f4f4f4;
+  --ink: #010205;
+  --ink2: #3a3c3e;
+  --ink3: #7b7e81;
+  --line: rgba(1, 2, 5, 0.10);
+  --line2: rgba(1, 2, 5, 0.20);
+  --accent: #556B2F;
+  --accent-hover: #3F4A1A;
+  --accent-dim: rgba(85, 107, 47, 0.13);
+  --nav-bg: rgba(255, 255, 255, 0.86);
+  --overlay-bg: rgba(1, 2, 5, 0.28);
+  --wc-shadow: 0 0 0 1px rgba(1, 2, 5, 0.08), 0 25px 80px rgba(1, 2, 5, 0.16);
+  --shadow-card: 0 2px 16px rgba(1, 2, 5, 0.08);
+  --blue: #4a6a8a;
+  --blue-dim: rgba(74, 106, 138, 0.06);
+  --olive: #556B2F;
+  --btn: #556B2F;
+  --btn-hover: #3F4A1A;
+  --btn-ink: #ffffff;
+  --paper: #ffffff;
+  --paper2: #ffffff;
+  --surface: #f4f4f4;
+  --ink4: #7b7e81;
+  --red: #556B2F;
+  --red-dim: rgba(85, 107, 47, 0.13);
+  --rule: rgba(1, 2, 5, 0.10);
+  --rule-h: rgba(1, 2, 5, 0.20);
 }
 
 /* logo 强调色与首页一致（橄榄斜体 Atorie） */
@@ -66,17 +90,6 @@
   margin-bottom: 2.25rem;
   position: relative;
   z-index: 2;
-}
-
-.project-header::after {
-  content: "";
-  display: block;
-  height: 6px;
-  margin-top: 0.75rem;
-  background:
-    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 10%, var(--ink3, #9a9c9e) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
-    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 15%, var(--ink3, #9a9c9e) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
-  opacity: 0.45;
 }
 
 .page-back {
@@ -111,8 +124,8 @@
   display: inline-block;
 }
 
-.project-eyebrow i:nth-child(1) { background: var(--olive); }
-.project-eyebrow i:nth-child(2) { background: var(--wine, #4e0115); }
+.project-eyebrow i:nth-child(1) { background: var(--accent); }
+.project-eyebrow i:nth-child(2) { background: var(--olive); }
 
 .project-eyebrow span {
   font-family: var(--mono);
@@ -214,18 +227,6 @@
 #rw-hero {
   position: relative;
   z-index: 2;
-}
-
-#rw-hero::after {
-  content: "";
-  display: block;
-  height: 6px;
-  margin-top: 0.75rem;
-  max-width: min(100%, 42rem);
-  background:
-    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 10%, var(--ink3, #9a9c9e) 90%, transparent 100%) 50% 50% / 100% 1px no-repeat,
-    linear-gradient(to right, transparent 0%, var(--ink3, #9a9c9e) 15%, var(--ink3, #9a9c9e) 85%, transparent 100%) 50% calc(50% + 2.5px) / 100% 0.5px no-repeat;
-  opacity: 0.45;
 }
 
 /* 06 双栏区也跟上衬线标题节奏 */

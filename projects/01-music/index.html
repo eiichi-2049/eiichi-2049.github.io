@@ -37,45 +37,6 @@
         }
 
         /* ── 暗色主题（默认） ─────────────────────────────── */
-        :root,
-        [data-theme="dark"] {
-            color-scheme: dark;
-            --bg: #121212;
-            --bg2: #1a1a1a;
-            --bg3: #1e1e1e;
-            --ink: #f5f5f5;
-            --ink2: #cccccc;
-            --ink3: #9a9c9e;
-            --accent: #b0b748;
-            --accent-hover: #c6cd63;
-            --accent-dim: rgba(176, 183, 72, 0.12);
-            --line: rgba(255, 255, 255, 0.07);
-            --line2: rgba(255, 255, 255, 0.14);
-            --nav-bg: rgba(18, 18, 18, 0.82);
-            --overlay-bg: rgba(0, 0, 0, 0.6);
-            --wc-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 25px 80px rgba(0, 0, 0, 0.7);
-            --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ── 亮色主题 ─────────────────────────────────────── */
-        [data-theme="light"] {
-            color-scheme: light;
-            --bg: #ffffff;
-            --bg2: #ffffff;
-            --bg3: #f0f0f0;
-            --ink: #010205;
-            --ink2: #333333;
-            --ink3: #a1a4a7;
-            --accent: #b0b748;
-            --accent-hover: #c6cd63;
-            --accent-dim: rgba(176, 183, 72, 0.12);
-            --line: rgba(1, 2, 5, 0.07);
-            --line2: rgba(1, 2, 5, 0.14);
-            --nav-bg: rgba(255, 255, 255, 0.82);
-            --overlay-bg: rgba(1, 2, 5, 0.28);
-            --wc-shadow: 0 0 0 1px rgba(1, 2, 5, 0.08), 0 25px 80px rgba(1, 2, 5, 0.16);
-            --shadow-card: 0 2px 16px rgba(1, 2, 5, 0.08);
-        }
 
         /* ── 重置 ────────────────────────────────────────────── */
         *,
@@ -440,13 +401,6 @@
         .tbd-block a{color:var(--accent);border-bottom:1px solid currentColor}
     </style>
     <link rel="stylesheet" href="../../assets/css/subpage.css" />
-    <script>
-      /* 尽早设置主题，避免页面闪烁（FOUC）—— 跟随系统偏好 */
-      (function () {
-        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.setAttribute("data-theme", prefersDark ? "dark" : "light");
-      })();
-    </script>
 </head>
 <body>
 
@@ -472,7 +426,7 @@
             <a href="../../index.html#work" class="page-back">← back to work</a>
             <div class="project-eyebrow"><i></i><i></i><span>Compose</span></div>
             <h1 class="project-title">
-                <em>[Original Soundtracks]</em>
+                <em>Original Soundtracks</em>
             </h1>
             <p class="page-desc">为独立游戏创作的音乐作品集 · Original Score for Games</p>
         </header>
