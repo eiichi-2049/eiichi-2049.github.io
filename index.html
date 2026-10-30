@@ -179,43 +179,43 @@
     .btn-secondary{background:var(--bg3);color:var(--ink);border-color:var(--line2)}
     .btn-secondary:hover{transform:translateY(-2px);border-color:var(--ink3)}
 
-    /* ═══ 作品索引（Editorial List：左 61.8% 大字标题 / 右 38.2% 职责与年份）═══ */
-    .work-list{display:flex;flex-direction:column}
-    .work-row{position:relative;display:grid;grid-template-columns:1.618fr 1fr;
-              gap:clamp(20px,4vw,56px);align-items:baseline;
-              padding:clamp(24px,3.2vw,34px) 22px;
-              margin:0 -22px;border-top:1px solid var(--line)}
-    .work-row:last-child{border-bottom:1px solid var(--line)}
-    .work-row::before{content:"";position:absolute;inset:2px;border-radius:12px;background:var(--bg3);
-                      opacity:0;transition:opacity .28s var(--ease);pointer-events:none}
-    .work-row:hover::before,.work-row:focus-visible::before{opacity:1}
-    .work-row>*{position:relative;z-index:1}
-    .work-main{display:flex;align-items:baseline;gap:clamp(14px,2.6vw,28px);min-width:0}
-    .work-num{font-size:.82rem;letter-spacing:.12em;font-variant-numeric:tabular-nums;color:var(--ink3);
-              transition:color .25s}
-    .work-title{font-family:var(--sans);font-weight:500;font-size:clamp(1.35rem,2.9vw,2.1rem);
-                letter-spacing:-.025em;line-height:1.15;color:var(--ink)}
-    .work-tags{margin-top:8px;font-size:.82rem;line-height:1.5;color:var(--ink3)}
-    .work-meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;min-width:0}
-    .work-role{font-size:.88rem;line-height:1.35;color:var(--ink2)}
-    .work-year{font-size:.8rem;font-variant-numeric:tabular-nums;letter-spacing:.02em;color:var(--ink3)}
-    .work-arrow{position:absolute;right:2px;top:clamp(24px,3.4vw,36px);z-index:1;
-                font-size:1.05rem;line-height:1;color:var(--accent);
-                opacity:0;transform:translate(-6px,6px);
-                transition:opacity .28s var(--ease),transform .28s var(--ease)}
-    .work-row:hover .work-arrow,.work-row:focus-visible .work-arrow{opacity:1;transform:none}
-    .work-row:hover .work-num{color:var(--accent)}
-    .work-status{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
-    @media(hover:none){ .work-arrow{display:none} }
-    @media(max-width:720px){
-      .work-row{grid-template-columns:auto minmax(0,1fr);column-gap:16px;row-gap:8px;
-                padding:22px 18px;margin:0 -18px;align-items:baseline}
-      .work-main{display:contents}
-      .work-num,.work-body,.work-meta{position:relative;z-index:1}
-      .work-num{grid-column:1;grid-row:1}
-      .work-body{grid-column:2;grid-row:1;min-width:0}
-      .work-meta{grid-column:2;grid-row:2;flex-direction:row;align-items:baseline;
-                 justify-content:space-between;gap:16px;text-align:left}
+    /* ═══ 作品目录（分类 → 项目；01-xzc 是展示编号，目录保持原名）═══ */
+    .work-groups{display:flex;flex-direction:column;gap:clamp(34px,4.6vw,52px)}
+    .work-group-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:baseline;
+                     column-gap:clamp(14px,2vw,22px);padding:16px 0 14px;border-top:1px solid var(--line)}
+    .work-group-num{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;color:var(--accent);font-variant-numeric:tabular-nums}
+    .work-group-title{font-family:var(--sans);font-weight:600;font-size:clamp(1.25rem,2.1vw,1.55rem);
+                      letter-spacing:-.015em;line-height:1.2}
+    .work-group-zh{font-size:.78rem;color:var(--ink3);letter-spacing:.04em;white-space:nowrap}
+    .work-group-list{display:flex;flex-direction:column}
+    .work-subrow,.work-subgroup-head{display:grid;grid-template-columns:76px minmax(0,1fr) 200px 90px;
+      column-gap:clamp(14px,2.2vw,24px);align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+    .work-subrow{position:relative}
+    .work-subrow:hover .work-subrow-title,.work-subrow:focus-visible .work-subrow-title,
+    .work-subgroup-title:hover,.work-subgroup-title:focus-visible{color:var(--accent)}
+    .work-subrow-code{font-family:var(--mono);font-size:.7rem;letter-spacing:.02em;color:var(--accent);white-space:nowrap}
+    .work-subrow-title,.work-subgroup-title{font-family:var(--sans);font-weight:500;font-size:1.02rem;line-height:1.3;
+                                             color:var(--ink);transition:color .2s}
+    .work-subrow-meta{font-size:.8rem;line-height:1.4;color:var(--ink3);text-align:right}
+    .work-subrow-year,.work-subrow-status{font-size:.78rem;font-variant-numeric:tabular-nums;letter-spacing:.02em;
+                                          color:var(--ink3);text-align:right;white-space:nowrap}
+    .work-subrow-status{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase}
+    .work-toggle{width:30px;height:30px;display:grid;place-items:center;justify-self:end;background:none;border:1px solid var(--line2);
+                 border-radius:50%;color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s}
+    .work-toggle:hover{background:var(--bg3);border-color:var(--ink3)}
+    .work-toggle-icon{font-size:1rem;line-height:1;transition:transform .25s var(--ease)}
+    .work-toggle[aria-expanded="true"] .work-toggle-icon{transform:rotate(45deg)}
+    .work-subgroup-panel{border-bottom:1px solid var(--line)}
+    .work-subgroup-panel[hidden]{display:none}
+    .work-subgroup-panel .work-subrow{border-bottom:0;padding-top:12px;padding-bottom:12px}
+    @media(max-width:760px){
+      .work-group-head{grid-template-columns:auto minmax(0,1fr);row-gap:3px}
+      .work-group-zh{grid-column:2;grid-row:2}
+      .work-subrow,.work-subgroup-head{grid-template-columns:58px minmax(0,1fr) 76px;column-gap:12px;row-gap:4px}
+      .work-subrow-code{grid-column:1;grid-row:1}
+      .work-subrow-title,.work-subgroup-title{grid-column:2;grid-row:1}
+      .work-subrow-meta,.work-subgroup-head .work-subrow-meta{grid-column:2;grid-row:2;text-align:left}
+      .work-subrow-year,.work-subrow-status,.work-toggle{grid-column:3;grid-row:1;text-align:right;justify-self:end}
     }
 
     /* ═══ 履历（High-touch：形式跟随内容）═══ */
@@ -380,96 +380,80 @@
         <h2>作品展示</h2>
       </div>
 
-      <div class="work-list">
-        <a class="work-row reveal" href="./projects/03-interactive/">
-          <div class="work-main">
-            <span class="work-num">01</span>
-            <div class="work-body">
-              <h3 class="work-title">Wwise 101 · 学习笔记</h3>
-              <p class="work-tags">Event / RTPC / Bus / SoundBank</p>
+      <div class="work-groups">
+        <section class="work-group reveal">
+          <div class="work-group-head">
+            <span class="work-group-num">01</span>
+            <h3 class="work-group-title">Game Audio Production</h3>
+            <span class="work-group-zh">游戏音频交付</span>
+          </div>
+          <div class="work-group-list">
+            <div class="work-subgroup">
+              <div class="work-subgroup-head">
+                <span class="work-subrow-code" aria-hidden="true"></span>
+                <a class="work-subgroup-title" href="./projects/01-music/">Original Soundtracks</a>
+                <span class="work-subrow-meta">Original Music · Games</span>
+                <button class="work-toggle" type="button" aria-expanded="true" aria-controls="ost-panel"
+                        aria-label="收起 Original Soundtracks 作品" data-work-toggle>
+                  <span class="work-toggle-icon" aria-hidden="true">+</span>
+                </button>
+              </div>
+              <div class="work-subgroup-panel" id="ost-panel">
+                <a class="work-subrow" href="./projects/07-xingzhicai/">
+                  <span class="work-subrow-code">01-xzc</span>
+                  <span class="work-subrow-title">XingZhiCai · 形之彩</span>
+                  <span class="work-subrow-meta">Music / Sound Design</span>
+                  <span class="work-subrow-year">2026</span>
+                </a>
+              </div>
             </div>
-          </div>
-          <div class="work-meta">
-            <span class="work-role">Study · Wwise 101</span>
-            <span class="work-year">2026</span>
-          </div>
-          <span class="work-arrow" aria-hidden="true">↗</span>
-        </a>
 
-        <a class="work-row reveal" href="./projects/02-plugin/">
-          <div class="work-main">
-            <span class="work-num">02</span>
-            <div class="work-body">
-              <h3 class="work-title">BKEQ Hybrid VST3</h3>
-              <p class="work-tags">Hise / Illustrator / A–B 试听</p>
-            </div>
+            <a class="work-subrow" href="./projects/05-sound-design/">
+              <span class="work-subrow-code" aria-hidden="true"></span>
+              <span class="work-subrow-title">Sound Design</span>
+              <span class="work-subrow-meta">Sound Design · Games</span>
+              <span class="work-subrow-status">Upcoming</span>
+            </a>
           </div>
-          <div class="work-meta">
-            <span class="work-role">Plugin · DSP</span>
-            <span class="work-year">2026</span>
-          </div>
-          <span class="work-arrow" aria-hidden="true">↗</span>
-        </a>
+        </section>
 
-        <a class="work-row reveal" href="./projects/04-analysis/">
-          <div class="work-main">
-            <span class="work-num">03</span>
-            <div class="work-body">
-              <h3 class="work-title">Music Analysis</h3>
-              <p class="work-tags">配器 / 结构 / 叙事功能</p>
-            </div>
+        <section class="work-group reveal">
+          <div class="work-group-head">
+            <span class="work-group-num">02</span>
+            <h3 class="work-group-title">Technical Implementation</h3>
+            <span class="work-group-zh">技术实现</span>
           </div>
-          <div class="work-meta">
-            <span class="work-role">Analysis · Research</span>
-            <span class="work-year">2025</span>
+          <div class="work-group-list">
+            <a class="work-subrow" href="./projects/03-interactive/">
+              <span class="work-subrow-code" aria-hidden="true"></span>
+              <span class="work-subrow-title">Wwise 101</span>
+              <span class="work-subrow-meta">Study · Wwise 101</span>
+              <span class="work-subrow-year">2026</span>
+            </a>
           </div>
-          <span class="work-arrow" aria-hidden="true">↗</span>
-        </a>
+        </section>
 
-        <a class="work-row reveal" href="./projects/05-sound-design/">
-          <div class="work-main">
-            <span class="work-num">04</span>
-            <div class="work-body">
-              <h3 class="work-title">Combat &amp; UI Sound Design</h3>
-              <p class="work-tags">Combat / Character / UI / Ambience</p>
-            </div>
+        <section class="work-group reveal">
+          <div class="work-group-head">
+            <span class="work-group-num">03</span>
+            <h3 class="work-group-title">Research &amp; Tools</h3>
+            <span class="work-group-zh">研究与工具</span>
           </div>
-          <div class="work-meta">
-            <span class="work-role">Sound Design · Games</span>
-            <span class="work-status">Upcoming</span>
+          <div class="work-group-list">
+            <a class="work-subrow" href="./projects/04-analysis/">
+              <span class="work-subrow-code" aria-hidden="true"></span>
+              <span class="work-subrow-title">Music Analysis</span>
+              <span class="work-subrow-meta">Analysis · Research</span>
+              <span class="work-subrow-year">2025</span>
+            </a>
+            <a class="work-subrow" href="./projects/02-plugin/">
+              <span class="work-subrow-code" aria-hidden="true"></span>
+              <span class="work-subrow-title">BKEQ Hybrid VST3</span>
+              <span class="work-subrow-meta">Plugin · DSP</span>
+              <span class="work-subrow-year">2026</span>
+            </a>
           </div>
-          <span class="work-arrow" aria-hidden="true">↗</span>
-        </a>
-
-        <a class="work-row reveal" href="./projects/01-music/">
-          <div class="work-main">
-            <span class="work-num">05</span>
-            <div class="work-body">
-              <h3 class="work-title">Original Soundtracks</h3>
-              <p class="work-tags">Battle / Exploration / Character / UI</p>
-            </div>
-          </div>
-          <div class="work-meta">
-            <span class="work-role">Original Music · Games</span>
-            <span class="work-status">Upcoming</span>
-          </div>
-          <span class="work-arrow" aria-hidden="true">↗</span>
-        </a>
-
-        <a class="work-row reveal" href="./projects/07-xingzhicai/">
-          <div class="work-main">
-            <span class="work-num">06</span>
-            <div class="work-body">
-              <h3 class="work-title">XingZhiCai · 形之彩</h3>
-              <p class="work-tags">2026 TapTap GameJam / 音乐 / 音效 / Unity 音频</p>
-            </div>
-          </div>
-          <div class="work-meta">
-            <span class="work-role">Sound Design · Unity Audio</span>
-            <span class="work-year">2026</span>
-          </div>
-          <span class="work-arrow" aria-hidden="true">↗</span>
-        </a>
+        </section>
       </div>
     </div>
   </section>
@@ -621,19 +605,18 @@
         <div>
           <h4>Work</h4>
           <ul>
-            <li><a href="./projects/03-interactive/">Wwise 101 笔记</a></li>
-            <li><a href="./projects/02-plugin/">BKEQ Hybrid VST3</a></li>
-            <li><a href="./projects/04-analysis/">Music Analysis</a></li>
-            <li><a href="./projects/05-sound-design/">Sound Design</a></li>
             <li><a href="./projects/01-music/">Original Soundtracks</a></li>
-            <li><a href="./projects/07-xingzhicai/">XingZhiCai · 形之彩</a></li>
+            <li><a href="./projects/07-xingzhicai/">01-xzc · 形之彩</a></li>
+            <li><a href="./projects/05-sound-design/">Sound Design</a></li>
+            <li><a href="./projects/03-interactive/">Wwise 101</a></li>
+            <li><a href="./projects/04-analysis/">Music Analysis</a></li>
+            <li><a href="./projects/02-plugin/">BKEQ Hybrid VST3</a></li>
           </ul>
         </div>
         <div>
-          <h4>Contact</h4>
+          <h4></h4>
           <ul>
-            <li><a href="./assets/downloads/resume.pdf" target="_blank" rel="noopener">简历 PDF</a></li>
-            <li><a href="./assets/img/wechat-qr.webp" id="wechat-link" target="_blank" rel="noopener">微信二维码</a></li>
+
           </ul>
         </div>
         <div>
@@ -739,6 +722,20 @@
       });
       if (reset) reset.addEventListener('click', function(){ upTo(0); });
       render();
+    })();
+
+    // 作品目录：Original Soundtracks 下拉
+    (function(){
+      var btn = document.querySelector('[data-work-toggle]');
+      if (!btn) return;
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      btn.addEventListener('click', function(){
+        var isOpen = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        panel.hidden = isOpen;
+        btn.setAttribute('aria-label', (isOpen ? '展开' : '收起') + ' Original Soundtracks 作品');
+      });
     })();
 
     // 询盘表单：校验后拼 mailto，本站不接收、不存储
