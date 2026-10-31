@@ -58,16 +58,16 @@
   font-size:.66rem;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:var(--olive, #b0b748);
+  color:var(--olive, #4E7590);
   margin-bottom:.5rem;
   display:block;
 }
 .case-regret{
   margin:2rem 0;
   padding:1.15rem 1.25rem;
-  border-left:3px solid var(--olive, #b0b748);
+  border-left:3px solid var(--olive, #4E7590);
   border-radius:0 12px 12px 0;
-  background:rgba(176,183,72,.08);
+  background:rgba(78,117,144,.07);
   position:relative;
   z-index:2;
 }
