@@ -1,2 +1,4 @@
 # Internal docs & working notes (not part of the published site)
-docs/
+# 白名单：执行清单进仓库留版本历史，其余内部文档继续忽略
+docs/*
+!docs/stage-module-todo.md
