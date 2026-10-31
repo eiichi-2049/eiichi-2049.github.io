@@ -225,7 +225,7 @@
 
     /* ═══ 引言（Grace Note）：收束全页，与页脚组成同一个句尾 ═══ */
     .quote{text-align:center;padding:clamp(56px,7vw,88px) 0 clamp(24px,3vw,40px)}
-    .quote blockquote{font-family:var(--sans);font-weight:300;font-style:italic;
+    .quote blockquote{font-family:var(--sans);font-weight:300;font-style:normal;
                       font-size:clamp(1.5rem,3.6vw,2.4rem);line-height:1.35;letter-spacing:-.015em;max-width:22ch;margin:0 auto}
 
     /* ═══ 转化区（Converter：沿用原站“发送邮件”表单语言）═══ */
@@ -275,20 +275,43 @@
       .mail-actions .btn{width:100%;min-width:0}
     }
 
-    /* ═══ 大页脚（手册：页脚可很大；全站目录 + 末次 CTA + 个性）═══ */
-    .foot{padding:clamp(56px,7vw,88px) 0 34px}
-    .foot-brand{margin-top:0;max-width:100%;font-family:var(--serif);font-weight:300;
-                font-size:clamp(1.8rem,9.2vw,6.6rem);line-height:.92;letter-spacing:-.05em;text-align:center;
-                background:linear-gradient(var(--ink),transparent 92%);
-                -webkit-background-clip:text;background-clip:text;color:transparent;user-select:none;white-space:nowrap}
+    /* ═══ 大页脚：品牌 + 终端声明 + 版权/时钟 ═══ */
+    .foot{padding:clamp(56px,7vw,88px) 0 34px;--brand-lift:33px}
+    .foot-brand{display:block;width:fit-content;max-width:100%;margin:0 auto;padding:0;border:0;
+                background:linear-gradient(var(--ink),transparent 92%);-webkit-background-clip:text;background-clip:text;
+                font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,9.2vw,6.6rem);
+                line-height:.92;letter-spacing:-.05em;color:transparent;text-align:center;
+                -webkit-appearance:none;appearance:none;cursor:pointer;user-select:none;white-space:nowrap;
+                opacity:.9;transition:transform .55s var(--ease),opacity .35s ease}
+    .foot-brand:hover,.foot-brand:focus-visible,.foot-brand.typing{opacity:1}
+    .foot-brand.typing{transform:translateY(calc(var(--brand-lift) * -1))}
+    .foot-type{width:min(100%,46rem);height:1.9rem;margin:.4rem auto 0;
+               font-family:var(--mono);font-size:.65rem;line-height:1.9;color:var(--ink3);
+               text-align:left;white-space:nowrap;overflow:hidden;opacity:0;pointer-events:none;
+               transition:opacity .2s}
+    .foot-type.active{opacity:1}
+    .foot-type-caret{animation:caretBlink 1s step-end infinite}
+    @keyframes caretBlink{50%{opacity:0}}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+             clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .foot-meta{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
                display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between;
                font-size:.72rem;letter-spacing:.01em;color:var(--ink3)}
+    .foot-copy{margin:0;font-size:.65rem;line-height:1.8;letter-spacing:.01em;color:var(--ink3)}
     .foot-clock{font-family:var(--mono)}
     .foot-clock .prompt{opacity:.6}
     .foot-clock .caret{opacity:.6;animation:blink 2s step-end infinite;margin-left:.1em}
     @keyframes blink{50%{opacity:0}}
-    @media(prefers-reduced-motion: reduce){ .foot-clock .caret{animation:none} }
+    @media(max-width:760px){
+      .foot{--brand-lift:0px}
+      .foot-type{white-space:normal;height:3.6rem;width:100%}
+    }
+    @media(prefers-reduced-motion: reduce){
+      .foot-brand{transition:none}
+      .foot-type{transition:none}
+      .foot-type-caret{animation:none}
+      .foot-clock .caret{animation:none}
+    }
 
     /* ═══ 进场动画（仅 opacity + translate，尊重减弱动效）═══ */
     .js .reveal{opacity:0;translate:0 22px;transition:opacity .6s ease,translate .6s ease}
@@ -298,6 +321,7 @@
       html{scroll-behavior:auto}
     }
   </style>
+  <link rel="stylesheet" href="assets/css/icons.css" />
 </head>
 <body>
 
@@ -341,7 +365,7 @@
         <section class="work-group reveal">
           <div class="work-group-head">
             <span class="work-group-num">01</span>
-            <h3 class="work-group-title">Game Audio Production</h3>
+            <h3 class="work-group-title"><i class="bp-icon bp-music" aria-hidden="true"></i>Game Audio Production</h3>
             <span class="work-group-zh">游戏音频交付</span>
           </div>
           <div class="work-group-list">
@@ -374,7 +398,7 @@
         <section class="work-group reveal">
           <div class="work-group-head">
             <span class="work-group-num">02</span>
-            <h3 class="work-group-title">Technical Implementation</h3>
+            <h3 class="work-group-title"><i class="bp-icon bp-console" aria-hidden="true"></i>Technical Implementation</h3>
             <span class="work-group-zh">技术实现</span>
           </div>
           <div class="work-group-list">
@@ -389,7 +413,7 @@
         <section class="work-group reveal">
           <div class="work-group-head">
             <span class="work-group-num">03</span>
-            <h3 class="work-group-title">Research &amp; Tools</h3>
+            <h3 class="work-group-title"><i class="bp-icon bp-chart" aria-hidden="true"></i>Research &amp; Tools</h3>
             <span class="work-group-zh">研究与工具</span>
           </div>
           <div class="work-group-list">
@@ -559,13 +583,19 @@
     </div>
   </section>
 
-  <!-- ═══ 大页脚：末次 CTA + 个性 ═══ -->
+  <!-- ═══ 大页脚：品牌 + 终端声明 + 版权/时钟 ═══ -->
   <footer class="foot">
     <div class="wrap">
-      <div class="foot-brand" aria-hidden="true">ReiVerb Sound Atorie</div>
+      <button class="foot-brand" type="button" data-foot-brand aria-describedby="foot-manifesto">ReiVerb Sound Atorie</button>
+
+      <div class="foot-type" aria-hidden="true">
+        <span class="foot-type-text"></span><span class="foot-type-caret">_</span>
+      </div>
+
+      <span class="sr-only" id="foot-manifesto">For those who refuse to yield their craft to the token industrial complex.</span>
 
       <div class="foot-meta">
-        <span>© 2026 ReiVerb Sound Atorie · 最近更新 2026-10</span>
+        <p class="foot-copy">© 2026 ReiVerb Sound Atorie · All Rights Reserved.</p>
         <span class="foot-clock" id="foot-clock" aria-hidden="true">
           <span class="prompt">UTC+8 &gt;&nbsp;</span><span class="foot-clock-time time"></span><span class="caret">_</span>
         </span>
@@ -584,6 +614,64 @@
         el.textContent = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
       }
       tick(); setInterval(tick, 30000);
+    })();
+
+    // 页脚终端声明：悬停 / 点击 / 聚焦 大字触发
+    (function(){
+      var brand = document.querySelector('[data-foot-brand]');
+      var line = document.querySelector('.foot-type');
+      var out = document.querySelector('.foot-type-text');
+      var source = document.getElementById('foot-manifesto');
+      if (!brand || !line || !out || !source) return;
+
+      var full = source.textContent.trim();
+      var running = false;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function finish(){
+        running = false;
+        brand.classList.remove('typing');
+        line.classList.remove('active');
+        out.textContent = '';
+      }
+
+      function start(){
+        if (running) return;
+        running = true;
+        brand.classList.add('typing');
+        line.classList.add('active');
+        out.textContent = '';
+
+        if (reduce) {
+          out.textContent = full;
+          setTimeout(finish, 3000);
+          return;
+        }
+
+        var i = 0;
+        var typing = setInterval(function(){
+          i++;
+          out.textContent = full.slice(0, i);
+          if (i >= full.length) {
+            clearInterval(typing);
+            setTimeout(function(){
+              var n = full.length;
+              var deleting = setInterval(function(){
+                n--;
+                out.textContent = full.slice(0, n);
+                if (n <= 0) {
+                  clearInterval(deleting);
+                  finish();
+                }
+              }, 14);
+            }, 3000);
+          }
+        }, 28);
+      }
+
+      brand.addEventListener('mouseenter', start);
+      brand.addEventListener('focus', start);
+      brand.addEventListener('click', start);
     })();
 
     // 进场动画

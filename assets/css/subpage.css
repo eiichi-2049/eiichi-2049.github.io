@@ -119,15 +119,15 @@
   margin-bottom: 0.85rem;
 }
 
-.project-eyebrow i {
+.project-eyebrow > i {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   display: inline-block;
 }
 
-.project-eyebrow i:nth-child(1) { background: var(--dot-deep); }
-.project-eyebrow i:nth-child(2) { background: var(--dot-light); }
+.project-eyebrow > i:nth-child(1) { background: var(--dot-deep); }
+.project-eyebrow > i:nth-child(2) { background: var(--dot-light); }
 
 .project-eyebrow span {
   font-family: var(--mono);
@@ -395,4 +395,33 @@ body {
   .nav-links {
     display: flex;
   }
+}
+
+/* 子页标题统一：正体、加粗、深蓝（接近首页蓝色语气） */
+:root {
+  --title-blue: #2F5D7C;
+}
+
+.project-header .project-title,
+#rw-hero .rw-title {
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--title-blue);
+}
+
+#rw-body .rw-col-title {
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--title-blue);
+}
+
+.project-header .project-title em,
+.project-header .project-title .zh,
+#rw-hero .rw-title em,
+#rw-hero .rw-title .zh {
+  font-style: normal;
+  font-weight: inherit;
+  color: inherit;
 }

@@ -1,0 +1,47 @@
+/* Blueprint 16px icons — self-hosted, Apache-2.0.
+   Source/license: assets/icons/blueprint/README.md and LICENSE.
+   Usage: <i class="bp-icon bp-music" aria-hidden="true"></i> */
+.bp-icon{display:inline-block;width:12px;height:12px;flex:none;background:currentColor;
+  -webkit-mask:var(--bp-glyph) center/contain no-repeat;mask:var(--bp-glyph) center/contain no-repeat;
+  vertical-align:-1px}
+.work-group-title{display:flex;align-items:center;gap:8px}
+.work-group-title .bp-icon{width:14px;height:14px;color:var(--accent);opacity:.8}
+.project-eyebrow .bp-icon{color:var(--accent);opacity:.8;margin-right:5px}
+
+.bp-music{--bp-glyph:url("../icons/blueprint/music.svg")}
+.bp-microphone{--bp-glyph:url("../icons/blueprint/microphone.svg")}
+.bp-headset{--bp-glyph:url("../icons/blueprint/headset.svg")}
+.bp-volume-up{--bp-glyph:url("../icons/blueprint/volume-up.svg")}
+.bp-volume-down{--bp-glyph:url("../icons/blueprint/volume-down.svg")}
+.bp-volume-off{--bp-glyph:url("../icons/blueprint/volume-off.svg")}
+.bp-play{--bp-glyph:url("../icons/blueprint/play.svg")}
+.bp-pause{--bp-glyph:url("../icons/blueprint/pause.svg")}
+.bp-stop{--bp-glyph:url("../icons/blueprint/stop.svg")}
+.bp-repeat{--bp-glyph:url("../icons/blueprint/repeat.svg")}
+.bp-random{--bp-glyph:url("../icons/blueprint/random.svg")}
+.bp-layers{--bp-glyph:url("../icons/blueprint/layers.svg")}
+.bp-layer{--bp-glyph:url("../icons/blueprint/layer.svg")}
+.bp-console{--bp-glyph:url("../icons/blueprint/console.svg")}
+.bp-code{--bp-glyph:url("../icons/blueprint/code.svg")}
+.bp-application{--bp-glyph:url("../icons/blueprint/application.svg")}
+.bp-cog{--bp-glyph:url("../icons/blueprint/cog.svg")}
+.bp-wrench{--bp-glyph:url("../icons/blueprint/wrench.svg")}
+.bp-build{--bp-glyph:url("../icons/blueprint/build.svg")}
+.bp-comparison{--bp-glyph:url("../icons/blueprint/comparison.svg")}
+.bp-chart{--bp-glyph:url("../icons/blueprint/chart.svg")}
+.bp-timeline-events{--bp-glyph:url("../icons/blueprint/timeline-events.svg")}
+.bp-timeline-line-chart{--bp-glyph:url("../icons/blueprint/timeline-line-chart.svg")}
+.bp-graph{--bp-glyph:url("../icons/blueprint/graph.svg")}
+.bp-manual{--bp-glyph:url("../icons/blueprint/manual.svg")}
+.bp-book{--bp-glyph:url("../icons/blueprint/book.svg")}
+.bp-citation{--bp-glyph:url("../icons/blueprint/citation.svg")}
+.bp-annotation{--bp-glyph:url("../icons/blueprint/annotation.svg")}
+.bp-edit{--bp-glyph:url("../icons/blueprint/edit.svg")}
+.bp-document{--bp-glyph:url("../icons/blueprint/document.svg")}
+.bp-download{--bp-glyph:url("../icons/blueprint/download.svg")}
+.bp-envelope{--bp-glyph:url("../icons/blueprint/envelope.svg")}
+.bp-link{--bp-glyph:url("../icons/blueprint/link.svg")}
+.bp-arrow-top-right{--bp-glyph:url("../icons/blueprint/arrow-top-right.svg")}
+.bp-search{--bp-glyph:url("../icons/blueprint/search.svg")}
+.bp-filter{--bp-glyph:url("../icons/blueprint/filter.svg")}
+.bp-lightbulb{--bp-glyph:url("../icons/blueprint/lightbulb.svg")}

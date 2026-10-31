@@ -514,18 +514,25 @@
         }
     </style>
     <link rel="stylesheet" href="../../assets/css/subpage.css" />
+    <link rel="stylesheet" href="../../assets/css/icons.css" />
+    <link rel="stylesheet" href="../../assets/css/nav.css" />
 </head>
 <body>
     <header class="nav">
         <div class="wrap">
             <div class="nav-in">
                 <a class="logo" href="../../index.html#top">ReiVerb Sound <em>Atorie</em></a>
-                <nav class="nav-links" id="menu">
-                    <a href="../../index.html#work">Work</a>
-                    <a href="../../index.html#contact">Contact</a>
-                </nav>
-                <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false"
-                        onclick="var m=document.getElementById('menu');m.classList.toggle('open');this.setAttribute('aria-expanded',m.classList.contains('open'))">☰</button>
+                <div class="nav-right">
+                    <nav class="nav-links" id="menu">
+                        <a href="../../index.html#work">作品</a>
+                        <a href="../../index.html#timeline">履历</a>
+                        <a href="../../index.html#contact">联系</a>
+                    </nav>
+                    <div class="nav-tools">
+                        <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false"
+                                onclick="var m=document.getElementById('menu');m.classList.toggle('open');this.setAttribute('aria-expanded',m.classList.contains('open'))">&#9776;</button>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -533,7 +540,7 @@
     <main class="page-wrap">
         <header class="project-header">
             <a class="page-back" href="../../index.html#work">← back to work</a>
-            <div class="project-eyebrow"><i></i><i></i><span>Game Jam · 2026</span></div>
+            <div class="project-eyebrow"><i></i><i></i><span><i class="bp-icon bp-headset" aria-hidden="true"></i>Game Jam · 2026</span></div>
             <h1 class="project-title"><em class="zh">XingZhiCai · 形之彩</em></h1>
             <p class="page-desc">2026 TapTap 聚光灯 GameJam · 21 天团队作品 · 音乐 / 音效设计 / Unity 音频实现</p>
         </header>
