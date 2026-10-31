@@ -7,629 +7,440 @@
     <meta name="description"
           content="一本写给游戏音频初学者的 Wwise 学习笔记 — ReiVerb Sound Atorie" />
     <style>
-        /* ── 本地字体 ──────────────────────────────────────── */
-        @font-face {
-            font-family: "OPPO Sans";
-            src: url("../../assets/fonts/oppo-sans-subset.woff2") format("woff2");
-            font-weight: 100 700;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        /* ── 核心变量（与首页保持一致） ──────────────────────── */
-        :root {
-            --serif: "Fraunces", "OPPO Sans", sans-serif;
-            --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
-            --sans: "OPPO Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
-            --mono: "DM Mono", monospace;
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
-            --nav-h: 136px;
-            --sec-pad: clamp(80px, 12vw, 140px);
-            /* 兼容旧变量名：动态解析新 token */
-            --paper: var(--bg);
-            --paper2: var(--bg2);
-            --surface: var(--bg3);
-            --ink4: var(--ink3);
-            --red: var(--accent);
-            --red-dim: var(--accent-dim);
-            --rule: var(--line);
-            --rule-h: var(--line2);
-        }
-
-        /* ── 暗色主题（默认） ─────────────────────────────── */
-
-        /* ── 重置 ────────────────────────────────────────────── */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: var(--sans);
-            background: var(--paper);
-            color: var(--ink);
-            font-size: 13px;
-            line-height: 1.7;
-            min-height: 100vh;
-        }
-
-
-        /* ── 顶部导航（与首页统一：吸顶毛玻璃 + 内层圆角胶囊） ───────────────────── */
-        .wrap {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            height: var(--nav-h);
-            padding: 24px 0;
-            background: var(--nav-bg);
-            -webkit-backdrop-filter: blur(14px);
-            backdrop-filter: blur(14px);
-        }
-
-        .nav-in {
-            width: 100%;
-            height: 88px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 28px;
-            background: rgba(1, 2, 5, 0.06);
-            border: 1px solid var(--line2);
-            border-radius: 16px;
-            padding: 0 max(18px, 2.5vw);
-        }
-
-        .logo {
-            font-family: var(--serif);
-            font-size: 1.35rem;
-            letter-spacing: -0.02em;
-            white-space: nowrap;
-            color: var(--ink);
-            text-decoration: none;
-        }
-
-        .logo em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 34px;
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .nav-links a {
-            color: var(--ink);
-            text-decoration: none;
-            opacity: 0.72;
-            transition: opacity 0.2s;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-        }
-
-        .burger {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--ink);
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 760px) {
-            .wrap {
-                padding: 0 20px;
-            }
-
-            .nav-links {
-                position: absolute;
-                top: var(--nav-h);
-                left: 0;
-                right: 0;
-                background: var(--paper);
-                flex-direction: column;
-                padding: 20px 40px;
-                border-bottom: 1px solid var(--line);
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease;
-                gap: 20px;
-            }
-
-            .nav-links.open {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-            .burger {
-                display: block;
-            }
-        }
-
-
-        /* 主题切换时的平滑过渡 */
-        html.theme-transition,
-        html.theme-transition *,
-        html.theme-transition *::before,
-        html.theme-transition *::after {
-            transition:
-                background-color 0.35s var(--ease),
-                color 0.35s var(--ease),
-                border-color 0.35s var(--ease),
-                box-shadow 0.35s var(--ease) !important;
-        }
-
-        /* ── 页面主体 ────────────────────────────────────────── */
+    /* ── 本地字体 ──────────────────────────────────────── */
+    @font-face {
+        font-family: "OPPO Sans";
+        src: url("../../assets/fonts/oppo-sans-subset.woff2") format("woff2");
+        font-weight: 100 700;
+        font-style: normal;
+        font-display: swap;
+    }
+    /* ── 核心变量（与首页保持一致） ──────────────────────── */
+    :root {
+        --serif: "Fraunces", "OPPO Sans", sans-serif;
+        --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
+        --sans: "OPPO Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+        --mono: "DM Mono", monospace;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --nav-h: 96px;
+        --sec-pad: clamp(80px, 12vw, 140px);
+        /* 兼容旧变量名：动态解析新 token */
+        --paper: var(--bg);
+        --paper2: var(--bg2);
+        --surface: var(--bg3);
+        --ink4: var(--ink3);
+        --red: var(--accent);
+        --red-dim: var(--accent-dim);
+        --rule: var(--line);
+        --rule-h: var(--line2);
+    }
+    /* ── 暗色主题（默认） ─────────────────────────────── */
+    /* ── 重置 ────────────────────────────────────────────── */
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        font-family: var(--sans);
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.7;
+        min-height: 100vh;
+    }
+    /* 主题切换时的平滑过渡 */
+    html.theme-transition, html.theme-transition *, html.theme-transition *::before, html.theme-transition *::after {
+        transition: background-color 0.35s var(--ease), color 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease) !important;
+    }
+    /* ── 页面主体 ────────────────────────────────────────── */
+    .page-wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: calc(var(--nav-h) + 40px) 3rem 4rem;
+        position: relative;
+        z-index: 2;
+    }
+    /* ── 项目标题区 ──────────────────────────────────────── */
+    .project-header {
+        margin-bottom: 2rem;
+    }
+    .page-back {
+        font-size: 11px;
+        color: var(--ink3);
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 2rem;
+        transition: color 0.2s;
+    }
+    .page-back:hover {
+        color: var(--red);
+    }
+    .project-tag {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    .project-title {
+        font-family: var(--serif);
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        font-weight: 300;
+        line-height: 1.1;
+        color: var(--ink);
+        margin-bottom: 1.75rem;
+        letter-spacing: -0.02em;
+    }
+    .project-title em {
+        font-style: italic;
+        color: var(--red);
+    }
+    .page-desc {
+        font-size: 13px;
+        color: var(--ink3);
+        max-width: 620px;
+        line-height: 1.9;
+    }
+    .project-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem 2.5rem;
+        margin-top: 0.75rem;
+    }
+    .project-meta-item {
+        font-size: 12px;
+        color: var(--ink3);
+        font-style: italic;
+    }
+    .project-meta-item strong {
+        color: var(--ink2);
+        font-style: normal;
+        font-weight: 400;
+    }
+    /* ── 多媒体容器 ──────────────────────────────────────── */
+    .media-block {
+        margin: 2rem 0;
+        border-radius: 4px;
+        overflow: hidden;
+        border: 1px solid var(--rule);
+        background: var(--paper2);
+    }
+    .media-block img, .media-block video {
+        width: 100%;
+        display: block;
+        height: auto;
+    }
+    .media-block iframe {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: none;
+        display: block;
+    }
+    .audio-wrapper {
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        background: var(--paper2);
+    }
+    .audio-wrapper audio {
+        flex: 1;
+        min-width: 180px;
+        height: 40px;
+        border-radius: 2px;
+        outline: none;
+    }
+    .audio-wrapper audio::-webkit-media-controls-panel {
+        background: var(--paper2);
+    }
+    .audio-label {
+        font-size: 11px;
+        color: var(--ink3);
+        font-style: italic;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+    }
+    .media-caption {
+        padding: 0.6rem 1.25rem;
+        font-size: 12px;
+        color: var(--ink3);
+        border-top: 1px solid var(--rule);
+        font-style: italic;
+        background: var(--paper);
+    }
+    /* ── 图文混合布局（两栏） ────────────────────────────── */
+    .media-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        overflow: hidden;
+        background: var(--rule);
+        margin: 2rem 0;
+    }
+    .media-grid-2 .media-block {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+    }
+    /* ── 项目描述 ────────────────────────────────────────── */
+    .project-description {
+        margin: 2.5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    .project-description p {
+        font-size: 14px;
+        color: var(--ink2);
+        line-height: 1.9;
+        font-family: var(--zh);
+        font-weight: 300;
+    }
+    .project-description p strong {
+        color: var(--ink);
+        font-weight: 400;
+        font-style: normal;
+        font-size: 1.3em;
+        display: inline-block;
+        margin: 0.1em 0;
+    }
+    /* 引用块 */
+    .quote-block {
+        padding: 1.25rem 1.75rem;
+        border-left: 3px solid var(--red);
+        background: var(--paper2);
+        border-radius: 2px;
+        margin: 0.5rem 0;
+        font-family: var(--zh);
+        font-weight: 300;
+        font-style: normal;
+        font-size: 14px;
+        color: var(--ink2);
+        line-height: 1.8;
+    }
+    .quote-block cite {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: 12px;
+        color: var(--ink3);
+        font-style: normal;
+        font-family: var(--mono);
+        letter-spacing: 0.04em;
+    }
+    .quote-block.warning {
+        border-left-color: #a07020;
+        background: rgba(160, 112, 32, 0.06);
+    }
+    /* ── 章节地图（重新设计） ──────────────────────────── */
+    .chapter-map {
+        margin: 1.5rem 0;
+    }
+    .chapter-map-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.25rem;
+        border-bottom: 1px solid var(--rule);
+    }
+    .chapter-map-header .map-title {
+        font-family: var(--serif);
+        font-size: 1.2rem;
+        font-weight: 300;
+        color: var(--ink);
+    }
+    .chapter-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--rule);
+    }
+    .chapter-item {
+        padding: 1rem 1.2rem;
+        background: var(--paper);
+        transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    .chapter-item:hover {
+        background: var(--paper2);
+    }
+    .chapter-item .num-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.65rem;
+    }
+    .chapter-item .num {
+        font-size: 22px;
+        letter-spacing: 0.04em;
+        color: var(--red);
+        font-weight: 500;
+        flex-shrink: 0;
+        font-family: var(--mono);
+        line-height: 1;
+    }
+    .chapter-item .title {
+        font-family: var(--zh);
+        font-weight: 400;
+        font-size: 14px;
+        color: var(--ink);
+        line-height: 1.4;
+    }
+    .chapter-item .official-name {
+        font-family: var(--zh);
+        font-size: 12px;
+        color: var(--ink3);
+        font-weight: 300;
+        line-height: 1.4;
+        padding-left: 0.4rem;
+        border-left: 2px solid var(--rule);
+    }
+    .chapter-item .official-name::before {
+        content: "📖 ";
+        font-size: 10px;
+    }
+    .chapter-item .sub {
+        font-family: var(--zh);
+        font-size: 11px;
+        font-style: italic;
+        display: block;
+    }
+    /* 进度条风格 */
+    .progress-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 13px;
+        font-family: var(--zh);
+        font-weight: 300;
+        color: var(--ink2);
+        padding: 0.3rem 0;
+    }
+    .progress-item .status {
+        font-size: 10px;
+        color: var(--ink4);
+        font-family: var(--mono);
+        letter-spacing: 0.04em;
+        flex-shrink: 0;
+        width: 60px;
+    }
+    .progress-item .status.done {
+        color: var(--red);
+    }
+    .progress-item .status.wip {
+        color: #a07020;
+    }
+    .progress-item .bar {
+        flex: 1;
+        height: 4px;
+        background: var(--rule-h);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    .progress-item .bar .fill {
+        height: 100%;
+        background: var(--red);
+        border-radius: 2px;
+        width: 0;
+        transition: width 1s var(--ease);
+    }
+    /* 技术栈标签 */
+    .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 1rem 0 0.5rem;
+    }
+    .tech-tag {
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        padding: 2px 12px;
+        border-radius: 100px;
+        border: 1px solid var(--rule-h);
+        color: var(--ink3);
+        background: transparent;
+        font-family: var(--mono);
+        text-transform: uppercase;
+    }
+    .tech-tag.highlight {
+        color: var(--red);
+        border-color: rgba(176, 183, 72, 0.3);
+        background: rgba(176, 183, 72, 0.08);
+    }
+    .tech-tag.eva {
+        color: #4a6a8a;
+        border-color: rgba(74, 106, 138, 0.2);
+        background: rgba(74, 106, 138, 0.06);
+    }
+    /* ── 分隔线 ────────────────────────────────────────── */
+    .divider {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 2.5rem 0;
+    }
+    /* ── 页脚 ────────────────────────────────────────────── */
+    .footer-sub {
+        border-top: 1px solid var(--rule);
+        padding: 1.25rem 0 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: var(--ink4);
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .footer-sub a {
+        color: var(--ink3);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .footer-sub a:hover {
+        color: var(--ink);
+    }
+    /* ── 响应式 ────────────────────────────────────────── */
+    @media (max-width: 768px) {
         .page-wrap {
-            max-width: 1080px;
-            margin: 0 auto;
-            padding: calc(var(--nav-h) + 40px) 3rem 4rem;
-            position: relative;
-            z-index: 2;
+            padding: calc(var(--nav-h) + 24px) 1.5rem 3rem;
         }
-
-        /* ── 项目标题区 ──────────────────────────────────────── */
-        .project-header {
-            margin-bottom: 2rem;
-        }
-
-        .page-back {
-            font-size: 11px;
-            color: var(--ink3);
-            text-decoration: none;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 2rem;
-            transition: color 0.2s;
-        }
-
-            .page-back:hover {
-                color: var(--red);
-            }
-
-        .project-tag {
-            font-size: 10px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--red);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .project-title {
-            font-family: var(--serif);
-            font-size: clamp(2.4rem, 5vw, 4rem);
-            font-weight: 300;
-            line-height: 1.1;
-            color: var(--ink);
-            margin-bottom: 1.75rem;
-            letter-spacing: -0.02em;
-        }
-
-            .project-title em {
-                font-style: italic;
-                color: var(--red);
-            }
-
-        .page-desc {
-            font-size: 13px;
-            color: var(--ink3);
-            max-width: 620px;
-            line-height: 1.9;
-        }
-
-        .project-meta-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem 2.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .project-meta-item {
-            font-size: 12px;
-            color: var(--ink3);
-            font-style: italic;
-        }
-
-            .project-meta-item strong {
-                color: var(--ink2);
-                font-style: normal;
-                font-weight: 400;
-            }
-
-        /* ── 多媒体容器 ──────────────────────────────────────── */
-        .media-block {
-            margin: 2rem 0;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid var(--rule);
-            background: var(--paper2);
-        }
-
-            .media-block img,
-            .media-block video {
-                width: 100%;
-                display: block;
-                height: auto;
-            }
-
-            .media-block iframe {
-                width: 100%;
-                aspect-ratio: 16 / 9;
-                border: none;
-                display: block;
-            }
-
-        .audio-wrapper {
-            padding: 1.25rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            background: var(--paper2);
-        }
-
-            .audio-wrapper audio {
-                flex: 1;
-                min-width: 180px;
-                height: 40px;
-                border-radius: 2px;
-                outline: none;
-            }
-
-                .audio-wrapper audio::-webkit-media-controls-panel {
-                    background: var(--paper2);
-                }
-
-        .audio-label {
-            font-size: 11px;
-            color: var(--ink3);
-            font-style: italic;
-            letter-spacing: 0.02em;
-            white-space: nowrap;
-        }
-
-        .media-caption {
-            padding: 0.6rem 1.25rem;
-            font-size: 12px;
-            color: var(--ink3);
-            border-top: 1px solid var(--rule);
-            font-style: italic;
-            background: var(--paper);
-        }
-
-        /* ── 图文混合布局（两栏） ────────────────────────────── */
         .media-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1px;
-            border: 1px solid var(--rule);
-            border-radius: 4px;
-            overflow: hidden;
-            background: var(--rule);
-            margin: 2rem 0;
+            grid-template-columns: 1fr;
         }
-
-            .media-grid-2 .media-block {
-                margin: 0;
-                border: none;
-                border-radius: 0;
-            }
-
-        /* ── 项目描述 ────────────────────────────────────────── */
-        .project-description {
-            margin: 2.5rem 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-            .project-description p {
-                font-size: 14px;
-                color: var(--ink2);
-                line-height: 1.9;
-                font-family: var(--zh);
-                font-weight: 300;
-            }
-
-                .project-description p strong {
-                    color: var(--ink);
-                    font-weight: 400;
-                    font-style: normal;
-                    font-size: 1.3em;
-                    display: inline-block;
-                    margin: 0.1em 0;
-                }
-
-        /* 引用块 */
-        .quote-block {
-            padding: 1.25rem 1.75rem;
-            border-left: 3px solid var(--red);
-            background: var(--paper2);
-            border-radius: 2px;
-            margin: 0.5rem 0;
-            font-family: var(--zh);
-            font-weight: 300;
-            font-style: normal;
-            font-size: 14px;
-            color: var(--ink2);
-            line-height: 1.8;
-        }
-
-            .quote-block cite {
-                display: block;
-                margin-top: 0.5rem;
-                font-size: 12px;
-                color: var(--ink3);
-                font-style: normal;
-                font-family: var(--mono);
-                letter-spacing: 0.04em;
-            }
-
-            .quote-block.warning {
-                border-left-color: #a07020;
-                background: rgba(160, 112, 32, 0.06);
-            }
-
-        /* ── 章节地图（重新设计） ──────────────────────────── */
-        .chapter-map {
-            margin: 1.5rem 0;
-        }
-
-        .chapter-map-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding-bottom: 0.6rem;
-            margin-bottom: 1.25rem;
-            border-bottom: 1px solid var(--rule);
-        }
-
-        .chapter-map-header .map-title {
-            font-family: var(--serif);
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: var(--ink);
-        }
-
         .chapter-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1px;
-            background: var(--rule);
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid var(--rule);
+            grid-template-columns: 1fr;
         }
-
-        .chapter-item {
-                padding: 1rem 1.2rem;
-                background: var(--paper);
-                transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                gap: 0.3rem;
-            }
-
-                .chapter-item:hover {
-                    background: var(--paper2);
-                }
-
-                .chapter-item .num-row {
-                    display: flex;
-                    align-items: baseline;
-                    gap: 0.65rem;
-                }
-
-                .chapter-item .num {
-                    font-size: 22px;
-                    letter-spacing: 0.04em;
-                    color: var(--red);
-                    font-weight: 500;
-                    flex-shrink: 0;
-                    font-family: var(--mono);
-                    line-height: 1;
-                }
-
-                .chapter-item .title {
-                    font-family: var(--zh);
-                    font-weight: 400;
-                    font-size: 14px;
-                    color: var(--ink);
-                    line-height: 1.4;
-                }
-
-                .chapter-item .official-name {
-                    font-family: var(--zh);
-                    font-size: 12px;
-                    color: var(--ink3);
-                    font-weight: 300;
-                    line-height: 1.4;
-                    padding-left: 0.4rem;
-                    border-left: 2px solid var(--rule);
-                }
-
-                    .chapter-item .official-name::before {
-                        content: "📖 ";
-                        font-size: 10px;
-                    }
-
-                .chapter-item .sub {
-                    font-family: var(--zh);
-                    font-size: 11px;
-                font-style: italic;
-                display: block;
-            }
-
-        /* 进度条风格 */
-        .progress-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 13px;
-            font-family: var(--zh);
-            font-weight: 300;
-            color: var(--ink2);
-            padding: 0.3rem 0;
+        .project-meta-row {
+            gap: 0.75rem 1.5rem;
         }
-
-            .progress-item .status {
-                font-size: 10px;
-                color: var(--ink4);
-                font-family: var(--mono);
-                letter-spacing: 0.04em;
-                flex-shrink: 0;
-                width: 60px;
-            }
-
-                .progress-item .status.done {
-                    color: var(--red);
-                }
-
-                .progress-item .status.wip {
-                    color: #a07020;
-                }
-
-            .progress-item .bar {
-                flex: 1;
-                height: 4px;
-                background: var(--rule-h);
-                border-radius: 2px;
-                overflow: hidden;
-            }
-
-                .progress-item .bar .fill {
-                    height: 100%;
-                    background: var(--red);
-                    border-radius: 2px;
-                    width: 0;
-                    transition: width 1s var(--ease);
-                }
-
-        /* 技术栈标签 */
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: 1rem 0 0.5rem;
-        }
-
-        .tech-tag {
-            font-size: 10px;
-            letter-spacing: 0.04em;
-            padding: 2px 12px;
-            border-radius: 100px;
-            border: 1px solid var(--rule-h);
-            color: var(--ink3);
-            background: transparent;
-            font-family: var(--mono);
-            text-transform: uppercase;
-        }
-
-            .tech-tag.highlight {
-                color: var(--red);
-                border-color: rgba(176, 183, 72, 0.3);
-                background: rgba(176, 183, 72, 0.08);
-            }
-
-            .tech-tag.eva {
-                color: #4a6a8a;
-                border-color: rgba(74, 106, 138, 0.2);
-                background: rgba(74, 106, 138, 0.06);
-            }
-
-        /* ── 分隔线 ────────────────────────────────────────── */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--rule);
-            margin: 2.5rem 0;
-        }
-
-        /* ── 页脚 ────────────────────────────────────────────── */
-        .footer-sub {
-            border-top: 1px solid var(--rule);
-            padding: 1.25rem 0 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: var(--ink4);
-            flex-wrap: wrap;
+        .audio-wrapper {
+            flex-direction: column;
+            align-items: stretch;
             gap: 0.5rem;
         }
-
-            .footer-sub a {
-                color: var(--ink3);
-                text-decoration: none;
-                transition: color 0.2s;
-            }
-
-                .footer-sub a:hover {
-                    color: var(--ink);
-                }
-
-        /* ── 响应式 ────────────────────────────────────────── */
-        @media (max-width: 768px) {
-            .page-wrap {
-                padding: calc(var(--nav-h) + 24px) 1.5rem 3rem;
-            }
-
-            .media-grid-2 {
-                grid-template-columns: 1fr;
-            }
-
-            .chapter-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-meta-row {
-                gap: 0.75rem 1.5rem;
-            }
-
-            .audio-wrapper {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
-            }
-
-            .audio-label {
-                white-space: normal;
-            }
-
-            .nav-links {
-                display: none;
-            }
+        .audio-label {
+            white-space: normal;
         }
-
-        @media (max-width: 480px) {
-            .chapter-grid {
-                grid-template-columns: 1fr;
-            }
+    }
+    @media (max-width: 480px) {
+        .chapter-grid {
+            grid-template-columns: 1fr;
         }
-    </style>
+    }
+</style>
     <link rel="stylesheet" href="../../assets/css/subpage.css" />
     <link rel="stylesheet" href="../../assets/css/icons.css" />
     <link rel="stylesheet" href="../../assets/css/nav.css" />
@@ -671,7 +482,7 @@
             <img src="img/wwise-cover.webp"
                  alt="Wwise_101 非官方汉化文档 封面"
                  loading="lazy" />
-            <div class="media-caption">📖 非官方汉化文档 · 持续更新中</div>
+            <div class="media-caption">非官方汉化文档 · 持续更新</div>
         </div>
 
         <!-- ── 项目描述 ──────────────────────────────────────── -->
@@ -680,7 +491,7 @@
 
             <!-- Warning -->
             <div class="quote-block warning">
-                ⚠️ 本项目为个人学习笔记与非官方整理，不代表官方观点。<br />
+                本项目为个人学习笔记与非官方整理，不代表官方观点。<br />
                 部分内容会包含主观理解与项目经验。<br />
                 章节可能长期更新、重构、推翻重写。
             </div>
@@ -697,7 +508,7 @@
             <ul style="font-family: var(--zh); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
                 <li>不是 手册抄写</li>
                 <li>不是 官方文档复读</li>
-                <li>是 一个业余声音设计师 / evangelion 厨的 <strong>实战心法 + 脑内弹幕</strong></li>
+                <li>是 一个声音设计师的 <strong>实战判断 + 踩坑记录</strong></li>
             </ul>
 
             <p>
@@ -705,7 +516,7 @@
             </p>
 
             <ul style="font-family: var(--serif); font-size: 14px; color: var(--ink2); line-height: 2; padding-left: 1.25rem; margin: 0.25rem 0;">
-                <li>迷之引用（来自动画、memes）</li>
+                <li>必要的背景引用（动画、游戏、影视）</li>
                 <li>"要是有人能早告诉我就好了"的 tips</li>
             </ul>
 

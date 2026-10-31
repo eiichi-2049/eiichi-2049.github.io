@@ -6,513 +6,344 @@
     <title>形之彩 · 2026 TapTap GameJam — ReiVerb Sound Atorie</title>
     <meta name="description" content="《形之彩》2026 TapTap 聚光灯 GameJam 案例：音乐、音效设计与 Unity 音频实现。" />
     <style>
-        /* ── 本地字体 ──────────────────────────────────────── */
-        @font-face {
-            font-family: "OPPO Sans";
-            src: url("../../assets/fonts/oppo-sans-subset.woff2") format("woff2");
-            font-weight: 100 700;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        /* ── 核心变量（与子页/首页保持一致） ─────────────────── */
-        :root {
-            --serif: "Fraunces", "OPPO Sans", sans-serif;
-            --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
-            --sans: "OPPO Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
-            --mono: "DM Mono", monospace;
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
-            --nav-h: 136px;
-            --paper: var(--bg);
-            --paper2: var(--bg2);
-            --surface: var(--bg3);
-            --ink4: var(--ink3);
-            --red: var(--accent);
-            --red-dim: var(--accent-dim);
-            --rule: var(--line);
-            --rule-h: var(--line2);
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--sans);
-            background: var(--paper);
-            color: var(--ink);
-            font-size: 1rem;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img,
-        video {
-            max-width: 100%;
-            display: block;
-        }
-
-        figure {
-            margin: 0;
-        }
-
-        .wrap {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        /* ── 导航（沿用子页毛玻璃胶囊） ───────────────────── */
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            height: var(--nav-h);
-            padding: 24px 0;
-            background: var(--nav-bg);
-            -webkit-backdrop-filter: blur(14px);
-            backdrop-filter: blur(14px);
-        }
-
-        .nav-in {
-            width: 100%;
-            height: 88px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 28px;
-            background: rgba(1, 2, 5, 0.06);
-            border: 1px solid var(--line2);
-            border-radius: 16px;
-            padding: 0 max(18px, 2.5vw);
-        }
-
-        .logo {
-            font-family: var(--serif);
-            font-size: 1.35rem;
-            letter-spacing: -0.02em;
-            white-space: nowrap;
-        }
-
-        .logo em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 34px;
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .nav-links a {
-            color: var(--ink);
-            opacity: 0.72;
-            transition: opacity 0.2s;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-        }
-
-        .burger {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--ink);
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 760px) {
-            .wrap {
-                padding: 0 20px;
-            }
-
-            .nav-links {
-                position: absolute;
-                top: var(--nav-h);
-                left: 0;
-                right: 0;
-                background: var(--paper);
-                flex-direction: column;
-                padding: 20px 40px;
-                border-bottom: 1px solid var(--line);
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease;
-                gap: 20px;
-            }
-
-            .nav-links.open {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-            .burger {
-                display: block;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-        }
-
-        /* ── 页面主体 ──────────────────────────────────────── */
+    /* ── 本地字体 ──────────────────────────────────────── */
+    @font-face {
+        font-family: "OPPO Sans";
+        src: url("../../assets/fonts/oppo-sans-subset.woff2") format("woff2");
+        font-weight: 100 700;
+        font-style: normal;
+        font-display: swap;
+    }
+    /* ── 核心变量（与子页/首页保持一致） ─────────────────── */
+    :root {
+        --serif: "Fraunces", "OPPO Sans", sans-serif;
+        --zh: "OPPO Sans", "Noto Sans SC", sans-serif;
+        --sans: "OPPO Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+        --mono: "DM Mono", monospace;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --nav-h: 96px;
+        --paper: var(--bg);
+        --paper2: var(--bg2);
+        --surface: var(--bg3);
+        --ink4: var(--ink3);
+        --red: var(--accent);
+        --red-dim: var(--accent-dim);
+        --rule: var(--line);
+        --rule-h: var(--line2);
+    }
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        font-family: var(--sans);
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 1rem;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+    }
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+    img, video {
+        max-width: 100%;
+        display: block;
+    }
+    figure {
+        margin: 0;
+    }
+    /* ── 页面主体 ──────────────────────────────────────── */
+    .page-wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: calc(var(--nav-h) + 40px) 3rem 2rem;
+        position: relative;
+        z-index: 2;
+    }
+    @media (max-width: 768px) {
         .page-wrap {
-            max-width: 1080px;
-            margin: 0 auto;
-            padding: calc(var(--nav-h) + 40px) 3rem 2rem;
-            position: relative;
-            z-index: 2;
+            padding: calc(var(--nav-h) + 24px) 1.5rem 1.5rem;
         }
-
-        @media (max-width: 768px) {
-            .page-wrap {
-                padding: calc(var(--nav-h) + 24px) 1.5rem 1.5rem;
-            }
-        }
-
-        /* ── 案例元信息 ────────────────────────────────────── */
+    }
+    /* ── 案例元信息 ────────────────────────────────────── */
+    .case-meta {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0;
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+        margin: 2.5rem 0 3rem;
+    }
+    .case-meta > div {
+        padding: 1.15rem 1.2rem 1.15rem 0;
+    }
+    .case-meta dt {
+        font-size: 0.68rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 0.5rem;
+    }
+    .case-meta dd {
+        font-size: 0.92rem;
+        color: var(--ink);
+        line-height: 1.5;
+    }
+    @media (max-width: 760px) {
         .case-meta {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 0;
-            border-top: 1px solid var(--rule);
-            border-bottom: 1px solid var(--rule);
-            margin: 2.5rem 0 3rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
-
         .case-meta > div {
-            padding: 1.15rem 1.2rem 1.15rem 0;
+            padding: 1rem 1rem 1rem 0;
         }
-
-        .case-meta dt {
-            font-size: 0.68rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--ink3);
-            margin-bottom: 0.5rem;
-        }
-
-        .case-meta dd {
-            font-size: 0.92rem;
-            color: var(--ink);
-            line-height: 1.5;
-        }
-
-        @media (max-width: 760px) {
-            .case-meta {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .case-meta > div {
-                padding: 1rem 1rem 1rem 0;
-            }
-        }
-
-        /* ── 视频 ──────────────────────────────────────────── */
-        .video-block {
-            margin-bottom: 0.85rem;
-        }
-
-        .video-frame {
-            position: relative;
-            aspect-ratio: 16 / 9;
-            border: 1px solid var(--rule);
-            border-radius: 10px;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .video-frame video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video-cap {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 1rem;
-            flex-wrap: wrap;
-            font-size: 0.8rem;
-            color: var(--ink3);
-            margin-top: 0.8rem;
-        }
-
-        .video-actions {
-            display: inline-flex;
-            align-items: center;
-            gap: 1.25rem;
-            flex-wrap: wrap;
-        }
-
-        .video-toggle {
-            background: none;
-            border: 0;
-            padding: 0;
-            color: var(--ink3);
-            font-family: var(--sans);
-            font-size: 0.8rem;
-            letter-spacing: 0.04em;
-            cursor: pointer;
-            border-bottom: 1px solid var(--rule-h);
-        }
-
-        .video-toggle:hover {
-            color: var(--ink);
-        }
-
-        .case-link {
-            color: var(--accent);
-            border-bottom: 1px solid currentColor;
-            padding-bottom: 1px;
-            transition: color 0.2s;
-        }
-
-        .case-link:hover {
-            color: var(--ink);
-        }
-
-        /* ── 章节 ──────────────────────────────────────────── */
-        .case-section {
-            margin-top: clamp(3rem, 6vw, 5rem);
-        }
-
-        .case-kicker {
-            font-size: 0.7rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--ink3);
-            margin-bottom: 0.6rem;
-        }
-
-        .case-section h2 {
-            font-family: var(--serif);
-            font-weight: 300;
-            font-size: clamp(1.7rem, 3vw, 2.25rem);
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            color: var(--ink);
-            margin-bottom: 1.1rem;
-        }
-
-        .case-lede {
-            font-size: 1.05rem;
-            line-height: 1.85;
-            color: var(--ink2);
-            max-width: 64ch;
-            margin-bottom: 1rem;
-        }
-
-        .case-section p {
-            font-size: 1rem;
-            line-height: 1.85;
-            color: var(--ink2);
-            max-width: 68ch;
-            margin-bottom: 1rem;
-        }
-
-        .case-section p strong {
-            color: var(--ink);
-            font-weight: 600;
-        }
-
-        .case-section p em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        /* ── 三层声音 ──────────────────────────────────────── */
+    }
+    /* ── 视频 ──────────────────────────────────────────── */
+    .video-block {
+        margin-bottom: 0.85rem;
+    }
+    .video-frame {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #000;
+    }
+    .video-frame video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .video-cap {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+        color: var(--ink3);
+        margin-top: 0.8rem;
+    }
+    .video-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+    }
+    .video-toggle {
+        background: none;
+        border: 0;
+        padding: 0;
+        color: var(--ink3);
+        font-family: var(--sans);
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        border-bottom: 1px solid var(--rule-h);
+    }
+    .video-toggle:hover {
+        color: var(--ink);
+    }
+    .case-link {
+        color: var(--accent);
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 1px;
+        transition: color 0.2s;
+    }
+    .case-link:hover {
+        color: var(--ink);
+    }
+    /* ── 章节 ──────────────────────────────────────────── */
+    .case-section {
+        margin-top: clamp(3rem, 6vw, 5rem);
+    }
+    .case-kicker {
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 0.6rem;
+    }
+    .case-section h2 {
+        font-family: var(--serif);
+        font-weight: 300;
+        font-size: clamp(1.7rem, 3vw, 2.25rem);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin-bottom: 1.1rem;
+    }
+    .case-lede {
+        font-size: 1.05rem;
+        line-height: 1.85;
+        color: var(--ink2);
+        max-width: 64ch;
+        margin-bottom: 1rem;
+    }
+    .case-section p {
+        font-size: 1rem;
+        line-height: 1.85;
+        color: var(--ink2);
+        max-width: 68ch;
+        margin-bottom: 1rem;
+    }
+    .case-section p strong {
+        color: var(--ink);
+        font-weight: 600;
+    }
+    .case-section p em {
+        font-style: italic;
+        color: var(--accent);
+    }
+    /* ── 三层声音 ──────────────────────────────────────── */
+    .sound-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    .sound-card {
+        border-top: 1px solid var(--rule);
+        padding-top: 1rem;
+    }
+    .sound-num {
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--ink3);
+    }
+    .sound-card h3 {
+        font-size: 1.08rem;
+        font-weight: 600;
+        margin: 0.55rem 0 0.5rem;
+        color: var(--ink);
+    }
+    .sound-card p {
+        font-size: 0.92rem;
+        line-height: 1.8;
+        color: var(--ink3);
+        margin-bottom: 0.9rem;
+    }
+    .sound-tag {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        border: 1px solid var(--rule-h);
+        border-radius: 999px;
+        padding: 0.18rem 0.55rem;
+    }
+    @media (max-width: 820px) {
         .sound-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
         }
-
-        .sound-card {
-            border-top: 1px solid var(--rule);
-            padding-top: 1rem;
-        }
-
-        .sound-num {
-            font-size: 0.72rem;
-            letter-spacing: 0.14em;
-            color: var(--ink3);
-        }
-
-        .sound-card h3 {
-            font-size: 1.08rem;
-            font-weight: 600;
-            margin: 0.55rem 0 0.5rem;
-            color: var(--ink);
-        }
-
-        .sound-card p {
-            font-size: 0.92rem;
-            line-height: 1.8;
-            color: var(--ink3);
-            margin-bottom: 0.9rem;
-        }
-
-        .sound-tag {
-            display: inline-block;
-            font-family: var(--mono);
-            font-size: 0.66rem;
-            letter-spacing: 0.06em;
-            color: var(--accent);
-            border: 1px solid var(--rule-h);
-            border-radius: 999px;
-            padding: 0.18rem 0.55rem;
-        }
-
-        @media (max-width: 820px) {
-            .sound-grid {
-                grid-template-columns: 1fr;
-                gap: 1.25rem;
-            }
-        }
-
-        /* ── 系统结构 ──────────────────────────────────────── */
+    }
+    /* ── 系统结构 ──────────────────────────────────────── */
+    .arch {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: stretch;
+        gap: 0.9rem;
+        margin: 2rem 0 1.5rem;
+    }
+    .arch-box {
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        background: var(--paper2);
+        padding: 1rem;
+    }
+    .arch-box span {
+        display: block;
+        font-size: 0.66rem;
+        letter-spacing: 0.14em;
+        color: var(--ink3);
+        margin-bottom: 0.55rem;
+    }
+    .arch-box strong {
+        display: block;
+        font-size: 0.98rem;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 0.35rem;
+    }
+    .arch-box small {
+        display: block;
+        font-size: 0.78rem;
+        line-height: 1.6;
+        color: var(--ink3);
+    }
+    .arch-arrow {
+        align-self: center;
+        color: var(--ink3);
+        font-size: 1rem;
+    }
+    @media (max-width: 760px) {
         .arch {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr auto 1fr;
-            align-items: stretch;
-            gap: 0.9rem;
-            margin: 2rem 0 1.5rem;
+            grid-template-columns: 1fr;
         }
-
-        .arch-box {
-            border: 1px solid var(--rule);
-            border-radius: 8px;
-            background: var(--paper2);
-            padding: 1rem;
-        }
-
-        .arch-box span {
-            display: block;
-            font-size: 0.66rem;
-            letter-spacing: 0.14em;
-            color: var(--ink3);
-            margin-bottom: 0.55rem;
-        }
-
-        .arch-box strong {
-            display: block;
-            font-size: 0.98rem;
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 0.35rem;
-        }
-
-        .arch-box small {
-            display: block;
-            font-size: 0.78rem;
-            line-height: 1.6;
-            color: var(--ink3);
-        }
-
         .arch-arrow {
-            align-self: center;
-            color: var(--ink3);
-            font-size: 1rem;
+            justify-self: center;
+            transform: rotate(90deg);
         }
-
-        @media (max-width: 760px) {
-            .arch {
-                grid-template-columns: 1fr;
-            }
-
-            .arch-arrow {
-                justify-self: center;
-                transform: rotate(90deg);
-            }
-        }
-
-        /* ── 交付列表 ──────────────────────────────────────── */
-        .case-list {
-            list-style: none;
-            margin: 2rem 0 0;
-            border-top: 1px solid var(--rule);
-        }
-
+    }
+    /* ── 交付列表 ──────────────────────────────────────── */
+    .case-list {
+        list-style: none;
+        margin: 2rem 0 0;
+        border-top: 1px solid var(--rule);
+    }
+    .case-list li {
+        display: grid;
+        grid-template-columns: 170px minmax(0, 1fr);
+        gap: 1.2rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--rule);
+        font-size: 0.95rem;
+    }
+    .case-list li strong {
+        font-weight: 600;
+        color: var(--ink);
+    }
+    .case-list li span {
+        color: var(--ink3);
+        line-height: 1.7;
+    }
+    @media (max-width: 640px) {
         .case-list li {
-            display: grid;
-            grid-template-columns: 170px minmax(0, 1fr);
-            gap: 1.2rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--rule);
-            font-size: 0.95rem;
+            grid-template-columns: 1fr;
+            gap: 0.25rem;
         }
-
-        .case-list li strong {
-            font-weight: 600;
-            color: var(--ink);
-        }
-
-        .case-list li span {
-            color: var(--ink3);
-            line-height: 1.7;
-        }
-
-        @media (max-width: 640px) {
-            .case-list li {
-                grid-template-columns: 1fr;
-                gap: 0.25rem;
-            }
-        }
-
-        /* ── 证据图 ────────────────────────────────────────── */
-        .case-figure {
-            border: 1px solid var(--rule);
-            border-radius: 10px;
-            overflow: hidden;
-            background: var(--paper2);
-            margin: 2rem 0 0;
-        }
-
-        .case-figure img {
-            width: 100%;
-        }
-
-        .case-figure figcaption {
-            border-top: 1px solid var(--rule);
-            padding: 0.8rem 1rem;
-            font-size: 0.78rem;
-            line-height: 1.6;
-            color: var(--ink3);
-        }
-
-        /* ── 页脚 ──────────────────────────────────────────── */
-        .footer-sub {
-            margin-top: 4rem;
-        }
-    </style>
+    }
+    /* ── 证据图 ────────────────────────────────────────── */
+    .case-figure {
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper2);
+        margin: 2rem 0 0;
+    }
+    .case-figure img {
+        width: 100%;
+    }
+    .case-figure figcaption {
+        border-top: 1px solid var(--rule);
+        padding: 0.8rem 1rem;
+        font-size: 0.78rem;
+        line-height: 1.6;
+        color: var(--ink3);
+    }
+    /* ── 页脚 ──────────────────────────────────────────── */
+    .footer-sub {
+        margin-top: 4rem;
+    }
+</style>
     <link rel="stylesheet" href="../../assets/css/subpage.css" />
     <link rel="stylesheet" href="../../assets/css/icons.css" />
     <link rel="stylesheet" href="../../assets/css/nav.css" />
@@ -647,6 +478,8 @@
                 <li><strong>成套 SFX</strong><span>方块、岩浆、平台、干/湿脚步、攀爬藤蔓、UI 确认与机关循环。</span></li>
                 <li><strong>响度标准</strong><span>BGM 统一到 −28 LUFS，并留下响度规范与交接文档。</span></li>
                 <li><strong>命名与交接</strong><span>按 cue 语义命名，资源进 Unity 时保留 .meta 与引用；音频改动按分支提交，不直接动场景接线。</span></li>
+                <li><strong>规格</strong><span>BGM MP3 320 kbps / −28 LUFS（项目方指定，低于本站 −24 交付标准）；命名沿用项目内 <code>sfx_gp_*</code> 前缀。</span></li>
+                <li><strong>工具</strong><span>声音全部为实录与合成；AI 仅用于 Git 资产整理与文档校对，不参与音频生成。</span></li>
             </ul>
             <figure class="case-figure">
                 <img src="img/git-history.webp" alt="《形之彩》音频分支的 Git 提交记录：BGM 交付、音效补充、响度标准化与交接文档" loading="lazy" />
@@ -655,7 +488,25 @@
         </section>
 
         <section class="case-section">
-            <div class="case-kicker">05 · Links</div>
+            <div class="case-kicker">05 · Result</div>
+            <h2>结果：能玩到，也能被接手</h2>
+            <p class="case-lede">项目按期上线 TapTap 聚光灯专题页，可试玩（带声音）。音频侧交付 13 首 BGM 与成套 SFX，BGM 全部归一到 −28 LUFS，并留下命名规范与两版交接文档。</p>
+            <p>省时间的地方在交接：命名与分支纪律让音频改动不碰场景接线，程序按 cue 名就能查到触发时机。复盘时估算，一次对接比原先少花约 2 小时——<strong>这是估算，不是统计口径</strong>；能被核对的只有提交记录本身。</p>
+            <p>也要说清前提：这套 Cue 系统是项目内现搭的，没有中间件可用。它保住了 21 天的下限，但不等于一套可复用的中间件方案。</p>
+        </section>
+
+        <section class="case-section">
+            <div class="case-kicker">06 · What I'd change</div>
+            <h2>三件没做到的事</h2>
+            <p><strong>一、没有专属主题曲。</strong>同期还在并行一个商业项目，我用库存曲目复用守住进度，代价是游戏缺一个能被记住的动机。下次把「主题曲动机」当 P0 锁死：哪怕先交 30 秒吉他单音 Demo，也要先立住音乐的魂。</p>
+            <p><strong>二、复古类 Foley 的库不够厚。</strong>爬藤蔓一类的声音只能现场录、现场调，吃掉了本该留给混音的时间。</p>
+            <p>这件事我后来想得更细：找不到合适素材，可能来自三个不同的地方——<strong>储备不足</strong>（没这个材质）、<strong>检索低效</strong>（有，但命名与试听太慢）、<strong>方案单一</strong>（没考虑分层合成、变调或替代材质）。我当时的默认反应是「再去找素材」，恰好是最短视的一条；正确的顺序是先把三者分开归因，再决定补库、改命名，还是改设计流程。</p>
+            <p><strong>三、需求对齐用妥协换了进度。</strong>策划的需求表偏模糊时，我选择不抬杠：团队是和气的，但部分音效因此缺少明确的验收标准。下次不争，改为给选择题——A 是通用音效、今天就能上；B 是定制音效、需要你们周四前填完这张表。</p>
+            <p class="case-lede">没有冲突，不等于验收标准足够。这条记进流程，而不是记在手感上。</p>
+        </section>
+
+        <section class="case-section">
+            <div class="case-kicker">07 · Links</div>
             <h2>试玩与延伸</h2>
             <p><a class="case-link" href="https://www.taptap.cn/app/976206?os=pc" target="_blank" rel="noopener noreferrer">在 TapTap 试玩《形之彩》↗</a>　·　<a class="case-link" href="../03-interactive/wwise-101.html">Wwise 101 学习笔记（非本项目）↗</a></p>
         </section>
