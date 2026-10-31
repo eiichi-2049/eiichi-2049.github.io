@@ -277,12 +277,16 @@
 
     /* ═══ 大页脚：品牌 + 终端声明 + 版权/时钟 ═══ */
     .foot{padding:clamp(56px,7vw,88px) 0 34px;--brand-lift:33px}
-    /* 字色 transparent + background-clip:text 时，文字一旦宽过盒子，右侧笔画会整段消失（不是溢出滚动，是看不见）。
-       「ReiVerb Sound Atorie」在 Fraunces 300 + -0.05em 下每 em 约 8.84em 宽；960 版心内容宽 880px，
-       故字号上限锁 6.1rem（97.6px ≈ 867px）。改字号前先用字体量一遍。 */
-    .foot-brand{display:block;width:fit-content;max-width:100%;margin:0 auto;padding:0;border:0;
+    /* 两个坑叠在一起，所以这里既不能用 fit-content，也不能只调字号：
+       ① color:transparent + background-clip:text，字形只能画在元素盒子以内——盒子窄一点，右边笔画就整段消失，
+          不是溢出滚动，是彻底看不见。
+       ② width:fit-content 对按钮的 max-content 估算会比实际字形窄几个百分点（尾字右边缘外扩 + 末位字距），
+          于是盒子永远差一点点，末字固定被切。
+       所以：宽度占满版心（880px），只让字号负责「装得下」。文字实测 8.89–9.3px/em，
+       「ReiVerb Sound Atorie」在 5.8rem(92.8px) 下最宽约 863px，留 17px 余量。改字号前先用字体量。 */
+    .foot-brand{display:block;width:100%;max-width:none;margin:0 auto;padding:0;border:0;
                 background:linear-gradient(var(--ink),transparent 92%);-webkit-background-clip:text;background-clip:text;
-                font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,7.2vw,6.1rem);
+                font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,8.6vw,5.8rem);
                 line-height:.92;letter-spacing:-.05em;color:transparent;text-align:center;
                 -webkit-appearance:none;appearance:none;cursor:pointer;user-select:none;white-space:nowrap;
                 opacity:.9;transition:transform .55s var(--ease),opacity .35s ease}
