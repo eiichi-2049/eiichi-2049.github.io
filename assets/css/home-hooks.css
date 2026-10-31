@@ -61,7 +61,7 @@
   position:relative;
 }
 .stage-dot[aria-pressed="true"] .dot-core{
-  background:var(--olive);box-shadow:inset 0 0 0 2px var(--olive), 0 0 0 4px rgba(176,183,72,.25);
+  background:var(--olive);box-shadow:inset 0 0 0 2px var(--olive), 0 0 0 4px rgba(78, 117, 144,.25);
   transform:scale(1.05);
 }
 .stage-dot .dot-label{
