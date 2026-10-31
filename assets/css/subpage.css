@@ -50,28 +50,30 @@
   --bg3: #f4f4f4;
   --ink: #010205;
   --ink2: #3a3c3e;
-  --ink3: #7b7e81;
+  --ink3: #5f6367;
   --line: rgba(1, 2, 5, 0.10);
   --line2: rgba(1, 2, 5, 0.20);
-  --accent: #556B2F;
-  --accent-hover: #3F4A1A;
-  --accent-dim: rgba(85, 107, 47, 0.13);
+  --accent: #4E7590;
+  --accent-hover: #3F647F;
+  --accent-dim: rgba(78, 117, 144, 0.13);
   --nav-bg: rgba(255, 255, 255, 0.86);
   --overlay-bg: rgba(1, 2, 5, 0.28);
   --wc-shadow: 0 0 0 1px rgba(1, 2, 5, 0.08), 0 25px 80px rgba(1, 2, 5, 0.16);
   --shadow-card: 0 2px 16px rgba(1, 2, 5, 0.08);
-  --blue: #4a6a8a;
-  --blue-dim: rgba(74, 106, 138, 0.06);
-  --olive: #556B2F;
-  --btn: #556B2F;
-  --btn-hover: #3F4A1A;
+  --blue: #4E7590;
+  --blue-dim: rgba(78, 117, 144, 0.06);
+  --olive: #4E7590;
+  --dot-deep: #4E7590;
+  --dot-light: #B5D3E5;
+  --btn: #4E7590;
+  --btn-hover: #3F647F;
   --btn-ink: #ffffff;
   --paper: #ffffff;
   --paper2: #ffffff;
   --surface: #f4f4f4;
-  --ink4: #7b7e81;
-  --red: #556B2F;
-  --red-dim: rgba(85, 107, 47, 0.13);
+  --ink4: #5f6367;
+  --red: #4E7590;
+  --red-dim: rgba(78, 117, 144, 0.13);
   --rule: rgba(1, 2, 5, 0.10);
   --rule-h: rgba(1, 2, 5, 0.20);
 }
@@ -124,8 +126,8 @@
   display: inline-block;
 }
 
-.project-eyebrow i:nth-child(1) { background: var(--accent); }
-.project-eyebrow i:nth-child(2) { background: var(--olive); }
+.project-eyebrow i:nth-child(1) { background: var(--dot-deep); }
+.project-eyebrow i:nth-child(2) { background: var(--dot-light); }
 
 .project-eyebrow span {
   font-family: var(--mono);
@@ -151,6 +153,10 @@
 .rw-title em {
   font-style: italic;
   color: var(--olive);
+}
+
+.project-title em.zh {
+  font-style: normal;
 }
 
 .page-desc,
@@ -254,12 +260,14 @@
 .nav .wrap {
   max-width: none;
   height: 100%;
-  padding: 0 clamp(12px, 1.8vw, 24px);
+  padding: 0;
 }
 
 .nav-in {
   height: 100%;
-  padding: 0 max(12px, calc((100% - 1080px) / 2 + 48px));
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 3rem;
   background: none;
   border: 0;
   border-radius: 0;
@@ -267,15 +275,19 @@
   backdrop-filter: none;
 }
 
-@media (max-width: 1080px) {
-  .nav-in {
-    padding: 0 30px;
-  }
-}
-
 @media (max-width: 768px) {
   .nav-in {
-    padding: 0 12px;
+    padding: 0 1.5rem;
+  }
+
+  .nav-links {
+    visibility: hidden;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .nav-links.open {
+    visibility: visible;
   }
 }
 
