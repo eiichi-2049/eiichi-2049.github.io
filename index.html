@@ -209,18 +209,26 @@
       .tl-stack,.tl-result{grid-column:1}
     }
 
-    /* ═══ 交互音频演示（音频素材就位后取消 hidden）═══ */
+    /* ═══ 交互音频演示（音轨接入前整块保持 hidden）═══ */
     .stage-wrap{padding:30px;border:1px solid var(--line);border-radius:18px;background:var(--bg2)}
+    .stage-video{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:14px;
+                 overflow:hidden;background:#000;margin-bottom:20px}
+    .stage-video video{display:block;width:100%;height:100%;object-fit:cover}
+    .stage-hint{margin:0 0 20px;max-width:64ch;font-size:.92rem;line-height:1.85;color:var(--ink2)}
+    .stage-hint strong{color:var(--ink);font-weight:600}
     .stage-dots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     .stage-dot{text-align:left;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--bg3);
                color:var(--ink);cursor:pointer;transition:border-color .25s,background .25s}
     .stage-dot[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-dim)}
+    .stage-dot[disabled]{cursor:not-allowed;opacity:.55}
+    .stage-dot[disabled] .dot-core{background:var(--line2)}
     .dot-core{width:11px;height:11px;border-radius:50%;background:var(--ink3);display:block;margin-bottom:14px;transition:background .25s}
     .stage-dot[aria-pressed="true"] .dot-core{background:var(--accent)}
     .dot-label{display:block;font-size:.96rem;font-weight:500}
     .dot-tag{display:block;margin-top:7px;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;color:var(--ink3)}
     .stage-status{margin-top:20px;font-size:.9rem;color:var(--ink2)}
-    .stage-actions{margin-top:18px}
+    .stage-actions{margin-top:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .stage-note{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--ink3)}
     @media(max-width:760px){ .stage-dots{grid-template-columns:1fr} }
 
     /* ═══ 引言（Grace Note）：收束全页，与页脚组成同一个句尾 ═══ */
@@ -479,7 +487,7 @@
     </div>
   </section>
 
-  <!-- 交互音频演示：等真实音频素材就位后再公开 -->
+  <!-- 交互音频演示：音轨接入前保持 hidden；进度见 docs/stage-module-todo.md -->
   <section class="sec" id="stage" hidden>
     <div class="wrap">
       <div class="sec-head reveal">
@@ -487,27 +495,52 @@
         <h2><em>分层</em>是怎么叠起来的</h2>
       </div>
       <div class="stage-wrap reveal" data-hook="stage">
+
+        <div class="stage-video">
+          <video muted loop playsinline autoplay preload="metadata"
+                 poster="./projects/07-xingzhicai/media/poster.webp"
+                 aria-label="《形之彩》实机画面，无声循环">
+            <source src="./projects/07-xingzhicai/media/xingzhicai-15s.mp4" type="video/mp4" />
+            <source src="./projects/07-xingzhicai/media/xingzhicai-15s.webm" type="video/webm" />
+          </video>
+        </div>
+
+        <p class="stage-hint">
+          点三下，听清一件事：<strong>游戏里的声音不是一个整体，而是可以分开负责的</strong>——第一层建立空间，
+          第二层接住操作，第三层决定情绪。
+          <br />画面为《形之彩》实机录制（无声循环）；音频为本站单独制作的分层演示。
+        </p>
+
         <div class="stage-dots" role="group" aria-label="音频分层">
           <button type="button" class="stage-dot" data-layer="ambience" aria-pressed="false">
             <span class="dot-core" aria-hidden="true"></span>
             <span class="dot-label">01 环境层</span>
             <span class="dot-tag">Ambience Bus · RTPC Distance</span>
           </button>
-          <button type="button" class="stage-dot" data-layer="sfx" aria-pressed="false">
+          <button type="button" class="stage-dot" data-layer="sfx" aria-pressed="false" disabled>
             <span class="dot-core" aria-hidden="true"></span>
             <span class="dot-label">02 交互层</span>
-            <span class="dot-tag">SFX · Ducking · Priority</span>
+            <span class="dot-tag">SFX · Ducking · Priority（音轨制作中）</span>
           </button>
-          <button type="button" class="stage-dot" data-layer="music" aria-pressed="false">
+          <button type="button" class="stage-dot" data-layer="music" aria-pressed="false" disabled>
             <span class="dot-core" aria-hidden="true"></span>
             <span class="dot-label">03 音乐层</span>
-            <span class="dot-tag">Music Bus · RTPC Combat</span>
+            <span class="dot-tag">Music Bus · RTPC Combat（音轨制作中）</span>
           </button>
         </div>
+
         <p class="stage-status" aria-live="polite">当前：静音。</p>
+
         <div class="stage-actions">
           <button type="button" class="btn btn-secondary stage-reset">重新体验</button>
+          <span class="stage-note">Phase A：环境层音轨接入后即可取消 hidden</span>
         </div>
+
+        <!-- 音轨占位：Phase A/B 只需补 src，其余不动（命名见 docs/naming-and-package.md） -->
+        <audio data-layer="ambience" preload="none" loop></audio>
+        <audio data-layer="sfx" preload="none" loop></audio>
+        <audio data-layer="music" preload="none" loop></audio>
+
       </div>
     </div>
   </section>
@@ -686,10 +719,16 @@
       setTimeout(function(){ els.forEach(function(e){ e.classList.add('visible'); }); }, 2500);
     })();
 
-    // 分层演示状态机
+    // 分层演示状态机 —— 本模块唯一实现（assets/js/home-hooks.js 已删除，勿再复制外挂版）
     (function(){
       var root = document.querySelector('[data-hook="stage"]');
       if (!root) return;
+      var video = root.querySelector('.stage-video video');
+      // 动效降级：不循环播放画面，只留 poster
+      if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        video.removeAttribute('autoplay');
+        video.pause();
+      }
       var dots = Array.prototype.slice.call(root.querySelectorAll('.stage-dot'));
       var status = root.querySelector('.stage-status');
       var reset = root.querySelector('.stage-reset');
