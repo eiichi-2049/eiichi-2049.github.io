@@ -440,6 +440,60 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* ── 信号链示意图（自绘，非工程截图） ────────────────── */
+    .wg-chain {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+    .wg-chain-box {
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        background: var(--paper2);
+        padding: 0.9rem 1rem;
+    }
+    .wg-chain-box span {
+        display: block;
+        font-size: 0.66rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 0.45rem;
+    }
+    .wg-chain-box strong {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 0.3rem;
+    }
+    .wg-chain-box small {
+        display: block;
+        font-size: 0.78rem;
+        line-height: 1.65;
+        color: var(--ink3);
+    }
+    .wg-chain-note {
+        margin-top: 1.1rem;
+        font-size: 0.92rem;
+        line-height: 1.85;
+        color: var(--ink2);
+    }
+    .wg-chain-note code {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        background: var(--paper2);
+        padding: 1px 5px;
+        border-radius: 4px;
+    }
+    @media (max-width: 900px) {
+        .wg-chain { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+        .wg-chain { grid-template-columns: 1fr; }
+    }
 </style>
     <link rel="stylesheet" href="../../assets/css/subpage.css" />
     <link rel="stylesheet" href="../../assets/css/icons.css" />
@@ -539,6 +593,36 @@
                 <li>性能与优化</li>
                 <li>部分音频行业理解</li>
             </ul>
+
+            <!-- ── 信号链示意：一次脚步声要过几道手（自绘，非工程截图） ── -->
+            <div class="wg-chain" role="img"
+                 aria-label="声音从游戏事件到输出的四段链路：引擎触发 Event，Wwise 用 RTPC、Switch、State 决定播什么，Actor-Mixer 层级决定怎么组织，总线决定最终怎么混">
+                <div class="wg-chain-box">
+                    <span>01 · Game</span>
+                    <strong>Unity / Unreal</strong>
+                    <small>脚踩到地面 → 触发一次 Event</small>
+                </div>
+                <div class="wg-chain-box">
+                    <span>02 · Wwise</span>
+                    <strong>Event + 参数</strong>
+                    <small>RTPC 连续量：距离、强度<br>Switch 有限状态：材质<br>State 全局：战斗 / 探索</small>
+                </div>
+                <div class="wg-chain-box">
+                    <span>03 · 结构</span>
+                    <strong>Actor-Mixer 层级</strong>
+                    <small>Random Container 轮换<br>Blend 按参数混合<br>Voice 限制与优先级</small>
+                </div>
+                <div class="wg-chain-box">
+                    <span>04 · 输出</span>
+                    <strong>Bus → Master</strong>
+                    <small>SFX / Music / Voice 分总线<br>Ducking、Effect、响度归一到 Master</small>
+                </div>
+            </div>
+            <p class="wg-chain-note">
+                <strong>一句话记住这四段：</strong>事件决定「什么时候响」，参数决定「响哪一个」，
+                层级决定「怎么组织」，总线决定「最后怎么混」。<br />
+                这张图是概念示意，<strong>不是我的 Wwise 工程截图</strong>——等事件树与 Profiler 证据整理好，会换成真实截图。
+            </p>
 
             <!-- ── 章节地图（重新设计） ────────────────────────── -->
             <div class="chapter-map">

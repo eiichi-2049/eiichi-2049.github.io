@@ -161,32 +161,23 @@
                       letter-spacing:-.015em;line-height:1.2}
     .work-group-zh{font-size:.78rem;color:var(--ink3);letter-spacing:.04em;white-space:nowrap}
     .work-group-list{display:flex;flex-direction:column}
-    .work-subrow,.work-subgroup-head{display:grid;grid-template-columns:minmax(0,1fr) 200px 90px;
+    /* 注：2026-10-31 起 OST 子组入口改为隐藏行，.work-subgroup* / .work-toggle* 规则已删除 */
+    .work-subrow{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 200px 90px;
       column-gap:clamp(14px,2.2vw,24px);align-items:baseline;padding:14px 0 14px 40px;border-bottom:1px solid var(--line)}
-    .work-subrow{position:relative}
-    .work-subrow:hover .work-subrow-title,.work-subrow:focus-visible .work-subrow-title,
-    .work-subgroup-title:hover,.work-subgroup-title:focus-visible{color:var(--accent)}
-    .work-subrow-title,.work-subgroup-title{font-family:var(--sans);font-weight:500;font-size:1.02rem;line-height:1.3;
-                                             color:var(--ink);transition:color .2s}
+    .work-subrow:hover .work-subrow-title,.work-subrow:focus-visible .work-subrow-title{color:var(--accent)}
+    .work-subrow-title{font-family:var(--sans);font-weight:500;font-size:1.02rem;line-height:1.3;
+                       color:var(--ink);transition:color .2s}
     .work-subrow-meta{font-size:.8rem;line-height:1.4;color:var(--ink3);text-align:right}
     .work-subrow-year,.work-subrow-status{font-size:.78rem;font-variant-numeric:tabular-nums;letter-spacing:.02em;
                                           color:var(--ink3);text-align:right;white-space:nowrap}
     .work-subrow-status{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase}
-    .work-toggle{width:30px;height:30px;display:grid;place-items:center;justify-self:end;background:none;border:1px solid var(--line2);
-                 border-radius:50%;color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s}
-    .work-toggle:hover{background:var(--bg3);border-color:var(--ink3)}
-    .work-toggle-icon{font-size:1rem;line-height:1;transition:transform .25s var(--ease)}
-    .work-toggle[aria-expanded="true"] .work-toggle-icon{transform:rotate(45deg)}
-    .work-subgroup-panel{border-bottom:1px solid var(--line)}
-    .work-subgroup-panel[hidden]{display:none}
-    .work-subgroup-panel .work-subrow{border-bottom:0;padding-top:12px;padding-bottom:12px}
     @media(max-width:760px){
       .work-group-head{grid-template-columns:auto minmax(0,1fr);row-gap:3px}
       .work-group-zh{grid-column:2;grid-row:2}
-      .work-subrow,.work-subgroup-head{grid-template-columns:minmax(0,1fr) 76px;column-gap:12px;row-gap:4px;padding-left:30px}
-      .work-subrow-title,.work-subgroup-title{grid-column:1;grid-row:1}
-      .work-subrow-meta,.work-subgroup-head .work-subrow-meta{grid-column:1;grid-row:2;text-align:left}
-      .work-subrow-year,.work-subrow-status,.work-toggle{grid-column:2;grid-row:1;text-align:right;justify-self:end}
+      .work-subrow{grid-template-columns:minmax(0,1fr) 76px;column-gap:12px;row-gap:4px;padding-left:30px}
+      .work-subrow-title{grid-column:1;grid-row:1}
+      .work-subrow-meta{grid-column:1;grid-row:2;text-align:left}
+      .work-subrow-year,.work-subrow-status{grid-column:2;grid-row:1;text-align:right;justify-self:end}
     }
 
     /* ═══ 履历（High-touch：形式跟随内容）═══ */
@@ -214,22 +205,54 @@
     .stage-video{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:14px;
                  overflow:hidden;background:#000;margin-bottom:20px}
     .stage-video video{display:block;width:100%;height:100%;object-fit:cover}
+    /* 只在 JS 可用时显示加载/失败遮罩：无 JS 时 poster 直接可见，不会被"加载中"永久盖住 */
+    .js .stage-video[data-state]::after{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+      padding:0 24px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;line-height:1.9;
+      color:rgba(255,255,255,.78);background:#000}
+    .js .stage-video[data-state="loading"]::after{content:"画面加载中…"}
+    .js .stage-video[data-state="error"]::after{content:"画面未能加载 · 已降级为静态封面"}
     .stage-hint{margin:0 0 20px;max-width:64ch;font-size:.92rem;line-height:1.85;color:var(--ink2)}
     .stage-hint strong{color:var(--ink);font-weight:600}
     .stage-dots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .stage-dot{text-align:left;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--bg3);
-               color:var(--ink);cursor:pointer;transition:border-color .25s,background .25s}
+    .stage-dot{position:relative;text-align:left;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--bg3);
+               color:var(--ink);cursor:pointer;transition:border-color .25s,background .25s,opacity .25s}
     .stage-dot[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-dim)}
     .stage-dot[disabled]{cursor:not-allowed;opacity:.55}
     .stage-dot[disabled] .dot-core{background:var(--line2)}
+    /* 三态：未激活（默认）· 激活（aria-pressed）· 已完成（data-done，展示一次对勾） */
+    .stage-dot[data-done="true"]{border-color:var(--line2)}
+    .dot-mark{position:absolute;top:16px;right:18px;font-family:var(--mono);font-size:.8rem;
+              color:var(--accent);opacity:0;transition:opacity .25s}
+    .stage-dot[data-done="true"] .dot-mark{opacity:1}
     .dot-core{width:11px;height:11px;border-radius:50%;background:var(--ink3);display:block;margin-bottom:14px;transition:background .25s}
     .stage-dot[aria-pressed="true"] .dot-core{background:var(--accent)}
+    .stage-dot[data-done="true"] .dot-core{background:var(--accent);opacity:.6}
+    /* 引导：只呼吸可点的那一颗，点过一次即永久停止 */
+    .stage-dots.is-coaching .stage-dot:not([disabled]) .dot-core{animation:dotBreathe 1.9s ease-in-out infinite}
+    @keyframes dotBreathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.5}}
     .dot-label{display:block;font-size:.96rem;font-weight:500}
     .dot-tag{display:block;margin-top:7px;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;color:var(--ink3)}
-    .stage-status{margin-top:20px;font-size:.9rem;color:var(--ink2)}
+    .stage-status{margin-top:20px;font-size:.9rem;line-height:1.8;color:var(--ink2)}
     .stage-actions{margin-top:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-    .stage-note{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--ink3)}
-    @media(max-width:760px){ .stage-dots{grid-template-columns:1fr} }
+    .stage-note{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--ink3);line-height:1.8}
+    /* 技术说明：原生 details，无 JS 也能展开 */
+    .stage-tech{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+    .stage-tech summary{cursor:pointer;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--ink3)}
+    .stage-tech summary:hover{color:var(--ink)}
+    .stage-tech-body{padding-top:16px}
+    .chain{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .chain-box{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg3)}
+    .chain-box b{display:block;font-size:.86rem;font-weight:600;margin-bottom:5px}
+    .chain-box span{display:block;font-family:var(--mono);font-size:.64rem;line-height:1.7;color:var(--ink3)}
+    .chain-out{grid-column:1/-1;border:1px dashed var(--line2);border-radius:10px;padding:10px 14px;
+               text-align:center;font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;color:var(--ink3)}
+    .stage-tech-text{margin-top:14px;font-size:.86rem;line-height:1.9;color:var(--ink2);max-width:66ch}
+    .stage-tech-text code{font-family:var(--mono);font-size:.78rem;background:var(--bg3);padding:1px 5px;border-radius:4px}
+    @media(max-width:760px){ .stage-dots{grid-template-columns:1fr} .chain{grid-template-columns:1fr} }
+    @media(prefers-reduced-motion: reduce){
+      .stage-dots.is-coaching .stage-dot:not([disabled]) .dot-core{animation:none}
+      .dot-mark{transition:none}
+    }
 
     /* ═══ 引言（Grace Note）：收束全页，与页脚组成同一个句尾 ═══ */
     .quote{text-align:center;padding:clamp(56px,7vw,88px) 0 clamp(24px,3vw,40px)}
@@ -496,7 +519,7 @@
       </div>
       <div class="stage-wrap reveal" data-hook="stage">
 
-        <div class="stage-video">
+        <div class="stage-video" data-state="loading">
           <video muted loop playsinline autoplay preload="metadata"
                  poster="./projects/07-xingzhicai/media/poster.webp"
                  aria-label="《形之彩》实机画面，无声循环">
@@ -514,27 +537,53 @@
         <div class="stage-dots" role="group" aria-label="音频分层">
           <button type="button" class="stage-dot" data-layer="ambience" aria-pressed="false">
             <span class="dot-core" aria-hidden="true"></span>
+            <span class="dot-mark" aria-hidden="true">✓</span>
             <span class="dot-label">01 环境层</span>
             <span class="dot-tag">Ambience Bus · RTPC Distance</span>
           </button>
           <button type="button" class="stage-dot" data-layer="sfx" aria-pressed="false" disabled>
             <span class="dot-core" aria-hidden="true"></span>
+            <span class="dot-mark" aria-hidden="true">✓</span>
             <span class="dot-label">02 交互层</span>
             <span class="dot-tag">SFX · Ducking · Priority（音轨制作中）</span>
           </button>
           <button type="button" class="stage-dot" data-layer="music" aria-pressed="false" disabled>
             <span class="dot-core" aria-hidden="true"></span>
+            <span class="dot-mark" aria-hidden="true">✓</span>
             <span class="dot-label">03 音乐层</span>
             <span class="dot-tag">Music Bus · RTPC Combat（音轨制作中）</span>
           </button>
         </div>
 
-        <p class="stage-status" aria-live="polite">当前：静音。</p>
+        <p class="stage-status" aria-live="polite">当前：仅画面。</p>
 
         <div class="stage-actions">
           <button type="button" class="btn btn-secondary stage-reset">重新体验</button>
+          <button type="button" class="btn btn-secondary stage-mute" aria-pressed="false">静音</button>
           <span class="stage-note">Phase A：环境层音轨接入后即可取消 hidden</span>
         </div>
+
+        <details class="stage-tech">
+          <summary>技术说明：这三层在工程里长什么样</summary>
+          <div class="stage-tech-body">
+            <div class="chain">
+              <div class="chain-box"><b>01 环境层</b><span>Ambience Bus<br>RTPC Distance · 循环床</span></div>
+              <div class="chain-box"><b>02 交互层</b><span>SFX Bus<br>Ducking · Priority · 同帧去重</span></div>
+              <div class="chain-box"><b>03 音乐层</b><span>Music Bus<br>RTPC Combat · 强度曲线</span></div>
+              <div class="chain-out">Master Bus → 网页试听 −16 LUFS · 工程交付 −24 LUFS</div>
+            </div>
+            <p class="stage-tech-text">
+              上图是本演示的分层结构，<strong>不是 Wwise 工程截图</strong>：页面用三个独立的
+              <code>audio</code> 对象模拟三条总线，点一下等于在中间件里开关一条 Bus。
+              真实工程里这三层会挂在同一条 Master 下，由 RTPC / State 驱动切换，而不是靠按钮——
+              按钮只是为了让人在三秒内听懂"分层"这件事。
+            </p>
+          </div>
+        </details>
+
+        <noscript>
+          <p class="stage-note">本演示需要 JavaScript 才能逐层叠加音频；未开启时只能看到画面与说明。</p>
+        </noscript>
 
         <!-- 音轨占位：Phase A/B 只需补 src，其余不动（命名见 docs/naming-and-package.md） -->
         <audio data-layer="ambience" preload="none" loop></audio>
@@ -723,52 +772,91 @@
     (function(){
       var root = document.querySelector('[data-hook="stage"]');
       if (!root) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 画面：加载态 / 失败降级 / 动效降级
       var video = root.querySelector('.stage-video video');
-      // 动效降级：不循环播放画面，只留 poster
-      if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-        video.removeAttribute('autoplay');
-        video.pause();
+      var videoBox = root.querySelector('.stage-video');
+      if (video && videoBox){
+        if (reduce){ video.removeAttribute('autoplay'); video.pause(); }
+        video.addEventListener('loadeddata', function(){ videoBox.removeAttribute('data-state'); });
+        video.addEventListener('error', function(){ videoBox.setAttribute('data-state','error'); });
       }
+
       var dots = Array.prototype.slice.call(root.querySelectorAll('.stage-dot'));
+      var dotBox = root.querySelector('.stage-dots');
       var status = root.querySelector('.stage-status');
       var reset = root.querySelector('.stage-reset');
+      var muteBtn = root.querySelector('.stage-mute');
       var order = ['ambience','sfx','music'];
       var MSG = [
-        '当前：静音。',
+        '当前：仅画面。先建立视觉基线。',
         '当前：+环境层。Ambience 建立空间与材质。',
         '当前：+交互层。SFX 与 UI 反馈进入，注意 Ducking 与优先级。',
         '当前：+音乐层。Music 叠合交互层，强度曲线跟随战斗意图。'
       ];
       var on = { ambience:false, sfx:false, music:false };
+      var muted = false;
+
+      function layerEl(k){ return root.querySelector('audio[data-layer="' + k + '"]'); }
       function count(){ return order.filter(function(k){ return on[k]; }).length; }
+      function label(){
+        var msg = MSG[count()] || MSG[3];
+        if (muted && count() > 0) msg += '（已静音）';
+        return msg;
+      }
       function render(){
-        dots.forEach(function(b){ b.setAttribute('aria-pressed', on[b.getAttribute('data-layer')] ? 'true' : 'false'); });
-        if (status) status.textContent = MSG[count()] || MSG[3];
+        dots.forEach(function(b){
+          var k = b.getAttribute('data-layer');
+          b.setAttribute('aria-pressed', on[k] ? 'true' : 'false');
+          if (on[k]) b.setAttribute('data-done','true');   // 第三态：本层曾被开启过
+        });
+        if (status) status.textContent = label();
+        if (muteBtn){
+          muteBtn.setAttribute('aria-pressed', muted ? 'true' : 'false');
+          muteBtn.textContent = muted ? '取消静音' : '静音';
+        }
+        order.forEach(function(k){
+          var a = layerEl(k);
+          if (!a) return;
+          a.muted = muted;
+          if (on[k]){
+            var p = a.play();
+            if (p && p.catch) p.catch(function(){
+              // 有音轨但播不动 → 告诉用户；音轨还没接（无 src）→ 静默保持 UI
+              if (a.getAttribute('src') && status && count() > 0){
+                status.textContent = '音频未能播放：请检查音轨文件，或允许本站播放声音后重试。';
+              }
+            });
+          } else {
+            a.pause();
+            try { a.currentTime = 0; } catch(e){}
+          }
+        });
       }
       function upTo(n){ order.forEach(function(k,i){ on[k] = i < n; }); render(); }
+      function stopCoaching(){ if (dotBox) dotBox.classList.remove('is-coaching'); }
+
+      // 引导：加载后呼吸，点过任意一次即永久停止（减弱动效模式不启动）
+      if (dotBox && !reduce) dotBox.classList.add('is-coaching');
+
       dots.forEach(function(b){
         b.addEventListener('click', function(){
+          stopCoaching();
           var k = b.getAttribute('data-layer'), i = order.indexOf(k);
           if (on[k] && count() === i + 1) upTo(0); else upTo(i + 1);
         });
       });
-      if (reset) reset.addEventListener('click', function(){ upTo(0); });
+      if (reset) reset.addEventListener('click', function(){
+        dots.forEach(function(b){ b.removeAttribute('data-done'); });
+        upTo(0);
+      });
+      if (muteBtn) muteBtn.addEventListener('click', function(){ muted = !muted; render(); });
+
       render();
     })();
 
-    // 作品目录：Original Soundtracks 下拉
-    (function(){
-      var btn = document.querySelector('[data-work-toggle]');
-      if (!btn) return;
-      var panel = document.getElementById(btn.getAttribute('aria-controls'));
-      if (!panel) return;
-      btn.addEventListener('click', function(){
-        var isOpen = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-        panel.hidden = isOpen;
-        btn.setAttribute('aria-label', (isOpen ? '展开' : '收起') + ' Original Soundtracks 作品');
-      });
-    })();
+    // （已移除）作品目录下拉：OST 子组入口在 2026-10-31 改为隐藏行，按钮与面板已不存在
 
     // 询盘表单：校验后拼 mailto，本站不接收、不存储
     (function(){
