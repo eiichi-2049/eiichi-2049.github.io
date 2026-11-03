@@ -1,4 +1,5 @@
 # Internal docs & working notes (not part of the published site)
-# 白名单：执行清单进仓库留版本历史，其余内部文档继续忽略
+# 白名单：执行清单与模块清单进仓库留版本历史，其余内部文档继续忽略
 docs/*
 !docs/stage-module-todo.md
+!docs/module-inventory.md
