@@ -12,7 +12,7 @@
 | 你想改什么 | 改哪里 |
 |---|---|
 | **作品目录的年份显示** | `index.html` 里每条 `.work-subrow` 的**最后一个 span**：`<span class="work-subrow-year">2026</span>`；样式在同文件 `<style>` 的 `.work-subrow-year,.work-subrow-status{…}` |
-| 作品目录加一行 | `index.html` → `.work-group-list` 内复制一条 `<a class="work-subrow" data-source="…">`，三件套：title / meta / year |
+| 作品目录加一行 | `index.html` → `.work-group-list` 内复制一条 `<a class="work-subrow">`，三件套：title / meta / year |
 | 某条作品暂时下架 | 给该 `<a class="work-subrow">` 加 `style="display:none"`（01-music、05-sound-design 就是这么藏的） |
 | 履历加一条 | `index.html` → 对应 `.tl-year` 内加一个 `<li class="tl-item">`（type / title / stack / result 四字段） |
 | 导航加一项 | 首页改 `index.html` 的 `.nav-links`；子页改各自同名结构；**样式只改 `assets/css/nav.css`** |
@@ -20,7 +20,6 @@
 | 首页页脚文字/时钟 | `index.html` → `.foot`（`.foot-meta` / `.foot-clock` / `.foot-brand`） |
 | 子页页脚 | 各子页 `.footer-sub`（样式在 `subpage.css`） |
 | 三层体验开关 | `index.html` → `<section class="sec" id="stage" hidden>` 删掉 `hidden` |
-| 询盘来源归因 | `index.html` 里「询盘来源归因」IIFE + 作品行的 `data-source` + 子页 `?from=<slug>#contact` |
 
 ---
 
@@ -30,7 +29,7 @@
 |---|---|
 | **位置** | 首页：`index.html` `<header class="nav">`；子页：各自 `nav.css` 引用的同结构标记 |
 | **唯一实现** | 样式：首页内联 `.nav*` 规则；子页 `assets/css/nav.css`（`body .nav` 提高特异性接管）。标记：**8 份复制**（首页 + 7 子页），非组件化 |
-| **变体** | ①首页锚点（`#work` `#timeline` `#contact`）②子页锚点（`../../index.html#…`，联系链接带 `?from=`）③移动端 ≤820px 汉堡下拉（`.nav-links.open`） |
+| **变体** | ①首页锚点（`#work` `#timeline` `#contact`）②子页锚点（`../../index.html#…`）③移动端 ≤820px 汉堡下拉（`.nav-links.open`） |
 | **禁止复制项** | 不要再往子页写内联 `.nav` CSS（2026-10-31 已清掉 1490 行）；不要在 `nav.css` 用 `!important`；不要单独改某页 `--nav-h`（96px 全站共用） |
 | **状态** | published |
 | **无障碍验收** | 汉堡按钮 `aria-controls` + `aria-expanded`；`:focus-visible` 2px 外框；移动端菜单项整行可点（≥44px） |
@@ -59,7 +58,7 @@
 | **位置** | `index.html` → `#work` → `.work-groups` → 三组 `.work-group`（01 Game Audio Production / 02 Technical Implementation / 03 Research & Tools） |
 | **结构** | `.work-group-head`（`-num` / `-title` / `-zh`）+ `.work-group-list` > 若干 `.work-subrow`（`-title` / `-meta` / `-year`；`-status` 备用） |
 | **唯一实现** | **硬编码在 `index.html`**。`data/works.json` 只有 1 条 draft、**全站零引用**——别以为页面是它渲染的 |
-| **变体** | ①普通行（标题 + meta + 年份）②隐藏行（`style="display:none"`）③带 `data-source` 的归因行；分组固定 3 组 |
+| **变体** | ①普通行（标题 + meta + 年份）②隐藏行（`style="display:none"`）分组固定 3 组 |
 | **禁止复制项** | 不要在子页复制 `.work-*` 样式；**不要重建 `.work-subgroup*` / `.work-toggle*`**（10-31 已删除，下拉 JS 也已移除） |
 | **状态** | published（可见 5 条 / 隐藏 2 条：01-music、05-sound-design） |
 | **无障碍验收** | 整行是 `<a>`，键盘可达 + 全局 `:focus-visible`；链接文本即标题，无需 `aria-label`；隐藏行用 `display:none`（不进读屏序列） |
@@ -101,10 +100,9 @@
 | 项 | 内容 |
 |---|---|
 | **位置** | `index.html` → `#contact` → `.contact-body` → 左：`.mail-form#foot-form`（`.mail-fields` / `.mail-agree` / `.mail-status` / `.mail-actions`）；右：`.contact-direct`（邮箱 / 飞书 / 简历 / 社媒） |
-| **唯一实现** | `index.html` 内联 JS：「询盘表单」（校验 + 拼 mailto）与「询盘来源归因」（`data-source` → sessionStorage / `?from=`） |
+| **唯一实现** | `index.html` 内联 JS：「询盘表单」（校验 + 拼 mailto） |
 | **变体** | 合作事项三选一（创作邀约 / 商务合作 / 其他）；来源值：`home`、`xingzhicai`、`wwise-101`、`music-analysis`、`bkeq`、`research-writing`（隐藏页另有 `original-soundtracks`、`sound-design`） |
-| **归因链路** | 作品行 `data-source` → 点击存 `sessionStorage['rvsa-source']` → 子页「联系」链接带 `?from=<slug>` → 表单读出 → subject：`[创作邀约] 来自 张三 · 来源 xingzhicai`；无来源兜底 `home` |
-| **禁止复制项** | 不要改成后端提交（当前 mailto，本站不收不发，隐私条款据此写）；不要引入第三方埋点；不要删 `?from=` 参数（删了就丢失归因） |
+| **禁止复制项** | 不要改成后端提交（当前 mailto，本站不收不发，隐私条款据此写）；不要引入第三方埋点 |
 | **状态** | published |
 | **无障碍验收** | `label for` 全关联；状态区 `role="status" aria-live="polite"`；校验失败聚焦到出错字段；隐私协议为必勾 |
 | **性能约束** | 零请求（mailto 唤起本地客户端） |
@@ -181,5 +179,5 @@
 
 | 日期 | 变更 |
 |---|---|
-| 2026-11-03 | 建立本清单；同期为联系表单与作品入口加入 `data-source` 归因（C） |
+| 2026-11-03 | 建立本清单（含 8 类模块、香料许可、技术债） |
 | 2026-11-03 | 增补 §9.1 香料许可；执行 D：02 规格页 emoji 玩笑改写、04 口语结语改写、03 十八条章节注脚改写（保语气 + 加内容锚点） |

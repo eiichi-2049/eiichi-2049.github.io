@@ -372,7 +372,7 @@
           <nav class="nav-links" id="menu">
             <a href="#work">作品</a>
             <a href="#timeline">履历</a>
-            <a href="#contact" data-source="home">联系</a>
+            <a href="#contact">联系</a>
           </nav>
           <div class="nav-tools">
             <button class="burger" type="button" aria-label="打开菜单" aria-controls="menu" aria-expanded="false"
@@ -407,19 +407,19 @@
             <span class="work-group-zh">游戏音频交付</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow" data-source="xingzhicai" href="./projects/07-xingzhicai/xingzhicai.html">
+            <a class="work-subrow" href="./projects/07-xingzhicai/xingzhicai.html">
               <span class="work-subrow-title">XingZhiCai · 形之彩</span>
               <span class="work-subrow-meta">Music / Sound Design · TapTap 2026 GameJam</span>
               <span class="work-subrow-year">2026</span>
             </a>
 
             <!-- 试营业：内容未就位，先不上菜单。素材补齐后删掉 style 属性即可恢复入口。 -->
-            <a class="work-subrow" data-source="original-soundtracks" href="./projects/01-music/original-soundtracks.html" style="display:none">
+            <a class="work-subrow" href="./projects/01-music/original-soundtracks.html" style="display:none">
               <span class="work-subrow-title">Original Soundtracks</span>
               <span class="work-subrow-meta">Original Music · Games</span>
               <span class="work-subrow-year">—</span>
             </a>
-            <a class="work-subrow" data-source="sound-design" href="./projects/05-sound-design/sound-design.html" style="display:none">
+            <a class="work-subrow" href="./projects/05-sound-design/sound-design.html" style="display:none">
               <span class="work-subrow-title">Sound Design</span>
               <span class="work-subrow-meta">Sound Design · Games</span>
               <span class="work-subrow-year">—</span>
@@ -434,7 +434,7 @@
             <span class="work-group-zh">技术实现</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow" data-source="wwise-101" href="./projects/03-interactive/wwise-101.html">
+            <a class="work-subrow" href="./projects/03-interactive/wwise-101.html">
               <span class="work-subrow-title">Wwise 101</span>
               <span class="work-subrow-meta">Study · Wwise Notes</span>
               <span class="work-subrow-year">2026</span>
@@ -449,17 +449,17 @@
             <span class="work-group-zh">研究与工具</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow" data-source="music-analysis" href="./projects/04-analysis/music-analysis.html">
+            <a class="work-subrow" href="./projects/04-analysis/music-analysis.html">
               <span class="work-subrow-title">Music Analysis</span>
               <span class="work-subrow-meta">Analysis · Research</span>
               <span class="work-subrow-year">2025</span>
             </a>
-            <a class="work-subrow" data-source="bkeq" href="./projects/02-plugin/bkeq-hybrid-vst3.html">
+            <a class="work-subrow" href="./projects/02-plugin/bkeq-hybrid-vst3.html">
               <span class="work-subrow-title">BKEQ Hybrid VST3</span>
               <span class="work-subrow-meta">Plugin · DSP</span>
               <span class="work-subrow-year">2026</span>
             </a>
-            <a class="work-subrow" data-source="research-writing" href="./projects/06-writing/research-writing.html">
+            <a class="work-subrow" href="./projects/06-writing/research-writing.html">
               <span class="work-subrow-title">Research &amp; Writing</span>
               <span class="work-subrow-meta">Research · Writing</span>
               <span class="work-subrow-year">2026</span>
@@ -858,30 +858,6 @@
 
     // （已移除）作品目录下拉：OST 子组入口在 2026-10-31 改为隐藏行，按钮与面板已不存在
 
-    // 询盘来源归因（无埋点、无后端）：URL ?from= → sessionStorage → 兜底 home
-    // 来源由两处提供：首页作品入口的 data-source，以及各子页「联系」链接的 ?from=
-    (function(){
-      var KEY = 'rvsa-source';
-      var OK = /^[a-z0-9-]{2,32}$/;
-      function fromUrl(){
-        try { return new URLSearchParams(location.search).get('from'); } catch(e){ return null; }
-      }
-      function save(v){ try { if (v && OK.test(v)) sessionStorage.setItem(KEY, v); } catch(e){} }
-      save(fromUrl());
-      document.addEventListener('click', function(e){
-        var el = e.target;
-        while (el && el !== document) {
-          if (el.tagName === 'A' && el.hasAttribute('data-source')) { save(el.getAttribute('data-source')); return; }
-          el = el.parentNode;
-        }
-      }, true);
-      window.rvsaSource = function(){
-        var p = fromUrl();
-        if (p && OK.test(p)) return p;
-        try { return sessionStorage.getItem(KEY) || 'home'; } catch(e){ return 'home'; }
-      };
-    })();
-
     // 询盘表单：校验后拼 mailto，本站不接收、不存储
     (function(){
       var form = document.getElementById('foot-form');
@@ -899,9 +875,8 @@
         if (!name) { say('请先填写姓名。'); nameEl.focus(); return; }
         if (!message) { say('请先填写合作内容。'); msgEl.focus(); return; }
         if (!agreeEl.checked) { say('请先阅读并同意隐私协议。'); agreeEl.focus(); return; }
-        var src = (window.rvsaSource ? window.rvsaSource() : 'home');
-        var subject = '[' + topic + '] 来自 ' + name + ' · 来源 ' + src;
-        var body = '姓名：' + name + '\n合作事项：' + topic + '\n来源页：' + src + '\n\n合作内容：\n' + message + '\n';
+        var subject = '[' + topic + '] 来自 ' + name + ' 的合作咨询';
+        var body = '姓名：' + name + '\n合作事项：' + topic + '\n\n合作内容：\n' + message + '\n';
         say('已唤起你的邮件客户端，请确认发送。');
         window.location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       });
