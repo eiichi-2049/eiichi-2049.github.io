@@ -20,6 +20,8 @@
 | 首页页脚文字/时钟 | `index.html` → `.foot`（`.foot-meta` / `.foot-clock` / `.foot-brand`） |
 | 子页页脚 | 各子页 `.footer-sub`（样式在 `subpage.css`） |
 | 三层体验开关 | `index.html` → `<section class="sec" id="stage" hidden>` 删掉 `hidden` |
+| **卡片圆角/形状** | 给元素加 `class="apple-squircle"`；半径用 `--squircle-radius`，描边加 `.sq-ring`，投影加 `.sq-lift`（详见 §8.1） |
+| 调整某个卡片的圆角大小 | 在该组件 CSS 里写 `--squircle-radius: 12px`，不要去改 `squircle.js` |
 
 ---
 
@@ -137,6 +139,25 @@
 
 ---
 
+### 8.1 卡片形状：Squircle（2026-11-08 新增）
+
+| 项 | 内容 |
+|---|---|
+| **位置** | `assets/css/squircle.css`（形状 / 描边 / 投影）+ `assets/js/squircle.js`（按元素尺寸生成路径） |
+| **唯一实现** | 上述两个文件。**不要在单页里另写圆角逻辑** |
+| **变体** | 默认 18px；`--squircle-radius` 调半径；`--squircle-curvature` 调曲率（4–5 接近苹果，越大越方） |
+| **修饰类** | `.sq-ring` 描边（inset 阴影，替代 border）；`.sq-lift` / `.sq-lift--strong` 外投影 |
+| **已应用** | 首页 `.stage-video` `.chain-box`；07 `.video-frame` `.case-figure`；03 `.media-block` `.wg-chain-box`；04 `.video-wrap` |
+| **禁止复制项** | ①不要再给这些组件写 `border-radius`（与 clip 冲突，形状会被后写的圆角覆盖）②不要改回 SVG `objectBoundingBox` 方案（圆角会按宽高比拉扁）③描边不要用 `border`（矩形环被裁后有缺口） |
+| **无障碍** | 纯装饰，不改语义、不影响键盘顺序 |
+| **性能** | 每个元素一条 `clip-path: path()`；`ResizeObserver` 驱动重算，无网络请求 |
+| **兜底** | 无 JS 或不支持 `path()` → 退回 `border-radius`，形状退化但不会出现直角 |
+| **回滚** | 删掉类名即可；CSS/JS 留着不影响未使用它的元素 |
+
+> **与视觉基线的冲突记录**：§0 基线写的是「hairline + 小圆角（2–14px）」，squircle 把卡片圆角改成 18px 连续曲率，**属于有意破例**。如果哪天要回到纯 hairline 语言，按上面「回滚」一行处理，并在 §11 记一笔。
+
+---
+
 ## 9. 模块分级（对照手册）
 
 | 级别 | 本模块 | 说明 |
@@ -181,3 +202,4 @@
 |---|---|
 | 2026-11-03 | 建立本清单（含 8 类模块、香料许可、技术债） |
 | 2026-11-03 | 增补 §9.1 香料许可；执行 D：02 规格页 emoji 玩笑改写、04 口语结语改写、03 十八条章节注脚改写（保语气 + 加内容锚点） |
+| 2026-11-08 | 新增 §8.1 Squircle 组件；首页 / 07 / 03 / 04 的媒体与图卡改用连续曲率圆角（有意破例，见该节冲突记录） |
