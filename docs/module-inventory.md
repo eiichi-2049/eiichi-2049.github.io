@@ -63,6 +63,7 @@
 | **变体** | ①普通卡（1/3 宽）②宽卡 `.work-card--wide`（占满整行，横向排版；分组只有 1 条时用）③隐藏卡（`style="display:none"`）；分组固定 3 组 |
 | **禁止复制项** | 不要在子页复制 `.work-*` 样式；**不要重建 `.work-subgroup*` / `.work-toggle*`**（10-31 已删除）；**不要给卡片加 `border-radius`**（形状由 squircle 决定，见 §8.1） |
 | **状态** | published（可见 5 张 / 隐藏 2 张：01-music、05-sound-design） |
+| **悬停/按压** | hover：`translateY(-4px) scale(1.01)` + 阴影由 `0 2px 4px .045` 扩散到 `0 14px 28px .13`，420ms `--ease`；按下一档回落 `-1px / 1.004`（120ms）；`prefers-reduced-motion` 下全部关闭。改动数值在 `index.html` 的 `.work-subrow` 规则里 |
 | **无障碍验收** | 整卡是 `<a>`，键盘可达；**clip-path 会裁掉 outline，所以聚焦态用 `.work-subrow:focus-visible` 的内侧 2px 描边**；链接文本即标题，无需 `aria-label`；水印 `aria-hidden`；隐藏卡 `display:none` 不进读屏序列 |
 | **性能约束** | 零请求（水印是文字，不是图片）；分组图标走 `assets/css/icons.css` 的 mask；每张卡的 squircle 路径由 `squircle.js` 生成，无额外网络开销 |
 

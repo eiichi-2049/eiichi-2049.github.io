@@ -166,9 +166,25 @@
     .work-subrow{position:relative;display:flex;flex-direction:column;padding:0;border:0;
       --squircle-ring:var(--line2);
       background:var(--bg2);overflow:hidden;
-      filter:drop-shadow(0 1px 2px rgba(1,2,5,.04));
-      transition:transform .3s var(--ease),filter .3s var(--ease)}
-    .work-subrow:hover{transform:translateY(-3px);filter:drop-shadow(0 10px 22px rgba(1,2,5,.10))}
+      /* 静置：浅而聚拢，像贴住纸面 */
+      filter:drop-shadow(0 2px 4px rgba(1,2,5,.045));
+      transform:translateZ(0);
+      backface-visibility:hidden;
+      will-change:transform,filter;
+      transition:transform .42s var(--ease),filter .42s var(--ease)}
+    /* 悬停/聚焦：上浮 4px + 1% 放大，投影同时扩散并加深 */
+    .work-subrow:hover,.work-subrow:focus-visible{
+      transform:translateZ(0) translateY(-4px) scale(1.01);
+      filter:drop-shadow(0 14px 28px rgba(1,2,5,.13))}
+    /* 按下：只回落一点，保留触感但不打断节奏 */
+    .work-subrow:active{
+      transform:translateZ(0) translateY(-1px) scale(1.004);
+      transition-duration:.12s}
+    @media(prefers-reduced-motion: reduce){
+      .work-subrow{transition:none;will-change:auto}
+      .work-subrow:hover,.work-subrow:focus-visible{
+        transform:none;filter:drop-shadow(0 2px 4px rgba(1,2,5,.045))}
+    }
     /* clip-path 会裁掉 outline，聚焦态改用内侧描边 */
     .work-subrow:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--accent)}
     .work-card-media{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
