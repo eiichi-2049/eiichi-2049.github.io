@@ -1,0 +1,54 @@
+/* ═══════════════════════════════════════════════════════════════
+   Squircle · Apple 风格连续曲率圆角（G2 / superellipse）
+   ---------------------------------------------------------------
+   为什么不用 border-radius：
+     圆角是「圆弧 + 直线」拼接，曲率在两处交界跳变（G1），
+     苹果的圆角是连续曲率（G2），观感更「鼓」，转角没有折线感。
+
+   实现：
+     · 形状 = 超椭圆 |x/a|^n + |y/b|^n = 1 的四角截取（n≈4.5）
+     · 用 clip-path: path() 表达，坐标由 squircle.js 按元素实际尺寸生成，
+       所以圆角半径恒定，不会被宽高比拉扁（objectBoundingBox 方案的病）
+     · 无 JS / 不支持 path() 时退回 border-radius，形状退化为普通圆角
+
+   用法：
+     <div class="apple-squircle">…</div>              // 圆角默认 18px
+     <div class="apple-squircle" style="--squircle-radius:26px">…</div>
+     需要描边：再加 .sq-ring（替代 border，描边会跟着曲线走）
+     需要投影：再加 .sq-lift（Chrome / WebKit 生效；若某浏览器丢失，用外层包一层）
+   ═══════════════════════════════════════════════════════════════ */
+
+.apple-squircle {
+  /* 无 JS 兜底：普通圆角，保证不出现直角 */
+  border-radius: var(--squircle-radius, 18px);
+}
+
+/* JS 生效后由脚本打上 data-sq="on"：改由 clip-path 决定形状 */
+.apple-squircle[data-sq="on"] {
+  border-radius: 0;
+}
+
+/* 描边：用 inset 阴影代替 border，才能被 clip-path 一起裁成曲线 */
+.apple-squircle.sq-ring {
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--squircle-ring, var(--line, rgba(1, 2, 5, .10)));
+}
+
+/* 外投影：clip-path 只裁元素自身盒子的绘制，filter 在其后，故阴影可保留 */
+.apple-squircle.sq-lift {
+  filter: drop-shadow(0 1px 2px rgba(1, 2, 5, .05))
+          drop-shadow(0 10px 26px rgba(1, 2, 5, .07));
+}
+
+/* 需要更深的悬浮感时 */
+.apple-squircle.sq-lift--strong {
+  filter: drop-shadow(0 2px 6px rgba(1, 2, 5, .08))
+          drop-shadow(0 18px 44px rgba(1, 2, 5, .12));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 尺寸变化时只重算路径，不做形状过渡（避免逐帧重排） */
+  .apple-squircle[data-sq="on"] {
+    transition: filter .25s ease;
+  }
+}
