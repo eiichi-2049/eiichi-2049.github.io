@@ -12,7 +12,7 @@
 | 你想改什么 | 改哪里 |
 |---|---|
 | **作品目录的年份显示** | `index.html` 里每条 `.work-subrow` 的**最后一个 span**：`<span class="work-subrow-year">2026</span>`；样式在同文件 `<style>` 的 `.work-subrow-year,.work-subrow-status{…}` |
-| 作品目录加一行 | `index.html` → `.work-group-list` 内复制一条 `<a class="work-subrow">`，三件套：title / meta / year |
+| 作品目录加一张卡 | `index.html` → 对应 `.work-group-list` 内复制一张 `<a class="work-subrow apple-squircle sq-ring">`，四件套：`work-card-media`（mono + mark）/ `work-card-body`（title + meta）/ `work-card-foot`（year）；分组只有一条时加 `work-card--wide` |
 | 某条作品暂时下架 | 给该 `<a class="work-subrow">` 加 `style="display:none"`（01-music、05-sound-design 就是这么藏的） |
 | 履历加一条 | `index.html` → 对应 `.tl-year` 内加一个 `<li class="tl-item">`（type / title / stack / result 四字段） |
 | 导航加一项 | 首页改 `index.html` 的 `.nav-links`；子页改各自同名结构；**样式只改 `assets/css/nav.css`** |
@@ -58,13 +58,13 @@
 | 项 | 内容 |
 |---|---|
 | **位置** | `index.html` → `#work` → `.work-groups` → 三组 `.work-group`（01 Game Audio Production / 02 Technical Implementation / 03 Research & Tools） |
-| **结构** | `.work-group-head`（`-num` / `-title` / `-zh`）+ `.work-group-list` > 若干 `.work-subrow`（`-title` / `-meta` / `-year`；`-status` 备用） |
+| **结构** | `.work-group-head`（`-num` / `-title` / `-zh`）+ `.work-group-list`（网格）> 若干 `.work-subrow.apple-squircle.sq-ring` 卡片，每张卡三件套：`.work-card-media`（`.work-card-mono` 字母水印 + `.work-card-mark` 标签）/ `.work-card-body`（`-title` / `-meta`）/ `.work-card-foot`（`-year`） |
 | **唯一实现** | **硬编码在 `index.html`**。`data/works.json` 只有 1 条 draft、**全站零引用**——别以为页面是它渲染的 |
-| **变体** | ①普通行（标题 + meta + 年份）②隐藏行（`style="display:none"`）分组固定 3 组 |
-| **禁止复制项** | 不要在子页复制 `.work-*` 样式；**不要重建 `.work-subgroup*` / `.work-toggle*`**（10-31 已删除，下拉 JS 也已移除） |
-| **状态** | published（可见 5 条 / 隐藏 2 条：01-music、05-sound-design） |
-| **无障碍验收** | 整行是 `<a>`，键盘可达 + 全局 `:focus-visible`；链接文本即标题，无需 `aria-label`；隐藏行用 `display:none`（不进读屏序列） |
-| **性能约束** | 零请求；分组图标走 `assets/css/icons.css` 的 mask（单 SVG 0.2–0.8KB），不得改为 `<img>` 逐张请求 |
+| **变体** | ①普通卡（1/3 宽）②宽卡 `.work-card--wide`（占满整行，横向排版；分组只有 1 条时用）③隐藏卡（`style="display:none"`）；分组固定 3 组 |
+| **禁止复制项** | 不要在子页复制 `.work-*` 样式；**不要重建 `.work-subgroup*` / `.work-toggle*`**（10-31 已删除）；**不要给卡片加 `border-radius`**（形状由 squircle 决定，见 §8.1） |
+| **状态** | published（可见 5 张 / 隐藏 2 张：01-music、05-sound-design） |
+| **无障碍验收** | 整卡是 `<a>`，键盘可达；**clip-path 会裁掉 outline，所以聚焦态用 `.work-subrow:focus-visible` 的内侧 2px 描边**；链接文本即标题，无需 `aria-label`；水印 `aria-hidden`；隐藏卡 `display:none` 不进读屏序列 |
+| **性能约束** | 零请求（水印是文字，不是图片）；分组图标走 `assets/css/icons.css` 的 mask；每张卡的 squircle 路径由 `squircle.js` 生成，无额外网络开销 |
 
 ---
 
@@ -203,3 +203,4 @@
 | 2026-11-03 | 建立本清单（含 8 类模块、香料许可、技术债） |
 | 2026-11-03 | 增补 §9.1 香料许可；执行 D：02 规格页 emoji 玩笑改写、04 口语结语改写、03 十八条章节注脚改写（保语气 + 加内容锚点） |
 | 2026-11-08 | 新增 §8.1 Squircle 组件；首页 / 07 / 03 / 04 的媒体与图卡改用连续曲率圆角（有意破例，见该节冲突记录） |
+| 2026-11-08 | **作品目录卡片化**：行式目录 → 3 列卡片网格（宽卡 + 普通卡 + 字母水印），履历与联系保持原样；同步更新 §3 与快速定位表 |

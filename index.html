@@ -158,24 +158,53 @@
     .work-group-title{font-family:var(--sans);font-weight:600;font-size:clamp(1.25rem,2.1vw,1.55rem);
                       letter-spacing:-.015em;line-height:1.2}
     .work-group-zh{font-size:.78rem;color:var(--ink3);letter-spacing:.04em;white-space:nowrap}
-    .work-group-list{display:flex;flex-direction:column}
-    /* 注：2026-10-31 起 OST 子组入口改为隐藏行，.work-subgroup* / .work-toggle* 规则已删除 */
-    .work-subrow{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 200px 90px;
-      column-gap:clamp(14px,2.2vw,24px);align-items:baseline;padding:14px 0 14px 40px;border-bottom:1px solid var(--line)}
+    /* ═══ 作品卡片（2026-11-08：行式目录改为卡片网格）═══
+       卡片形状由 .apple-squircle 提供（assets/css/squircle.css），
+       描边用 .sq-ring 的 inset 阴影，hover 才抬起；不要在这里写 border-radius。 */
+    .work-group-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:clamp(14px,1.8vw,20px);padding-top:8px}
+    .work-subrow{position:relative;display:flex;flex-direction:column;padding:0;border:0;
+      --squircle-ring:var(--line2);
+      background:var(--bg2);overflow:hidden;
+      filter:drop-shadow(0 1px 2px rgba(1,2,5,.04));
+      transition:transform .3s var(--ease),filter .3s var(--ease)}
+    .work-subrow:hover{transform:translateY(-3px);filter:drop-shadow(0 10px 22px rgba(1,2,5,.10))}
+    /* clip-path 会裁掉 outline，聚焦态改用内侧描边 */
+    .work-subrow:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--accent)}
+    .work-card-media{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+      height:96px;padding:14px 16px;background:var(--bg3);border-bottom:1px solid var(--line)}
+    .work-card-mono{font-family:var(--serif);font-style:italic;font-size:1.75rem;line-height:.85;
+      color:rgba(1,2,5,.10);letter-spacing:-.01em}
+    .work-card-mark{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--ink3);text-align:right}
+    .work-card-body{display:flex;flex-direction:column;gap:8px;padding:16px 18px 6px}
+    .work-card-foot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+      padding:0 18px 16px;margin-top:auto}
+    .work-subrow-title{font-family:var(--sans);font-weight:600;font-size:1.02rem;line-height:1.3;
+      color:var(--ink);transition:color .2s}
     .work-subrow:hover .work-subrow-title,.work-subrow:focus-visible .work-subrow-title{color:var(--accent)}
-    .work-subrow-title{font-family:var(--sans);font-weight:500;font-size:1.02rem;line-height:1.3;
-                       color:var(--ink);transition:color .2s}
-    .work-subrow-meta{font-size:.8rem;line-height:1.4;color:var(--ink3);text-align:right}
-    .work-subrow-year,.work-subrow-status{font-size:.78rem;font-variant-numeric:tabular-nums;letter-spacing:.02em;
-                                          color:var(--ink3);text-align:right;white-space:nowrap}
-    .work-subrow-status{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase}
+    .work-subrow-meta{font-size:.78rem;line-height:1.5;color:var(--ink3);text-align:left}
+    .work-subrow-year,.work-subrow-status{font-size:.72rem;font-variant-numeric:tabular-nums;
+      letter-spacing:.02em;color:var(--ink3);white-space:nowrap}
+    .work-subrow-status{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase}
+    /* 分组只有一条时用横向宽卡，避免网格留 2/3 空位 */
+    .work-card--wide{grid-column:1 / -1;flex-direction:row;align-items:center}
+    .work-card--wide .work-card-media{flex:0 0 clamp(180px,28%,260px);height:112px;align-items:center;
+      border-bottom:0;border-right:1px solid var(--line)}
+    .work-card--wide .work-card-mono{font-size:2.4rem}
+    .work-card--wide .work-card-body{flex:1;padding:18px 22px}
+    .work-card--wide .work-card-foot{flex:0 0 auto;padding:0 24px 0 0;margin:0}
+    @media(max-width:900px){ .work-group-list{grid-template-columns:repeat(2,minmax(0,1fr))} }
     @media(max-width:760px){
       .work-group-head{grid-template-columns:auto minmax(0,1fr);row-gap:3px}
       .work-group-zh{grid-column:2;grid-row:2}
-      .work-subrow{grid-template-columns:minmax(0,1fr) 76px;column-gap:12px;row-gap:4px;padding-left:30px}
-      .work-subrow-title{grid-column:1;grid-row:1}
-      .work-subrow-meta{grid-column:1;grid-row:2;text-align:left}
-      .work-subrow-year,.work-subrow-status{grid-column:2;grid-row:1;text-align:right;justify-self:end}
+    }
+    @media(max-width:640px){
+      .work-group-list{grid-template-columns:1fr}
+      .work-card--wide{flex-direction:column;align-items:stretch}
+      .work-card--wide .work-card-media{flex:none;height:104px;border-right:0;
+        border-bottom:1px solid var(--line)}
+      .work-card--wide .work-card-foot{padding:0 18px 16px}
     }
 
     /* ═══ 履历（High-touch：形式跟随内容）═══ */
@@ -406,22 +435,34 @@
             <span class="work-group-zh">游戏音频交付</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow" href="./projects/07-xingzhicai/xingzhicai.html">
-              <span class="work-subrow-title">XingZhiCai · 形之彩</span>
-              <span class="work-subrow-meta">Music / Sound Design · TapTap 2026 GameJam</span>
-              <span class="work-subrow-year">2026</span>
+            <a class="work-subrow apple-squircle sq-ring work-card--wide" href="./projects/07-xingzhicai/xingzhicai.html">
+              <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">XZC</span>
+                <span class="work-card-mark">GameJam · 2026</span></span>
+              <span class="work-card-body">
+                <span class="work-subrow-title">XingZhiCai · 形之彩</span>
+                <span class="work-subrow-meta">Music / Sound Design · TapTap 2026 GameJam</span>
+              </span>
+              <span class="work-card-foot"><span class="work-subrow-year">2026</span></span>
             </a>
 
             <!-- 试营业：内容未就位，先不上菜单。素材补齐后删掉 style 属性即可恢复入口。 -->
-            <a class="work-subrow" href="./projects/01-music/original-soundtracks.html" style="display:none">
-              <span class="work-subrow-title">Original Soundtracks</span>
-              <span class="work-subrow-meta">Original Music · Games</span>
-              <span class="work-subrow-year">—</span>
+            <a class="work-subrow apple-squircle sq-ring" href="./projects/01-music/original-soundtracks.html" style="display:none">
+              <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">OS</span>
+                <span class="work-card-mark">Original Score</span></span>
+              <span class="work-card-body">
+                <span class="work-subrow-title">Original Soundtracks</span>
+                <span class="work-subrow-meta">Original Music · Games</span>
+              </span>
+              <span class="work-card-foot"><span class="work-subrow-year">—</span></span>
             </a>
-            <a class="work-subrow" href="./projects/05-sound-design/sound-design.html" style="display:none">
-              <span class="work-subrow-title">Sound Design</span>
-              <span class="work-subrow-meta">Sound Design · Games</span>
-              <span class="work-subrow-year">—</span>
+            <a class="work-subrow apple-squircle sq-ring" href="./projects/05-sound-design/sound-design.html" style="display:none">
+              <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">SD</span>
+                <span class="work-card-mark">Sound Design</span></span>
+              <span class="work-card-body">
+                <span class="work-subrow-title">Sound Design</span>
+                <span class="work-subrow-meta">Sound Design · Games</span>
+              </span>
+              <span class="work-card-foot"><span class="work-subrow-year">—</span></span>
             </a>
           </div>
         </section>
@@ -433,10 +474,14 @@
             <span class="work-group-zh">技术实现</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow" href="./projects/03-interactive/wwise-101.html">
-              <span class="work-subrow-title">Wwise 101</span>
-              <span class="work-subrow-meta">Study · Wwise Notes</span>
-              <span class="work-subrow-year">2026</span>
+            <a class="work-subrow apple-squircle sq-ring work-card--wide" href="./projects/03-interactive/wwise-101.html">
+              <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">W101</span>
+                <span class="work-card-mark">Study · Wwise</span></span>
+              <span class="work-card-body">
+                <span class="work-subrow-title">Wwise 101</span>
+                <span class="work-subrow-meta">Study · Wwise Notes</span>
+              </span>
+              <span class="work-card-foot"><span class="work-subrow-year">2026</span></span>
             </a>
           </div>
         </section>
@@ -448,20 +493,32 @@
             <span class="work-group-zh">研究与工具</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow" href="./projects/04-analysis/music-analysis.html">
-              <span class="work-subrow-title">Music Analysis</span>
-              <span class="work-subrow-meta">Analysis · Research</span>
-              <span class="work-subrow-year">2025</span>
+            <a class="work-subrow apple-squircle sq-ring" href="./projects/04-analysis/music-analysis.html">
+              <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">MA</span>
+                <span class="work-card-mark">Analysis</span></span>
+              <span class="work-card-body">
+                <span class="work-subrow-title">Music Analysis</span>
+                <span class="work-subrow-meta">Analysis · Research</span>
+              </span>
+              <span class="work-card-foot"><span class="work-subrow-year">2025</span></span>
             </a>
-            <a class="work-subrow" href="./projects/02-plugin/bkeq-hybrid-vst3.html">
-              <span class="work-subrow-title">BKEQ Hybrid VST3</span>
-              <span class="work-subrow-meta">Plugin · DSP</span>
-              <span class="work-subrow-year">2026</span>
+            <a class="work-subrow apple-squircle sq-ring" href="./projects/02-plugin/bkeq-hybrid-vst3.html">
+              <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">BQ</span>
+                <span class="work-card-mark">Plugin · VST3</span></span>
+              <span class="work-card-body">
+                <span class="work-subrow-title">BKEQ Hybrid VST3</span>
+                <span class="work-subrow-meta">Plugin · DSP</span>
+              </span>
+              <span class="work-card-foot"><span class="work-subrow-year">2026</span></span>
             </a>
-            <a class="work-subrow" href="./projects/06-writing/research-writing.html">
-              <span class="work-subrow-title">Research &amp; Writing</span>
-              <span class="work-subrow-meta">Research · Writing</span>
-              <span class="work-subrow-year">2026</span>
+            <a class="work-subrow apple-squircle sq-ring" href="./projects/06-writing/research-writing.html">
+              <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">RW</span>
+                <span class="work-card-mark">Writing</span></span>
+              <span class="work-card-body">
+                <span class="work-subrow-title">Research &amp; Writing</span>
+                <span class="work-subrow-meta">Research · Writing</span>
+              </span>
+              <span class="work-card-foot"><span class="work-subrow-year">2026</span></span>
             </a>
           </div>
         </section>
