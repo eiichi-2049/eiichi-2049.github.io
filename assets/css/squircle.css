@@ -14,8 +14,7 @@
    用法：
      <div class="apple-squircle">…</div>              // 圆角默认 18px
      <div class="apple-squircle" style="--squircle-radius:26px">…</div>
-     需要描边：再加 .sq-ring（替代 border，描边会跟着曲线走）
-     需要投影：再加 .sq-lift（Chrome / WebKit 生效；若某浏览器丢失，用外层包一层）
+      需要投影：再加 .sq-lift（Chrome / WebKit 生效；若某浏览器丢失，用外层包一层）
    ═══════════════════════════════════════════════════════════════ */
 
 .apple-squircle {
@@ -26,12 +25,6 @@
 /* JS 生效后由脚本打上 data-sq="on"：改由 clip-path 决定形状 */
 .apple-squircle[data-sq="on"] {
   border-radius: 0;
-}
-
-/* 描边：用 inset 阴影代替 border，才能被 clip-path 一起裁成曲线 */
-.apple-squircle.sq-ring {
-  border: 0;
-  box-shadow: inset 0 0 0 1px var(--squircle-ring, var(--line, rgba(1, 2, 5, .10)));
 }
 
 /* 外投影：clip-path 只裁元素自身盒子的绘制，filter 在其后，故阴影可保留 */

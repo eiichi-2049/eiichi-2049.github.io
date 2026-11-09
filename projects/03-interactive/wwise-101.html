@@ -525,7 +525,7 @@
             <p class="page-desc">写给游戏音频初学者的实战笔记与踩坑记录 · 非官方</p>
         </header>
         <!-- 笔记封面截图 -->
-        <div class="media-block apple-squircle sq-ring">
+        <div class="media-block apple-squircle">
             <img src="img/wwise-cover.webp"
                  alt="封面：EPISODE:101 · Wwise 圖解筆記"
                  loading="lazy" />
@@ -590,22 +590,22 @@
             <!-- ── 信号链示意：一次脚步声要过几道手（自绘，非工程截图） ── -->
             <div class="wg-chain" role="img"
                  aria-label="声音从游戏事件到输出的四段链路：引擎触发 Event，Wwise 用 RTPC、Switch、State 决定播什么，Actor-Mixer 层级决定怎么组织，总线决定最终怎么混">
-                <div class="wg-chain-box apple-squircle sq-ring">
+                <div class="wg-chain-box apple-squircle">
                     <span>01 · Game</span>
                     <strong>Unity / Unreal</strong>
                     <small>脚踩到地面 → 触发一次 Event</small>
                 </div>
-                <div class="wg-chain-box apple-squircle sq-ring">
+                <div class="wg-chain-box apple-squircle">
                     <span>02 · Wwise</span>
                     <strong>Event + 参数</strong>
                     <small>RTPC 连续量：距离、强度<br>Switch 有限状态：材质<br>State 全局：战斗 / 探索</small>
                 </div>
-                <div class="wg-chain-box apple-squircle sq-ring">
+                <div class="wg-chain-box apple-squircle">
                     <span>03 · 结构</span>
                     <strong>Actor-Mixer 层级</strong>
                     <small>Random Container 轮换<br>Blend 按参数混合<br>Voice 限制与优先级</small>
                 </div>
-                <div class="wg-chain-box apple-squircle sq-ring">
+                <div class="wg-chain-box apple-squircle">
                     <span>04 · 输出</span>
                     <strong>Bus → Master</strong>
                     <small>SFX / Music / Voice 分总线<br>Ducking、Effect、响度归一到 Master</small>

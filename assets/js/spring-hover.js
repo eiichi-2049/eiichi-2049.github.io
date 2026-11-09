@@ -99,11 +99,12 @@
   var HOVER = { y: -6, s: 1.008 };   // 放大只留 0.8%：够“抬起来”，不抢内容
   var PRESS = { y: -1.8, s: 0.997 };
 
-  // 阴影随进度插值：静置 2/4/.045 → 悬停 14/28/.13
+  // 阴影随进度插值：静置 2/6/.06 → 悬停 14/28/.13
+  // 没有描边之后，静置投影是卡片唯一的边界，给得比之前略实一点
   function shadowFilter(p) {
     var y = 2 + 12 * p;
-    var blur = 4 + 24 * p;
-    var alpha = 0.045 + 0.085 * p;
+    var blur = 6 + 22 * p;
+    var alpha = 0.06 + 0.07 * p;
     return 'drop-shadow(0 ' + y.toFixed(2) + 'px ' + blur.toFixed(2) +
            'px rgba(1,2,5,' + alpha.toFixed(3) + '))';
   }

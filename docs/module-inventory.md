@@ -12,7 +12,7 @@
 | 你想改什么 | 改哪里 |
 |---|---|
 | **作品目录的年份显示** | `index.html` 里每条 `.work-subrow` 的**最后一个 span**：`<span class="work-subrow-year">2026</span>`；样式在同文件 `<style>` 的 `.work-subrow-year,.work-subrow-status{…}` |
-| 作品目录加一张卡 | `index.html` → 对应 `.work-group-list` 内复制一张 `<a class="work-subrow apple-squircle sq-ring">`，四件套：`work-card-media`（mono + mark）/ `work-card-body`（title + meta）/ `work-card-foot`（year）；分组只有一条时加 `work-card--wide` |
+| 作品目录加一张卡 | `index.html` → 对应 `.work-group-list` 内复制一张 `<a class="work-subrow apple-squircle">`，四件套：`work-card-media`（mono + mark）/ `work-card-body`（title + meta）/ `work-card-foot`（year）；分组只有一条时加 `work-card--wide` |
 | 某条作品暂时下架 | 给该 `<a class="work-subrow">` 加 `style="display:none"`（01-music、05-sound-design 就是这么藏的） |
 | 履历加一条 | `index.html` → 对应 `.tl-year` 内加一个 `<li class="tl-item">`（type / title / stack / result 四字段） |
 | 导航加一项 | 首页改 `index.html` 的 `.nav-links`；子页改各自同名结构；**样式只改 `assets/css/nav.css`** |
@@ -20,7 +20,7 @@
 | 首页页脚文字/时钟 | `index.html` → `.foot`（`.foot-meta` / `.foot-clock` / `.foot-brand`） |
 | 子页页脚 | 各子页 `.footer-sub`（样式在 `subpage.css`） |
 | 三层体验开关 | `index.html` → `<section class="sec" id="stage" hidden>` 删掉 `hidden` |
-| **卡片圆角/形状** | 给元素加 `class="apple-squircle"`；半径用 `--squircle-radius`，描边加 `.sq-ring`，投影加 `.sq-lift`（详见 §8.1） |
+| **卡片圆角/形状** | 给元素加 `class="apple-squircle"`；半径用 `--squircle-radius`，投影加 `.sq-lift`（详见 §8.1）。卡片不加描边 |
 | 调整某个卡片的圆角大小 | 在该组件 CSS 里写 `--squircle-radius: 12px`，不要去改 `squircle.js` |
 
 ---
@@ -58,13 +58,13 @@
 | 项 | 内容 |
 |---|---|
 | **位置** | `index.html` → `#work` → `.work-groups` → 三组 `.work-group`（01 Game Audio Production / 02 Technical Implementation / 03 Research & Tools） |
-| **结构** | `.work-group-head`（`-num` / `-title` / `-zh`）+ `.work-group-list`（网格）> 若干 `.work-subrow.apple-squircle.sq-ring` 卡片，每张卡三件套：`.work-card-media`（`.work-card-mono` 字母水印 + `.work-card-mark` 标签）/ `.work-card-body`（`-title` / `-meta`）/ `.work-card-foot`（`-year`） |
+| **结构** | `.work-group-head`（`-num` / `-title` / `-zh`）+ `.work-group-list`（网格）> 若干 `.work-subrow.apple-squircle` 卡片，每张卡三件套：`.work-card-media`（`.work-card-mono` 字母水印 + `.work-card-mark` 标签）/ `.work-card-body`（`-title` / `-meta`）/ `.work-card-foot`（`-year`） |
 | **唯一实现** | **硬编码在 `index.html`**。`data/works.json` 只有 1 条 draft、**全站零引用**——别以为页面是它渲染的 |
 | **变体** | ①普通卡（1/3 宽）②宽卡 `.work-card--wide`（占满整行，横向排版；分组只有 1 条时用）③隐藏卡（`style="display:none"`）；分组固定 3 组 |
 | **禁止复制项** | 不要在子页复制 `.work-*` 样式；**不要重建 `.work-subgroup*` / `.work-toggle*`**（10-31 已删除）；**不要给卡片加 `border-radius`**（形状由 squircle 决定，见 §8.1） |
 | **状态** | published（可见 5 张 / 隐藏 2 张：01-music、05-sound-design） |
-| **悬停/按压** | 由 `assets/js/spring-hover.js` 的**阻尼谐振子**驱动（ζ=0.9、response=0.34s），不是 CSS 过渡：上浮 6px + 缩放 1.008，阴影随位移进度从 `0 2px 4px .045` 插值到 `0 14px 28px .13`；甩动速度受 1.2px 位移预算约束，按下为 `-1.32px / 0.9963`（详见 §8.2） |
-| **无障碍验收** | 整卡是 `<a>`，键盘可达；**clip-path 会裁掉 outline，所以聚焦态用 `.work-subrow:focus-visible` 的内侧 2px 描边**；链接文本即标题，无需 `aria-label`；水印 `aria-hidden`；隐藏卡 `display:none` 不进读屏序列 |
+| **悬停/按压** | 由 `assets/js/spring-hover.js` 的**阻尼谐振子**驱动（ζ=0.9、response=0.34s），不是 CSS 过渡：上浮 6px + 缩放 1.008，阴影随位移进度从 `0 2px 6px .06` 插值到 `0 14px 28px .13`（2026-11-09 起卡片不再有描边，静置投影是唯一边界）；甩动速度受 1.2px 位移预算约束，按下为 `-1.32px / 0.9963`（详见 §8.2） |
+| **无障碍验收** | 整卡是 `<a>`，键盘可达；**clip-path 会裁掉 outline，所以聚焦态用 `.work-subrow:focus-visible` 的内侧 2px accent 阴影**；链接文本即标题，无需 `aria-label`；水印 `aria-hidden`；隐藏卡 `display:none` 不进读屏序列 |
 | **性能约束** | 零请求（水印是文字，不是图片）；分组图标走 `assets/css/icons.css` 的 mask；每张卡的 squircle 路径由 `squircle.js` 生成，无额外网络开销 |
 
 ---
@@ -144,12 +144,12 @@
 
 | 项 | 内容 |
 |---|---|
-| **位置** | `assets/css/squircle.css`（形状 / 描边 / 投影）+ `assets/js/squircle.js`（按元素尺寸生成路径） |
+| **位置** | `assets/css/squircle.css`（形状 / 投影）+ `assets/js/squircle.js`（按元素尺寸生成路径） |
 | **唯一实现** | 上述两个文件。**不要在单页里另写圆角逻辑** |
 | **变体** | 默认 18px；`--squircle-radius` 调半径；`--squircle-curvature` 调曲率（4–5 接近苹果，越大越方） |
-| **修饰类** | `.sq-ring` 描边（inset 阴影，替代 border）；`.sq-lift` / `.sq-lift--strong` 外投影 |
+| **修饰类** | `.sq-lift` / `.sq-lift--strong` 外投影（描边类 `.sq-ring` 已于 2026-11-09 删除：卡片的 1px 内描边在圆角处被裁断，观感像多余的线） |
 | **已应用** | 首页 `.stage-video` `.chain-box`；07 `.video-frame` `.case-figure`；03 `.media-block` `.wg-chain-box`；04 `.video-wrap` |
-| **禁止复制项** | ①不要再给这些组件写 `border-radius`（与 clip 冲突，形状会被后写的圆角覆盖）②不要改回 SVG `objectBoundingBox` 方案（圆角会按宽高比拉扁）③描边不要用 `border`（矩形环被裁后有缺口） |
+| **禁止复制项** | ①不要再给这些组件写 `border-radius`（与 clip 冲突，形状会被后写的圆角覆盖）②不要改回 SVG `objectBoundingBox` 方案（圆角会按宽高比拉扁）③需要边界时用投影，不要改用 `border`（矩形环被裁后有缺口） |
 | **无障碍** | 纯装饰，不改语义、不影响键盘顺序 |
 | **性能** | 每个元素一条 `clip-path: path()`；`ResizeObserver` 驱动重算，无网络请求 |
 | **兜底** | 无 JS 或不支持 `path()` → 退回 `border-radius`，形状退化但不会出现直角 |
@@ -227,3 +227,4 @@
 | 2026-11-09 | 新增 §8.2 Spring Hover；作品卡与 07/03/04 的媒体卡改为阻尼谐振子驱动（ζ=0.8），删除 `squircle.css` 里会拖慢逐帧阴影的 `transition: filter` |
 | 2026-11-09 | 弹簧调参：ζ 0.8→0.9、response 0.42→0.34（过冲 1.5%→0.15%，停稳更快）；新增「1.2px 位移预算」钳制甩动初速；按压幅度收小（0.9963 / -1.32px） |
 | 2026-11-09 | 悬停缩放 1.015→1.008（放大不再抢内容）；弹簧范围收缩到**仅首页作品卡**，子页恢复静态投影，范围待定 |
+| 2026-11-09 | 去掉卡片 1px 内描边（`.sq-ring` 删除）与媒体块内部分隔线；静置投影抬到 `0 2px 6px .06` 作为唯一边界 |
