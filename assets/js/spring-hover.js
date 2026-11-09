@@ -96,8 +96,8 @@
      ───────────────────────────────────────────────────────────── */
 
   var REST = { y: 0, s: 1 };
-  var HOVER = { y: -6, s: 1.018 };
-  var PRESS = { y: -2, s: 0.995 };
+  var HOVER = { y: -6, s: 1.015 };
+  var PRESS = { y: -1.8, s: 0.997 };
 
   // 阴影随进度插值：静置 2/4/.045 → 悬停 14/28/.13
   function shadowFilter(p) {
@@ -111,10 +111,12 @@
   function Controller(el, opts) {
     this.el = el;
     this.reduce = opts.reduce;
-    this.response = opts.response || 0.42;
-    this.zeta = typeof opts.zeta === 'number' ? opts.zeta : 0.8;
+    this.response = opts.response || 0.34;          // 0.42 → 0.34：收敛更快
+    this.zeta = typeof opts.zeta === 'number' ? opts.zeta : 0.9;  // 0.8 → 0.9：基本不晃
     this.lift = typeof opts.lift === 'number' ? opts.lift : HOVER.y;
     this.scaleAmt = typeof opts.scale === 'number' ? opts.scale : HOVER.s;
+    // 初速再大，首峰位移也不许越过「目标 ± maxOvershoot」——橡皮筋感的来源就是没设这个边界
+    this.maxOvershoot = typeof opts.overshoot === 'number' ? opts.overshoot : 1.2;
     // 含正在播放的视频时关掉逐帧 filter：每帧重算阴影会迫使视频走软件合成
     this.shadow = opts.shadow !== false;
 
@@ -153,17 +155,71 @@
     el.classList.add('spring-ready');
   };
 
-  Controller.prototype.setTargets = function (y, s) {
-    this.sy.setTarget(y);
+  /**
+   * 给定初速时，**越过目标**的最大距离（px）。注意不是 |x| 的最大值：
+   * 起点离目标 6px，|x| 天然就是 6，用它做判据等于永远不超标。
+   * 这里只量"冲过目标之后再走多远"。
+   */
+  Controller.prototype.overshootOf = function (v0, target) {
+    var sp = this.sy;
+    var x0 = sp.value - target;
+    var w = sp.omega, z = sp.zeta;
+    var wd = w * Math.sqrt(Math.max(1e-6, 1 - z * z));
+    var B = (v0 + z * w * x0) / wd;
+    // 方向：从目标的哪一侧出发；若已在目标上，则看初速方向
+    var dir = Math.abs(x0) > 1e-6 ? Math.sign(x0) : (Math.sign(v0) || 1);
+
+    var over = 0, absMax = Math.abs(x0);
+    function sample(t) {
+      var e = Math.exp(-z * w * t);
+      var x = e * (x0 * Math.cos(wd * t) + B * Math.sin(wd * t));
+      if (Math.abs(x) > absMax) absMax = Math.abs(x);
+      var o = dir > 0 ? Math.max(0, -x) : Math.max(0, x);
+      if (o > over) over = o;
+    }
+    for (var i = 1; i <= 250; i++) sample(i * 0.001);   // 前 0.25s 密采样，抓住峰尖
+    for (var j = 26; j <= 120; j++) sample(j * 0.01);   // 之后疏采样，覆盖长尾
+    // 已经在目标上时，"冲过目标"没有方向可言，直接限制绝对位移
+    return Math.abs(x0) < 0.5 ? absMax : over;
+  };
+
+  /**
+   * 初速预算：**只在超标时收敛**，不动正常输入。
+   *
+   * 先算这个 v0 会冲过目标多远；超过 maxOvershoot 就二分把速度按比例收回。
+   * 结果是：指针甩得再快，卡片也只会"吸附"到目标附近轻轻回弹，
+   * 而不是像橡皮筋弹出去老远；v0=0 这类正常输入完全不受影响。
+   */
+  Controller.prototype.clampSeed = function (v0, target) {
+    var v = Math.max(-400, Math.min(400, v0));
+    var bound = this.maxOvershoot;
+    if (this.overshootOf(v, target) <= bound) return v;
+
+    var lo = 0, hi = 1;
+    for (var i = 0; i < 14; i++) {
+      var mid = (lo + hi) / 2;
+      if (this.overshootOf(v * mid, target) <= bound) lo = mid;
+      else hi = mid;
+    }
+    return v * lo;
+  };
+
+  Controller.prototype.go = function (y, s, seed) {
+    var v = (typeof seed === 'number' && isFinite(seed)) ? seed : this.sy.velocity;
+    this.sy.setTarget(y, this.clampSeed(v, y));
     this.ss.setTarget(s);
     this.wake();
+  };
+
+  Controller.prototype.setTargets = function (y, s) {
+    this.go(y, s);
   };
 
   // 各状态的落点：悬停/按压都由实例参数推导，便于按元素微调
   Controller.prototype.hoverY = function () { return this.lift; };
   Controller.prototype.hoverS = function () { return this.scaleAmt; };
-  Controller.prototype.pressY = function () { return this.lift * 0.3; };
-  Controller.prototype.pressS = function () { return 1 - (this.scaleAmt - 1) * 0.35; };
+  Controller.prototype.pressY = function () { return this.lift * 0.22; };
+  Controller.prototype.pressS = function () { return 1 - (this.scaleAmt - 1) * 0.25; };
 
   Controller.prototype.enter = function (e) {
     if (this.reduce || (e && e.pointerType === 'touch')) return;
@@ -174,27 +230,23 @@
   Controller.prototype.leave = function () {
     if (this.reduce) return;
     this.state = 'rest';
-    // 松手速度：保留当前弹簧速度（连续，不跳变），再叠加指针离场方向的贡献
-    var seed = this.sy.velocity + Math.max(-260, Math.min(260, this.pointerVY * 0.05));
-    this.sy.setTarget(REST.y, seed);
-    this.ss.setTarget(REST.s);
-    this.wake();
+    // 松手速度：保留当前弹簧速度（连续），叠加指针离场方向的贡献，再交给 clampSeed 限幅
+    var seed = this.sy.velocity + Math.max(-200, Math.min(200, this.pointerVY * 0.04));
+    this.go(REST.y, REST.s, seed);
   };
 
   Controller.prototype.down = function () {
     if (this.reduce) return;
     this.state = 'press';
-    this.setTargets(this.pressY(), this.pressS());
+    this.go(this.pressY(), this.pressS());
   };
 
   Controller.prototype.up = function () {
     if (this.reduce) return;
     this.state = 'hover';
-    // 抬指瞬间的速度 → 触发更大过冲（"甩出去"的手感），同时保留弹簧自身速度
-    var seed = this.sy.velocity + Math.max(-320, Math.min(320, this.pointerVY * 0.06));
-    this.sy.setTarget(this.hoverY(), seed);
-    this.ss.setTarget(this.hoverS());
-    this.wake();
+    // 抬指瞬间的速度只作"轻推"：幅度由 clampSeed 的位移预算兜住
+    var seed = this.sy.velocity + Math.max(-240, Math.min(240, this.pointerVY * 0.05));
+    this.go(this.hoverY(), this.hoverS(), seed);
   };
 
   Controller.prototype.move = function (e) {
@@ -310,10 +362,11 @@
       };
       var c = new Controller(el, {
         reduce: reduce,
-        response: num('data-spring-response', 0.42),   // 秒：越小越"硬"
-        zeta: num('data-spring-zeta', 0.8),            // 阻尼比：0.5–0.6 才有明显回弹
+        response: num('data-spring-response', 0.34),   // 秒：越小越"硬"
+        zeta: num('data-spring-zeta', 0.9),            // 阻尼比：0.9 基本不晃，0.6 才有明显回弹
         lift: num('data-spring-lift', HOVER.y),        // px：上浮距离
         scale: num('data-spring-scale', HOVER.s),      // 缩放终点
+        overshoot: num('data-spring-overshoot', 1.2),  // px：冲过目标的最大距离
         shadow: el.getAttribute('data-spring-shadow') !== 'off'
       });
       el.__rvSpring = c;
