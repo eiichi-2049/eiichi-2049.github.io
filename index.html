@@ -166,24 +166,17 @@
     .work-subrow{position:relative;display:flex;flex-direction:column;padding:0;border:0;
       --squircle-ring:var(--line2);
       background:var(--bg2);overflow:hidden;
-      /* 静置：浅而聚拢，像贴住纸面 */
-      filter:drop-shadow(0 2px 4px rgba(1,2,5,.045));
-      transform:translateZ(0);
-      backface-visibility:hidden;
-      will-change:transform,filter;
+      backface-visibility:hidden}
+    /* 无 JS 回退：CSS 过渡。JS 接管后 html.spring-js 会关掉这一段，避免与逐帧写入打架 */
+    html:not(.spring-js) .work-subrow{
       transition:transform .42s var(--ease),filter .42s var(--ease)}
-    /* 悬停/聚焦：上浮 4px + 1% 放大，投影同时扩散并加深 */
-    .work-subrow:hover,.work-subrow:focus-visible{
-      transform:translateZ(0) translateY(-4px) scale(1.01);
+    html:not(.spring-js) .work-subrow:hover,
+    html:not(.spring-js) .work-subrow:focus-visible{
+      transform:translateY(-4px) scale(1.01);
       filter:drop-shadow(0 14px 28px rgba(1,2,5,.13))}
-    /* 按下：只回落一点，保留触感但不打断节奏 */
-    .work-subrow:active{
-      transform:translateZ(0) translateY(-1px) scale(1.004);
-      transition-duration:.12s}
     @media(prefers-reduced-motion: reduce){
-      .work-subrow{transition:none;will-change:auto}
-      .work-subrow:hover,.work-subrow:focus-visible{
-        transform:none;filter:drop-shadow(0 2px 4px rgba(1,2,5,.045))}
+      html:not(.spring-js) .work-subrow,
+      html:not(.spring-js) .work-subrow:hover{transition:none;transform:none}
     }
     /* clip-path 会裁掉 outline，聚焦态改用内侧描边 */
     .work-subrow:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--accent)}
@@ -451,7 +444,7 @@
             <span class="work-group-zh">游戏音频交付</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow apple-squircle sq-ring work-card--wide" href="./projects/07-xingzhicai/xingzhicai.html">
+            <a data-spring class="work-subrow apple-squircle sq-ring work-card--wide" href="./projects/07-xingzhicai/xingzhicai.html">
               <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">XZC</span>
                 <span class="work-card-mark">GameJam · 2026</span></span>
               <span class="work-card-body">
@@ -490,7 +483,7 @@
             <span class="work-group-zh">技术实现</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow apple-squircle sq-ring work-card--wide" href="./projects/03-interactive/wwise-101.html">
+            <a data-spring class="work-subrow apple-squircle sq-ring work-card--wide" href="./projects/03-interactive/wwise-101.html">
               <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">W101</span>
                 <span class="work-card-mark">Study · Wwise</span></span>
               <span class="work-card-body">
@@ -509,7 +502,7 @@
             <span class="work-group-zh">研究与工具</span>
           </div>
           <div class="work-group-list">
-            <a class="work-subrow apple-squircle sq-ring" href="./projects/04-analysis/music-analysis.html">
+            <a data-spring class="work-subrow apple-squircle sq-ring" href="./projects/04-analysis/music-analysis.html">
               <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">MA</span>
                 <span class="work-card-mark">Analysis</span></span>
               <span class="work-card-body">
@@ -518,7 +511,7 @@
               </span>
               <span class="work-card-foot"><span class="work-subrow-year">2025</span></span>
             </a>
-            <a class="work-subrow apple-squircle sq-ring" href="./projects/02-plugin/bkeq-hybrid-vst3.html">
+            <a data-spring class="work-subrow apple-squircle sq-ring" href="./projects/02-plugin/bkeq-hybrid-vst3.html">
               <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">BQ</span>
                 <span class="work-card-mark">Plugin · VST3</span></span>
               <span class="work-card-body">
@@ -527,7 +520,7 @@
               </span>
               <span class="work-card-foot"><span class="work-subrow-year">2026</span></span>
             </a>
-            <a class="work-subrow apple-squircle sq-ring" href="./projects/06-writing/research-writing.html">
+            <a data-spring class="work-subrow apple-squircle sq-ring" href="./projects/06-writing/research-writing.html">
               <span class="work-card-media" aria-hidden="true"><span class="work-card-mono">RW</span>
                 <span class="work-card-mark">Writing</span></span>
               <span class="work-card-body">
@@ -955,5 +948,6 @@
     })();
   </script>
   <script src="assets/js/squircle.js" defer></script>
+  <script src="assets/js/spring-hover.js" defer></script>
 </body>
 </html>

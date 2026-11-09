@@ -46,9 +46,6 @@
           drop-shadow(0 18px 44px rgba(1, 2, 5, .12));
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* 尺寸变化时只重算路径，不做形状过渡（避免逐帧重排） */
-  .apple-squircle[data-sq="on"] {
-    transition: filter .25s ease;
-  }
-}
+/* 注意：这里**不要**给 .apple-squircle 加 transition。
+   一旦给 filter 挂过渡，spring-hover.js 的逐帧写入会被过渡吞掉，
+   阴影就会滞后、发闷——看起来"生硬"的常见原因就是它。 */

@@ -63,7 +63,7 @@
 | **变体** | ①普通卡（1/3 宽）②宽卡 `.work-card--wide`（占满整行，横向排版；分组只有 1 条时用）③隐藏卡（`style="display:none"`）；分组固定 3 组 |
 | **禁止复制项** | 不要在子页复制 `.work-*` 样式；**不要重建 `.work-subgroup*` / `.work-toggle*`**（10-31 已删除）；**不要给卡片加 `border-radius`**（形状由 squircle 决定，见 §8.1） |
 | **状态** | published（可见 5 张 / 隐藏 2 张：01-music、05-sound-design） |
-| **悬停/按压** | hover：`translateY(-4px) scale(1.01)` + 阴影由 `0 2px 4px .045` 扩散到 `0 14px 28px .13`，420ms `--ease`；按下一档回落 `-1px / 1.004`（120ms）；`prefers-reduced-motion` 下全部关闭。改动数值在 `index.html` 的 `.work-subrow` 规则里 |
+| **悬停/按压** | 由 `assets/js/spring-hover.js` 的**阻尼谐振子**驱动（ζ=0.8、response=0.42s），不是 CSS 过渡：上浮 6px + 缩放 1.018，阴影随位移进度从 `0 2px 4px .045` 插值到 `0 14px 28px .13`；带指针速度注入与过冲回弹。参数可用 `data-spring-*` 逐元素覆盖（详见 §8.2） |
 | **无障碍验收** | 整卡是 `<a>`，键盘可达；**clip-path 会裁掉 outline，所以聚焦态用 `.work-subrow:focus-visible` 的内侧 2px 描边**；链接文本即标题，无需 `aria-label`；水印 `aria-hidden`；隐藏卡 `display:none` 不进读屏序列 |
 | **性能约束** | 零请求（水印是文字，不是图片）；分组图标走 `assets/css/icons.css` 的 mask；每张卡的 squircle 路径由 `squircle.js` 生成，无额外网络开销 |
 
@@ -159,6 +159,24 @@
 
 ---
 
+### 8.2 Spring Hover（弹簧悬停）
+
+| 项 | 内容 |
+|---|---|
+| **位置** | `assets/js/spring-hover.js`（物理 + 控制器）；形状仍由 §8.1 的 squircle 提供 |
+| **唯一实现** | 上表文件。**不要再写第二套 hover 动画**，也不要用 CSS `transition` 叠在上面（会被逐帧写入覆盖/打架） |
+| **启用方式** | 给元素加 `data-spring`；JS 启动后自动接管 `transform` 与 `filter` |
+| **物理参数** | ζ=0.8、response=0.42s（ω₀=2π/0.42）；过冲 1.5%（理论值 exp(-πζ/√(1-ζ²))），约 350ms 到达最低点 |
+| **逐元素覆盖** | `data-spring-zeta` / `data-spring-response` / `data-spring-lift`（px，负值=上浮）/ `data-spring-scale` / `data-spring-shadow="off"` |
+| **已应用** | 首页 5 张作品卡；07 `.video-frame`（shadow off，因内含播放中的 video）与 `.case-figure`；03 `.media-block`；04 `.video-wrap` ×4 |
+| **禁止复制项** | ①不要给 `[data-spring]` 或 `.apple-squircle` 加 `transition: filter`——会让逐帧阴影滞后，表现为"发闷、跟不上手"（2026-11-09 踩过）②不要在 rAF 里读布局属性 ③不要给 `display:none` 的元素挂 `data-spring`（白跑） |
+| **技术选择** | 用**解析解**积分阻尼振子（闭式），不用数值积分：半隐式欧拉在 ω₀h≈0.06 时吃掉约 30% 过冲（1.51%→1.09%），弹性被算法磨平 |
+| **无障碍** | `prefers-reduced-motion: reduce` 下完全不启动；触摸设备忽略 hover；键盘聚焦只在 `:focus-visible` 时抬升，避免触摸点按后卡住 |
+| **性能** | 单 rAF 循环、静止即停机；只写 `transform`/`filter`，不读写布局；`will-change` 仅在动画期间挂载 |
+| **回退** | JS 未加载时，`html:not(.spring-js)` 分支给 `.work-subrow` 保留一段 CSS 过渡，形状与位移仍在，只是没有弹簧手感 |
+
+---
+
 ## 9. 模块分级（对照手册）
 
 | 级别 | 本模块 | 说明 |
@@ -205,3 +223,4 @@
 | 2026-11-03 | 增补 §9.1 香料许可；执行 D：02 规格页 emoji 玩笑改写、04 口语结语改写、03 十八条章节注脚改写（保语气 + 加内容锚点） |
 | 2026-11-08 | 新增 §8.1 Squircle 组件；首页 / 07 / 03 / 04 的媒体与图卡改用连续曲率圆角（有意破例，见该节冲突记录） |
 | 2026-11-08 | **作品目录卡片化**：行式目录 → 3 列卡片网格（宽卡 + 普通卡 + 字母水印），履历与联系保持原样；同步更新 §3 与快速定位表 |
+| 2026-11-09 | 新增 §8.2 Spring Hover；作品卡与 07/03/04 的媒体卡改为阻尼谐振子驱动（ζ=0.8），删除 `squircle.css` 里会拖慢逐帧阴影的 `transition: filter` |
