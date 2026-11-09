@@ -58,7 +58,7 @@
 | 项 | 内容 |
 |---|---|
 | **位置** | `index.html` → `#work` → `.work-groups` → 三组 `.work-group`（01 Game Audio Production / 02 Technical Implementation / 03 Research & Tools） |
-| **结构** | `.work-group-head`（`-num` / `-title` / `-zh`）+ `.work-group-list`（网格）> 若干 `.work-subrow.apple-squircle` 卡片，每张卡三件套：`.work-card-media`（`.work-card-mono` 字母水印 + `.work-card-mark` 标签）/ `.work-card-body`（`-title` / `-meta`）/ `.work-card-foot`（`-year`） |
+| **结构** | `.work-group-head`（`-num` / `-title` / `-zh`）+ `.work-group-list`（网格）> 若干 `.work-subrow.apple-squircle` 卡片（带 `data-sq-stroke` 描边）；每张卡三件套：`.work-card-media`（`.work-card-mono` 字母水印 + `.work-card-mark` 标签）/ `.work-card-body`（`-title` / `-meta`）/ `.work-card-foot`（`-year`） |
 | **唯一实现** | **硬编码在 `index.html`**。`data/works.json` 只有 1 条 draft、**全站零引用**——别以为页面是它渲染的 |
 | **变体** | ①普通卡（1/3 宽）②宽卡 `.work-card--wide`（占满整行，横向排版；分组只有 1 条时用）③隐藏卡（`style="display:none"`）；分组固定 3 组 |
 | **禁止复制项** | 不要在子页复制 `.work-*` 样式；**不要重建 `.work-subgroup*` / `.work-toggle*`**（10-31 已删除）；**不要给卡片加 `border-radius`**（形状由 squircle 决定，见 §8.1） |
@@ -147,7 +147,7 @@
 | **位置** | `assets/css/squircle.css`（形状 / 投影）+ `assets/js/squircle.js`（按元素尺寸生成路径） |
 | **唯一实现** | 上述两个文件。**不要在单页里另写圆角逻辑** |
 | **变体** | 默认 18px；`--squircle-radius` 调半径；`--squircle-curvature` 调曲率（4–5 接近苹果，越大越方） |
-| **修饰类** | `.sq-lift` / `.sq-lift--strong` 外投影（描边类 `.sq-ring` 已于 2026-11-09 删除：卡片的 1px 内描边在圆角处被裁断，观感像多余的线） |
+| **修饰类** | `.sq-lift` / `.sq-lift--strong` 外投影；描边用属性 `data-sq-stroke="rgba(1,2,5,.22)"`（可配 `data-sq-stroke-width`）——由 `squircle.js` 生成一条与裁剪路径重合的 SVG 线，沿曲线走且不断角。旧类 `.sq-ring` 已删除（inset 阴影会被 clip 裁断） |
 | **已应用** | 首页 `.stage-video` `.chain-box`；07 `.video-frame` `.case-figure`；03 `.media-block` `.wg-chain-box`；04 `.video-wrap` |
 | **禁止复制项** | ①不要再给这些组件写 `border-radius`（与 clip 冲突，形状会被后写的圆角覆盖）②不要改回 SVG `objectBoundingBox` 方案（圆角会按宽高比拉扁）③需要边界时用投影，不要改用 `border`（矩形环被裁后有缺口） |
 | **无障碍** | 纯装饰，不改语义、不影响键盘顺序 |
@@ -227,4 +227,5 @@
 | 2026-11-09 | 新增 §8.2 Spring Hover；作品卡与 07/03/04 的媒体卡改为阻尼谐振子驱动（ζ=0.8），删除 `squircle.css` 里会拖慢逐帧阴影的 `transition: filter` |
 | 2026-11-09 | 弹簧调参：ζ 0.8→0.9、response 0.42→0.34（过冲 1.5%→0.15%，停稳更快）；新增「1.2px 位移预算」钳制甩动初速；按压幅度收小（0.9963 / -1.32px） |
 | 2026-11-09 | 悬停缩放 1.015→1.008（放大不再抢内容）；弹簧范围收缩到**仅首页作品卡**，子页恢复静态投影，范围待定 |
-| 2026-11-09 | 去掉卡片 1px 内描边（`.sq-ring` 删除）与媒体块内部分隔线；静置投影抬到 `0 2px 6px .06` 作为唯一边界 |
+| 2026-11-09 | 去掉卡片 1px 内描边（`.sq-ring` 删除）与媒体块内部分隔线；静置投影抬到 `0 2px 6px .06` |
+| 2026-11-09 | 加回描边，但改用 **SVG 描边**（`data-sq-stroke`，1px、`.22`、路径内缩 0.5px），只在首页作品卡启用；深色视频卡仍靠投影分离 |

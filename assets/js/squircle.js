@@ -65,6 +65,46 @@
     return 'M' + out.map(function (pt) { return pt[0] + ' ' + pt[1]; }).join(' L') + ' Z';
   }
 
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  /**
+   * 描边：用与 clip 完全相同的超椭圆路径画一条线。
+   *
+   * 为什么不用 box-shadow: inset / border：
+   *   两者都是「矩形环」，被 clip-path 裁过之后圆角处会断掉。
+   *   这里把路径向内缩 0.5px、线宽 1px，正好整条线都落在裁剪区内，
+   *   于是描边严格沿着曲线走，不会缺角。
+   */
+  function applyStroke(el, w, h, r, n) {
+    var color = el.getAttribute('data-sq-stroke');
+    if (!color) return;
+
+    var svg = null;
+    for (var i = 0; i < el.children.length; i++) {
+      if (el.children[i].classList && el.children[i].classList.contains('sq-stroke')) {
+        svg = el.children[i]; break;
+      }
+    }
+    if (!svg) {
+      svg = document.createElementNS(SVGNS, 'svg');
+      svg.setAttribute('class', 'sq-stroke');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.setAttribute('focusable', 'false');
+      el.appendChild(svg);
+    }
+
+    var width = parseFloat(el.getAttribute('data-sq-stroke-width')) || 1;
+    var inset = width / 2;
+    var d = buildPath(w - width, h - width, Math.max(0.5, r - inset), n);
+
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('width', w);
+    svg.setAttribute('height', h);
+    svg.innerHTML = '<path d="' + d + '" fill="none" stroke="' + color +
+      '" stroke-width="' + width + '" transform="translate(' + inset + ',' + inset + ')" ' +
+      'shape-rendering="geometricPrecision" vector-effect="non-scaling-stroke"/>';
+  }
+
   function apply(el) {
     var w = el.offsetWidth;
     var h = el.offsetHeight;
@@ -78,6 +118,7 @@
     el.style.clipPath = 'path("' + d + '")';
     el.style.webkitClipPath = 'path("' + d + '")';
     el.setAttribute('data-sq', 'on');
+    applyStroke(el, w, h, r, n);
   }
 
   function each(fn) {
