@@ -12,9 +12,9 @@
 | 你想改什么 | 改哪里 |
 |---|---|
 | **作品目录的年份显示** | `index.html` 里每条 `.work-subrow` 的**最后一个 span**：`<span class="work-subrow-year">2026</span>`；样式在同文件 `<style>` 的 `.work-subrow-year,.work-subrow-status{…}` |
-| 作品目录加一张卡 | `index.html` → 对应 `.work-group-list` 内复制一张 `<a class="work-subrow apple-squircle">`，四件套：`work-card-media`（mono + mark）/ `work-card-body`（title + meta）/ `work-card-foot`（year）；分组只有一条时加 `work-card--wide` |
-| 某条作品暂时下架 | 给该 `<a class="work-subrow">` 加 `style="display:none"`（01-music、05-sound-design 就是这么藏的） |
-| 履历加一条 | `index.html` → 对应 `.tl-year` 内加一个 `<li class="tl-item">`（type / title / stack / result 四字段） |
+| **作品目录加一张卡** | 改 `data/works.json`：在 `works` 里加一条（id / mono / mark / cardTitle / meta / year / href），再把 id 加进某个 `groups[].items`，然后 `node tools/build-works.mjs`。**不要手改 index.html 的标记块**（详见 §8.3） |
+| **某条作品暂时下架** | 该条写 `"hidden": true`，再跑构建脚本；渲染出来就是 `style="display:none"`（01-music、05-sound-design 现状） |
+| **履历加一条** | 改 `data/works.json` 的 `timeline`，再跑构建脚本（type / title / stack / result，可选 `titleEm`） |
 | 导航加一项 | 首页改 `index.html` 的 `.nav-links`；子页改各自同名结构；**样式只改 `assets/css/nav.css`** |
 | 换主题色 | `index.html` 的 `:root --accent` + `assets/css/subpage.css` 的 `:root:root --accent`（**共 10 处副本，见 §技术债**） |
 | 首页页脚文字/时钟 | `index.html` → `.foot`（`.foot-meta` / `.foot-clock` / `.foot-brand`） |
@@ -22,6 +22,8 @@
 | 三层体验开关 | `index.html` → `<section class="sec" id="stage" hidden>` 删掉 `hidden` |
 | **卡片圆角/形状** | 给元素加 `class="apple-squircle"`；半径用 `--squircle-radius`，投影加 `.sq-lift`（详见 §8.1）。卡片不加描边 |
 | 调整某个卡片的圆角大小 | 在该组件 CSS 里写 `--squircle-radius: 12px`，不要去改 `squircle.js` |
+| **卡片描边** | 元素加 `data-sq-stroke="rgba(1,2,5,.22)"`（可选 `data-sq-stroke-width`），由 `squircle.js` 生成 SVG 线 |
+| 子页元数据行 / 事件树 / 频段图 | 复用 `assets/css/project-blocks.css` 的三个块，见 §8.4 |
 
 ---
 
@@ -178,6 +180,31 @@
 
 ---
 
+### 8.3 数据层：works.json → 构建脚本（2026-11-11 新增）
+
+| 项 | 内容 |
+|---|---|
+| **位置** | `data/works.json`（数据）+ `tools/build-works.mjs`（生成器） |
+| **产物** | `index.html` 中 `<!-- BEGIN:works -->…<!-- END:works -->` 与 `<!-- BEGIN:timeline -->…<!-- END:timeline -->` 两块 |
+| **命令** | `node tools/build-works.mjs`（写入）· `node tools/build-works.mjs --check`（只校验，不一致退出码 1） |
+| **为什么构建期生成** | 作品目录是核心证据，必须在**无 JS**时也能被读到（爬虫 / 禁用脚本 / 阅读模式）。运行时注入会晚一拍、还多一次 fetch 失败的可能。构建期生成同时满足「单源」与「稳健」 |
+| **校验项** | 必填字段、id 唯一、分组引用存在、`href` 指向的文件真实存在（防死链） |
+| **幂等** | 连跑两次第二次输出「无变化」；`--check` 用于提交前确认产物与数据同步 |
+| **不要在标记块里手改** | 改了下一次构建会被覆盖；要改就改 JSON |
+| **兼容换行** | 脚本读入时统一 LF，写回时恢复原文件换行符（index.html 是 CRLF），避免整页 diff |
+
+### 8.4 子页可复用块（2026-11-11 新增）
+
+| 类名 | 用途 | 用在 |
+|---|---|---|
+| `.project-meta-row` + `.pm-label/.pm-value` | 项目元数据行（Role / Format / Status…） | 02、03、04 |
+| `.event-tree` + `.et-tree` | 事件树：Event → Action → Container → Bus，纯 CSS 连线 | 03 |
+| `.band-map` + `.bm-row/.bm-track` | 频段占位图：谁占了哪一段，深色=主体、浅色=点缀 | 04（四条各一张） |
+
+**共同约定**：只用站内 token；图一律标注「示意」，不伪装成工程截图或频谱测量；不改视觉语言。
+
+---
+
 ## 9. 模块分级（对照手册）
 
 | 级别 | 本模块 | 说明 |
@@ -229,3 +256,4 @@
 | 2026-11-09 | 悬停缩放 1.015→1.008（放大不再抢内容）；弹簧范围收缩到**仅首页作品卡**，子页恢复静态投影，范围待定 |
 | 2026-11-09 | 去掉卡片 1px 内描边（`.sq-ring` 删除）与媒体块内部分隔线；静置投影抬到 `0 2px 6px .06` |
 | 2026-11-09 | 加回描边，但改用 **SVG 描边**（`data-sq-stroke`，1px、`.22`、路径内缩 0.5px），只在首页作品卡启用；深色视频卡仍靠投影分离 |
+| 2026-11-11 | 新增 §8.3 数据层（`works.json` → `tools/build-works.mjs`）与 §8.4 子页复用块；02/03/04 补元数据行，03 补事件树，04 补四张频段图 |
