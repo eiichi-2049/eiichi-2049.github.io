@@ -6,6 +6,7 @@
     <title>Wwise 101 实战笔记与踩坑记录 — ReiVerb Sound Atorie</title>
     <meta name="description"
           content="一份写给游戏音频初学者的 Wwise 实战笔记：核心概念、工程习惯与踩过的坑 — ReiVerb Sound Atorie" />
+    <link rel="stylesheet" href="../../assets/css/project-blocks.css" />
     <style>
     /* ── 本地字体 ──────────────────────────────────────── */
     @font-face {
@@ -106,22 +107,6 @@
         color: var(--ink3);
         max-width: 620px;
         line-height: 1.9;
-    }
-    .project-meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem 2.5rem;
-        margin-top: 0.75rem;
-    }
-    .project-meta-item {
-        font-size: 12px;
-        color: var(--ink3);
-        font-style: italic;
-    }
-    .project-meta-item strong {
-        color: var(--ink2);
-        font-style: normal;
-        font-weight: 400;
     }
     /* ── 多媒体容器 ──────────────────────────────────────── */
     .media-block {
@@ -417,9 +402,6 @@
         .chapter-grid {
             grid-template-columns: 1fr;
         }
-        .project-meta-row {
-            gap: 0.75rem 1.5rem;
-        }
         .audio-wrapper {
             flex-direction: column;
             align-items: stretch;
@@ -502,6 +484,7 @@
                     <nav class="nav-links" id="menu">
                         <a href="../../index.html#work">作品</a>
                         <a href="../../index.html#timeline">履历</a>
+                        <a href="../../stack.html">技术栈</a>
                         <a href="../../index.html#contact">联系</a>
                     </nav>
                     <div class="nav-tools">
@@ -523,6 +506,13 @@
                 <em>Wwise 101 实战笔记</em>
             </h1>
             <p class="page-desc">写给游戏音频初学者的实战笔记与踩坑记录 · 非官方</p>
+        <div class="project-meta-row">
+            <div class="project-meta-item"><span class="pm-label">Role</span><span class="pm-value">作者 / 整理 · 独立写作</span></div>
+            <div class="project-meta-item"><span class="pm-label">Topics</span><span class="pm-value">核心概念 · 工程习惯 · 踩坑记录</span></div>
+            <div class="project-meta-item"><span class="pm-label">Tool</span><span class="pm-value">Wwise</span></div>
+            <div class="project-meta-item"><span class="pm-label">Status</span><span class="pm-value"><em>持续更新 · 章节可能重写</em></span></div>
+            <div class="project-meta-item"><span class="pm-label">Disclaimer</span><span class="pm-value">非官方 · 不代表官方观点</span></div>
+        </div>
         </header>
         <!-- 笔记封面截图 -->
         <div class="media-block apple-squircle">
@@ -614,8 +604,42 @@
             <p class="wg-chain-note">
                 <strong>一句话记住这四段：</strong>事件决定「什么时候响」，参数决定「响哪一个」，
                 层级决定「怎么组织」，总线决定「最后怎么混」。<br />
-                这张图是概念示意，<strong>不是我的 Wwise 工程截图</strong>——等事件树与 Profiler 证据整理好，会换成真实截图。
+                这张图是概念示意，<strong>不是我的 Wwise 工程截图</strong>；下面那棵节点树同样按常见做法绘制。
+                等真实事件树与 Profiler 证据整理好，会换成截图。
             </p>
+
+            <!-- ── 事件树：一次脚步声走完四段 ───────────────────── -->
+            <figure class="event-tree">
+                <div class="et-head">
+                    <span class="et-title">事件树 · 一次脚步声</span>
+                    <span class="et-note">按常见做法绘制，参数为示例值</span>
+                </div>
+                <ul class="et-tree">
+                    <li>
+                        <span class="et-name">Play_Footstep</span><span class="et-kind">Event</span>
+                        <span class="et-say">脚踩到地面，游戏向音频层发一次事件</span>
+                        <ul>
+                            <li>
+                                <span class="et-name">Play</span><span class="et-kind">Action</span>
+                                <span class="et-say">一个事件只放一个播放动作；放两个，一次触发就会响两声</span>
+                                <ul>
+                                    <li>
+                                        <span class="et-name">Footstep_Set</span><span class="et-kind">Random Container</span>
+                                        <span class="et-say">多条采样轮换，开启 Avoid Repeat 防止连着抽到同一条</span>
+                                        <ul>
+                                            <li><span class="et-name">Surface</span><span class="et-kind">Switch</span><span class="et-say">石地 / 雪地 / 金属——离散状态，切了就换</span></li>
+                                            <li><span class="et-name">Speed</span><span class="et-kind">RTPC</span><span class="et-say">走 / 跑 / 冲刺——连续量，映射到音量与音高</span></li>
+                                            <li><span class="et-name">Attenuation</span><span class="et-kind">Curve</span><span class="et-say">距离衰减，远处自然变轻</span></li>
+                                            <li><span class="et-name">SFX_Bus</span><span class="et-kind">Bus</span><span class="et-say">并入 SFX，再对环境层做轻度 Ducking</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="et-foot">同一条链换个角度看：<strong>事件决定什么时候响，参数决定响哪一个，层级决定怎么组织，总线决定最后怎么混</strong>。上面的四段图讲分工，这棵树讲顺序。</p>
+            </figure>
 
             <!-- ── 章节地图（重新设计） ────────────────────────── -->
             <div class="chapter-map">

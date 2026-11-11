@@ -6,6 +6,7 @@
     <title>Game Music Analysis — ReiVerb Sound Atorie</title>
     <meta name="description"
           content="以商业游戏 PV 配乐为研究样本的音乐分析方法论 — ReiVerb Sound Atorie" />
+    <link rel="stylesheet" href="../../assets/css/project-blocks.css" />
     <style>
     /* ── 本地字体 ──────────────────────────────────────── */
     @font-face {
@@ -113,22 +114,6 @@
         color: var(--ink3);
         max-width: 620px;
         line-height: 1.9;
-    }
-    .project-meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem 2.5rem;
-        margin-top: 0.75rem;
-    }
-    .project-meta-item {
-        font-size: 12px;
-        color: var(--ink3);
-        font-style: italic;
-    }
-    .project-meta-item strong {
-        color: var(--ink2);
-        font-style: normal;
-        font-weight: 400;
     }
     /* ── ✦ 特殊：面试故事引用块 ────────────────────────── */
     .story-block {
@@ -431,9 +416,6 @@
         .page-wrap {
             padding: calc(var(--nav-h) + 24px) 1.5rem 3rem;
         }
-        .project-meta-row {
-            gap: 0.75rem 1.5rem;
-        }
         .story-block::before {
             font-size: 20px;
             top: 0.5rem;
@@ -481,6 +463,7 @@
                     <nav class="nav-links" id="menu">
                         <a href="../../index.html#work">作品</a>
                         <a href="../../index.html#timeline">履历</a>
+                        <a href="../../stack.html">技术栈</a>
                         <a href="../../index.html#contact">联系</a>
                     </nav>
                     <div class="nav-tools">
@@ -502,6 +485,12 @@
                 <em>Music Analysis</em>
             </h1>
             <p class="page-desc">仅作学习参考使用，不用于再发行</p>
+        <div class="project-meta-row">
+            <div class="project-meta-item"><span class="pm-label">Role</span><span class="pm-value">分析 / 讲解</span></div>
+            <div class="project-meta-item"><span class="pm-label">Format</span><span class="pm-value">视频分析 · YouTube / Bilibili</span></div>
+            <div class="project-meta-item"><span class="pm-label">Entries</span><span class="pm-value">4 条 · 持续更新</span></div>
+            <div class="project-meta-item"><span class="pm-label">Use</span><span class="pm-value">学习研究 · 不用于再发行</span></div>
+        </div>
         </header>
 
         <div class="story-block">
@@ -546,6 +535,15 @@
             </div>
             <div class="analysis-text">
                 <span class="style-tag">✦ 中式融合 + Trap ✦</span>
+                <figure class="band-map" role="img" aria-label="阮梅：低频由 BASS 与 Kick 占据，中低频是阮，中频是弦乐，中高频是 Trap Hi-hat，超高频是合成器空气感">
+                    <div class="bm-head"><span class="bm-title">频段占位</span><span class="bm-legend">深色＝主体 · 浅色＝点缀</span><span class="bm-scale">20 Hz → 20 kHz</span></div>
+                    <div class="bm-row"><span class="bm-band">20–120</span><div class="bm-track"><i style="--l:0;--w:32">BASS（侧链）· Kick</i></div></div>
+                    <div class="bm-row"><span class="bm-band">120–500</span><div class="bm-track"><i style="--l:18;--w:26">阮</i></div></div>
+                    <div class="bm-row"><span class="bm-band">500–2k</span><div class="bm-track"><i style="--l:32;--w:30">弦乐</i></div></div>
+                    <div class="bm-row"><span class="bm-band">2k–8k</span><div class="bm-track"><i style="--l:56;--w:30">Hi-hat</i></div></div>
+                    <div class="bm-row"><span class="bm-band">8k–20k</span><div class="bm-track"><i style="--l:70;--w:24" class="is-soft">空气感</i></div></div>
+                    <figcaption class="bm-cap">示意：位置与宽度按文字描述估算，不是频谱测量。</figcaption>
+                </figure>
                 <p>
                     情绪目标：<strong>优雅、克制</strong>，理性中带有内在张力。
                 </p>
@@ -581,6 +579,15 @@
             </div>
             <div class="analysis-text">
                 <span class="style-tag">✦ 电子流行 + 中式融合 ✦</span>
+                <figure class="band-map" role="img" aria-label="云璃：低频是鼓组 Loop，中低频是弹拨民乐，中频是压缩钢琴，中高频是木管与锯齿合成器，超高频是笛子">
+                    <div class="bm-head"><span class="bm-title">频段占位</span><span class="bm-legend">深色＝主体 · 浅色＝点缀</span><span class="bm-scale">20 Hz → 20 kHz</span></div>
+                    <div class="bm-row"><span class="bm-band">20–120</span><div class="bm-track"><i style="--l:0;--w:20">鼓组 Loop</i></div></div>
+                    <div class="bm-row"><span class="bm-band">120–500</span><div class="bm-track"><i style="--l:16;--w:26">弹拨民乐</i></div></div>
+                    <div class="bm-row"><span class="bm-band">500–2k</span><div class="bm-track"><i style="--l:28;--w:28">压缩钢琴</i></div></div>
+                    <div class="bm-row"><span class="bm-band">2k–8k</span><div class="bm-track"><i style="--l:50;--w:30">木管 · 锯齿+方波</i></div></div>
+                    <div class="bm-row"><span class="bm-band">8k–20k</span><div class="bm-track"><i style="--l:66;--w:24">笛子</i></div></div>
+                    <figcaption class="bm-cap">示意：位置与宽度按文字描述估算，不是频谱测量。</figcaption>
+                </figure>
                 <p>
                     情绪目标：<strong>可爱、灵动、轻盈</strong>。
                 </p>
@@ -616,6 +623,15 @@
             </div>
             <div class="analysis-text">
                 <span class="style-tag">✦ Glitch Hop + Psy Trance ✦</span>
+                <figure class="band-map" role="img" aria-label="花火：低频是 Kick 与 Bass Support，中频是散布的 FX 打断，中高频是 Trance 织体，超高频是 Glitch">
+                    <div class="bm-head"><span class="bm-title">频段占位</span><span class="bm-legend">深色＝主体 · 浅色＝点缀</span><span class="bm-scale">20 Hz → 20 kHz</span></div>
+                    <div class="bm-row"><span class="bm-band">20–120</span><div class="bm-track"><i style="--l:0;--w:34">Kick · Bass Support</i></div></div>
+                    <div class="bm-row"><span class="bm-band">120–500</span><div class="bm-track"><i style="--l:8;--w:24" class="is-soft">Bass 谐波</i></div></div>
+                    <div class="bm-row"><span class="bm-band">500–2k</span><div class="bm-track"><i style="--l:26;--w:48" class="is-soft">FX 打断（散布）</i></div></div>
+                    <div class="bm-row"><span class="bm-band">2k–8k</span><div class="bm-track"><i style="--l:38;--w:54">Trance 织体</i></div></div>
+                    <div class="bm-row"><span class="bm-band">8k–20k</span><div class="bm-track"><i style="--l:62;--w:30" class="is-soft">Glitch</i></div></div>
+                    <figcaption class="bm-cap">示意：位置与宽度按文字描述估算，不是频谱测量。</figcaption>
+                </figure>
                 <p>
                     情绪目标：<strong>疯癫、混乱、不可控</strong>（欢愉）。
                     —— 打破听觉预期。
@@ -654,6 +670,15 @@
             <div class="analysis-text">
                 <p>想你了，牢刃</p>
                 <span class="style-tag">✦ 唢呐 · 埙 + Dark Trap ✦</span>
+                <figure class="band-map" role="img" aria-label="刃：低频是 Dark Trap 铺底，中低频是埙，中高频是唢呐，超高频是混响尾巴">
+                    <div class="bm-head"><span class="bm-title">频段占位</span><span class="bm-legend">深色＝主体 · 浅色＝点缀</span><span class="bm-scale">20 Hz → 20 kHz</span></div>
+                    <div class="bm-row"><span class="bm-band">20–120</span><div class="bm-track"><i style="--l:0;--w:26" class="is-soft">低频铺底</i></div></div>
+                    <div class="bm-row"><span class="bm-band">120–500</span><div class="bm-track"><i style="--l:22;--w:32">埙</i></div></div>
+                    <div class="bm-row"><span class="bm-band">500–2k</span><div class="bm-track"></div></div>
+                    <div class="bm-row"><span class="bm-band">2k–8k</span><div class="bm-track"><i style="--l:46;--w:38">唢呐</i></div></div>
+                    <div class="bm-row"><span class="bm-band">8k–20k</span><div class="bm-track"><i style="--l:64;--w:26" class="is-soft">混响尾</i></div></div>
+                    <figcaption class="bm-cap">示意：位置与宽度按文字描述估算，不是频谱测量。</figcaption>
+                </figure>
                 <p>
                     情绪目标：<strong>紧张、压迫、焦虑</strong>。
                 </p>
@@ -710,7 +735,7 @@
         <!-- 底部 -->
         <div class="project-description" style="margin-top: 0;">
             <p style="font-size: 13px; color: var(--ink4); font-style: italic;">
-                💡 对这套分析感兴趣？欢迎
+                对这套分析感兴趣？欢迎
                 <a href="../../index.html#contact"
                    style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(78,117,144,0.35);">联系我</a>
                 交流讨论，或到
