@@ -1,35 +1,61 @@
 {
-  "schemaVersion": 1,
-  "updated": "2026-10-29",
-  "note": "作品数据源：新增/修改作品只改本文件，不要改 HTML。字段含义见 docs/case-study-template.md。",
+  "schemaVersion": 2,
+  "updated": "2026-11-11",
+  "note": "作品与履历的唯一数据源。改完这里跑 `node tools/build-works.mjs`，它会重写 index.html 里 BEGIN/END 标记之间的内容。字段含义见 docs/case-study-template.md。",
   "standards": {
-    "naming": "kebab-case（文件与目录）；音频交付沿用项目内既有前缀，需在条目内注明",
+    "naming": "kebab-case（文件与目录）；音频交付沿用项目内既有的前缀，需在条目内注明",
     "loudness": {
       "webPreview": "-16 LUFS",
       "delivery": "-24 LUFS"
     }
   },
+
+  "groups": [
+    {
+      "num": "01",
+      "title": "Game Audio Production",
+      "zh": "游戏音频交付",
+      "icon": "bp-music",
+      "items": ["xingzhicai", "original-soundtracks", "sound-design"]
+    },
+    {
+      "num": "02",
+      "title": "Technical Implementation",
+      "zh": "技术实现",
+      "icon": "bp-console",
+      "items": ["wwise-101"]
+    },
+    {
+      "num": "03",
+      "title": "Research & Tools",
+      "zh": "研究与工具",
+      "icon": "bp-chart",
+      "items": ["music-analysis", "bkeq", "research-writing"]
+    }
+  ],
+
   "works": [
     {
-      "id": "taptap-2026-gamejam",
+      "id": "xingzhicai",
       "type": "jam",
-      "title": "TapTap 2026 GameJam",
-      "subtitle": "团队参赛项目 · 音频负责",
-      "role": "音效设计 / 音频实现",
-      "responsibilities": [
-        "音效设计",
-        "音频命名规范整理",
-        "音频交付与对接"
-      ],
+      "title": "XingZhiCai · 形之彩",
+      "cardTitle": "XingZhiCai · 形之彩",
+      "href": "./projects/07-xingzhicai/xingzhicai.html",
+      "mono": "XZC",
+      "mark": "GameJam · 2026",
+      "meta": "Music / Sound Design · TapTap 2026 GameJam",
+      "year": "2026",
+      "wide": true,
+      "spring": true,
+      "role": "音乐 / 音效设计 / Unity 音频实现",
+      "period": "2026 · 21 天",
       "team": null,
-      "teamNote": "团队成员数待确认，未填即不展示",
-      "engine": [
-        "Unity"
-      ],
-      "middleware": null,
+      "teamNote": "团队人数待确认，未填即不展示",
+      "engine": ["Unity"],
+      "platform": ["PC"],
       "deliverables": {
         "music": "13 首 BGM（MP3 320kbps）",
-        "sfx": "约 29 条（方块 / 岩浆 / 平台 / 攀爬 / 环境等）",
+        "sfx": "约 129 条（方波 / 岩爆 / 平台 / 拾取 / 环境等）",
         "naming": "sfx_gp_* · amb_env_*（项目内实际命名）",
         "loudness": {
           "value": -28,
@@ -40,7 +66,124 @@
       "verifiedResult": "整理音效命名规范，程序对接时间缩短约 2 小时",
       "links": {},
       "disclosure": "参赛项目，非商业委托；对外发布前需确认团队授权",
-      "status": "draft"
+      "status": "published"
+    },
+    {
+      "id": "original-soundtracks",
+      "type": "music",
+      "title": "Original Soundtracks",
+      "cardTitle": "Original Soundtracks",
+      "href": "./projects/01-music/original-soundtracks.html",
+      "mono": "OS",
+      "mark": "Original Score",
+      "meta": "Original Music · Games",
+      "year": "—",
+      "hidden": true,
+      "hiddenNote": "试营业：内容未就位，先不上菜单。素材补齐后把 works.json 里这一条的 hidden 改成 false，再跑一次构建脚本。",
+      "status": "tbd"
+    },
+    {
+      "id": "sound-design",
+      "type": "sound-design",
+      "title": "Sound Design",
+      "cardTitle": "Sound Design",
+      "href": "./projects/05-sound-design/sound-design.html",
+      "mono": "SD",
+      "mark": "Sound Design",
+      "meta": "Sound Design · Games",
+      "year": "—",
+      "hidden": true,
+      "hiddenNote": "试营业：内容未就位，先不上菜单。素材补齐后把 works.json 里这一条的 hidden 改成 false，再跑一次构建脚本。",
+      "status": "tbd"
+    },
+    {
+      "id": "wwise-101",
+      "type": "study",
+      "title": "Wwise 101",
+      "cardTitle": "Wwise 101",
+      "href": "./projects/03-interactive/wwise-101.html",
+      "mono": "101",
+      "mark": "Study · Wwise",
+      "meta": "Study · Wwise Notes",
+      "year": "2026",
+      "wide": true,
+      "spring": true,
+      "role": "作者 / 整理",
+      "status": "published"
+    },
+    {
+      "id": "music-analysis",
+      "type": "analysis",
+      "title": "Music Analysis",
+      "cardTitle": "Music Analysis",
+      "href": "./projects/04-analysis/music-analysis.html",
+      "mono": "MA",
+      "mark": "Analysis",
+      "meta": "Analysis · Research",
+      "year": "2025",
+      "spring": true,
+      "role": "分析 / 讲解",
+      "status": "published"
+    },
+    {
+      "id": "bkeq",
+      "type": "plugin",
+      "title": "BKEQ Hybrid VST3",
+      "cardTitle": "BKEQ Hybrid VST3",
+      "href": "./projects/02-plugin/bkeq-hybrid-vst3.html",
+      "mono": "EQ",
+      "mark": "Plugin · VST3",
+      "meta": "Plugin · DSP",
+      "year": "2026",
+      "spring": true,
+      "role": "设计 / DSP / 界面",
+      "status": "published"
+    },
+    {
+      "id": "research-writing",
+      "type": "writing",
+      "title": "Research & Writing",
+      "cardTitle": "Research & Writing",
+      "href": "./projects/06-writing/research-writing.html",
+      "mono": "R&W",
+      "mark": "Writing",
+      "meta": "Research · Writing",
+      "year": "2026",
+      "spring": true,
+      "role": "写作 / 编辑",
+      "status": "published"
+    }
+  ],
+
+  "timeline": [
+    {
+      "year": "2026",
+      "items": [
+        {
+          "type": "Game Jam",
+          "title": "TapTap 2026 GameJam",
+          "stack": "音效设计 / 音频实现",
+          "result": "负责全案音乐/音效设计，整理命名规范"
+        },
+        {
+          "type": "Plugin",
+          "title": "BKEQ Hybrid",
+          "titleEm": "VST3",
+          "stack": "Hise · Photo Shop",
+          "result": "插件框架与界面设计"
+        }
+      ]
+    },
+    {
+      "year": "2025",
+      "items": [
+        {
+          "type": "Analysis",
+          "title": "HoYo-Mix PV 配乐分析",
+          "stack": "阮梅 · 云璃 · 花火 · 刃 · 持续更新中……",
+          "result": "拆解配器、结构与叙事功能；Bilibili 与 YouTube 同步"
+        }
+      ]
     }
   ]
 }
